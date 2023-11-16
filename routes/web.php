@@ -35,8 +35,7 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/profile/{id}','show');
     Route::get('/profile/{id}/editUser','editUser');
     Route::post('/profile/edit', 'edit')->name('edit');
-
-   
+    Route::delete('/api/profile/{id}', 'delete');
 });
 
 // API

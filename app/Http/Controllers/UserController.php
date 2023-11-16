@@ -51,6 +51,18 @@ public function edit(Request $request)
 
 }
 
+public function delete(Request $request, $id)
+    {
+        echo('the value of the id is: '.$id);
+        // Find the user.
+        $user = User::find($id);
+
+        // Delete the user and return it as JSON.
+        $user->delete();
+
+        return response()->json($user);
+    }
+
 }
 
 ?> 
