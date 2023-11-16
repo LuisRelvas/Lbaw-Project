@@ -22,20 +22,7 @@ use App\Models\UserNotification;
 class UserController extends Controller {
 
 
-public function getUser() 
-{
-    if(!Auth::check()){
-        return redirect('/login');
-    }
-    else 
-    {
-        $user = Auth::user();
-        return view('pages.user', [
-            'user' => $user
-        ]);
-    }
-}    
-public function show(int $id) : View
+ public function show(int $id) : View
 {
 
     
@@ -43,8 +30,27 @@ public function show(int $id) : View
     return view('pages.user', [
         'user' => $user
     ]);
+}
+
+public function editUser() : View
+{
+    return view('pages.editUser',['user'=> Auth::user()->name,
+                            Auth::user()->email,
+                            Auth::user()->password
+]);
+ }
+
+public function edit(Request $request) 
+{   
+    $user = Auth::user();
+    $user->name = $request->name;
+    $user->email = $request->email;
+    $user->password = $request->password;
+    $user->save();
+    return redirect('/profile/'.$user->id);
 
 }
+
 }
 
 ?> 

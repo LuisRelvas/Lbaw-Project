@@ -32,8 +32,11 @@ Route::controller(CardController::class)->group(function () {
 });
 
 Route::controller(UserController::class)->group(function () {
-    Route::get('/profile', 'getUser');
     Route::get('/profile/{id}','show');
+    Route::get('/profile/{id}/editUser','editUser');
+    Route::post('/profile/edit', 'edit')->name('edit');
+
+   
 });
 
 // API

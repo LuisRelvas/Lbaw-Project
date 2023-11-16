@@ -1,9 +1,9 @@
 --
--- Use a specific schema and set it as default - thingy.
+-- Use a specific schema and set it as default - SportHub.
 --
-DROP SCHEMA IF EXISTS thingy CASCADE;
-CREATE SCHEMA IF NOT EXISTS thingy;
-SET search_path TO thingy;
+DROP SCHEMA IF EXISTS SportHub CASCADE;
+CREATE SCHEMA IF NOT EXISTS SportHub;
+SET search_path TO SportHub;
 
 --
 -- Drop any existing tables.
