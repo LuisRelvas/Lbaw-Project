@@ -1,6 +1,6 @@
 <article class="card" data-id="{{ $card->id }}">
     <header>
-        <h2><a href="/cards/{{ $card->id }}">{{ $card->name }}</a></h2>
+        <h2><a href="/homepage/cards/{{ $card->id }}">{{ $card->name }}</a></h2>
         <a href="#" class="delete">&#10761;</a>
     </header>
     <ul>

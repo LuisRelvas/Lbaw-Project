@@ -176,6 +176,50 @@ function addEventListeners() {
   
     return new_item;
   }
+
+  async function getAPIResult(type, search) {
+    const query = '../api/' + type + '?search=' + search
+    const response = await fetch(query)
+    return response.text()
+  }
+
+function updateTotal(quantity, id) {
+  let statistic = document.getElementById(id)
+  if (statistic) {
+    statistic.innerHTML = statistic.innerHTML.replace(/\d+/g, quantity)
+  }
+}
+
+async function search(input) {
+  document.querySelector('#results-users').innerHTML = await getAPIResult('profile', input)
+  updateTotal((document.querySelector('#results-users').innerHTML.match(/<article/g) || []).length, 'userResults');
+}
+
+
+function init() {
+  const search_bar = document.querySelector("#search");
+  if (search_bar) {
+      let initial_input = window.location.toString().match(/query=(.*)$/g);
+      if (initial_input != null) {
+          search_bar.value = decodeURIComponent(initial_input[0].replace('query=', ''));
+          search(search_bar.value.replace('#', ''));
+      }
+      search_bar.addEventListener('input', function () {
+          let input = this.value.replace('#', '');
+          search(input);
+      });
+  }
+}
+
+
+
+function handleSearchButtonClick() {
+    const searchInput = document.querySelector("#search").value;
+    search(searchInput);
+}
+
+init();
+
   
   addEventListeners();
   

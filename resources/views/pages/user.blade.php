@@ -13,7 +13,7 @@
     
     <h3><a href="/profile/{{ $user->id }}/editUser">Edit Profile</a></h3>
     <h3><a href="/logout" class="delete">&#10761;Delete Profile</a></h3>
-    <h3><a href="/cards">Back to home page</a></h3>
+    <h3><a href="homepage/cards">Back to home page</a></h3>
 
 </article>
 
