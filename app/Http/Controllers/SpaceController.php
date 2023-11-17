@@ -29,6 +29,17 @@ class SpaceController extends Controller
       $spaces = Auth::user()->visibleSpaces()->get();
       return view('pages.home', ['spaces' => $spaces]);
     }
+
+ 
+    public function edit(Request $request)
+    {
+        $space = Space::find($request->id);
+        $space->content = $request->input('content');
+        $space->is_public = $request->input('is_public', false); // Default to false if not provided
+        $space->save();
+    }
+
+
     public function add(Request $request)
     {
     $space = new Space();

@@ -51,6 +51,7 @@ Route::controller(UserController::class)->group(function() {
 Route::get('/space/{id}',[SpaceController::class,'show']);
 Route::post('space/add',[SpaceController::class, 'add']);
 Route::get('/homepage',[SpaceController::class,'list']);
+Route::put('space/{id}', [SpaceController::class, 'edit']);
 
 // API
 Route::controller(CardController::class)->group(function () {

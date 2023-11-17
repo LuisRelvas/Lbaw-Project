@@ -46,7 +46,7 @@ function addEventListeners() {
     let id = item.getAttribute('data-id');
     let checked = item.querySelector('input[type=checkbox]').checked;
   
-    sendAjaxRequest('post', '/api/item/' + id, {done: checked}, itemUpdatedHandler);
+    sendAjaxRequest('space', '/api/item/' + id, {done: checked}, itemUpdatedHandler);
   }
   
   function sendDeleteItemRequest() {
@@ -176,6 +176,98 @@ function addEventListeners() {
   
     return new_item;
   }
+
+  function parseContentEdit(content){
+    return content.replace(/(<([^>]+)>)/ig, "");
+  }
+
+  function editSpace(id) {
+    let space = document.querySelector("#space" + id);
+
+    if (!space) {
+        console.error("Space element not found");
+        return;
+    }
+
+    let main = space.querySelector("main");
+
+    if (!main) {
+        console.error("Main element not found within the space element");
+        return;
+    }
+
+    // Save the original content for cancel action
+    let originalContent = main.textContent.trim();
+
+    // transformar o content numa caixa de texto
+    let textarea = document.createElement('textarea');
+    textarea.type = 'textbox';
+    textarea.className = 'spacecontent';
+    textarea.value = originalContent;
+    main.innerHTML = ''; // Clear the main content
+    main.appendChild(textarea);
+
+    // construção de uma checkbox com base no .innerHTML
+    document.querySelector('#cancelEditSpace' + id).style.visibility = 'visible';
+
+    // change button edit to confirm
+    let edit_button = document.querySelector("#editSpace" + id);
+    let edit_button_icon = edit_button.querySelector("#text-icon");
+    edit_button_icon.classList.remove("fa-pencil");
+    edit_button_icon.classList.add("fa-floppy-o");
+
+    // mudar o onclick do botão
+    let button = document.querySelector('#editSpace' + id);
+    button.onclick = function () {
+      // Get the updated content and visibility
+      let updatedContent = textarea.value;
+      // Update the content on the page
+      main.innerHTML = updatedContent;
+
+      // Send an AJAX request to update the content on the server
+      let url = '/space/{id}'; // Replace with the actual server endpoint
+      let data = {
+        id: id,
+        content: updatedContent
+      };
+
+      sendAjaxRequest('PUT', url, data, function (response) {
+        console.log('Updated Content:', updatedContent);
+        // Reset the edit state
+        resetEditState(id);
+      });
+    };
+}
+
+function cancelEditSpace(id) {
+    // Reset the edit state to the original content
+    resetEditState(id);
+}
+
+function resetEditState(id) {
+  let space = document.querySelector("#space" + id);
+  let main = space.querySelector("main");
+
+
+  // Hide the cancel button
+  document.querySelector('#cancelEditSpace' + id).style.visibility = 'hidden';
+
+  // Change the button back to edit
+  let edit_button = document.querySelector("#editSpace" + id);
+  let edit_button_icon = edit_button.querySelector("#text-icon");
+  edit_button_icon.classList.remove("fa-floppy-o");
+  edit_button_icon.classList.add("fa-pencil");
+
+  // Restore the original onclick function
+  let button = document.querySelector('#editSpace' + id);
+  button.onclick = function () {
+    editSpace(id);
+  };
+}
+
+
+
+
 
   async function getAPIResult(type, search) {
     const query = '../api/' + type + '?search=' + search
