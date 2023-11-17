@@ -57,4 +57,24 @@ class User extends Authenticatable
     {
         return $this->hasMany(Card::class);
     }
+    public function visibleSpaces() {
+        
+        $own = Space::select('*')->where('space.user_id', '=', $this->id);
+
+        $noGroups = Space::select('space.*')
+            ->fromRaw('space,follows')
+            ->where('follows.user_id2', '=', $this->id)
+            ->whereColumn('follows.user_id1', '=', 'space.user_id')
+            ->where('space.group_id', null);
+
+
+        $fromGroups = Space::select('space.*')
+            ->fromRaw('space,member')
+            ->where('member.user_id', $this->id)
+            ->whereColumn('space.group_id','member.group_id');
+            
+
+        return $own->union($noGroups)->union($fromGroups)
+            ->orderBy('date','desc');
+    }
 }

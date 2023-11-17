@@ -2,15 +2,33 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Space;
 
 class SpaceController extends Controller 
 {
+
+    public function show(int $id) : View
+    {
+        $space = Space::findOrFail($id);
+        return view('pages.space', [
+            'space' => $space
+        ]);
+    }
+
+    public function list()
+    { 
+    
+      if (!Auth::check()) {
+
+        $spaces = Space::publicSpaces()->get();
+        return view('pages.home', ['spaces' => $spaces]);
+      }
+      $spaces = Auth::user()->visibleSpaces()->get();
+      return view('pages.home', ['spaces' => $spaces]);
+    }
     public function add(Request $request)
     {
     $space = new Space();

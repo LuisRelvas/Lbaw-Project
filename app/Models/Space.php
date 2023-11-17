@@ -4,14 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\ImageController;
-use App\Http\Controllers\TagController;
 use Illuminate\View\View;
-use App\Models\User;
 use App\Http\Controllers\Controller;
-use App\Models\UserNotification; 
 
 class Space extends Model
 {
@@ -28,6 +23,14 @@ class Space extends Model
 
     public function user_id() {
         return $this->belongsTo('App\Models\User');
+      }
+
+      public static function publicSpaces() {
+        return Space::select('space.*')
+                    ->join('users', 'users.id', '=', 'space.user_id')
+                    ->where('users.is_public', false)
+                    ->where('space.is_public', false)
+                    ->orderBy('date', 'desc');
       }
 }
 

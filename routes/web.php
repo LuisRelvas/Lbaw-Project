@@ -48,7 +48,9 @@ Route::controller(UserController::class)->group(function() {
     Route::get('api/profile', [UserController::class, 'search']);
 });
 
+Route::get('/space/{id}',[SpaceController::class,'show']);
 Route::post('space/add',[SpaceController::class, 'add']);
+Route::get('/homepage',[SpaceController::class,'list']);
 
 // API
 Route::controller(CardController::class)->group(function () {
