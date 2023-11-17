@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -22,12 +23,29 @@ use App\Http\Controllers\Auth\RegisterController;
 // Home
 Route::redirect('/', '/login');
 
-// Cards
-Route::controller(CardController::class)->group(function () {
-    Route::get('/cards', 'list')->name('cards');
-    Route::get('/cards/{id}', 'show');
+// HomePage
+
+Route::get('/homepage', function () {
+    return view('pages.home');
 });
 
+
+// Cards
+Route::controller(CardController::class)->group(function () {
+    Route::get('/homepage/cards', 'list')->name('cards');
+    Route::get('/homepage/cards/{id}', 'show');
+});
+
+Route::controller(UserController::class)->group(function () {
+    Route::get('/profile/{id}','show');
+    Route::get('/profile/{id}/editUser','editUser');
+    Route::post('/profile/edit', 'edit')->name('edit');
+    Route::delete('/api/profile/{id}', 'delete');
+});
+
+Route::controller(UserController::class)->group(function() {
+    Route::get('api/profile', [UserController::class, 'search']);
+});
 
 // API
 Route::controller(CardController::class)->group(function () {

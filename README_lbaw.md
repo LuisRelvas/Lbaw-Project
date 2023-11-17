@@ -84,11 +84,11 @@ git push origin main
 At this point you should have the project skeleton in your local machine and be ready to start working on it.
 You may remove the `template-laravel` demo directory, as it is not needed anymore.
 
-Only one member of the group should commit and push these changes to the group repository. After this, the rest of the group members should clone the updated group repository to their local machines. file is not tracked by git (as indicated in the [.gitignore](.gitignore) file), each group member needs to create this file by copying it from the `.env.thingy` file provided in the demo repository.
+Only one member of the group should commit and push these changes to the group repository. After this, the rest of the group members should clone the updated group repository to their local machines. file is not tracked by git (as indicated in the [.gitignore](.gitignore) file), each group member needs to create this file by copying it from the `.env.SportHub` file provided in the demo repository.
 
 ```bash
-# Create a new .env file based on the .env.thingy reference file.
-cp .env.thingy .env
+# Create a new .env file based on the .env.SportHub reference file.
+cp .env.SportHub .env
 ```
 
 ## Installing local PHP dependencies
@@ -141,7 +141,7 @@ Hostname is _postgres_ instead of _localhost_ since _Docker Compose_ creates an 
 ## Developing the project
 
 You're all set up to start developing the project.
-In the provided skeleton you will already find a basic todo list application -- Thingy, which you will modify to start implementing your own project.
+In the provided skeleton you will already find a basic todo list application -- SportHub, which you will modify to start implementing your own project.
 
 To start the development server from the project's root run:
 
@@ -211,7 +211,7 @@ The method searches for a card in the database, checks if the user as permission
 
 ### 3) Database and Models
 
-To access the database, we will use the query builder capabilities of [Eloquent](https://laravel.com/docs/10.x/eloquent) but the initial database seeding will still be done using raw SQL (the script that creates the tables can be found in `database/thingy-seed.sql`).
+To access the database, we will use the query builder capabilities of [Eloquent](https://laravel.com/docs/10.x/eloquent) but the initial database seeding will still be done using raw SQL (the script that creates the tables can be found in `database/SportHub-seed.sql`).
 
 One important aspect is that we won't be using migrations in LBAW projects.
 

@@ -29,12 +29,13 @@ class RegisterController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:250',
+            'username' => 'required|string|max:255|unique:users',
             'email' => 'required|email|max:250|unique:users',
             'password' => 'required|min:8|confirmed'
         ]);
-
         User::create([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
@@ -42,7 +43,7 @@ class RegisterController extends Controller
         $credentials = $request->only('email', 'password');
         Auth::attempt($credentials);
         $request->session()->regenerate();
-        return redirect()->route('cards')
+        return redirect('/homepage')
             ->withSuccess('You have successfully registered & logged in!');
     }
 }
