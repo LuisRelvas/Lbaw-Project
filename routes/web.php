@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SpaceController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -46,6 +47,8 @@ Route::controller(UserController::class)->group(function () {
 Route::controller(UserController::class)->group(function() {
     Route::get('api/profile', [UserController::class, 'search']);
 });
+
+Route::post('space/add',[SpaceController::class, 'add']);
 
 // API
 Route::controller(CardController::class)->group(function () {
