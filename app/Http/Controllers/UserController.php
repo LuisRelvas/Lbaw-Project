@@ -72,7 +72,9 @@ public function search(Request $request) {
         
     if (!Auth::check()) return null;
     $input = $request->get('search') ? $request->get('search').':*' : "*";
-    $users = User::select('users.id', 'users.name')->get();
+    $users = User::select('users.id', 'users.name', 'users.username')
+    ->whereRaw("users.tsvectors @@ to_tsquery(?)", [$input])
+    ->get();
 
         return view('partials.searchUser', compact('users'))->render();
     }

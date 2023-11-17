@@ -38,7 +38,7 @@ class CardController extends Controller
             // Not logged in, redirect to login.
             return redirect('/login');
 
-        } else {
+        } /* else {
             // The user is logged in.
 
             // Get cards for user ordered by id.
@@ -53,7 +53,7 @@ class CardController extends Controller
             return view('pages.cards', [
                 'cards' => $cards
             ]);
-        }
+        }*/
     }
 
     /**

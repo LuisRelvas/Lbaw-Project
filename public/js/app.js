@@ -203,6 +203,7 @@ function init() {
       if (initial_input != null) {
           search_bar.value = decodeURIComponent(initial_input[0].replace('query=', ''));
           search(search_bar.value.replace('#', ''));
+          search(input);
       }
       search_bar.addEventListener('input', function () {
           let input = this.value.replace('#', '');
