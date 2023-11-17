@@ -4,6 +4,7 @@
     <div id="space{{$space->id}}">
         <main>
             <h1 class="spacecontent">{{ $space->content }}</h1>
+            <a href="#" class="delete" onclick="deleteSpace({{$space->id}})">&#10761;</a>
         </main>
     </div>
 
@@ -21,4 +22,3 @@
         </button>
     @endif
 @endsection
-

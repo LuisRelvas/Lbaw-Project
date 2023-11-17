@@ -53,6 +53,19 @@ class SpaceController extends Controller
       return redirect('/homepage');
     }
 
+    public function delete($id)
+    {
+        $space = Space::find($id);
+
+        if (!$space) {
+            return response()->json(['error' => 'Space not found'], 404);
+        }
+
+        $space->delete();
+
+        return response()->json(['message' => 'Space deleted successfully']);
+    }
+
 }
 
 

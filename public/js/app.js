@@ -71,6 +71,7 @@ function addEventListeners() {
     sendAjaxRequest('delete', '/api/cards/' + id, null, cardDeletedHandler);
   }
   
+  
   function sendCreateCardRequest(event) {
     let name = this.querySelector('input[name=name]').value;
   
@@ -244,9 +245,36 @@ function cancelEditSpace(id) {
     resetEditState(id);
 }
 
+function deleteSpace(id) {
+  if (!confirm('Are you sure you want to delete this space?')) {
+      return;
+  }
+
+  fetch(`/api/space/${id}`, {
+      method: 'DELETE',
+      headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      },
+  })
+  .then(response => response.json())
+  .then(data => {
+      console.log(data); // Log the server response (optional)
+
+      // Redirect to the /homepage URL after successful deletion
+      window.location.href = '/homepage';
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
+}
+
+
 function resetEditState(id) {
   let space = document.querySelector("#space" + id);
   let main = space.querySelector("main");
+
+
 
 
   // Hide the cancel button

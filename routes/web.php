@@ -53,6 +53,10 @@ Route::post('space/add',[SpaceController::class, 'add']);
 Route::get('/homepage',[SpaceController::class,'list']);
 Route::put('space/{id}', [SpaceController::class, 'edit']);
 
+Route::controller(SpaceController::class) ->group(function() {
+    Route::delete('/api/space/{id}', 'delete');
+});
+
 // API
 Route::controller(CardController::class)->group(function () {
     Route::put('/api/cards', 'create');
