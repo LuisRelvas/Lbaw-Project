@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 // Added to define Eloquent relationships.
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -81,6 +83,11 @@ class User extends Authenticatable
 
     public function isFollowing(User $user) {
         return Follow::where('user_id1', $this->id)->where('user_id2', $user->id)->exists();
+    }
+
+    public function isAdmin(User $user) 
+    {
+        return DB::table('admin')->where('id', Auth::id())->exists();
     }
     public function showFollows() 
     {

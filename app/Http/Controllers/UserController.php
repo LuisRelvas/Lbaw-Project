@@ -9,18 +9,22 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Space;
 use App\Models\Follow;
+use Illuminate\Support\Facades\DB;
+use App\Models\Block;
+
 
 class UserController extends Controller {
-
 
     public function show(int $id)
     {
         if(Auth::check()){
         $user = User::findOrFail($id);
+        $isBlocked = Block::where('user_id', $id)->exists();
         $isFollowing = Auth::user()->isFollowing($user);
         return view('pages.user', [
             'user' => $user,
-            'isFollowing' => $isFollowing
+            'isFollowing' => $isFollowing,
+            'isBlocked' => $isBlocked
         ]);}
         else
         {
@@ -57,6 +61,7 @@ public function editUser() : View
 
 public function edit(Request $request) 
 {   
+
     $user = Auth::user();
     if($request->name == null) 
     {

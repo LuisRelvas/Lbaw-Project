@@ -22,20 +22,22 @@
         </script>
     </head>
     <body>
-        <main>
-            <header>
-                <h1><a href="{{ url('/homepage') }}">SportHub</a></h1>
-                @if (Auth::check())
-                    <a class="button" href="{{ url('/logout') }}"> Logout </a> 
-                    <a class="button" href="{{ url('/profile/'.Auth::user()->id) }}"><span>{{ Auth::user()->name }}</span></a>
-                @else 
-                    <a class="button" href="{{ url('/login') }}"> Login </a> 
-                    <a class="button" href="{{ url('/register') }}"> Register </a>
-                @endif
-            </header>
-            <section id="content">
-                @yield('content')
-            </section>
-        </main>
-    </body>
+    <main>
+        <header>
+            <h1>
+                <a href="{{ Auth::check() && Auth::user()->isAdmin(Auth::user()) ? url('/admin') : url('/homepage') }}">SportHub</a>
+            </h1>
+            @if (Auth::check())
+                <a class="button" href="{{ url('/logout') }}"> Logout </a> 
+                <a class="button" href="{{ url('/profile/'.Auth::user()->id) }}"><span>{{ Auth::user()->name }}</span></a>
+            @else 
+                <a class="button" href="{{ url('/login') }}"> Login </a> 
+                <a class="button" href="{{ url('/register') }}"> Register </a>
+            @endif
+        </header>
+        <section id="content">
+            @yield('content')
+        </section>
+    </main>
+</body>
 </html>

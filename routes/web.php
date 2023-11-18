@@ -7,6 +7,7 @@ use App\Http\Controllers\CardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SpaceController;
+use App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -65,6 +66,10 @@ Route::controller(SpaceController::class) ->group(function() {
 Route::controller(CommentController::class) ->group(function() {
     Route::delete('/api/comment/{id}', 'delete');
 });
+
+Route::get('admin',[AdminController::class,'show']);
+Route::post('/profile/block/{id}',[AdminController::class,'block']);
+Route::delete('/profile/unblock/{id}',[AdminController::class,'unblock']);
 
 Route::post('comment/create', [CommentController::class, 'create']);
 Route::put('comment/edit', [CommentController::class, 'edit']);

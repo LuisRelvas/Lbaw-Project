@@ -195,11 +195,7 @@ CREATE TABLE follows (
 
 -- Create the 'admin' table
 CREATE TABLE admin (
-   id SERIAL PRIMARY KEY,
-    username TEXT NOT NULL UNIQUE,
-    name TEXT,
-    email TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL
+   id INTEGER PRIMARY KEY REFERENCES users(id) ON UPDATE CASCADE
 );
 
 -- Create the 'comment_notification' table
