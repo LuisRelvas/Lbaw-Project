@@ -39,10 +39,11 @@
   </span>
 @endif
 
+    <div>
     <button type="submit">
       Edit
     </button>
-
+    </div>
 </form>
 
 @endsection

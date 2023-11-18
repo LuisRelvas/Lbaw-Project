@@ -4,16 +4,23 @@
 
 @section('content')
 
-<article class="user" data-id="{{ $user->id }}">
+<div class="userinfo" data-id="{{ $user->id }}">
 
-    <header>
-    <h2><a href="/profile/{{ $user->id }}">{{ $user->name }}</a></h2>
-    </header>
-    <h1>{{ $user->username }}</h1>
+    <span class="dot"></span>
+    <div class="user">
+    <p><a href="/profile/{{ $user->id }}">{{ $user->name }}</a></p>
+    </div>
+
+    <div class="username">
+        <p>@ {{ $user->username }}</p>
+    </div>
+
     @if(Auth::check())
     @if($user->id == Auth::User()->id) 
-    <h3><a href="/profile/{{ $user->id }}/editUser">Edit Profile</a></h3>
-    <h3><a href="/logout" class="delete">&#10761;Delete Profile</a></h3>
+
+    <a class="button" href="/profile/{{ $user->id }}/editUser">Edit Profile</a>
+    <a class="button" href="/logout" class="delete">&#10761;Delete Profile</a>
+
     @else
     @if(!$isFollowing)
         <form method="POST" action="/profile/follow/{{ $user->id }}">
@@ -29,8 +36,8 @@
     @endif
     @endif
      @endif
-    <h3><a href="/homepage">Back to home page</a></h3>
+    <a class="button" href="/homepage">Back to home page</a>
 
-</article>
+</div>
 
 @endsection
