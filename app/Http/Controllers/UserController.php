@@ -8,19 +8,21 @@ use Illuminate\View\View;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\Space;
+use App\Models\Follow;
 
 class UserController extends Controller {
 
 
- public function show(int $id) : View
-{
+    public function show(int $id) : View
+    {
+        $user = User::findOrFail($id);
+        $isFollowing = Auth::user()->isFollowing($user);
+        return view('pages.user', [
+            'user' => $user,
+            'isFollowing' => $isFollowing
+        ]);
+    }
 
-    
-    $user = User::findOrFail($id);
-    return view('pages.user', [
-        'user' => $user
-    ]);
-}
 
 public function editUser() : View
 {
@@ -29,6 +31,21 @@ public function editUser() : View
                             Auth::user()->password
 ]);
  }
+
+
+ public function follow(Request $request, $id) {
+ 
+     Follow::insert([
+         'user_id1' => Auth::user()->id,
+         'user_id2' => $id,
+     ]);
+     return redirect('/profile/'.$id);
+ }
+
+ public function unfollow(Request $request, $id) {
+    Follow::where('user_id1', Auth::user()->id)->where('user_id2', $id)->delete();
+    return redirect('/profile/'.$id);
+}
 
 public function edit(Request $request) 
 {   

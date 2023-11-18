@@ -77,4 +77,8 @@ class User extends Authenticatable
         return $own->union($noGroups)->union($fromGroups)
             ->orderBy('date','desc');
     }
+
+    public function isFollowing(User $user) {
+        return Follow::where('user_id1', $this->id)->where('user_id2', $user->id)->exists();
+    }
 }
