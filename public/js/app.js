@@ -182,6 +182,15 @@ function addEventListeners() {
   
     return new_item;
   }
+
+  function cancelEditComment(id) {
+    let comment = document.querySelector("#comment" + id);
+    let content = comment.querySelector(".content");
+    // Restore the original content
+    content.textContent = content.dataset.originalContent;
+    // Reset the edit state
+    resetEditStateComment(id);
+}
   
   function editComment(id) {
     let comment = document.querySelector("#comment" + id);
@@ -200,6 +209,7 @@ function addEventListeners() {
 
     // Save the original content for cancel action
     let originalContent = content.textContent.trim();
+    content.dataset.originalContent = originalContent;
 
     // Transform the content into a textbox
     let textarea = document.createElement('textarea');
@@ -239,11 +249,15 @@ function addEventListeners() {
         resetEditState(id);
       });
     };
+
 }
 
 function resetEditStateComment(id) {
   let comment = document.querySelector("#comment" + id);
   let content = comment.querySelector(".content");
+
+  // Restore the original content
+  content.textContent = content.dataset.originalContent;
 
   // Hide the cancel button
   document.querySelector('#cancelEditComment' + id).style.visibility = 'hidden';
@@ -260,11 +274,24 @@ function resetEditStateComment(id) {
       editComment(id);
   };
 }
+function resetEditState(id) {
+  let space = document.querySelector("#space" + id);
+  let main = space.querySelector("main");
 
+  // Hide the cancel button
+  document.querySelector('#cancelEditSpace' + id).style.visibility = 'hidden';
 
-function cancelEditComment(id) {
-    // Reset the edit state to the original content
-    resetEditStateComment(id);
+  // Change the button back to edit
+  let edit_button = document.querySelector("#editSpace" + id);
+  let edit_button_icon = edit_button.querySelector("#text-icon");
+  edit_button_icon.classList.remove("fa-floppy-o");
+  edit_button_icon.classList.add("fa-pencil");
+
+  // Restore the original onclick function
+  let button = document.querySelector('#editSpace' + id);
+  button.onclick = function () {
+    editSpace(id);
+  };
 }
 
   function editSpace(id) {
@@ -284,6 +311,7 @@ function cancelEditComment(id) {
 
     // Save the original content for cancel action
     let originalContent = main.textContent.trim();
+    main.dataset.originalContent = originalContent; 
 
     // transformar o content numa caixa de texto
     let textarea = document.createElement('textarea');
@@ -307,8 +335,6 @@ function cancelEditComment(id) {
     button.onclick = function () {
       // Get the updated content and visibility
       let updatedContent = textarea.value;
-      // Update the content on the page
-      main.innerHTML = updatedContent;
 
       // Send an AJAX request to update the content on the server
       let url = '/space/{id}'; // Replace with the actual server endpoint
@@ -319,14 +345,22 @@ function cancelEditComment(id) {
 
       sendAjaxRequest('PUT', url, data, function (response) {
         console.log('Updated Content:', updatedContent);
+        // Update the content on the page
+        main.innerHTML = updatedContent;
+        // Update the originalContent data attribute
+        main.dataset.originalContent = updatedContent;
         // Reset the edit state
         resetEditState(id);
       });
     };
-}
+  }
 function cancelEditSpace(id) {
-    // Reset the edit state to the original content
-    resetEditState(id);
+  let space = document.querySelector("#space" + id);
+  let main = space.querySelector("main");
+  // Restore the original content
+  main.textContent = main.dataset.originalContent;
+  // Reset the edit state
+  resetEditState(id);
 }
 
 function deleteSpace(id) {
@@ -376,32 +410,6 @@ function deleteComment(id) {
         console.error('Error:', error);
     });
   }
-
-
-function resetEditState(id) {
-  let space = document.querySelector("#space" + id);
-  let main = space.querySelector("main");
-
-
-
-
-  // Hide the cancel button
-  document.querySelector('#cancelEditSpace' + id).style.visibility = 'hidden';
-
-  // Change the button back to edit
-  let edit_button = document.querySelector("#editSpace" + id);
-  let edit_button_icon = edit_button.querySelector("#text-icon");
-  edit_button_icon.classList.remove("fa-floppy-o");
-  edit_button_icon.classList.add("fa-pencil");
-
-  // Restore the original onclick function
-  let button = document.querySelector('#editSpace' + id);
-  button.onclick = function () {
-    editSpace(id);
-  };
-}
-
-
 
 
 
