@@ -3,34 +3,34 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\ImageController;
-use App\Http\Controllers\TagController;
 use Illuminate\View\View;
 use App\Models\User;
-use App\Models\Post;
-use App\Models\Group;
-use App\Models\Follow;
-use App\Models\Blocked;
-use App\Models\Configuration;
-use App\Models\Notification;
-use App\Models\RequestFollow;
 use App\Http\Controllers\Controller;
-use App\Models\UserNotification;
+use App\Models\Space;
+use App\Models\Follow;
 
 class UserController extends Controller {
 
 
- public function show(int $id) : View
-{
+    public function show(int $id)
+    {
+        if(Auth::check()){
+        $user = User::findOrFail($id);
+        $isFollowing = Auth::user()->isFollowing($user);
+        return view('pages.user', [
+            'user' => $user,
+            'isFollowing' => $isFollowing
+        ]);}
+        else
+        {
+            $user = User::findOrFail($id);
+            return view('pages.user', [
+                'user' => $user,
+            ]);
+        }
+    }
 
-    
-    $user = User::findOrFail($id);
-    return view('pages.user', [
-        'user' => $user
-    ]);
-}
 
 public function editUser() : View
 {
@@ -38,13 +38,50 @@ public function editUser() : View
                             Auth::user()->email,
                             Auth::user()->password
 ]);
+}
+
+
+ public function follow(Request $request, $id) {
+    
+     Follow::insert([
+         'user_id1' => Auth::user()->id,
+         'user_id2' => $id,
+     ]);
+     return redirect('/profile/'.$id);
  }
+
+ public function unfollow(Request $request, $id) {
+    Follow::where('user_id1', Auth::user()->id)->where('user_id2', $id)->delete();
+    return redirect('/profile/'.$id);
+}
 
 public function edit(Request $request) 
 {   
     $user = Auth::user();
-    $user->name = $request->name;
-    $user->email = $request->email;
+    if($request->name == null) 
+    {
+        $user->name = Auth::user()->name;
+    }
+    else if($request-> name != null) 
+    {
+        $user->name = $request->name;
+    }
+    if($request->email == null)
+    {
+        $user->email = Auth::user()->email;
+    }
+    else if($request->email != null)
+    {
+        $user->email = $request->email;
+    }
+    if($request->is_public == null) 
+    {
+        $user->is_public = Auth::user()->is_public;
+    }
+    else if($request->is_public != null)
+    {
+        $user->is_public = $request->is_public;
+    }
     $user->password = $request->password;
     $user->save();
     return redirect('/profile/'.$user->id);

@@ -46,7 +46,7 @@ function addEventListeners() {
     let id = item.getAttribute('data-id');
     let checked = item.querySelector('input[type=checkbox]').checked;
   
-    sendAjaxRequest('post', '/api/item/' + id, {done: checked}, itemUpdatedHandler);
+    sendAjaxRequest('space', '/api/item/' + id, {done: checked}, itemUpdatedHandler);
   }
   
   function sendDeleteItemRequest() {
@@ -70,6 +70,7 @@ function addEventListeners() {
   
     sendAjaxRequest('delete', '/api/cards/' + id, null, cardDeletedHandler);
   }
+  
   
   function sendCreateCardRequest(event) {
     let name = this.querySelector('input[name=name]').value;
@@ -102,6 +103,8 @@ function addEventListeners() {
     // Reset the new item form
     form.querySelector('[type=text]').value="";
   }
+
+
   
   function itemDeletedHandler() {
     if (this.status != 200) window.location = '/';
@@ -160,6 +163,9 @@ function addEventListeners() {
   
     return new_card;
   }
+
+
+
   
   function createItem(item) {
     let new_item = document.createElement('li');
@@ -176,6 +182,239 @@ function addEventListeners() {
   
     return new_item;
   }
+  function resetEditStateComment(id) {
+    let comment = document.querySelector("#comment" + id);
+    let content = comment.querySelector(".content");
+  
+    // Restore the original content
+    content.textContent = content.dataset.originalContent;
+  
+    // Hide the cancel button
+    document.querySelector('#cancelEditComment' + id).style.visibility = 'hidden';
+  
+    // Change the button back to edit
+    let edit_button = document.querySelector("#editComment" + id);
+    let edit_button_icon = edit_button.querySelector("#text-icon");
+    edit_button_icon.classList.remove("fa-floppy-o");
+    edit_button_icon.classList.add("fa-pencil");
+  
+    // Restore the original onclick function
+    let button = document.querySelector('#editComment' + id);
+    button.onclick = function () {
+        editComment(id);
+    };
+  }
+
+  function cancelEditComment(id) {
+    let comment = document.querySelector("#comment" + id);
+    let content = comment.querySelector(".content");
+    // Restore the original content
+    content.textContent = content.dataset.originalContent;
+    // Reset the edit state
+    resetEditStateComment(id);
+}
+  
+  function editComment(id) {
+    let comment = document.querySelector("#comment" + id);
+
+    if (!comment) {
+        console.error("Comment element not found");
+        return;
+    }
+
+    let content = comment.querySelector(".content");
+
+    if (!content) {
+        console.error("Content element not found within the comment element");
+        return;
+    }
+
+    // Save the original content for cancel action
+    let originalContent = content.textContent.trim();
+    content.dataset.originalContent = originalContent;
+
+    // Transform the content into a textbox
+    let textarea = document.createElement('textarea');
+    textarea.type = 'textbox';
+    textarea.className = 'commentcontent';
+    textarea.value = originalContent;
+    content.innerHTML = ''; // Clear the content
+    content.appendChild(textarea);
+
+    // Make the cancel button visible
+    document.querySelector('#cancelEditComment' + id).style.visibility = 'visible';
+
+    // Change the edit button to a confirm button
+    let edit_button = document.querySelector("#editComment" + id);
+    let edit_button_icon = edit_button.querySelector("#text-icon");
+    edit_button_icon.classList.remove("fa-pencil");
+    edit_button_icon.classList.add("fa-floppy-o");
+
+    // Change the onclick of the button
+    let button = document.querySelector('#editComment' + id);
+    button.onclick = function () {
+      // Get the updated content
+      let updatedContent = textarea.value;
+      // Update the content on the page
+      content.innerHTML = updatedContent;
+
+      // Send an AJAX request to update the content on the server
+      let url = '/comment/edit'; // Replace with the actual server endpoint
+      let data = {
+        id: id,
+        content: updatedContent
+      };
+
+      sendAjaxRequest('PUT', url, data, function (response) {
+        // Reset the edit state
+        content.innerHTML = updatedContent;
+        content.dataset.originalContent = updatedContent;
+        console.log('Updated Content:', updatedContent);
+        resetEditStateComment(id);
+      });
+    };
+
+}
+
+
+function resetEditState(id) {
+  let space = document.querySelector("#space" + id);
+  let main = space.querySelector("main");
+
+  // Hide the cancel button
+  document.querySelector('#cancelEditSpace' + id).style.visibility = 'hidden';
+
+  // Change the button back to edit
+  let edit_button = document.querySelector("#editSpace" + id);
+  let edit_button_icon = edit_button.querySelector("#text-icon");
+  edit_button_icon.classList.remove("fa-floppy-o");
+  edit_button_icon.classList.add("fa-pencil");
+
+  // Restore the original onclick function
+  let button = document.querySelector('#editSpace' + id);
+  button.onclick = function () {
+    editSpace(id);
+  };
+}
+
+  function editSpace(id) {
+    let space = document.querySelector("#space" + id);
+
+    if (!space) {
+        console.error("Space element not found");
+        return;
+    }
+
+    let main = space.querySelector("main");
+
+    if (!main) {
+        console.error("Main element not found within the space element");
+        return;
+    }
+
+    // Save the original content for cancel action
+    let originalContent = main.textContent.trim();
+    main.dataset.originalContent = originalContent; 
+
+    // transformar o content numa caixa de texto
+    let textarea = document.createElement('textarea');
+    textarea.type = 'textbox';
+    textarea.className = 'spacecontent';
+    textarea.value = originalContent;
+    main.innerHTML = ''; // Clear the main content
+    main.appendChild(textarea);
+
+    // construção de uma checkbox com base no .innerHTML
+    document.querySelector('#cancelEditSpace' + id).style.visibility = 'visible';
+
+    // change button edit to confirm
+    let edit_button = document.querySelector("#editSpace" + id);
+    let edit_button_icon = edit_button.querySelector("#text-icon");
+    edit_button_icon.classList.remove("fa-pencil");
+    edit_button_icon.classList.add("fa-floppy-o");
+
+    // mudar o onclick do botão
+    let button = document.querySelector('#editSpace' + id);
+    button.onclick = function () {
+      // Get the updated content and visibility
+      let updatedContent = textarea.value;
+
+      // Send an AJAX request to update the content on the server
+      let url = '/space/{id}'; // Replace with the actual server endpoint
+      let data = {
+        id: id,
+        content: updatedContent
+      };
+
+      sendAjaxRequest('PUT', url, data, function (response) {
+        console.log('Updated Content:', updatedContent);
+        // Update the content on the page
+        main.innerHTML = updatedContent;
+        // Update the originalContent data attribute
+        main.dataset.originalContent = updatedContent;
+        // Reset the edit state
+        resetEditState(id);
+      });
+    };
+  }
+function cancelEditSpace(id) {
+  let space = document.querySelector("#space" + id);
+  let main = space.querySelector("main");
+  // Restore the original content
+  main.textContent = main.dataset.originalContent;
+  // Reset the edit state
+  resetEditState(id);
+}
+
+function deleteSpace(id) {
+  if (!confirm('Are you sure you want to delete this space?')) {
+      return;
+  }
+
+  fetch(`/api/space/${id}`, {
+      method: 'DELETE',
+      headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      },
+  })
+  .then(response => response.json())
+  .then(data => {
+      console.log(data); // Log the server response (optional)
+
+      // Redirect to the /homepage URL after successful deletion
+      window.location.href = '/homepage';
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
+}
+
+function deleteComment(id) {
+    if (!confirm('Are you sure you want to delete this comment?')) {
+        return;
+    }
+  
+    fetch(`/api/comment/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data); // Log the server response (optional)
+  
+        // Redirect to the /homepage URL after successful deletion
+        window.location.href = '/homepage';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+  }
+
+
 
   async function getAPIResult(type, search) {
     const query = '../api/' + type + '?search=' + search

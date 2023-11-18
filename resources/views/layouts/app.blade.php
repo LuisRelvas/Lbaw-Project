@@ -18,6 +18,7 @@
             // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
         </script>
         <script type="text/javascript" src={{ url('js/app.js') }} defer>
+            
         </script>
     </head>
     <body>
@@ -27,6 +28,9 @@
                 @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a> 
                     <a class="button" href="{{ url('/profile/'.Auth::user()->id) }}"><span>{{ Auth::user()->name }}</span></a>
+                @else 
+                    <a class="button" href="{{ url('/login') }}"> Login </a> 
+                    <a class="button" href="{{ url('/register') }}"> Register </a>
                 @endif
             </header>
             <section id="content">

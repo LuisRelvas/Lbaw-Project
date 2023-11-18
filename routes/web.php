@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SpaceController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -41,12 +43,31 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/profile/{id}/editUser','editUser');
     Route::post('/profile/edit', 'edit')->name('edit');
     Route::delete('/api/profile/{id}', 'delete');
+
 });
+
+Route::post('/profile/follow/{id}', [UserController::class, 'follow']);
+Route::delete('/profile/unfollow/{id}', [UserController::class, 'unfollow']);
 
 Route::controller(UserController::class)->group(function() {
     Route::get('api/profile', [UserController::class, 'search']);
 });
 
+Route::get('/space/{id}',[SpaceController::class,'show']);
+Route::post('space/add',[SpaceController::class, 'add']);
+Route::get('/homepage',[SpaceController::class,'list']);
+Route::put('space/{id}', [SpaceController::class, 'edit']);
+
+Route::controller(SpaceController::class) ->group(function() {
+    Route::delete('/api/space/{id}', 'delete');
+});
+
+Route::controller(CommentController::class) ->group(function() {
+    Route::delete('/api/comment/{id}', 'delete');
+});
+
+Route::post('comment/create', [CommentController::class, 'create']);
+Route::put('comment/edit', [CommentController::class, 'edit']);
 // API
 Route::controller(CardController::class)->group(function () {
     Route::put('/api/cards', 'create');
