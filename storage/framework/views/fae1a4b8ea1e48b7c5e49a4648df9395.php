@@ -2,18 +2,41 @@
 
 <?php $__env->startSection('content'); ?>
 
+<div class="userinfo" data-id="<?php echo e($user->id); ?>">
 
-<article class="user" data-id="<?php echo e($user->id); ?>">
+    <span class="dot"></span>
+    <div class="user">
+    <p><a href="/profile/<?php echo e($user->id); ?>"><?php echo e($user->name); ?></a></p>
+    </div>
 
-    <header>
-    <h2><a href="/profile/<?php echo e($user->id); ?>"><?php echo e($user->name); ?></a></h2>
-    </header>
-    <h1><?php echo e($user->username); ?></h1>
-    <h3><a href="/profile/<?php echo e($user->id); ?>/editUser">Edit Profile</a></h3>
-    <h3><a href="/logout" class="delete">&#10761;Delete Profile</a></h3>
-    <h3><a href="/homepage">Back to home page</a></h3>
+    <div class="username">
+        <p>@ <?php echo e($user->username); ?></p>
+    </div>
 
-</article>
+    <?php if(Auth::check()): ?>
+    <?php if($user->id == Auth::User()->id): ?> 
+
+    <a class="button" href="/profile/<?php echo e($user->id); ?>/editUser">Edit Profile</a>
+    <a class="button" href="/logout" class="delete">&#10761;Delete Profile</a>
+
+    <?php else: ?>
+    <?php if(!$isFollowing): ?>
+        <form method="POST" action="/profile/follow/<?php echo e($user->id); ?>">
+        <?php echo csrf_field(); ?>
+        <button type="submit">Follow</button>
+         </form>
+    <?php else: ?>
+        <form method="POST" action="/profile/unfollow/<?php echo e($user->id); ?>">
+        <?php echo csrf_field(); ?>
+        <?php echo method_field('DELETE'); ?>
+        <button type="submit">Unfollow</button>
+    </form>
+    <?php endif; ?>
+    <?php endif; ?>
+     <?php endif; ?>
+    <a class="button" href="/homepage">Back to home page</a>
+
+</div>
 
 <?php $__env->stopSection(); ?>
 

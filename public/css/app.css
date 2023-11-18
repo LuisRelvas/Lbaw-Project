@@ -130,17 +130,19 @@ main > header span {
     justify-self: center;
   }
 
-  .flex-container {
-    display: flex;
-    height: 100vh; /* Full height of the viewport */
 }
+
+.flex-container {
+  display: flex;
+  height: 100vh; /* Full height of the viewport */
 
 .sidebar {
     width: 250px; /* Adjust the width of the sidebar as needed */
-    background-color: #333;
+    background-color: #124347;
     color: #fff;
     padding: 1em;
     box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for a visual effect */
+    margin: 1em;
 }
 
 /* Optional: Style for the links in the sidebar */
@@ -153,7 +155,7 @@ main > header span {
 
 /* Optional: Hover effect for the links in the sidebar */
 .sidebar a:hover {
-    background-color: #555;
+    background-color: grey;
 }
 
 .content {
@@ -167,7 +169,6 @@ main > header span {
     margin-left: 0; /* Ensure content is to the right of the sidebar */
     padding: 1em;
 }
-
 
   #cards {
     display: grid;

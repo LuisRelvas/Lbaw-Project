@@ -13,22 +13,27 @@
         <!-- Styles -->
         <link href="<?php echo e(url('css/milligram.min.css')); ?>" rel="stylesheet">
         <link href="<?php echo e(url('css/app.css')); ?>" rel="stylesheet">
+        <link href="<?php echo e(url('css/user.css')); ?>" rel="stylesheet">
+
         <script type="text/javascript">
             // Fix for Firefox autofocus CSS bug
             // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
         </script>
         <script type="text/javascript" src=<?php echo e(url('js/app.js')); ?> defer>
+            
         </script>
     </head>
     <body>
         <main>
             <header>
-                <h1><a href="<?php echo e(url('/homepage')); ?>">SportHub</a></h1>
-                <?php if(Auth::check()): ?>
+                <h1><a href="<?php echo e(url('/homepage')); ?>"><mark class="sport">Sport</mark><mark class="hub">HUB</mark></a></h1>                <?php if(Auth::check()): ?>
                     <a class="button" href="<?php echo e(url('/logout')); ?>"> Logout </a> 
-                    <a class="button" href="<?php echo e(url('/profile/'.Auth::user()->id)); ?>"><span><?php echo e(Auth::user()->name); ?></span></a>
+                <?php else: ?> 
+                    <a class="button" href="<?php echo e(url('/login')); ?>"> Login </a> 
+                    <a class="button" href="<?php echo e(url('/register')); ?>"> Register </a>
                 <?php endif; ?>
             </header>
+            <!--this is the spaces,myspaces stuff-->
             <section id="content">
                 <?php echo $__env->yieldContent('content'); ?>
             </section>
