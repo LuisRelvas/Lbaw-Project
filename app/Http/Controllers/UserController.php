@@ -13,7 +13,7 @@ use App\Models\Follow;
 class UserController extends Controller {
 
 
-    public function show(int $id) : View
+    public function show(int $id)
     {
         $user = User::findOrFail($id);
         $isFollowing = Auth::user()->isFollowing($user);
@@ -30,11 +30,11 @@ public function editUser() : View
                             Auth::user()->email,
                             Auth::user()->password
 ]);
- }
+}
 
 
  public function follow(Request $request, $id) {
- 
+    
      Follow::insert([
          'user_id1' => Auth::user()->id,
          'user_id2' => $id,
@@ -50,8 +50,30 @@ public function editUser() : View
 public function edit(Request $request) 
 {   
     $user = Auth::user();
-    $user->name = $request->name;
-    $user->email = $request->email;
+    if($request->name == null) 
+    {
+        $user->name = Auth::user()->name;
+    }
+    else if($request-> name != null) 
+    {
+        $user->name = $request->name;
+    }
+    if($request->email == null)
+    {
+        $user->email = Auth::user()->email;
+    }
+    else if($request->email != null)
+    {
+        $user->email = $request->email;
+    }
+    if($request->is_public == null) 
+    {
+        $user->is_public = Auth::user()->is_public;
+    }
+    else if($request->is_public != null)
+    {
+        $user->is_public = $request->is_public;
+    }
     $user->password = $request->password;
     $user->save();
     return redirect('/profile/'.$user->id);

@@ -3,8 +3,8 @@
 @section('content')
 <form method="POST" action="{{ url('profile/edit') }}" enctype="multipart/form-data">
     {{ csrf_field() }}
-<label for="name">Name</label>
-    <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus>
+    <label for="name">Name</label>
+    <input id="name" type="text" name="name" value="{{ old('name') }}" >
     @if ($errors->has('name'))
       <span class="error">
           {{ $errors->first('name') }}
@@ -12,7 +12,7 @@
     @endif
 
     <label for="email">E-Mail Address</label>
-    <input id="email" type="email" name="email" value="{{ old('email') }}" required>
+    <input id="email" type="email" name="email" value="{{ old('email') }}" >
     @if ($errors->has('email'))
       <span class="error">
           {{ $errors->first('email') }}
@@ -29,6 +29,14 @@
 
     <label for="password-confirm">Confirm Password</label>
     <input id="password-confirm" type="password" name="password_confirmation" required>
+
+    <label for="is_public">Private Profile</label>
+    <input id="is_public" type="checkbox" name="is_public" value="1" {{ old('is_public') ? 'checked' : '' }}>
+    @if ($errors->has('is_public'))
+      <span class="error">
+          {{ $errors->first('is_public') }}
+      </span>
+    @endif
 
     <button type="submit">
       Edit
