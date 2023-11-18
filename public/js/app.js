@@ -182,6 +182,28 @@ function addEventListeners() {
   
     return new_item;
   }
+  function resetEditStateComment(id) {
+    let comment = document.querySelector("#comment" + id);
+    let content = comment.querySelector(".content");
+  
+    // Restore the original content
+    content.textContent = content.dataset.originalContent;
+  
+    // Hide the cancel button
+    document.querySelector('#cancelEditComment' + id).style.visibility = 'hidden';
+  
+    // Change the button back to edit
+    let edit_button = document.querySelector("#editComment" + id);
+    let edit_button_icon = edit_button.querySelector("#text-icon");
+    edit_button_icon.classList.remove("fa-floppy-o");
+    edit_button_icon.classList.add("fa-pencil");
+  
+    // Restore the original onclick function
+    let button = document.querySelector('#editComment' + id);
+    button.onclick = function () {
+        editComment(id);
+    };
+  }
 
   function cancelEditComment(id) {
     let comment = document.querySelector("#comment" + id);
@@ -244,36 +266,17 @@ function addEventListeners() {
       };
 
       sendAjaxRequest('PUT', url, data, function (response) {
-        console.log('Updated Content:', updatedContent);
         // Reset the edit state
-        resetEditState(id);
+        content.innerHTML = updatedContent;
+        content.dataset.originalContent = updatedContent;
+        console.log('Updated Content:', updatedContent);
+        resetEditStateComment(id);
       });
     };
 
 }
 
-function resetEditStateComment(id) {
-  let comment = document.querySelector("#comment" + id);
-  let content = comment.querySelector(".content");
 
-  // Restore the original content
-  content.textContent = content.dataset.originalContent;
-
-  // Hide the cancel button
-  document.querySelector('#cancelEditComment' + id).style.visibility = 'hidden';
-
-  // Change the button back to edit
-  let edit_button = document.querySelector("#editComment" + id);
-  let edit_button_icon = edit_button.querySelector("#text-icon");
-  edit_button_icon.classList.remove("fa-floppy-o");
-  edit_button_icon.classList.add("fa-pencil");
-
-  // Restore the original onclick function
-  let button = document.querySelector('#editComment' + id);
-  button.onclick = function () {
-      editComment(id);
-  };
-}
 function resetEditState(id) {
   let space = document.querySelector("#space" + id);
   let main = space.querySelector("main");
