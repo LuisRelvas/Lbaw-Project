@@ -136,30 +136,12 @@ main > header span {
   display: flex;
   height: 100vh; /* Full height of the viewport */
 
-.sidebar {
-    width: 250px; /* Adjust the width of the sidebar as needed */
-    background-color: #124347;
-    color: #fff;
-    padding: 1em;
-    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for a visual effect */
-    margin: 1em;
-}
-
-/* Optional: Style for the links in the sidebar */
-.sidebar a {
-    color: #fff;
-    text-decoration: none;
-    padding: 0.5em;
-    display: block;
-}
-
-/* Optional: Hover effect for the links in the sidebar */
-.sidebar a:hover {
-    background-color: grey;
-}
-
 .content {
-    flex: 1; /* Take remaining space */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex: 1;
     padding: 1em;
     box-sizing: border-box; /* Prevent adding borders to the width */
 }
@@ -242,10 +224,7 @@ button {
 a.button {
   background-color: black;
   border-color: #9b4dca;
-  color: white !important;
-}
-a.button.button-outline {
-  color: #9b4dca;
+
 }
 
 mark.sport {
@@ -265,3 +244,7 @@ input[type="email"]:focus,
 input[type="password"]:focus {
   border-color: #9b4dca;
 }
+
+
+
+

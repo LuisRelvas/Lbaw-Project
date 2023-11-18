@@ -35,7 +35,7 @@
     </form>
     @endif
     @endif
-     @endif
+    @endif
     <a class="button" href="/homepage">Back to home page</a>
 
 </div>
