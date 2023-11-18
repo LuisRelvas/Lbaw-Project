@@ -3,7 +3,7 @@
 @section('content')
     <div id="space{{$space->id}}" data-space-id="{{$space->id}}">
         <main>
-
+            <h1 class="spaceauthor">{{$space->user_id}}</h1>
             <h1 class="spacecontent">{{ $space->content }}</h1>
         </main>
     </div>
