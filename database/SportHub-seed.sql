@@ -724,7 +724,7 @@ BEGIN
         FROM users, space
         WHERE NEW.space_id = space.id
         AND space.user_id = users.id
-        AND NOT users.is_public
+        AND users.is_public
         AND space.group_id IS NULL
     ) AND NOT EXISTS (
         SELECT *

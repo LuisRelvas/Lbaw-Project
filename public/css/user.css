@@ -1,0 +1,43 @@
+.userinfo {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 1em;
+  margin: 1em;
+  grid-template-columns: 1fr auto auto;
+}
+
+.user {
+  font-weight: bold;
+}
+
+.user p {
+  margin-bottom: 0;
+}
+
+.user a {
+  color: black;
+}
+
+.username p {
+  color: gray;
+  margin-top: 0;
+}
+
+button a {
+  color: white;
+}
+
+.dot {
+  height: 50px;
+  width: 50px;
+  background-color: black;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* ------ EDIT USER ------ */
+

@@ -31,17 +31,19 @@
     <input id="password-confirm" type="password" name="password_confirmation" required>
 
     <label for="is_public">Private Profile</label>
-    <input id="is_public" type="checkbox" name="is_public" value="1" {{ old('is_public') ? 'checked' : '' }}>
-    @if ($errors->has('is_public'))
-      <span class="error">
-          {{ $errors->first('is_public') }}
-      </span>
-    @endif
+<input id="is_public" type="hidden" name="is_public" value="0">
+<input id="is_public" type="checkbox" name="is_public" value="1" {{ old('is_public') !== null ? 'checked' : '' }}>
+@if ($errors->has('is_public'))
+  <span class="error">
+      {{ $errors->first('is_public') }}
+  </span>
+@endif
 
+    <div>
     <button type="submit">
       Edit
     </button>
-
+    </div>
 </form>
 
 @endsection
