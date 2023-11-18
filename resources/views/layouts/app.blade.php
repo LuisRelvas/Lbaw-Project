@@ -14,6 +14,7 @@
         <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
         <link href="{{ url('css/user.css') }}" rel="stylesheet">
+        <link href="{{ url('css/home.css') }}" rel="stylesheet">
 
         <script type="text/javascript">
             // Fix for Firefox autofocus CSS bug

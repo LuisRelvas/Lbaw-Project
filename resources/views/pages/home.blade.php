@@ -13,8 +13,7 @@
         </div>
 
         <div class="content">
-            <input type="text" id="search">
-            <div id="results-users"></div>
+            
             <div class="card-header">{{ __('Spaces') }}</div>
 
             <div class="card-body">
@@ -34,5 +33,12 @@
                 @include('partials.addSpace')
             </div>
         </div>
+
+        <div class="searchbar">
+            <input type="text" id="search" placeholder="Search...">
+            <div id="results-users"></div>
+        </div>
+
+
     </main>
 @endsection

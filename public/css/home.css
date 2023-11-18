@@ -1,0 +1,74 @@
+/* ------ Sidebar ------ */
+
+.sidebar {
+    width: 250px; /* Adjust the width of the sidebar as needed */
+    background-color: #124347;
+    color: #fff;
+    padding: 1em;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for a visual effect */
+    margin: 1em;
+    border-radius: 5px;
+
+
+}
+
+/* Optional: Style for the links in the sidebar */
+.sidebar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5em;
+    display: block;
+}
+
+/* Optional: Hover effect for the links in the sidebar */
+.sidebar a:hover {
+    background-color: grey;
+}
+
+/* ------ Searchbar ------ */
+
+.searchbar {
+    width: 250px; /* Adjust the width of the sidebar as needed */
+    border-radius: 5px;
+    background-color: #124347;
+    right:0;
+    color: #fff;
+    padding: 1em;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for a visual effect */
+    margin: 1em;
+}
+
+/* Optional: Style for the links in the sidebar */
+.searchbar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5em;
+    display: block;
+}
+
+/* ------ Spaces in Home ------ */
+
+.card-header {
+    font-weight: bold; /* Replace 'Your Desired Font' with the actual font you want to use */
+    color: black; /* Replace #ff9900 with the desired color code */
+    font-size: 1.5em; /* Adjust the font size as needed */
+}
+
+.card-body ul li a {
+    color: black;
+    text-decoration: underline;
+    transition: font-weight 0.3s ease; /* Add a smooth transition effect for the font-weight */
+}
+
+.card-body ul li a:hover {
+    font-weight: bold;
+}
+
+
+/* Add this to your CSS file */
+.label-color {
+    color: black; /* Replace with your desired color */
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
