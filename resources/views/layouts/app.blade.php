@@ -28,12 +28,12 @@
             <header>
                 <h1><a href="{{ url('/homepage') }}"><mark class="sport">Sport</mark><mark class="hub">HUB</mark></a></h1>                @if (Auth::check())
                     <a class="button" href="{{ url('/logout') }}"> Logout </a> 
-                    <a class="button" href="{{ url('/profile/'.Auth::user()->id) }}"><span>{{ Auth::user()->name }}</span></a>
                 @else 
                     <a class="button" href="{{ url('/login') }}"> Login </a> 
                     <a class="button" href="{{ url('/register') }}"> Register </a>
                 @endif
             </header>
+            <!--this is the spaces,myspaces stuff-->
             <section id="content">
                 @yield('content')
             </section>
