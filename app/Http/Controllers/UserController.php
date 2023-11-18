@@ -15,12 +15,20 @@ class UserController extends Controller {
 
     public function show(int $id)
     {
+        if(Auth::check()){
         $user = User::findOrFail($id);
         $isFollowing = Auth::user()->isFollowing($user);
         return view('pages.user', [
             'user' => $user,
             'isFollowing' => $isFollowing
-        ]);
+        ]);}
+        else
+        {
+            $user = User::findOrFail($id);
+            return view('pages.user', [
+                'user' => $user,
+            ]);
+        }
     }
 
 

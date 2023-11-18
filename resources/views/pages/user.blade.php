@@ -13,11 +13,14 @@
 
     <div class="username">
         <p>@ {{ $user->username }}</p>
-        @if($user->id == Auth::User()->id) 
     </div>
+
+    @if(Auth::check())
+    @if($user->id == Auth::User()->id) 
 
     <a class="button" href="/profile/{{ $user->id }}/editUser">Edit Profile</a>
     <a class="button" href="/logout" class="delete">&#10761;Delete Profile</a>
+
     @else
     @if(!$isFollowing)
         <form method="POST" action="/profile/follow/{{ $user->id }}">
@@ -30,6 +33,7 @@
         @method('DELETE')
         <button type="submit">Unfollow</button>
     </form>
+    @endif
     @endif
      @endif
     <a class="button" href="/homepage">Back to home page</a>

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Space;
+use App\Models\User;
 
 class SpaceController extends Controller 
 {
@@ -20,20 +21,23 @@ class SpaceController extends Controller
 
 
   public function list()
-{ 
-    if (!Auth::check()) {
-        $spaces = Space::publicSpaces()->get();
-        $mines = []; // Add this line
-        return view('pages.home', ['spaces' => $spaces, 'mines' => $mines]); // Modify this line
-    }
-    $followingIds = Auth::user()->showFollows()->pluck('id');
-    $spaces = Space::whereIn('user_id', $followingIds)->get(); 
-    $mines = Space::where('user_id', Auth::user()->id)->get(); // Add this line
-    return view('pages.home', [
-        'spaces' => $spaces,
-        'mines' => $mines // Add this line
-    ]);
-}
+  { 
+      $publics = Space::publicSpaces()->get();
+  
+      if (!Auth::check()) {
+          return view('pages.home', ['publics' => $publics, 'spaces' => $publics]);
+      }
+  
+      $followingIds = Auth::user()->showFollows()->pluck('id');
+      $spaces = Space::whereIn('user_id', $followingIds)->get(); 
+      $mines = Space::where('user_id', Auth::user()->id)->get();
+  
+      return view('pages.home', [
+          'publics' => $publics,
+          'spaces' => $spaces,
+          'mines' => $mines
+      ]);
+  }
 
  
     public function edit(Request $request)
@@ -69,6 +73,11 @@ class SpaceController extends Controller
         $space->delete();
 
         return response()->json(['message' => 'Space deleted successfully']);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'username');
     }
 
 }
