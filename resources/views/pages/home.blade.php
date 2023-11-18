@@ -12,4 +12,11 @@
             @endforeach
         </ul>
     </div>
+    <div class="card-header">{{ __('My Spaces') }}</div>
+    <div class="card-body">
+        <ul>
+            @foreach ($mines as $mine)
+                <li><a href="/space/{{ $mine->id }}">{{ $mine->content }}</a></li>
+            @endforeach
+        </ul>
 @endsection

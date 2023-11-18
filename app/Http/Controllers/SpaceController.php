@@ -20,17 +20,20 @@ class SpaceController extends Controller
 
 
   public function list()
-  { 
+{ 
     if (!Auth::check()) {
-      $spaces = Space::publicSpaces()->get();
-      return view('pages.home', ['spaces' => $spaces]);
+        $spaces = Space::publicSpaces()->get();
+        $mines = []; // Add this line
+        return view('pages.home', ['spaces' => $spaces, 'mines' => $mines]); // Modify this line
     }
     $followingIds = Auth::user()->showFollows()->pluck('id');
     $spaces = Space::whereIn('user_id', $followingIds)->get(); 
+    $mines = Space::where('user_id', Auth::user()->id)->get(); // Add this line
     return view('pages.home', [
-        'spaces' => $spaces
+        'spaces' => $spaces,
+        'mines' => $mines // Add this line
     ]);
-  }
+}
 
  
     public function edit(Request $request)
