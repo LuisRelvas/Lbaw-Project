@@ -164,40 +164,7 @@ function addEventListeners() {
     return new_card;
   }
 
-  function commentAddedHandler() {
-    if (this.status !== 200) {
-        window.location = '/';
-        return;
-    }
 
-    let comment = JSON.parse(this.responseText);
-
-    // Create the new comment
-    let new_comment = createComment(comment);
-
-    // Insert the new comment
-    let section = document.querySelector('section.comments'); // Adjust selector as needed
-    let form = section.querySelector('form.new_comment'); // Adjust selector as needed
-    form.insertAdjacentElement('beforebegin', new_comment);
-
-    // Reset the new comment form
-    form.querySelector('[name="comment"]').value = "";
-}
-
-// Example createComment function (modify as needed)
-function createComment(comment) {
-    let new_comment = document.createElement('div');
-    new_comment.classList.add('comment');
-    new_comment.setAttribute('data-id', comment.id);
-    new_comment.innerHTML = `<p>${comment.content}</p>`;
-    
-    return new_comment;
-}
-
-
-  function submitComment(spaceId) {
-    sendAjaxRequest('post', '/api/space/' + spaceId, { content: document.querySelector('#comment').value }, commentAddedHandler);
-  }
 
   
   function createItem(item) {
@@ -215,10 +182,90 @@ function createComment(comment) {
   
     return new_item;
   }
+  
+  function editComment(id) {
+    let comment = document.querySelector("#comment" + id);
 
-  function parseContentEdit(content){
-    return content.replace(/(<([^>]+)>)/ig, "");
-  }
+    if (!comment) {
+        console.error("Comment element not found");
+        return;
+    }
+
+    let content = comment.querySelector(".content");
+
+    if (!content) {
+        console.error("Content element not found within the comment element");
+        return;
+    }
+
+    // Save the original content for cancel action
+    let originalContent = content.textContent.trim();
+
+    // Transform the content into a textbox
+    let textarea = document.createElement('textarea');
+    textarea.type = 'textbox';
+    textarea.className = 'commentcontent';
+    textarea.value = originalContent;
+    content.innerHTML = ''; // Clear the content
+    content.appendChild(textarea);
+
+    // Make the cancel button visible
+    document.querySelector('#cancelEditComment' + id).style.visibility = 'visible';
+
+    // Change the edit button to a confirm button
+    let edit_button = document.querySelector("#editComment" + id);
+    let edit_button_icon = edit_button.querySelector("#text-icon");
+    edit_button_icon.classList.remove("fa-pencil");
+    edit_button_icon.classList.add("fa-floppy-o");
+
+    // Change the onclick of the button
+    let button = document.querySelector('#editComment' + id);
+    button.onclick = function () {
+      // Get the updated content
+      let updatedContent = textarea.value;
+      // Update the content on the page
+      content.innerHTML = updatedContent;
+
+      // Send an AJAX request to update the content on the server
+      let url = '/comment/edit'; // Replace with the actual server endpoint
+      let data = {
+        id: id,
+        content: updatedContent
+      };
+
+      sendAjaxRequest('PUT', url, data, function (response) {
+        console.log('Updated Content:', updatedContent);
+        // Reset the edit state
+        resetEditState(id);
+      });
+    };
+}
+
+function resetEditStateComment(id) {
+  let comment = document.querySelector("#comment" + id);
+  let content = comment.querySelector(".content");
+
+  // Hide the cancel button
+  document.querySelector('#cancelEditComment' + id).style.visibility = 'hidden';
+
+  // Change the button back to edit
+  let edit_button = document.querySelector("#editComment" + id);
+  let edit_button_icon = edit_button.querySelector("#text-icon");
+  edit_button_icon.classList.remove("fa-floppy-o");
+  edit_button_icon.classList.add("fa-pencil");
+
+  // Restore the original onclick function
+  let button = document.querySelector('#editComment' + id);
+  button.onclick = function () {
+      editComment(id);
+  };
+}
+
+
+function cancelEditComment(id) {
+    // Reset the edit state to the original content
+    resetEditStateComment(id);
+}
 
   function editSpace(id) {
     let space = document.querySelector("#space" + id);
@@ -305,6 +352,30 @@ function deleteSpace(id) {
       console.error('Error:', error);
   });
 }
+
+function deleteComment(id) {
+    if (!confirm('Are you sure you want to delete this comment?')) {
+        return;
+    }
+  
+    fetch(`/api/comment/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data); // Log the server response (optional)
+  
+        // Redirect to the /homepage URL after successful deletion
+        window.location.href = '/homepage';
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+  }
 
 
 function resetEditState(id) {

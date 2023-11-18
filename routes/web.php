@@ -58,7 +58,12 @@ Route::controller(SpaceController::class) ->group(function() {
     Route::delete('/api/space/{id}', 'delete');
 });
 
+Route::controller(CommentController::class) ->group(function() {
+    Route::delete('/api/comment/{id}', 'delete');
+});
+
 Route::post('comment/create', [CommentController::class, 'create']);
+Route::put('comment/edit', [CommentController::class, 'edit']);
 // API
 Route::controller(CardController::class)->group(function () {
     Route::put('/api/cards', 'create');
