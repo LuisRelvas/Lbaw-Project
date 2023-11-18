@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\CardController;
@@ -57,6 +58,7 @@ Route::controller(SpaceController::class) ->group(function() {
     Route::delete('/api/space/{id}', 'delete');
 });
 
+Route::post('comment/create', [CommentController::class, 'create']);
 // API
 Route::controller(CardController::class)->group(function () {
     Route::put('/api/cards', 'create');

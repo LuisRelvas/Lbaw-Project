@@ -103,6 +103,8 @@ function addEventListeners() {
     // Reset the new item form
     form.querySelector('[type=text]').value="";
   }
+
+
   
   function itemDeletedHandler() {
     if (this.status != 200) window.location = '/';
@@ -161,6 +163,42 @@ function addEventListeners() {
   
     return new_card;
   }
+
+  function commentAddedHandler() {
+    if (this.status !== 200) {
+        window.location = '/';
+        return;
+    }
+
+    let comment = JSON.parse(this.responseText);
+
+    // Create the new comment
+    let new_comment = createComment(comment);
+
+    // Insert the new comment
+    let section = document.querySelector('section.comments'); // Adjust selector as needed
+    let form = section.querySelector('form.new_comment'); // Adjust selector as needed
+    form.insertAdjacentElement('beforebegin', new_comment);
+
+    // Reset the new comment form
+    form.querySelector('[name="comment"]').value = "";
+}
+
+// Example createComment function (modify as needed)
+function createComment(comment) {
+    let new_comment = document.createElement('div');
+    new_comment.classList.add('comment');
+    new_comment.setAttribute('data-id', comment.id);
+    new_comment.innerHTML = `<p>${comment.content}</p>`;
+    
+    return new_comment;
+}
+
+
+  function submitComment(spaceId) {
+    sendAjaxRequest('post', '/api/space/' + spaceId, { content: document.querySelector('#comment').value }, commentAddedHandler);
+  }
+
   
   function createItem(item) {
     let new_item = document.createElement('li');
@@ -239,7 +277,6 @@ function addEventListeners() {
       });
     };
 }
-
 function cancelEditSpace(id) {
     // Reset the edit state to the original content
     resetEditState(id);

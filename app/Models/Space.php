@@ -32,6 +32,11 @@ class Space extends Model
                     ->where('space.is_public', false)
                     ->orderBy('date', 'desc');
       }
+
+      public function comments()
+{
+    return $this->hasMany(Comment::class);
+}
 }
 
 
