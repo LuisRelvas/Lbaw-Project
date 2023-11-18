@@ -8,7 +8,7 @@
     <div class="card-body">
         <ul>
             @foreach ($spaces as $space)
-                <li><a href="/space/{{ $space->id }}">{{ $space->content }}</a></a></li>
+                <li><a href="/space/{{ $space->id }}">{{ $space->content }}</a></li>
             @endforeach
         </ul>
     </div>

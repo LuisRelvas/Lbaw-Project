@@ -10,25 +10,27 @@ use App\Models\Space;
 class SpaceController extends Controller 
 {
 
-    public function show(int $id) : View
-    {
-        $space = Space::findOrFail($id);
-        return view('pages.space', [
-            'space' => $space
-        ]);
-    }
+  public function show(int $id) : View
+  {
+      $space = Space::findOrFail($id);
+      return view('pages.space', [
+          'space' => $space
+      ]);
+  }
 
-    public function list()
-    { 
-    
-      if (!Auth::check()) {
 
-        $spaces = Space::publicSpaces()->get();
-        return view('pages.home', ['spaces' => $spaces]);
-      }
-      $spaces = Auth::user()->visibleSpaces()->get();
+  public function list()
+  { 
+    if (!Auth::check()) {
+      $spaces = Space::publicSpaces()->get();
       return view('pages.home', ['spaces' => $spaces]);
     }
+    $followingIds = Auth::user()->showFollows()->pluck('id');
+    $spaces = Space::whereIn('user_id', $followingIds)->get(); 
+    return view('pages.home', [
+        'spaces' => $spaces
+    ]);
+  }
 
  
     public function edit(Request $request)

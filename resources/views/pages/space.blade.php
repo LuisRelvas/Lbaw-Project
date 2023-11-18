@@ -3,12 +3,15 @@
 @section('content')
     <div id="space{{$space->id}}">
         <main>
+
             <h1 class="spacecontent">{{ $space->content }}</h1>
         </main>
     </div>
 
     <div>
+        @if(Auth::check() && $space->user_id == Auth::user()->id)
         <a href="#" class="delete" onclick="deleteSpace({{$space->id}})">&#10761;</a>
+        @endif
         <h3><a href="javascript:void(0);" onclick="editSpace({{$space->id}})"></a></h3>
         <h4>Comments</h4>
         {{-- Add a form for submitting comments --}}
