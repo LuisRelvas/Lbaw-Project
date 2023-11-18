@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Space;
+use App\Models\User;
 
 class SpaceController extends Controller 
 {
@@ -72,6 +73,11 @@ class SpaceController extends Controller
         $space->delete();
 
         return response()->json(['message' => 'Space deleted successfully']);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'username');
     }
 
 }
