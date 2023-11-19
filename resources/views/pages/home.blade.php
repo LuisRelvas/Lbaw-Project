@@ -6,7 +6,8 @@
         <div class="sidebar">
             <!-- Sidebar content -->
             <a href="#">Home</a>
-            <a href=" {{ url('/search') }}">Explore</a>
+            <input type="text" id="search">
+            <div id="results-users"></div>
             <a href = "{{ url('/profile/'.Auth::user()->id) }}">Profile</a>
             <a href="#">Notifications</a>
             <a href="#">Settings</a>

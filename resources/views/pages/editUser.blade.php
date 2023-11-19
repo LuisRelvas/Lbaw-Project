@@ -3,6 +3,7 @@
 @section('content')
 <form method="POST" action="{{ url('profile/edit') }}" enctype="multipart/form-data">
     {{ csrf_field() }}
+    <input type="hidden" name="user_id" value="{{ request()->route('id') }}">
     <label for="name">Name</label>
     <input id="name" type="text" name="name" value="{{ old('name') }}" >
     @if ($errors->has('name'))

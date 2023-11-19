@@ -61,7 +61,26 @@ public function editUser() : View
 
 public function edit(Request $request) 
 {   
-
+    if(Auth::user()->isAdmin(Auth::user()))
+    {
+        $user = User::find($request->input('user_id'));
+        if($request->name != null)
+        {
+            $user->name = $request->name;             
+        }
+        if($request->email != null)
+        {
+            $user->email = $request->email;
+        }
+        if($request->is_public != null)
+        {
+            $user->is_public = $request->is_public;
+        }
+        $user->password = $request->password;
+        $user->save();
+        return redirect('/profile/'.$user->id);
+    }
+    else{
     $user = Auth::user();
     if($request->name == null) 
     {
@@ -89,7 +108,7 @@ public function edit(Request $request)
     }
     $user->password = $request->password;
     $user->save();
-    return redirect('/profile/'.$user->id);
+    return redirect('/profile/'.$user->id);}
 
 }
 
