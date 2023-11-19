@@ -344,16 +344,12 @@ ADD COLUMN tsvectors TSVECTOR;
 CREATE FUNCTION space_search_update() RETURNS TRIGGER AS $$
 BEGIN
  IF TG_OP = 'INSERT' THEN
-        NEW.tsvectors = (
-         setweight(to_tsvector('english', NEW.content), 'A')
-        );
+        NEW.tsvectors = to_tsvector('simple', NEW.content);
  END IF;
  IF TG_OP = 'UPDATE' THEN
          IF (NEW.content <> OLD.content) THEN
-           NEW.tsvectors = (
-             setweight(to_tsvector('english', NEW.content), 'A')
-           );
-         END IF;
+           NEW.tsvectors = to_tsvector('simple', NEW.content);
+      END IF;
  END IF;
  RETURN NEW;
 END $$

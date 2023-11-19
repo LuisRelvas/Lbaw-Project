@@ -429,10 +429,16 @@ function updateTotal(quantity, id) {
   }
 }
 
+
 async function search(input) {
-  document.querySelector('#results-users').innerHTML = await getAPIResult('profile', input)
+  document.querySelector('#results-spaces').innerHTML = await getAPIResult('space', input);
+  document.querySelector('#results-users').innerHTML = await getAPIResult('profile', input);
+  updateTotal((document.querySelector('#results-spaces').innerHTML.match(/<article/g) || []).length, 'spaceResults');
   updateTotal((document.querySelector('#results-users').innerHTML.match(/<article/g) || []).length, 'userResults');
 }
+
+
+
 
 
 function init() {
