@@ -1,12 +1,22 @@
 @extends('layouts.app')
-@section('content')
-    @if(Auth::user())
-    <input type="text" id="search">
-    <div id="results-users"></div>
-    @include('partials.addSpace')
-    @endif
 
-    <div class="card-header">{{ __('Public Spaces') }}</div>
+@section('content')
+    <main class="flex-container">
+        @if(Auth::check())
+        <div class="sidebar">
+            <!-- Sidebar content -->
+            <a href="#">Home</a>
+            <a href=" {{ url('/search') }}">Explore</a>
+            <a href = "{{ url('/profile/'.Auth::user()->id) }}">Profile</a>
+            <a href="#">Notifications</a>
+            <a href="#">Settings</a>
+            <!-- Add more links as needed -->
+        </div>
+        @endif
+
+        <div class="content">
+            
+        <div class="card-header">{{ __('Public Spaces') }}</div>
     <div class="card-body">
         <ul>
             @foreach ($publics as $public)
@@ -33,4 +43,7 @@
             @endforeach
         </ul>
     @endif
+
+
+    </main>
 @endsection

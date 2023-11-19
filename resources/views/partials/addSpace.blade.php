@@ -1,6 +1,6 @@
 <form method="POST" action="{{ url('space/add') }}" enctype="multipart/form-data">
     {{ csrf_field() }}
-    <label for="content">Content</label>
+    <label for="content" class="label-color">Create a new Space</label>
     <input id="content" type="text" name="content" required autofocus>
     
     @if ($errors->has('content'))

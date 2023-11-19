@@ -13,6 +13,9 @@
         <!-- Styles -->
         <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
+        <link href="{{ url('css/user.css') }}" rel="stylesheet">
+        <link href="{{ url('css/home.css') }}" rel="stylesheet">
+
         <script type="text/javascript">
             // Fix for Firefox autofocus CSS bug
             // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
@@ -25,7 +28,7 @@
     <main>
         <header>
             <h1>
-                <a href="{{ Auth::check() && Auth::user()->isAdmin(Auth::user()) ? url('/admin') : url('/homepage') }}">SportHub</a>
+                <a href="{{ Auth::check() && Auth::user()->isAdmin(Auth::user()) ? url('/admin') : url('/homepage') }}"><mark class="sport">Sport</mark><mark class="hub">HUB</mark></a>
             </h1>
             @if (Auth::check())
                 <a class="button" href="{{ url('/logout') }}"> Logout </a> 
