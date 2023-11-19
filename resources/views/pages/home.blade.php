@@ -2,6 +2,7 @@
 
 @section('content')
     <main class="flex-container">
+        @if(Auth::check())
         <div class="sidebar">
             <!-- Sidebar content -->
             <a href="#">Home</a>
@@ -11,6 +12,7 @@
             <a href="#">Settings</a>
             <!-- Add more links as needed -->
         </div>
+        @endif
 
         <div class="content">
         <div class="card-header">{{ __('Public Spaces') }}</div>
@@ -22,7 +24,7 @@
             </ul>
         </div>
 
-            
+        @if(Auth::check())
             <div class="card-header">{{ __('Spaces') }}</div>
 
             <div class="card-body">
@@ -32,6 +34,7 @@
                     @endforeach
                 </ul>
             </div>
+            
             <div class="card-header">{{ __('My Spaces') }}</div>
             <div class="card-body">
                 <ul>
@@ -42,10 +45,12 @@
                 @include('partials.addSpace')
             </div>
         </div>
+        @endif
 
         <div class="searchbar">
             <input type="text" id="search" placeholder="Search...">
             <div id="results-users"></div>
+            <div id="results-spaces"></div>
         </div>
 
 

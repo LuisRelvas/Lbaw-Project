@@ -87,12 +87,10 @@ public function search(Request $request)
 {
     $input = $request->get('search', '*');
     
-    if (Auth::user()->isAdmin(Auth::user())) {
         $spaces = Space::select('id', 'content', 'date', 'user_id', 'group_id')
             ->whereRaw("tsvectors @@ to_tsquery(?)", [$input])
             ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$input])
             ->get();
-    }
 
     return view('partials.searchSpace', compact('spaces'))->render();
 }
