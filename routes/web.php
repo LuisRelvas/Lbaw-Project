@@ -33,12 +33,10 @@ Route::get('/homepage', function () {
 });
 
 
-// Cards
-Route::controller(CardController::class)->group(function () {
-    Route::get('/homepage/cards', 'list')->name('cards');
-    Route::get('/homepage/cards/{id}', 'show');
-});
 
+// Users
+Route::post('/profile/follow/{id}', [UserController::class, 'follow']);
+Route::delete('/profile/unfollow/{id}', [UserController::class, 'unfollow']);
 Route::controller(UserController::class)->group(function () {
     Route::get('/profile/{id}','show');
     Route::get('/profile/{id}/editUser','editUser');
@@ -47,32 +45,38 @@ Route::controller(UserController::class)->group(function () {
 
 });
 
-Route::post('/profile/follow/{id}', [UserController::class, 'follow']);
-Route::delete('/profile/unfollow/{id}', [UserController::class, 'unfollow']);
-
 Route::controller(UserController::class)->group(function() {
     Route::get('api/profile', [UserController::class, 'search']);
 });
 
+// Spaces
 Route::get('/space/{id}',[SpaceController::class,'show']);
 Route::post('space/add',[SpaceController::class, 'add']);
 Route::get('/homepage',[SpaceController::class,'list']);
 Route::put('space/{id}', [SpaceController::class, 'edit']);
-
 Route::controller(SpaceController::class) ->group(function() {
     Route::delete('/api/space/{id}', 'delete');
 });
 
+// Comments
+Route::post('comment/create', [CommentController::class, 'create']);
+Route::put('comment/edit', [CommentController::class, 'edit']);
 Route::controller(CommentController::class) ->group(function() {
     Route::delete('/api/comment/{id}', 'delete');
 });
 
+
+// Admin
 Route::get('admin',[AdminController::class,'show']);
 Route::post('/profile/block/{id}',[AdminController::class,'block']);
 Route::delete('/profile/unblock/{id}',[AdminController::class,'unblock']);
 
-Route::post('comment/create', [CommentController::class, 'create']);
-Route::put('comment/edit', [CommentController::class, 'edit']);
+
+// Cards
+Route::controller(CardController::class)->group(function () {
+    Route::get('/homepage/cards', 'list')->name('cards');
+    Route::get('/homepage/cards/{id}', 'show');
+});
 // API
 Route::controller(CardController::class)->group(function () {
     Route::put('/api/cards', 'create');
