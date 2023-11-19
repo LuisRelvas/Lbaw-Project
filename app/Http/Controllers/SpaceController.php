@@ -64,6 +64,7 @@ class SpaceController extends Controller
 
     public function delete($id)
     {
+
         $space = Space::find($id);
 
         if (!$space) {
@@ -72,7 +73,10 @@ class SpaceController extends Controller
 
         $space->delete();
 
-        return response()->json(['message' => 'Space deleted successfully']);
+        return response()->json([
+            'message' => 'Space deleted successfully',
+            'isAdmin' => Auth::user()->isAdmin(Auth::user())
+        ]);    
     }
 
     public function user()

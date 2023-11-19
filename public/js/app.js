@@ -368,25 +368,27 @@ function cancelEditSpace(id) {
 
 function deleteSpace(id) {
   if (!confirm('Are you sure you want to delete this space?')) {
-      return;
+    return;
   }
 
-  fetch(`/api/space/${id}`, {
-      method: 'DELETE',
-      headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-      },
-  })
-  .then(response => response.json())
-  .then(data => {
-      console.log(data); // Log the server response (optional)
+  var url = `/api/space/${id}`;
+  var method = 'DELETE';
+  var data = null; // No data to send for a DELETE request
 
-      // Redirect to the /homepage URL after successful deletion
-      window.location.href = '/homepage';
-  })
-  .catch(error => {
-      console.error('Error:', error);
+  sendAjaxRequest(method, url, data, function(event) {
+    if (event.target.status === 200) {
+      var response = JSON.parse(event.target.responseText);
+      console.log(response); // Log the server response (optional)
+      
+      // Redirect to the appropriate URL based on whether the user is an admin
+      if (response.isAdmin) {
+        window.location.href = '/admin';
+      } else {
+        window.location.href = '/homepage';
+      }
+    } else {
+      console.error('Error:', event.target.status, event.target.statusText);
+    }
   });
 }
 
@@ -394,24 +396,23 @@ function deleteComment(id) {
     if (!confirm('Are you sure you want to delete this comment?')) {
         return;
     }
-  
-    fetch(`/api/comment/${id}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data); // Log the server response (optional)
-  
-        // Redirect to the /homepage URL after successful deletion
-        window.location.href = '/homepage';
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+
+    var pathParts = window.location.pathname.split('/');
+    var spaceId = pathParts[pathParts.length - 1];
+    var url = `/api/comment/${id}`;
+    var method = 'DELETE';
+    var data = null; // No data to send for a DELETE request
+
+  sendAjaxRequest(method, url, data, function(event) {
+    if (event.target.status === 200) {
+      console.log(event.target.responseText); // Log the server response (optional)
+      
+      // Redirect to the back URL after successful deletion
+      window.location.href = '/space/' + spaceId;
+    } else {
+      console.error('Error:', event.target.status, event.target.statusText);
+    }
+  });
   }
 
 
