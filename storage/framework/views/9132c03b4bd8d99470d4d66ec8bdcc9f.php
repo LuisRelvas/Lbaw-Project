@@ -14,7 +14,9 @@
         <link href="<?php echo e(url('css/milligram.min.css')); ?>" rel="stylesheet">
         <link href="<?php echo e(url('css/app.css')); ?>" rel="stylesheet">
         <link href="<?php echo e(url('css/user.css')); ?>" rel="stylesheet">
-
+        <link href="<?php echo e(url('css/home.css')); ?>" rel="stylesheet">
+        <link href="<?php echo e(url('css/space.page.css')); ?>" rel="stylesheet">
+        <link href="<?php echo e(url('css/register-login.css')); ?>" rel="stylesheet">
         <script type="text/javascript">
             // Fix for Firefox autofocus CSS bug
             // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
@@ -24,19 +26,22 @@
         </script>
     </head>
     <body>
-        <main>
-            <header>
-                <h1><a href="<?php echo e(url('/homepage')); ?>"><mark class="sport">Sport</mark><mark class="hub">HUB</mark></a></h1>                <?php if(Auth::check()): ?>
-                    <a class="button" href="<?php echo e(url('/logout')); ?>"> Logout </a> 
-                <?php else: ?> 
-                    <a class="button" href="<?php echo e(url('/login')); ?>"> Login </a> 
-                    <a class="button" href="<?php echo e(url('/register')); ?>"> Register </a>
-                <?php endif; ?>
-            </header>
-            <!--this is the spaces,myspaces stuff-->
-            <section id="content">
-                <?php echo $__env->yieldContent('content'); ?>
-            </section>
-        </main>
-    </body>
+    <main>
+        <header>
+            <h1>
+                <a href="<?php echo e(Auth::check() && Auth::user()->isAdmin(Auth::user()) ? url('/admin') : url('/homepage')); ?>"><mark class="sport">Sport</mark><mark class="hub">HUB</mark></a>
+            </h1>
+            <?php if(Auth::check()): ?>
+                <a class="button" href="<?php echo e(url('/logout')); ?>"> Logout </a> 
+                <a class="button" href="<?php echo e(url('/profile/'.Auth::user()->id)); ?>"><span><?php echo e(Auth::user()->name); ?></span></a>
+            <?php else: ?> 
+                <a class="button" href="<?php echo e(url('/login')); ?>"> Login </a> 
+                <a class="button" href="<?php echo e(url('/register')); ?>"> Register </a>
+            <?php endif; ?>
+        </header>
+        <section id="content">
+            <?php echo $__env->yieldContent('content'); ?>
+        </section>
+    </main>
+</body>
 </html><?php /**PATH /Users/eamachado/lbaw2372/resources/views/layouts/app.blade.php ENDPATH**/ ?>

@@ -1,7 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <form method="POST" action="{{ route('login') }}">
+<div id="loginContent">
+<div id="welcomePhrase">
+    <p id="introText">Welcome to the world of Sports!</p>
+    <button id="toggleLoginForm">Join us!</button>
+</div>
+
+    <form id="loginForm" method="POST" action="{{ route('login') }}" style="display: none;">
         {{ csrf_field() }}
 
         <label for="email">E-mail</label>
@@ -34,4 +40,22 @@
             </p>
         @endif
     </form>
+
+    <script>
+        document.getElementById('toggleLoginForm').addEventListener('click', function() {
+    var form = document.getElementById('loginForm');
+    var introText = document.getElementById('introText');
+    var button = document.getElementById('toggleLoginForm');
+    if (form.style.display === "none") {
+        form.style.display = "block";
+        introText.style.display = "none";
+        button.style.display = "none"; // Hide the button
+    } else {
+        form.style.display = "none";
+        introText.style.display = "block";
+        button.style.display = "block"; // Show the button
+    }
+});
+    </script>
+    </div>
 @endsection
