@@ -1,7 +1,10 @@
 @forelse ($spaces as $space)
+@php 
+$user = App\Models\User::find($space->user_id);
+@endphp
     <article class="search-page-card" id="space{{ $space->id }}">
         <a href="../space/{{ $space->id }}">
-            <h2 class="space-content search-page-card-space">{{ $space->user_id }}</h2>
+            <h2 class="space-content search-page-card-space">{{ $user->username }}</h2>
         </a>
         <h3 class="search-space-card-content">{{ $space->content }}</h3>
     </article>

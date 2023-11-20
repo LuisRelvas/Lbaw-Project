@@ -7,9 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use App\Http\Controllers\Controller;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Space extends Model
 {
+    use HasApiTokens, HasFactory, Notifiable;
+
     protected $table = 'space';
 
     public $timestamps = false; 

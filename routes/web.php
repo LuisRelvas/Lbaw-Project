@@ -28,6 +28,7 @@ Route::redirect('/', '/login');
 // Homepage
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/homepage/search', [UserController::class, 'searchPage'])->name('search');
+    Route::get('/space/{id}', [SpaceController::class, 'showSpaces'])->name('show');
 });
 
 Route::get('/homepage', function () {

@@ -12,10 +12,14 @@ class SpacePolicy
 {
     use HandlesAuthorization;
 
-    public function show(User $user)
+    public function show(User $user, Space $space)
     {
-        return true;
-    }
+    return ($user->is_public === false || 
+        (Auth::check() && (Auth::user()->isAdmin(Auth::user()) || 
+                           Auth::user()->id == $user->id || 
+                           Auth::user()->isFollowing($user->id))));
+    }   
+
     public function add(User $user) 
     {
         return $user->id == Auth::user()->id;

@@ -41,10 +41,10 @@
             </form>
         @endif
         @if (session('success'))
-                <p class="success">
-                    {{ session('success') }}
-                </p>
-            @endif 
+            <p class="success">
+                {{ session('success') }}
+            </p>
+        @endif 
         {{-- Display existing comments --}}
         @if ($space->comments)
         @if ($errors->has('profile'))
@@ -65,6 +65,7 @@
                             (Auth::check() && Auth::user()->isAdmin(Auth::user())))
                         <button id="editComment{{ $comment->id }}" onclick="editComment({{ $comment->id }})"
                             class="button-comment">&#9998;
+                            
                             <div id="text-config"><i id="text-icon" class="pencil"></i></div>
                         </button>
                         <button id="deleteComment{{ $comment->id }}" onclick="deleteComment({{ $comment->id }})"

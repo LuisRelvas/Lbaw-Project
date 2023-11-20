@@ -30,6 +30,7 @@ class CommentController extends Controller
         $this->authorize('edit', $comment);
         $comment->content = $request->input('content');
         $comment->save();
+        return redirect('/space/'.$request->space_id)->withSuccess('Comment edited successfully!');
     }
 
     public function delete($id)
