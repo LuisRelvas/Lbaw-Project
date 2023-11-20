@@ -1,13 +1,6 @@
 <?php $__env->startSection('content'); ?>
-<div id="login-registerContent">
-<div id="welcomePhrase">
-    <p id="introText">Welcome to the world of Sports!</p>
-    <button id="toggleLoginForm">Join us!</button>
-</div>
-
-    <form id="loginForm" method="POST" action="<?php echo e(route('login')); ?>" style="display: none;">
+    <form id="loginForm" method="POST" action="<?php echo e(route('login')); ?>">
         <?php echo e(csrf_field()); ?>
-
 
         <label for="email">E-mail</label>
         <input id="email" type="email" name="email" value="<?php echo e(old('email')); ?>" required autofocus>
