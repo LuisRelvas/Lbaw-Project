@@ -1,0 +1,31 @@
+/* ------ Admin Panel ------- */
+
+.adminsearch {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #add8e6;
+  padding: 1em;
+  margin: 1em;
+  grid-template-columns: 1fr auto auto;
+}
+
+.adminsearch #search {
+    background-color: #fff;
+}
+
+/* ------- Results ------- */
+
+
+#results-users, #results-spaces { /* @ username */
+    font-weight: bold;
+    color: #007bff; 
+}
+
+#results-users a, #results-spaces a { /* Name */
+    font-size: 14px; 
+    color: black; 
+    text-decoration: underline;
+}
