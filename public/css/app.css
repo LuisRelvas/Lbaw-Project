@@ -242,3 +242,17 @@ mark.hub {
   padding: 2px 5px; /* Adjust padding as needed */
 }
 
+.error{
+  color: red;
+  font-weight: bold;
+}
+
+.success{
+  color: green;
+  font-weight: bold;
+}
+
+.no_results{
+  color: red;
+  font-weight: bold;
+}
