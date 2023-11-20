@@ -49,7 +49,7 @@
                 <div id="comment{{ $comment->id }}" class="comment">
                     <div class="comment-user">
                         <p><a href="/profile/{{ $comment->author_id }}">{{ $comment->username }}</a></p>
-                    </>
+                    </div>
                     <div class="commentcontent">{{ $comment->content }}</div>
 
                     {{-- Add delete and edit options for comments if needed --}}
@@ -73,7 +73,4 @@
             @endforeach
         @endif
     </div>
-
-
-
 @endsection
