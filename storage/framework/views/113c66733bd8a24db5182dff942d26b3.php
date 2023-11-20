@@ -43,22 +43,7 @@
         <?php endif; ?>
     </form>
 
-    <script>
-        document.getElementById('toggleLoginForm').addEventListener('click', function() {
-    var form = document.getElementById('loginForm');
-    var introText = document.getElementById('introText');
-    var button = document.getElementById('toggleLoginForm');
-    if (form.style.display === "none") {
-        form.style.display = "block";
-        introText.style.display = "none";
-        button.style.display = "none"; // Hide the button
-    } else {
-        form.style.display = "none";
-        introText.style.display = "block";
-        button.style.display = "block"; // Show the button
-    }
-});
-    </script>
+    
     </div>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/eamachado/lbaw2372/resources/views/auth/login.blade.php ENDPATH**/ ?>
