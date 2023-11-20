@@ -1,104 +1,94 @@
 /* ------ Sidebar ------ */
 
 .sidebar {
-    width: 250px; /* Adjust the width of the sidebar as needed */
-    background-color: #124347;
-    color: #fff;
-    padding: 1em;
-    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for a visual effect */
-    margin: 1em;
-    border-radius: 5px;
+  width: 250px;
+  background-color: #124347;
+  color: #fff;
+  padding: 1em;
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 
-/* Optional: Style for the links in the sidebar */
 .sidebar a {
-    color: #fff;
-    text-decoration: none;
-    padding: 0.5em;
-    display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5em;
+  display: block;
 }
 
-/* Optional: Hover effect for the links in the sidebar */
 .sidebar a:hover {
-    background-color: grey;
+  background-color: grey;
 }
 
 /* ------ Searchbar ------ */
 
 .searchbar {
-    width: 250px; /* Adjust the width of the sidebar as needed */
-    border-radius: 5px;
-    background-color: #124347;
-    right:0;
-    color: #fff;
-    padding: 1em;
-    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for a visual effect */
-    margin: 1em;
+  width: 250px;
+  border-radius: 5px;
+  background-color: #124347;
+  right: 0;
+  color: #fff;
+  padding: 1em;
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+  margin: 1em;
 }
 
-/* Optional: Style for the links in the sidebar */
 .searchbar a {
-    color: #fff;
-    text-decoration: none;
-    padding: 0.5em;
-    display: block;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5em;
+  display: block;
 }
 
 /* Add this to your CSS file */
 .label-color {
-    color: whiTE; /* Replace with your desired color */
-    font-weight: bold;
-    font-size: 1em;
+  color: whiTE;
+  font-weight: bold;
+  font-size: 1em;
 }
-
 
 /* ------ Spaces in Home ------ */
 
 .card-header {
-    font-weight: bold; /* Replace 'Your Desired Font' with the actual font you want to use */
-    color: black; /* Replace #ff9900 with the desired color code */
-    font-size: 1.5em; /* Adjust the font size as needed */
+  font-weight: bold;
+  color: black;
+  font-size: 1.5em;
 }
 
 .card-body ul li a:hover {
-    font-weight: bold;
+  font-weight: bold;
 }
 
-/* Add these styles to your CSS file */
-
 .card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
-    text-decoration: none;
-    color: #333;
-    display: block;
-    transition: box-shadow 0.3s ease-in-out;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  color: #333;
+  display: block;
+  transition: box-shadow 0.3s ease-in-out;
 }
 
 .card:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .card-body {
-    font-size: 16px;
+  font-size: 16px;
 }
 
-/* Adjust styles as needed for your design */
-
-/* Assuming the ul has a class of 'card-list' */
 .card-list {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .card-list li {
-    margin: 0;
+  margin: 0;
 }

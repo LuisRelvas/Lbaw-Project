@@ -17,6 +17,7 @@
         <link href="{{ url('css/home.css') }}" rel="stylesheet">
         <link href="{{ url('css/space.page.css') }}" rel="stylesheet">
         <link href="{{ url('css/register-login.css') }}" rel="stylesheet">
+        <link href="{{ url('css/admin.css') }}" rel="stylesheet">
         <script type="text/javascript">
             // Fix for Firefox autofocus CSS bug
             // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951

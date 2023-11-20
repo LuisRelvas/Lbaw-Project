@@ -242,7 +242,7 @@ function editComment(id) {
   // Transform the content into a textbox
   let textarea = document.createElement('textarea');
   textarea.type = 'textbox';
-  textarea.className = 'commentcontent';
+  textarea.className = 'content';
   textarea.value = originalContent;
   content.innerHTML = ''; // Clear the content
   content.appendChild(textarea);
