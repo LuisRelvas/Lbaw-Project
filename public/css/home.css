@@ -23,6 +23,7 @@
 /* ------ Searchbar ------ */
 
 .searchbar {
+  
   width: 250px;
   border-radius: 5px;
   background-color: #124347;
@@ -30,7 +31,7 @@
   color: #fff;
   padding: 1em;
   box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
-  margin: 1em;
+  margin: 0;
 }
 
 .searchbar a {
