@@ -31,7 +31,9 @@ class UserController extends Controller {
             $user = User::findOrFail($id);
             if($user->is_public == 1)
             {
-                return redirect('/homepage');
+                return back()->withErrors([
+                    'profile' => 'The provided profile is private.'
+                ]);
             }
             else{
             return view('pages.user', [
@@ -62,13 +64,13 @@ public function editUser()
          'user_id1' => Auth::user()->id,
          'user_id2' => $id,
      ]);
-     return redirect('/profile/'.$id);
+     return redirect('/profile/'.$id)->withSuccess('Followed successfully!');
  }
 
  public function unfollow(Request $request, $id) {
     $this->authorize('unfollow', User::class);
     Follow::where('user_id1', Auth::user()->id)->where('user_id2', $id)->delete();
-    return redirect('/profile/'.$id);
+    return redirect('/profile/'.$id)->withSuccess('Unfollowed successfully!');
 }
 
 public function edit(Request $request) 
@@ -94,7 +96,7 @@ public function edit(Request $request)
             $user->password = $request->password;
          }
         $user->save();
-        return redirect('/profile/'.$user->id);
+        return redirect('/profile/'.$user->id)->withSuccess('User edited successfully!');
     }
     else{
     $user = Auth::user();
@@ -124,7 +126,7 @@ public function edit(Request $request)
     }
     $user->password = $request->password;
     $user->save();
-    return redirect('/profile/'.$user->id);}
+    return redirect('/profile/'.$user->id)->withSuccess('User edited successfully!');}
 
 }
 
@@ -136,7 +138,7 @@ public function delete(Request $request, $id)
 
         // Delete the user and return it as JSON.
         $user->delete();
-
+        redirect('/homepage')->withSuccess('User deleted successfully!');
         return response()->json($user);
     }
 

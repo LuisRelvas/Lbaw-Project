@@ -14,7 +14,6 @@
         <div class="username">
             <p>@ {{ $user->username }}</p>
         </div>
-
         @if (Auth::check())
             @if ($user->id == Auth::User()->id || Auth::User()->isAdmin(Auth::User()))
                 <div class="button-container"><a class="button" href="/profile/{{ $user->id }}/editUser">Edit Profile</a>
@@ -52,8 +51,13 @@
                     </form>
                 @endif
             @endif
+            
         @endif
-        
+        @if (session('success'))
+                <p class="success">
+                    {{ session('success') }}
+                </p>
+        @endif
         </article>
 
     @endsection

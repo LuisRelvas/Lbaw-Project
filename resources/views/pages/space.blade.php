@@ -40,9 +40,18 @@
                 <button type="submit">Submit</button>
             </form>
         @endif
-
+        @if (session('success'))
+                <p class="success">
+                    {{ session('success') }}
+                </p>
+            @endif 
         {{-- Display existing comments --}}
         @if ($space->comments)
+        @if ($errors->has('profile'))
+            <span class="error">
+                {{ $errors->first('profile') }}
+            </span>
+        @endif
             @foreach ($space->comments as $comment)
                 <div id="comment{{ $comment->id }}" class="comment">
                     <div class="comment-user">

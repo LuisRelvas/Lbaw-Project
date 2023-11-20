@@ -21,7 +21,7 @@ class CommentController extends Controller
         $comment->content = $request->content;
         $comment->date = date('Y-m-d H:i');
         $comment->save();
-        return redirect('/space/'.$request->space_id);
+        return redirect('/space/'.$request->space_id)->withSuccess('Comment created successfully!');
     }
 
     public function edit(Request $request)
@@ -42,7 +42,7 @@ class CommentController extends Controller
         }
 
         $comment->delete();
-
+        redirect('/space/'.$comment->space_id)->withSuccess('Comment deleted successfully!');
         return response()->json(['message' => 'Comment deleted successfully']);
     }
   

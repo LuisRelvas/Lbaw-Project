@@ -1,6 +1,7 @@
 <?php 
 
 namespace App\Http\Controllers;
+use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -21,7 +22,9 @@ class SpaceController extends Controller
         ]);
     }
     else {
-        return redirect('/homepage');
+        return back()->withErrors([
+            'profile' => 'The provided space is private.'
+        ]);
      }
   }
 
@@ -67,7 +70,7 @@ class SpaceController extends Controller
       $space->date = date('Y-m-d H:i');
       $space->is_public = null !== $request->input('public');
       $space->save();
-      return redirect('/homepage');
+      return redirect('/homepage')->withSuccess('Space created successfully!');
     }
 
     public function delete($id)
@@ -82,8 +85,8 @@ class SpaceController extends Controller
         $space->delete();
 
         return response()->json([
-            'message' => 'Space deleted successfully',
-            'isAdmin' => Auth::user()->isAdmin(Auth::user())
+            'isAdmin' => Auth::user()->isAdmin(Auth::user()),
+            redirect('/homepage')->withSuccess('Space deleted successfully!')
         ]);    
     }
 

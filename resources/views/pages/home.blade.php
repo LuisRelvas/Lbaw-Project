@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <main class="flex-container">
+
+<main class="flex-container">
         @if (Auth::check())
             <div class="sidebar">
                 <!-- Sidebar content -->
@@ -23,6 +24,16 @@
         @endif
 
         <div class="content">
+        @if ($errors->has('profile'))
+            <span class="error">
+                {{ $errors->first('profile') }}
+            </span>
+        @endif
+        @if (session('success'))
+                <p class="success">
+                    {{ session('success') }}
+                </p>
+        @endif
             <div class="card-header">{{ __('Public Spaces') }}</div>
             <div class="card-body">
                 <ul class="card-list">
@@ -56,6 +67,11 @@
         <div class="searchbar">
             @if (Auth::check())
                 @include('partials.addSpace')
+                @if (session('success'))
+                <p class="success">
+                    {{ session('success') }}
+                </p>
+            @endif
             @endif
             <input type="text" id="search" placeholder="Search..." style="color: white;">
             <div id="results-users"></div>

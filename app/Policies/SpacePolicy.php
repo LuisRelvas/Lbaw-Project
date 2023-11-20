@@ -14,7 +14,7 @@ class SpacePolicy
 
     public function show(User $user)
     {
-        return ((Auth::user()->isAdmin(Auth::user())));
+        return true;
     }
     public function add(User $user) 
     {

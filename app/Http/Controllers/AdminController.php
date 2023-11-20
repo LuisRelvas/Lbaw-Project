@@ -21,7 +21,7 @@ class AdminController extends Controller
     {
         $this->authorize('block', Admin::class);
         Block::insert(['user_id' => $request->id]);
-        return redirect('/profile/'.$request->id);
+        return redirect('/profile/'.$request->id)->withSuccess('User blocked successfully!');
 
     }
 
@@ -29,7 +29,7 @@ class AdminController extends Controller
     {
         $this->authorize('unblock', Admin::class);
         Block::where(['user_id' => $request->id])->delete();
-        return redirect('/profile/'.$request->id);
+        return redirect('/profile/'.$request->id)->withSuccess('User unblocked successfully!');
     }
 
 }

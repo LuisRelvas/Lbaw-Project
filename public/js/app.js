@@ -294,26 +294,6 @@ if (search_bar) {
 }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  var form = document.getElementById('loginForm');
-  var introText = document.getElementById('introText');
-  var button = document.getElementById('toggleLoginForm');
-
-  if (button) {
-      button.addEventListener('click', function() {
-          if (form.style.display === "none") {
-              form.style.display = "block";
-              introText.style.display = "none";
-              button.style.display = "none"; // Hide the button
-          } else {
-              form.style.display = "none";
-              introText.style.display = "block";
-              button.style.display = "block"; // Show the button
-          }
-      });
-  }
-});
-
 function handleSearchButtonClick() {
   const searchInput = document.querySelector("#search").value;
   search(searchInput);
