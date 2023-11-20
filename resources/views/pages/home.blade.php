@@ -2,25 +2,25 @@
 
 @section('content')
     <main class="flex-container">
-    @if (Auth::check())
-    <div class="sidebar">
-        <!-- Sidebar content -->
-        <a href="#">Home</a>
-        <a href="{{ url('/search') }}">Explore</a>
-        <a href="{{ url('/profile/' . Auth::user()->id) }}">Profile</a>
-        <a href="#">Notifications</a>
-        <a href="#">Settings</a>
-    </div>
-    @else
-    <div class="sidebar">
-        <!-- Sidebar content -->
-        <a href="{{ url('/login') }}">Home</a>
-        <a href="{{ url('/login') }}">Explore</a>
-        <a href="{{ url('/login') }}">Profile</a>
-        <a href="{{ url('/login') }}">Notifications</a>
-        <a href="{{ url('/login') }}">Settings</a>
-    </div>
-    @endif
+        @if (Auth::check())
+            <div class="sidebar">
+                <!-- Sidebar content -->
+                <a href="#">Home</a>
+                <a href="{{ url('/search') }}">Explore</a>
+                <a href="{{ url('/profile/' . Auth::user()->id) }}">Profile</a>
+                <a href="#">Notifications</a>
+                <a href="#">Settings</a>
+            </div>
+        @else
+            <div class="sidebar">
+                <!-- Sidebar content -->
+                <a href="{{ url('/login') }}">Home</a>
+                <a href="{{ url('/login') }}">Explore</a>
+                <a href="{{ url('/login') }}">Profile</a>
+                <a href="{{ url('/login') }}">Notifications</a>
+                <a href="{{ url('/login') }}">Settings</a>
+            </div>
+        @endif
 
         <div class="content">
             <div class="card-header">{{ __('Public Spaces') }}</div>
@@ -51,17 +51,17 @@
                         @endforeach
                     </ul>
                 </div>
+            @endif
         </div>
-        @endif
         <div class="searchbar">
-        @if (Auth::check())
-        @include('partials.addSpace')
-        @endif
-        <input type="text" id="search" placeholder="Search..." style="color: white;">
-        <div id="results-users"></div>
-        @if (Auth::check())
-        <div id="results-spaces"></div>
-        @endif
+            @if (Auth::check())
+                @include('partials.addSpace')
+            @endif
+            <input type="text" id="search" placeholder="Search..." style="color: white;">
+            <div id="results-users"></div>
+            @if (Auth::check())
+                <div id="results-spaces"></div>
+            @endif
         </div>
     </main>
 @endsection
