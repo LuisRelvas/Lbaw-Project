@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div id="loginContent">
+<div id="login-registerContent">
 <div id="welcomePhrase">
     <p id="introText">Welcome to the world of Sports!</p>
     <button id="toggleLoginForm">Join us!</button>
@@ -41,6 +41,6 @@
         @endif
     </form>
 
-    
+
     </div>
 @endsection

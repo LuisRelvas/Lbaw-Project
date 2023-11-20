@@ -26,6 +26,6 @@
 
 #results-users a, #results-spaces a { /* Name */
     font-size: 14px; 
-    color: black; 
+    color: #007bff; 
     text-decoration: underline;
 }
