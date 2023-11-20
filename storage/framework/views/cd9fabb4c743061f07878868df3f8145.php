@@ -1,24 +1,24 @@
 <?php $__env->startSection('content'); ?>
     <main class="flex-container">
-    <?php if(Auth::check()): ?>
-    <div class="sidebar">
-        <!-- Sidebar content -->
-        <a href="#">Home</a>
-        <a href="<?php echo e(url('/search')); ?>">Explore</a>
-        <a href="<?php echo e(url('/profile/' . Auth::user()->id)); ?>">Profile</a>
-        <a href="#">Notifications</a>
-        <a href="#">Settings</a>
-    </div>
-    <?php else: ?>
-    <div class="sidebar">
-        <!-- Sidebar content -->
-        <a href="<?php echo e(url('/login')); ?>">Home</a>
-        <a href="<?php echo e(url('/login')); ?>">Explore</a>
-        <a href="<?php echo e(url('/login')); ?>">Profile</a>
-        <a href="<?php echo e(url('/login')); ?>">Notifications</a>
-        <a href="<?php echo e(url('/login')); ?>">Settings</a>
-    </div>
-    <?php endif; ?>
+        <?php if(Auth::check()): ?>
+            <div class="sidebar">
+                <!-- Sidebar content -->
+                <a href="#">Home</a>
+                <a href="<?php echo e(url('/search')); ?>">Explore</a>
+                <a href="<?php echo e(url('/profile/' . Auth::user()->id)); ?>">Profile</a>
+                <a href="#">Notifications</a>
+                <a href="#">Settings</a>
+            </div>
+        <?php else: ?>
+            <div class="sidebar">
+                <!-- Sidebar content -->
+                <a href="<?php echo e(url('/login')); ?>">Home</a>
+                <a href="<?php echo e(url('/login')); ?>">Explore</a>
+                <a href="<?php echo e(url('/login')); ?>">Profile</a>
+                <a href="<?php echo e(url('/login')); ?>">Notifications</a>
+                <a href="<?php echo e(url('/login')); ?>">Settings</a>
+            </div>
+        <?php endif; ?>
 
         <div class="content">
             <div class="card-header"><?php echo e(__('Public Spaces')); ?></div>
@@ -49,17 +49,17 @@
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </ul>
                 </div>
+            <?php endif; ?>
         </div>
-        <?php endif; ?>
         <div class="searchbar">
-        <?php if(Auth::check()): ?>
-        <?php echo $__env->make('partials.addSpace', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-        <?php endif; ?>
-        <input type="text" id="search" placeholder="Search..." style="color: white;">
-        <div id="results-users"></div>
-        <?php if(Auth::check()): ?>
-        <div id="results-spaces"></div>
-        <?php endif; ?>
+            <?php if(Auth::check()): ?>
+                <?php echo $__env->make('partials.addSpace', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <?php endif; ?>
+            <input type="text" id="search" placeholder="Search..." style="color: white;">
+            <div id="results-users"></div>
+            <?php if(Auth::check()): ?>
+                <div id="results-spaces"></div>
+            <?php endif; ?>
         </div>
     </main>
 <?php $__env->stopSection(); ?>

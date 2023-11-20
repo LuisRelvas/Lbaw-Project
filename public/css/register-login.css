@@ -17,7 +17,7 @@
     margin-top: 1em; /* Optional: add some space above the button */
 }
 
-#loginContent {
+#login-registerContent {
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -25,11 +25,11 @@
     padding-top: 10vh; /* This makes the container take up the full viewport height */
 }
 
-#loginContent label {
+#login-registerContent label {
     font-weight: normal;
 }
 
-#loginContent > form {
+#login-registerContent > form {
     margin: 0 auto;
     padding: 1em;
     min-width: 40em;
@@ -38,26 +38,26 @@
     border-radius: 5px;
 }
 
-#loginContent > form .error {
+#login-registerContent > form .error {
     font-weight: bold;
     color: #ff3333;
 }
 
-#loginContent > form .success {
+#login-registerContent > form .success {
     font-weight: bold;
     color: #106af1;
 }
 
-#loginContent > form input {
+#login-registerContent > form input {
     background-color: white;
 }
 
-#loginContent form {
+#login-registerContent form {
     margin: 0;
     max-width: 35em;
 }
 
-#loginContent > form label {
+#login-registerContent > form label {
     color: #000000; /* New text color */
 }
 

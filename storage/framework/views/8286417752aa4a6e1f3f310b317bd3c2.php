@@ -1,4 +1,5 @@
 <?php $__env->startSection('content'); ?>
+<div id="login-registerContent">
     <form method="POST" action="<?php echo e(route('register')); ?>">
         <?php echo e(csrf_field()); ?>
 
@@ -47,6 +48,7 @@
         </button>
         <a class="button" href="<?php echo e(route('login')); ?>">Login</a>
     </form>
+    </div>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /Users/eamachado/lbaw2372/resources/views/auth/register.blade.php ENDPATH**/ ?>
