@@ -57,6 +57,8 @@ class SpaceController extends Controller
         $space->content = $request->input('content');
         $space->is_public = $request->input('is_public', false);
         $space->save();
+        return redirect('/space/'.$request->space_id)->withSuccess('Space edited successfully!');
+
     }
 
 
@@ -105,6 +107,9 @@ public function search(Request $request)
 
     return view('partials.searchSpace', compact('spaces'))->render();
 }
+
+
+
 
 
 }

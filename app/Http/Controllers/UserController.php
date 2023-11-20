@@ -156,6 +156,7 @@ public function search(Request $request) {
         return view('partials.searchUser', compact('users'))->render();
     }
 
+
 }
 
 ?> 

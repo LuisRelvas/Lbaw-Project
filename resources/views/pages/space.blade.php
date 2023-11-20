@@ -4,6 +4,7 @@
     @php
         $user = \App\Models\User::findOrFail($space->user_id);
     @endphp
+    
     <div id="space{{ $space->id }}" data-space-id="{{ $space->id }}" class="space-card">
         <span class="dot"></span>
         <div class="spaceauthor"><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></div>
@@ -25,6 +26,11 @@
             <div><i class="cross"></i> </div>
         </button>
     @endif
+    @if (session('success'))
+            <p class="success">
+                {{ session('success') }}
+            </p>
+        @endif 
     </div>
 
     <div class="comment-card">
@@ -32,7 +38,7 @@
         <h4>Comments</h4>
 
         {{-- Add a form for submitting comments --}}
-        @if (Auth::check())
+        @if (Auth::check() && !Auth::user()->isAdmin(Auth::user()))
             <form method="POST" action="/comment/create">
                 @csrf
                 <input type="hidden" name="space_id" value="{{ $space->id }}">
@@ -40,11 +46,6 @@
                 <button type="submit">Submit</button>
             </form>
         @endif
-        @if (session('success'))
-            <p class="success">
-                {{ session('success') }}
-            </p>
-        @endif 
         {{-- Display existing comments --}}
         @if ($space->comments)
         @if ($errors->has('profile'))

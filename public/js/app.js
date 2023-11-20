@@ -257,10 +257,15 @@ sendAjaxRequest(method, url, data, function(event) {
 
 
 async function getAPIResult(type, search) {
-  const query = '../api/' + type + '?search=' + search
-  const response = await fetch(query)
-  return response.text()
+  // Use a regular expression to allow only letters and numbers
+  const sanitizedSearch = search.replace(/[^a-zA-Z0-9]/g, '');
+
+  const query = `../api/${type}?search=${sanitizedSearch}`;
+  const response = await fetch(query);
+
+  return response.text();
 }
+
 
 function updateTotal(quantity, id) {
 let statistic = document.getElementById(id)
