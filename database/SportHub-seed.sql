@@ -933,10 +933,53 @@ FOR EACH ROW
 EXECUTE PROCEDURE verify_comment_restrictions();
 
 
+INSERT INTO users (username, name, email, password, is_public) VALUES ('luisvrelvas','luis','luisrelvas@netcabo.pt','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',false);
+INSERT INTO users (username,name,email,password,is_public) VALUES('eduardomachado','eduardo','eduardo@gmail.com','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',false);
+INSERT INTO users (username,name,email,password,is_public) VALUES('joaoguedes','joao','joao@gmail.com','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',false);
+INSERT INTO users(username,name,email,password,is_public) VALUES('carlosoliveira','carlos','carlos@gmail.com','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',false);
+
+INSERT INTO users(username,name,email,password,is_public) VALUES('joaopereira','joao','joaopereira@gmail.com','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',false);
+INSERT INTO users(username,name,email,password,is_public) VALUES('mariajoao','maria','maria@gmail.com','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',true);
+INSERT INTO users(username,name,email,password,is_public) VALUES('luisamaria','luisa','luisa@gmail.com','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',true);
+INSERT INTO users(username,name,email,password,is_public) VALUES('franciscaluisa','francisca','francisca@gmail.com','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',false);
+INSERT INTO users(username,name,email,password,is_public) VALUES('leonorponte','leonor','leonor@gmail.com','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',true);
+INSERT INTO users(username,name,email,password,is_public) VALUES('bernardoalmeida','bernardo','bernardo@gmail.com','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',false);
+INSERT INTO users(username,name,email,password,is_public) VALUES('miguelalmeida','miguel','miguel@gmail.com ','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',true);
+INSERT INTO users(username,name,email,password,is_public) VALUES('joaquimnunes','joaquim','joaquim@gmail.com','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',true);
 
 
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Look at Ronaldo goal',current_date,false,5,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Look at Pessi',current_date,false,5,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Did you see that Neymar is bald',current_date,false,5,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Taremi is taking the Penalty !',current_date,false,5,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Ronaldo is the best',current_date,false,6,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Ronaldo should have won the Ballon dOr',current_date,false,6,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Ronaldo is beautiful',current_date,false,6,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Benfica is going to spend millions in this season to finish in second',current_date,false,7,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Where is Roger-Ball?',current_date,false,7,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Ruben Amorim next season is on Manchester United',current_date,false,8,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Daniel Ramos got sacked! AHAHHAHAHHA AROUCAAAAA',current_date,false,8,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Who will win the Bwin league this season ?',current_date,false,9,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Will Hallaand Score more goals than Mbappe this season ?',current_date,false,9,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Will Ronaldo win the Asian Champions League this season ?',current_date,false,10,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Who will be the Top Scorer of Premier League this season ?',current_date,false,10,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Who will win the Champions League this season ?',current_date,false,10,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Who will win the Europa League this season ?',current_date,false,11,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Who will win the Euro 2024 ?',current_date,false,11,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Did you see Sergio Conceição Flash-Interview ? This guy is amazing ! PORTOOOOOO',current_date,false,11,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Did you see the Benfica losing at Reboleira?',current_date,false,12,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('What a goal from Gyokeres in Luz',current_date,false,12,null);
 
 
+INSERT INTO comment(space_id,author_id,username,content,date) VALUES(5,6,'mariajoao','Yes he is. Damn that power',current_date);
+INSERT INTO comment(space_id,author_id,username,content,date) VALUES(2,6,'mariajoao','What are you saying bro ?',current_date);
+INSERT INTO comment(space_id,author_id,username,content,date) VALUES(2,5,'joaopereira','Another Penalty Goal, this guy is horrible',current_date);
+INSERT INTO comment(space_id,author_id,username,content,date) VALUES(1,5,'joaopereira','Amazing goal',current_date);
+
+INSERT INTO admin(id) VALUES(1);
+INSERT INTO admin(id) VALUES(2);
+INSERT INTO admin(id) VALUES(3);
+INSERT INTO admin(id) VALUES(4);
 
 
 

@@ -13,7 +13,7 @@ class CommentController extends Controller
 {
     public function create(Request $request) 
     {
-
+        $this->authorize('create', Comment::class);
         $comment = new Comment();
         $comment->author_id = Auth::user()->id;
         $comment->space_id = $request->space_id;
@@ -27,14 +27,15 @@ class CommentController extends Controller
     public function edit(Request $request)
     {
         $comment = Comment::find($request->id);
+        $this->authorize('edit', $comment);
         $comment->content = $request->input('content');
         $comment->save();
-
     }
 
     public function delete($id)
     {
         $comment = Comment::find($id);
+        $this->authorize('delete', $comment);
 
         if (!$comment) {
             return response()->json(['error' => 'Comment not found'], 404);

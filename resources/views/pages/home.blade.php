@@ -46,13 +46,12 @@
             </div>
         </div>
         @endif
-
+        @if(Auth::check())
         <div class="searchbar">
             <input type="text" id="search" placeholder="Search...">
             <div id="results-users"></div>
             <div id="results-spaces"></div>
         </div>
-
-
+        @endif
     </main>
 @endsection

@@ -9,7 +9,7 @@
     </div>
 
     <div>
-        @if(Auth::check() && $space->user_id == Auth::user()->id || Auth::user()->isAdmin(Auth::user()))
+        @if(Auth::check() && $space->user_id == Auth::user()->id || Auth::check() && Auth::user()->isAdmin(Auth::user()))
         <a href="#" class="delete" onclick="deleteSpace({{$space->id}})">&#10761;</a>
         @endif
         <h3><a href="javascript:void(0);" onclick="editSpace({{$space->id}})"></a></h3>
@@ -31,7 +31,7 @@
                     <div class="content">{{ $comment->content }}</div>
                     
                     {{-- Add delete and edit options for comments if needed --}}
-                    @if(Auth::check() && $comment->author_id == Auth::user()->id || Auth::user()->isAdmin(Auth::user()))
+                    @if(Auth::check() && $comment->author_id == Auth::user()->id || Auth::check() && Auth::user()->isAdmin(Auth::user()))
                         <button id="editComment{{$comment->id}}" onclick="editComment({{$comment->id}})" class="button-comment">&#9998;
                             <h4 id="text-config"><i id="text-icon" class="pencil"></i></h4>
                         </button>
@@ -46,7 +46,7 @@
         @endif
     </div>
 
-    @if(Auth::check() && $space->user_id == Auth::user()->id || Auth::user()->isAdmin(Auth::user()))
+    @if(Auth::check() && $space->user_id == Auth::user()->id || Auth::check() && Auth::user()->isAdmin(Auth::user()))
         <button id="editSpace{{$space->id}}" onclick="editSpace({{$space->id}})" class="button-space-comment">&#9998;
             <h4 id="text-config"><i id="text-icon" class="pencil"></i></h4>
         </button>

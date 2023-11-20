@@ -13,11 +13,13 @@ class AdminController extends Controller
 {
     public function show()
     {  
+        $this->authorize('show', Admin::class);
         return view('pages.admin');
     }
 
     public function block(Request $request) 
     {
+        $this->authorize('block', Admin::class);
         Block::insert(['user_id' => $request->id]);
         return redirect('/profile/'.$request->id);
 
@@ -25,11 +27,10 @@ class AdminController extends Controller
 
     public function unblock(Request $request)
     {
+        $this->authorize('unblock', Admin::class);
         Block::where(['user_id' => $request->id])->delete();
         return redirect('/profile/'.$request->id);
     }
-
-
 
 }
 

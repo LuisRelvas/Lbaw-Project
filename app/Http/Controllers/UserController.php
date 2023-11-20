@@ -29,24 +29,35 @@ class UserController extends Controller {
         else
         {
             $user = User::findOrFail($id);
+            if($user->is_public == 1)
+            {
+                return redirect('/homepage');
+            }
+            else{
             return view('pages.user', [
                 'user' => $user,
-            ]);
+            ]);}
         }
     }
 
 
-public function editUser() : View
+public function editUser()
 {
+    $this->authorize('editUser', Auth::user());
+    if(Auth::check()){
     return view('pages.editUser',['user'=> Auth::user()->name,
                             Auth::user()->email,
                             Auth::user()->password
-]);
+    ]);}
+    else 
+    {
+        return redirect('/homepage');
+    }
 }
 
 
  public function follow(Request $request, $id) {
-    
+    $this->authorize('follow', User::class);
      Follow::insert([
          'user_id1' => Auth::user()->id,
          'user_id2' => $id,
@@ -55,12 +66,14 @@ public function editUser() : View
  }
 
  public function unfollow(Request $request, $id) {
+    $this->authorize('unfollow', User::class);
     Follow::where('user_id1', Auth::user()->id)->where('user_id2', $id)->delete();
     return redirect('/profile/'.$id);
 }
 
 public function edit(Request $request) 
 {   
+    $this->authorize('edit', User::class);
     if(Auth::user()->isAdmin(Auth::user()))
     {
         $user = User::find($request->input('user_id'));
@@ -114,7 +127,7 @@ public function edit(Request $request)
 
 public function delete(Request $request, $id)
     {
-        echo('the value of the id is: '.$id);
+        $this->authorize('delete', User::class);
         // Find the user.
         $user = User::find($id);
 

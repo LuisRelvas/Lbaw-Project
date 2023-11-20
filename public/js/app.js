@@ -182,9 +182,12 @@ function addEventListeners() {
   
     return new_item;
   }
-  function resetEditStateComment(id) {
+
+  
+    function resetEditStateComment(id) {
     let comment = document.querySelector("#comment" + id);
     let content = comment.querySelector(".content");
+    console.log(content);
   
     // Restore the original content
     content.textContent = content.dataset.originalContent;
@@ -213,9 +216,12 @@ function addEventListeners() {
     // Reset the edit state
     resetEditStateComment(id);
 }
+
   
   function editComment(id) {
     let comment = document.querySelector("#comment" + id);
+    console.log(id);
+    console.log(comment);
 
     if (!comment) {
         console.error("Comment element not found");
@@ -264,6 +270,8 @@ function addEventListeners() {
         id: id,
         content: updatedContent
       };
+      console.log('The value of data is',data);
+
 
       sendAjaxRequest('PUT', url, data, function (response) {
         // Reset the edit state

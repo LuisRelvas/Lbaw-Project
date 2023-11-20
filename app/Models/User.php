@@ -56,28 +56,24 @@ class User extends Authenticatable
     /**
      * Get the cards for a user.
      */
-    public function cards(): HasMany
-    {
-        return $this->hasMany(Card::class);
-    }
     public function visibleSpaces() {
         
         $own = Space::select('*')->where('space.user_id', '=', $this->id);
 
-        $noGroups = Space::select('space.*')
+        $null = Space::select('space.*')
             ->fromRaw('space,follows')
             ->where('follows.user_id2', '=', $this->id)
             ->whereColumn('follows.user_id1', '=', 'space.user_id')
             ->where('space.group_id', null);
 
 
-        $fromGroups = Space::select('space.*')
+        $group = Space::select('space.*')
             ->fromRaw('space,member')
             ->where('member.user_id', $this->id)
             ->whereColumn('space.group_id','member.group_id');
             
 
-        return $own->union($noGroups)->union($fromGroups)
+        return $own->union($null)->union($group)
             ->orderBy('date','desc');
     }
 
@@ -87,7 +83,24 @@ class User extends Authenticatable
 
     public function isAdmin(User $user) 
     {
-        return DB::table('admin')->where('id', Auth::id())->exists();
+        return count($this->hasOne(Admin::class,'id')->get());
+    }
+
+    public function isBlock()
+    {
+        return count($this->hasOne(Block::class,'id')->get());
+    }
+    public function hasSpaces() 
+    {
+        return $this->hasMany(Space::class,'user_id')->where('group_id',null)->orderBy('date','desc');
+    }
+    public function hasFollowers()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'user_id2', 'user_id1');
+    }
+    public function hasFollowings()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'user_id1', 'user_id2');
     }
     public function showFollows() 
     {

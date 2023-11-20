@@ -14,6 +14,8 @@ class SpaceController extends Controller
   public function show(int $id) : View
   {
       $space = Space::findOrFail($id);
+      $user = User::findOrFail($space->user_id);
+      $this->authorize('show', $user);
       return view('pages.space', [
           'space' => $space
       ]);
@@ -42,6 +44,7 @@ class SpaceController extends Controller
  
     public function edit(Request $request)
     {
+        $this->authorize('edit', Space::class);
         $space = Space::find($request->id);
         $space->content = $request->input('content');
         $space->is_public = $request->input('is_public', false); // Default to false if not provided
@@ -51,6 +54,7 @@ class SpaceController extends Controller
 
     public function add(Request $request)
     {
+    $this->authorize('add', Space::class);
     $space = new Space();
       $space->user_id = Auth::user()->id;
       $space->group_id = null;

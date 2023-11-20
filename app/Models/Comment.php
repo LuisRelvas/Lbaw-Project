@@ -27,7 +27,10 @@ class Comment extends Model
         return User::find($this->author_id);
     }
 
-
+    public function space() 
+    {
+        return Space::find($this->space_id)->get();
+    }
 }
 
 
