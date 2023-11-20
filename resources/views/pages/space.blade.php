@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+$user = \App\Models\User::findOrFail($space->user_id);
+@endphp
     <div id="space{{$space->id}}" data-space-id="{{$space->id}}">
-    <h1 class="spaceauthor">{{$space->user_id}}</h1>
+    <h1 class="spaceauthor"><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></h1>
         <main>
             <h1 class="spacecontent">{{ $space->content }}</h1>
         </main>

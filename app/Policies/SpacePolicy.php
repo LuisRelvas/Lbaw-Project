@@ -14,7 +14,7 @@ class SpacePolicy
 
     public function show(User $user)
     {
-        return Auth::check();
+        return ($user->is_public == 1);
     }
     public function add(User $user) 
     {

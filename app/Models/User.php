@@ -81,6 +81,13 @@ class User extends Authenticatable
         return Follow::where('user_id1', $this->id)->where('user_id2', $user->id)->exists();
     }
 
+    public function getUsername(int $space_id) 
+    {
+        $space = Space::findOrFail($space_id);
+        $user = User::findOrFail($space->user_id);
+        return $user->username;
+    }
+
     public function isAdmin(User $user) 
     {
         return count($this->hasOne(Admin::class,'id')->get());

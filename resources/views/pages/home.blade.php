@@ -42,16 +42,16 @@
                         <li><a href="/space/{{ $mine->id }}">{{ $mine->content }}</a></li>
                     @endforeach
                 </ul>
-                @include('partials.addSpace')
             </div>
         </div>
         @endif
         @if(Auth::check())
         <div class="searchbar">
+            @include('partials.addSpace')
+        @endif
             <input type="text" id="search" placeholder="Search...">
             <div id="results-users"></div>
             <div id="results-spaces"></div>
         </div>
-        @endif
     </main>
 @endsection

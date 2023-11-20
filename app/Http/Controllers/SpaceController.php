@@ -15,7 +15,6 @@ class SpaceController extends Controller
   {
       $space = Space::findOrFail($id);
       $user = User::findOrFail($space->user_id);
-      $this->authorize('show', $user);
       return view('pages.space', [
           'space' => $space
       ]);
@@ -83,10 +82,6 @@ class SpaceController extends Controller
         ]);    
     }
 
-    public function user()
-    {
-        return $this->belongsTo('App\User', 'username');
-    }
     public function searchPage() {
         $this->authorize('searchPage', User::class);
         return view('pages.search');
