@@ -83,7 +83,6 @@ class SpaceController extends Controller
     }
 
     public function searchPage() {
-        $this->authorize('searchPage', User::class);
         return view('pages.search');
 }
 public function search(Request $request) 

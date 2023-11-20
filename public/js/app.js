@@ -1,480 +1,476 @@
 function addEventListeners() {
-    let itemCheckers = document.querySelectorAll('article.card li.item input[type=checkbox]');
-    [].forEach.call(itemCheckers, function(checker) {
-      checker.addEventListener('change', sendItemUpdateRequest);
-    });
-  
-    let itemCreators = document.querySelectorAll('article.card form.new_item');
-    [].forEach.call(itemCreators, function(creator) {
-      creator.addEventListener('submit', sendCreateItemRequest);
-    });
-  
-    let itemDeleters = document.querySelectorAll('article.card li a.delete');
-    [].forEach.call(itemDeleters, function(deleter) {
-      deleter.addEventListener('click', sendDeleteItemRequest);
-    });
-  
-    let cardDeleters = document.querySelectorAll('article.card header a.delete');
-    [].forEach.call(cardDeleters, function(deleter) {
-      deleter.addEventListener('click', sendDeleteCardRequest);
-    });
-  
-    let cardCreator = document.querySelector('article.card form.new_card');
-    if (cardCreator != null)
-      cardCreator.addEventListener('submit', sendCreateCardRequest);
-  }
-  
-  function encodeForAjax(data) {
-    if (data == null) return null;
-    return Object.keys(data).map(function(k){
-      return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
-    }).join('&');
-  }
-  
-  function sendAjaxRequest(method, url, data, handler) {
-    let request = new XMLHttpRequest();
-  
-    request.open(method, url, true);
-    request.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
-    request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    request.addEventListener('load', handler);
-    request.send(encodeForAjax(data));
-  }
-  
-  function sendItemUpdateRequest() {
-    let item = this.closest('li.item');
-    let id = item.getAttribute('data-id');
-    let checked = item.querySelector('input[type=checkbox]').checked;
-  
-    sendAjaxRequest('space', '/api/item/' + id, {done: checked}, itemUpdatedHandler);
-  }
-  
-  function sendDeleteItemRequest() {
-    let id = this.closest('li.item').getAttribute('data-id');
-  
-    sendAjaxRequest('delete', '/api/item/' + id, null, itemDeletedHandler);
-  }
-  
-  function sendCreateItemRequest(event) {
-    let id = this.closest('article').getAttribute('data-id');
-    let description = this.querySelector('input[name=description]').value;
-  
-    if (description != '')
-      sendAjaxRequest('put', '/api/cards/' + id, {description: description}, itemAddedHandler);
-  
-    event.preventDefault();
-  }
-  
-  function sendDeleteCardRequest(event) {
-    let id = this.closest('article').getAttribute('data-id');
-  
-    sendAjaxRequest('delete', '/api/cards/' + id, null, cardDeletedHandler);
-  }
-  
-  
-  function sendCreateCardRequest(event) {
-    let name = this.querySelector('input[name=name]').value;
-  
-    if (name != '')
-      sendAjaxRequest('put', '/api/cards/', {name: name}, cardAddedHandler);
-  
-    event.preventDefault();
-  }
-  
-  function itemUpdatedHandler() {
-    let item = JSON.parse(this.responseText);
-    let element = document.querySelector('li.item[data-id="' + item.id + '"]');
-    let input = element.querySelector('input[type=checkbox]');
-    element.checked = item.done == "true";
-  }
-  
-  function itemAddedHandler() {
-    if (this.status != 200) window.location = '/';
-    let item = JSON.parse(this.responseText);
-  
-    // Create the new item
-    let new_item = createItem(item);
-  
-    // Insert the new item
-    let card = document.querySelector('article.card[data-id="' + item.card_id + '"]');
-    let form = card.querySelector('form.new_item');
-    form.previousElementSibling.append(new_item);
-  
-    // Reset the new item form
-    form.querySelector('[type=text]').value="";
-  }
+  let itemCheckers = document.querySelectorAll('article.card li.item input[type=checkbox]');
+  [].forEach.call(itemCheckers, function(checker) {
+    checker.addEventListener('change', sendItemUpdateRequest);
+  });
 
-
-  
-  function itemDeletedHandler() {
-    if (this.status != 200) window.location = '/';
-    let item = JSON.parse(this.responseText);
-    let element = document.querySelector('li.item[data-id="' + item.id + '"]');
-    element.remove();
-  }
-  
-  function cardDeletedHandler() {
-    if (this.status != 200) window.location = '/';
-    let card = JSON.parse(this.responseText);
-    let article = document.querySelector('article.card[data-id="'+ card.id + '"]');
-    article.remove();
-  }
-  
-  function cardAddedHandler() {
-    if (this.status != 200) window.location = '/';
-    let card = JSON.parse(this.responseText);
-  
-    // Create the new card
-    let new_card = createCard(card);
-  
-    // Reset the new card input
-    let form = document.querySelector('article.card form.new_card');
-    form.querySelector('[type=text]').value="";
-  
-    // Insert the new card
-    let article = form.parentElement;
-    let section = article.parentElement;
-    section.insertBefore(new_card, article);
-  
-    // Focus on adding an item to the new card
-    new_card.querySelector('[type=text]').focus();
-  }
-  
-  function createCard(card) {
-    let new_card = document.createElement('article');
-    new_card.classList.add('card');
-    new_card.setAttribute('data-id', card.id);
-    new_card.innerHTML = `
-  
-    <header>
-      <h2><a href="cards/${card.id}">${card.name}</a></h2>
-      <a href="#" class="delete">&#10761;</a>
-    </header>
-    <ul></ul>
-    <form class="new_item">
-      <input name="description" type="text">
-    </form>`;
-  
-    let creator = new_card.querySelector('form.new_item');
+  let itemCreators = document.querySelectorAll('article.card form.new_item');
+  [].forEach.call(itemCreators, function(creator) {
     creator.addEventListener('submit', sendCreateItemRequest);
-  
-    let deleter = new_card.querySelector('header a.delete');
+  });
+
+  let itemDeleters = document.querySelectorAll('article.card li a.delete');
+  [].forEach.call(itemDeleters, function(deleter) {
+    deleter.addEventListener('click', sendDeleteItemRequest);
+  });
+
+  let cardDeleters = document.querySelectorAll('article.card header a.delete');
+  [].forEach.call(cardDeleters, function(deleter) {
     deleter.addEventListener('click', sendDeleteCardRequest);
-  
-    return new_card;
-  }
+  });
 
-
-
-  
-  function createItem(item) {
-    let new_item = document.createElement('li');
-    new_item.classList.add('item');
-    new_item.setAttribute('data-id', item.id);
-    new_item.innerHTML = `
-    <label>
-      <input type="checkbox"> <span>${item.description}</span><a href="#" class="delete">&#10761;</a>
-    </label>
-    `;
-  
-    new_item.querySelector('input').addEventListener('change', sendItemUpdateRequest);
-    new_item.querySelector('a.delete').addEventListener('click', sendDeleteItemRequest);
-  
-    return new_item;
-  }
-
-  
-    function resetEditStateComment(id) {
-    let comment = document.querySelector("#comment" + id);
-    let content = comment.querySelector(".content");
-    console.log(content);
-  
-    // Restore the original content
-    content.textContent = content.dataset.originalContent;
-  
-    // Hide the cancel button
-    document.querySelector('#cancelEditComment' + id).style.visibility = 'hidden';
-  
-    // Change the button back to edit
-    let edit_button = document.querySelector("#editComment" + id);
-    let edit_button_icon = edit_button.querySelector("#text-icon");
-    edit_button_icon.classList.remove("fa-floppy-o");
-    edit_button_icon.classList.add("fa-pencil");
-  
-    // Restore the original onclick function
-    let button = document.querySelector('#editComment' + id);
-    button.onclick = function () {
-        editComment(id);
-    };
-  }
-
-  function cancelEditComment(id) {
-    let comment = document.querySelector("#comment" + id);
-    let content = comment.querySelector(".content");
-    // Restore the original content
-    content.textContent = content.dataset.originalContent;
-    // Reset the edit state
-    resetEditStateComment(id);
+  let cardCreator = document.querySelector('article.card form.new_card');
+  if (cardCreator != null)
+    cardCreator.addEventListener('submit', sendCreateCardRequest);
 }
 
-  
-  function editComment(id) {
-    let comment = document.querySelector("#comment" + id);
-    console.log(id);
-    console.log(comment);
+function encodeForAjax(data) {
+  if (data == null) return null;
+  return Object.keys(data).map(function(k){
+    return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
+  }).join('&');
+}
 
-    if (!comment) {
-        console.error("Comment element not found");
-        return;
-    }
+function sendAjaxRequest(method, url, data, handler) {
+  let request = new XMLHttpRequest();
 
-    let content = comment.querySelector(".content");
+  request.open(method, url, true);
+  request.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
+  request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  request.addEventListener('load', handler);
+  request.send(encodeForAjax(data));
+}
 
-    if (!content) {
-        console.error("Content element not found within the comment element");
-        return;
-    }
+function sendItemUpdateRequest() {
+  let item = this.closest('li.item');
+  let id = item.getAttribute('data-id');
+  let checked = item.querySelector('input[type=checkbox]').checked;
 
-    // Save the original content for cancel action
-    let originalContent = content.textContent.trim();
-    content.dataset.originalContent = originalContent;
+  sendAjaxRequest('space', '/api/item/' + id, {done: checked}, itemUpdatedHandler);
+}
 
-    // Transform the content into a textbox
-    let textarea = document.createElement('textarea');
-    textarea.type = 'textbox';
-    textarea.className = 'commentcontent';
-    textarea.value = originalContent;
-    content.innerHTML = ''; // Clear the content
-    content.appendChild(textarea);
+function sendDeleteItemRequest() {
+  let id = this.closest('li.item').getAttribute('data-id');
 
-    // Make the cancel button visible
-    document.querySelector('#cancelEditComment' + id).style.visibility = 'visible';
+  sendAjaxRequest('delete', '/api/item/' + id, null, itemDeletedHandler);
+}
 
-    // Change the edit button to a confirm button
-    let edit_button = document.querySelector("#editComment" + id);
-    let edit_button_icon = edit_button.querySelector("#text-icon");
-    edit_button_icon.classList.remove("fa-pencil");
-    edit_button_icon.classList.add("fa-floppy-o");
+function sendCreateItemRequest(event) {
+  let id = this.closest('article').getAttribute('data-id');
+  let description = this.querySelector('input[name=description]').value;
 
-    // Change the onclick of the button
-    let button = document.querySelector('#editComment' + id);
-    button.onclick = function () {
-      // Get the updated content
-      let updatedContent = textarea.value;
-      // Update the content on the page
-      content.innerHTML = updatedContent;
+  if (description != '')
+    sendAjaxRequest('put', '/api/cards/' + id, {description: description}, itemAddedHandler);
 
-      // Send an AJAX request to update the content on the server
-      let url = '/comment/edit'; // Replace with the actual server endpoint
-      let data = {
-        id: id,
-        content: updatedContent
-      };
-      console.log('The value of data is',data);
+  event.preventDefault();
+}
 
+function sendDeleteCardRequest(event) {
+  let id = this.closest('article').getAttribute('data-id');
 
-      sendAjaxRequest('PUT', url, data, function (response) {
-        // Reset the edit state
-        content.innerHTML = updatedContent;
-        content.dataset.originalContent = updatedContent;
-        console.log('Updated Content:', updatedContent);
-        resetEditStateComment(id);
-      });
-    };
-
+  sendAjaxRequest('delete', '/api/cards/' + id, null, cardDeletedHandler);
 }
 
 
-function resetEditState(id) {
-  let space = document.querySelector("#space" + id);
-  let main = space.querySelector("main");
+function sendCreateCardRequest(event) {
+  let name = this.querySelector('input[name=name]').value;
+
+  if (name != '')
+    sendAjaxRequest('put', '/api/cards/', {name: name}, cardAddedHandler);
+
+  event.preventDefault();
+}
+
+function itemUpdatedHandler() {
+  let item = JSON.parse(this.responseText);
+  let element = document.querySelector('li.item[data-id="' + item.id + '"]');
+  let input = element.querySelector('input[type=checkbox]');
+  element.checked = item.done == "true";
+}
+
+function itemAddedHandler() {
+  if (this.status != 200) window.location = '/';
+  let item = JSON.parse(this.responseText);
+
+  // Create the new item
+  let new_item = createItem(item);
+
+  // Insert the new item
+  let card = document.querySelector('article.card[data-id="' + item.card_id + '"]');
+  let form = card.querySelector('form.new_item');
+  form.previousElementSibling.append(new_item);
+
+  // Reset the new item form
+  form.querySelector('[type=text]').value="";
+}
+
+
+
+function itemDeletedHandler() {
+  if (this.status != 200) window.location = '/';
+  let item = JSON.parse(this.responseText);
+  let element = document.querySelector('li.item[data-id="' + item.id + '"]');
+  element.remove();
+}
+
+function cardDeletedHandler() {
+  if (this.status != 200) window.location = '/';
+  let card = JSON.parse(this.responseText);
+  let article = document.querySelector('article.card[data-id="'+ card.id + '"]');
+  article.remove();
+}
+
+function cardAddedHandler() {
+  if (this.status != 200) window.location = '/';
+  let card = JSON.parse(this.responseText);
+
+  // Create the new card
+  let new_card = createCard(card);
+
+  // Reset the new card input
+  let form = document.querySelector('article.card form.new_card');
+  form.querySelector('[type=text]').value="";
+
+  // Insert the new card
+  let article = form.parentElement;
+  let section = article.parentElement;
+  section.insertBefore(new_card, article);
+
+  // Focus on adding an item to the new card
+  new_card.querySelector('[type=text]').focus();
+}
+
+function createCard(card) {
+  let new_card = document.createElement('article');
+  new_card.classList.add('card');
+  new_card.setAttribute('data-id', card.id);
+  new_card.innerHTML = `
+
+  <header>
+    <h2><a href="cards/${card.id}">${card.name}</a></h2>
+    <a href="#" class="delete">&#10761;</a>
+  </header>
+  <ul></ul>
+  <form class="new_item">
+    <input name="description" type="text">
+  </form>`;
+
+  let creator = new_card.querySelector('form.new_item');
+  creator.addEventListener('submit', sendCreateItemRequest);
+
+  let deleter = new_card.querySelector('header a.delete');
+  deleter.addEventListener('click', sendDeleteCardRequest);
+
+  return new_card;
+}
+
+
+
+
+function createItem(item) {
+  let new_item = document.createElement('li');
+  new_item.classList.add('item');
+  new_item.setAttribute('data-id', item.id);
+  new_item.innerHTML = `
+  <label>
+    <input type="checkbox"> <span>${item.description}</span><a href="#" class="delete">&#10761;</a>
+  </label>
+  `;
+
+  new_item.querySelector('input').addEventListener('change', sendItemUpdateRequest);
+  new_item.querySelector('a.delete').addEventListener('click', sendDeleteItemRequest);
+
+  return new_item;
+}
+
+
+  function resetEditStateComment(id) {
+  let comment = document.querySelector("#comment" + id);
+  let content = comment.querySelector(".content");
+  console.log(content);
+
+  // Restore the original content
+  content.textContent = content.dataset.originalContent;
 
   // Hide the cancel button
-  document.querySelector('#cancelEditSpace' + id).style.visibility = 'hidden';
+  document.querySelector('#cancelEditComment' + id).style.visibility = 'hidden';
 
   // Change the button back to edit
-  let edit_button = document.querySelector("#editSpace" + id);
+  let edit_button = document.querySelector("#editComment" + id);
   let edit_button_icon = edit_button.querySelector("#text-icon");
   edit_button_icon.classList.remove("fa-floppy-o");
   edit_button_icon.classList.add("fa-pencil");
 
   // Restore the original onclick function
-  let button = document.querySelector('#editSpace' + id);
+  let button = document.querySelector('#editComment' + id);
   button.onclick = function () {
-    editSpace(id);
+      editComment(id);
   };
 }
 
-  function editSpace(id) {
-    let space = document.querySelector("#space" + id);
-
-    if (!space) {
-        console.error("Space element not found");
-        return;
-    }
-
-    let main = space.querySelector("main");
-
-    if (!main) {
-        console.error("Main element not found within the space element");
-        return;
-    }
-
-    // Save the original content for cancel action
-    let originalContent = main.textContent.trim();
-    main.dataset.originalContent = originalContent; 
-
-    // transformar o content numa caixa de texto
-    let textarea = document.createElement('textarea');
-    textarea.type = 'textbox';
-    textarea.className = 'spacecontent';
-    textarea.value = originalContent;
-    main.innerHTML = ''; // Clear the main content
-    main.appendChild(textarea);
-
-    // construção de uma checkbox com base no .innerHTML
-    document.querySelector('#cancelEditSpace' + id).style.visibility = 'visible';
-
-    // change button edit to confirm
-    let edit_button = document.querySelector("#editSpace" + id);
-    let edit_button_icon = edit_button.querySelector("#text-icon");
-    edit_button_icon.classList.remove("fa-pencil");
-    edit_button_icon.classList.add("fa-floppy-o");
-
-    // mudar o onclick do botão
-    let button = document.querySelector('#editSpace' + id);
-    button.onclick = function () {
-      // Get the updated content and visibility
-      let updatedContent = textarea.value;
-
-      // Send an AJAX request to update the content on the server
-      let url = '/space/{id}'; // Replace with the actual server endpoint
-      let data = {
-        id: id,
-        content: updatedContent
-      };
-
-      sendAjaxRequest('PUT', url, data, function (response) {
-        console.log('Updated Content:', updatedContent);
-        // Update the content on the page
-        main.innerHTML = updatedContent;
-        // Update the originalContent data attribute
-        main.dataset.originalContent = updatedContent;
-        // Reset the edit state
-        resetEditState(id);
-      });
-    };
-  }
-function cancelEditSpace(id) {
-  let space = document.querySelector("#space" + id);
-  let main = space.querySelector("main");
+function cancelEditComment(id) {
+  let comment = document.querySelector("#comment" + id);
+  let content = comment.querySelector(".content");
   // Restore the original content
-  main.textContent = main.dataset.originalContent;
+  content.textContent = content.dataset.originalContent;
   // Reset the edit state
-  resetEditState(id);
+  resetEditStateComment(id);
+}
+
+
+function editComment(id) {
+  let comment = document.querySelector("#comment" + id);
+  console.log(id);
+  console.log(comment);
+
+  if (!comment) {
+      console.error("Comment element not found");
+      return;
+  }
+
+  let content = comment.querySelector(".content");
+
+  if (!content) {
+      console.error("Content element not found within the comment element");
+      return;
+  }
+
+  // Save the original content for cancel action
+  let originalContent = content.textContent.trim();
+  content.dataset.originalContent = originalContent;
+
+  // Transform the content into a textbox
+  let textarea = document.createElement('textarea');
+  textarea.type = 'textbox';
+  textarea.className = 'commentcontent';
+  textarea.value = originalContent;
+  content.innerHTML = ''; // Clear the content
+  content.appendChild(textarea);
+
+  // Make the cancel button visible
+  document.querySelector('#cancelEditComment' + id).style.visibility = 'visible';
+
+  // Change the edit button to a confirm button
+  let edit_button = document.querySelector("#editComment" + id);
+  let edit_button_icon = edit_button.querySelector("#text-icon");
+  edit_button_icon.classList.remove("fa-pencil");
+  edit_button_icon.classList.add("fa-floppy-o");
+
+  // Change the onclick of the button
+  let button = document.querySelector('#editComment' + id);
+  button.onclick = function () {
+    // Get the updated content
+    let updatedContent = textarea.value;
+    // Update the content on the page
+    content.innerHTML = updatedContent;
+
+    // Send an AJAX request to update the content on the server
+    let url = '/comment/edit'; // Replace with the actual server endpoint
+    let data = {
+      id: id,
+      content: updatedContent
+    };
+    console.log('The value of data is',data);
+
+
+    sendAjaxRequest('PUT', url, data, function (response) {
+      // Reset the edit state
+      content.innerHTML = updatedContent;
+      content.dataset.originalContent = updatedContent;
+      console.log('Updated Content:', updatedContent);
+      resetEditStateComment(id);
+    });
+  };
+
+}
+
+
+function resetEditState(id) {
+let space = document.querySelector("#space" + id);
+let main = space.querySelector("main");
+
+// Hide the cancel button
+document.querySelector('#cancelEditSpace' + id).style.visibility = 'hidden';
+
+// Change the button back to edit
+let edit_button = document.querySelector("#editSpace" + id);
+let edit_button_icon = edit_button.querySelector("#text-icon");
+edit_button_icon.classList.remove("fa-floppy-o");
+edit_button_icon.classList.add("fa-pencil");
+
+// Restore the original onclick function
+let button = document.querySelector('#editSpace' + id);
+button.onclick = function () {
+  editSpace(id);
+};
+}
+
+function editSpace(id) {
+  let space = document.querySelector("#space" + id);
+
+  if (!space) {
+      console.error("Space element not found");
+      return;
+  }
+
+  let main = space.querySelector("main");
+
+  if (!main) {
+      console.error("Main element not found within the space element");
+      return;
+  }
+
+  // Save the original content for cancel action
+  let originalContent = main.textContent.trim();
+  main.dataset.originalContent = originalContent; 
+
+  // transformar o content numa caixa de texto
+  let textarea = document.createElement('textarea');
+  textarea.type = 'textbox';
+  textarea.className = 'spacecontent';
+  textarea.value = originalContent;
+  main.innerHTML = ''; // Clear the main content
+  main.appendChild(textarea);
+
+  // construção de uma checkbox com base no .innerHTML
+  document.querySelector('#cancelEditSpace' + id).style.visibility = 'visible';
+
+  // change button edit to confirm
+  let edit_button = document.querySelector("#editSpace" + id);
+  let edit_button_icon = edit_button.querySelector("#text-icon");
+  edit_button_icon.classList.remove("fa-pencil");
+  edit_button_icon.classList.add("fa-floppy-o");
+
+  // mudar o onclick do botão
+  let button = document.querySelector('#editSpace' + id);
+  button.onclick = function () {
+    // Get the updated content and visibility
+    let updatedContent = textarea.value;
+
+    // Send an AJAX request to update the content on the server
+    let url = '/space/{id}'; // Replace with the actual server endpoint
+    let data = {
+      id: id,
+      content: updatedContent
+    };
+
+    sendAjaxRequest('PUT', url, data, function (response) {
+      console.log('Updated Content:', updatedContent);
+      // Update the content on the page
+      main.innerHTML = updatedContent;
+      // Update the originalContent data attribute
+      main.dataset.originalContent = updatedContent;
+      // Reset the edit state
+      resetEditState(id);
+    });
+  };
+}
+function cancelEditSpace(id) {
+let space = document.querySelector("#space" + id);
+let main = space.querySelector("main");
+// Restore the original content
+main.textContent = main.dataset.originalContent;
+// Reset the edit state
+resetEditState(id);
 }
 
 function deleteSpace(id) {
-  if (!confirm('Are you sure you want to delete this space?')) {
-    return;
-  }
+if (!confirm('Are you sure you want to delete this space?')) {
+  return;
+}
 
-  var url = `/api/space/${id}`;
-  var method = 'DELETE';
-  var data = null; // No data to send for a DELETE request
+var url = `/api/space/${id}`;
+var method = 'DELETE';
+var data = null; // No data to send for a DELETE request
 
-  sendAjaxRequest(method, url, data, function(event) {
-    if (event.target.status === 200) {
-      var response = JSON.parse(event.target.responseText);
-      console.log(response); // Log the server response (optional)
-      
-      // Redirect to the appropriate URL based on whether the user is an admin
-      if (response.isAdmin) {
-        window.location.href = '/admin';
-      } else {
-        window.location.href = '/homepage';
-      }
+sendAjaxRequest(method, url, data, function(event) {
+  if (event.target.status === 200) {
+    var response = JSON.parse(event.target.responseText);
+    console.log(response); // Log the server response (optional)
+    
+    // Redirect to the appropriate URL based on whether the user is an admin
+    if (response.isAdmin) {
+      window.location.href = '/admin';
     } else {
-      console.error('Error:', event.target.status, event.target.statusText);
+      window.location.href = '/homepage';
     }
-  });
+  } else {
+    console.error('Error:', event.target.status, event.target.statusText);
+  }
+});
 }
 
 function deleteComment(id) {
-    if (!confirm('Are you sure you want to delete this comment?')) {
-        return;
-    }
-
-    var pathParts = window.location.pathname.split('/');
-    var spaceId = pathParts[pathParts.length - 1];
-    var url = `/api/comment/${id}`;
-    var method = 'DELETE';
-    var data = null; // No data to send for a DELETE request
-
-  sendAjaxRequest(method, url, data, function(event) {
-    if (event.target.status === 200) {
-      console.log(event.target.responseText); // Log the server response (optional)
-      
-      // Redirect to the back URL after successful deletion
-      window.location.href = '/space/' + spaceId;
-    } else {
-      console.error('Error:', event.target.status, event.target.statusText);
-    }
-  });
+  if (!confirm('Are you sure you want to delete this comment?')) {
+      return;
   }
 
+  var pathParts = window.location.pathname.split('/');
+  var spaceId = pathParts[pathParts.length - 1];
+  var url = `/api/comment/${id}`;
+  var method = 'DELETE';
+  var data = null; // No data to send for a DELETE request
 
-
-  async function getAPIResult(type, search) {
-    const query = '../api/' + type + '?search=' + search
-    const response = await fetch(query)
-    return response.text()
+sendAjaxRequest(method, url, data, function(event) {
+  if (event.target.status === 200) {
+    console.log(event.target.responseText); // Log the server response (optional)
+    
+    // Redirect to the back URL after successful deletion
+    window.location.href = '/space/' + spaceId;
+  } else {
+    console.error('Error:', event.target.status, event.target.statusText);
   }
+});
+}
+
+
+
+async function getAPIResult(type, search) {
+  const query = '../api/' + type + '?search=' + search
+  const response = await fetch(query)
+  return response.text()
+}
 
 function updateTotal(quantity, id) {
-  let statistic = document.getElementById(id)
-  if (statistic) {
-    statistic.innerHTML = statistic.innerHTML.replace(/\d+/g, quantity)
-  }
+let statistic = document.getElementById(id)
+if (statistic) {
+  statistic.innerHTML = statistic.innerHTML.replace(/\d+/g, quantity)
+}
 }
 
 
 async function search(input) {
-  document.querySelector('#results-spaces').innerHTML = await getAPIResult('space', input);
-  document.querySelector('#results-users').innerHTML = await getAPIResult('profile', input);
-  updateTotal((document.querySelector('#results-spaces').innerHTML.match(/<article/g) || []).length, 'spaceResults');
-  updateTotal((document.querySelector('#results-users').innerHTML.match(/<article/g) || []).length, 'userResults');
+document.querySelector('#results-users').innerHTML = await getAPIResult('profile', input);
+document.querySelector('#results-spaces').innerHTML = await getAPIResult('space', input);
+updateTotal((document.querySelector('#results-users').innerHTML.match(/<article/g) || []).length, 'userResults');
+updateTotal((document.querySelector('#results-spaces').innerHTML.match(/<article/g) || []).length, 'spaceResults');
+
 }
 
-
-
-
-
 function init() {
-  const search_bar = document.querySelector("#search");
-  if (search_bar) {
-      let initial_input = window.location.toString().match(/query=(.*)$/g);
-      if (initial_input != null) {
-          search_bar.value = decodeURIComponent(initial_input[0].replace('query=', ''));
-          search(search_bar.value.replace('#', ''));
-          search(input);
-      }
-      search_bar.addEventListener('input', function () {
-          let input = this.value.replace('#', '');
-          search(input);
-      });
-  }
+const search_bar = document.querySelector("#search");
+if (search_bar) {
+    let initial_input = window.location.toString().match(/query=(.*)$/g);
+    if (initial_input != null) {
+        search_bar.value = decodeURIComponent(initial_input[0].replace('query=', ''));
+        search(search_bar.value.replace('#', ''));
+        search(input);
+    }
+    search_bar.addEventListener('input', function () {
+        let input = this.value.replace('#', '');
+        search(input);
+    });
+}
 }
 
 
 
 function handleSearchButtonClick() {
-    const searchInput = document.querySelector("#search").value;
-    search(searchInput);
+  const searchInput = document.querySelector("#search").value;
+  search(searchInput);
 }
 
 init();
 
-  
-  addEventListeners();
-  
+
+addEventListeners();

@@ -53,9 +53,6 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    /**
-     * Get the cards for a user.
-     */
     public function visibleSpaces() {
         
         $own = Space::select('*')->where('space.user_id', '=', $this->id);

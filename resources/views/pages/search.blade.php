@@ -11,5 +11,6 @@
     <div class="tab-content">
         <section class="tab-pane" id="results-spaces" role="tabpanel"></section>
         <section class="tab-pane" id="results-users" role="tabpanel"></section>
+
     </div>
 @endsection

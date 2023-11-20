@@ -25,7 +25,10 @@ use App\Http\Controllers\Auth\RegisterController;
 // Home
 Route::redirect('/', '/login');
 
-// HomePage
+// Homepage
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/homepage/search', [UserController::class, 'searchPage'])->name('search');
+});
 
 Route::get('/homepage', function () {
     return view('pages.home');

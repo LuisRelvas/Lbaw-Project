@@ -138,13 +138,11 @@ public function delete(Request $request, $id)
     }
 
 public function searchPage() {
-        $this->authorize('searchPage', User::class);
         return view('pages.search');
 }
 
 public function search(Request $request) {
         
-    if (!Auth::check()) return null;
     $input = $request->get('search') ? $request->get('search').':*' : "*";
     $users = User::select('users.id', 'users.name', 'users.username')
     ->whereRaw("users.tsvectors @@ to_tsquery(?)", [$input])
