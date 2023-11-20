@@ -8,8 +8,6 @@
     box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for a visual effect */
     margin: 1em;
     border-radius: 5px;
-
-
 }
 
 /* Optional: Style for the links in the sidebar */
@@ -46,6 +44,14 @@
     display: block;
 }
 
+/* Add this to your CSS file */
+.label-color {
+    color: whiTE; /* Replace with your desired color */
+    font-weight: bold;
+    font-size: 1em;
+}
+
+
 /* ------ Spaces in Home ------ */
 
 .card-header {
@@ -54,21 +60,45 @@
     font-size: 1.5em; /* Adjust the font size as needed */
 }
 
-.card-body ul li a {
-    color: black;
-    text-decoration: underline;
-    transition: font-weight 0.3s ease; /* Add a smooth transition effect for the font-weight */
-}
-
 .card-body ul li a:hover {
     font-weight: bold;
 }
 
+/* Add these styles to your CSS file */
 
-/* Add this to your CSS file */
-.label-color {
-    color: black; /* Replace with your desired color */
-    font-weight: bold;
-    font-size: 1.5em;
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #333;
+    display: block;
+    transition: box-shadow 0.3s ease-in-out;
 }
 
+.card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-body {
+    font-size: 16px;
+}
+
+/* Adjust styles as needed for your design */
+
+/* Assuming the ul has a class of 'card-list' */
+.card-list {
+    list-style: none;
+    padding: 0;
+}
+
+.card-list li {
+    margin: 0;
+}
