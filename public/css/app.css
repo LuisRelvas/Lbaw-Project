@@ -129,14 +129,13 @@ main > header span {
     margin: 0;
     justify-self: center;
   }
-
 }
 
 .flex-container {
   display: flex;
   height: 100vh; /* Full height of the viewport */
 
-.content {
+  .content {
     margin-top: 20px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
@@ -144,13 +143,17 @@ main > header span {
     flex: 1;
     padding: 1em;
     box-sizing: border-box; /* Prevent adding borders to the width */
+    overflow: auto; /* Add a scrollbar when content overflows */
 }
 
-/* Additional styling for the main content */
-.content input, .content #results-users, .content .card-header, .content .card-body {
+  /* Additional styling for the main content */
+  .content input,
+  .content #results-users,
+  .content .card-header,
+  .content .card-body {
     margin-left: 0; /* Ensure content is to the right of the sidebar */
     padding: 1em;
-}
+  }
 
   #cards {
     display: grid;
@@ -173,7 +176,7 @@ main > header span {
   #cards article.card header a.delete {
     display: none;
     font-size: 2.6rem;
-    margin-top: .5rem;
+    margin-top: 0.5rem;
     margin-bottom: 2.5rem;
     line-height: 1.25;
   }
@@ -188,7 +191,7 @@ main > header span {
     align-items: baseline;
   }
   #cards article.card li label span {
-    margin-left: .5em;
+    margin-left: 0.5em;
     flex-grow: 1;
   }
   #cards article.card li label a {
@@ -224,7 +227,6 @@ button {
 a.button {
   background-color: black;
   border-color: #9b4dca;
-
 }
 
 mark.sport {
@@ -244,7 +246,3 @@ input[type="email"]:focus,
 input[type="password"]:focus {
   border-color: #9b4dca;
 }
-
-
-
-

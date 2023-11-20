@@ -27,10 +27,6 @@
   margin-top: 0;
 }
 
-button a {
-  color: white;
-}
-
 .dot {
   height: 50px;
   width: 50px;
@@ -39,5 +35,7 @@ button a {
   display: inline-block;
 }
 
-/* ------ EDIT USER ------ */
+.button-container {
+    display: flex;
+}
 
