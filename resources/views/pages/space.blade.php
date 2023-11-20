@@ -48,24 +48,22 @@
             @foreach ($space->comments as $comment)
                 <div id="comment{{ $comment->id }}" class="comment">
                     <div class="comment-user">
-                        <a href="/profile/{{ $comment->author_id }}">{{ $comment->username }}</a>
-                    </div>
-                    <div class="commentcontent">{{ $comment->content }}</div>
+                        <p><a href="/profile/{{ $comment->author_id }}">{{ $comment->username }}</a></p>
+                    </>
+                    <div class="content">{{ $comment->content }}</div>
 
                     {{-- Add delete and edit options for comments if needed --}}
                     @if (
                         (Auth::check() && $comment->author_id == Auth::user()->id) ||
                             (Auth::check() && Auth::user()->isAdmin(Auth::user())))
-                        <button id="deleteComment{{ $comment->id }}" onclick="deleteComment({{ $comment->id }})"
-                            class="button-comment">&#10761;
-                            <div><i class="cross"></i></div>
-                        </button>
-                        
                         <button id="editComment{{ $comment->id }}" onclick="editComment({{ $comment->id }})"
                             class="button-comment">&#9998;
                             <div id="text-config"><i id="text-icon" class="pencil"></i></div>
                         </button>
-                        
+                        <button id="deleteComment{{ $comment->id }}" onclick="deleteComment({{ $comment->id }})"
+                            class="button-comment">&#10761;
+                            <div><i class="cross"></i></div>
+                        </button>
                         <button id="cancelEditComment{{ $comment->id }}" onclick="cancelEditComment({{ $comment->id }})"
                             style="visibility:hidden;" class="button-comment">&#10761;
                             <div><i class="cross"></i>Edit</div>
