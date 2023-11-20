@@ -1,15 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div id="login-registerContent">
-<div id="welcomePhrase">
-    <p id="introText">Welcome to the world of Sports!</p>
-    <button id="toggleLoginForm">Join us!</button>
-</div>
-
-    <form id="loginForm" method="POST" action="{{ route('login') }}" style="display: none;">
+    <form id="loginForm" method="POST" action="{{ route('login') }}">
         {{ csrf_field() }}
-
         <label for="email">E-mail</label>
         <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus>
         @if ($errors->has('email'))

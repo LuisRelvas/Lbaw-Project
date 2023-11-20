@@ -2,19 +2,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full height of the viewport */
-    flex-direction: column; /* Stack the children vertically */
+    height: 100vh; 
+    flex-direction: column; 
     margin-top: -20vh;
 }
 
 #introText {
-    font-size: 4em; /* Increase the font size */
+    font-size: 4em; 
     color: black;
 }
 
 #toggleLoginForm {
-    display: block; /* Make the button start on a new line */
-    margin-top: 1em; /* Optional: add some space above the button */
+    display: block; 
+    margin-top: 1em;
 }
 
 #login-registerContent {
@@ -22,7 +22,7 @@
     justify-content: center;
     align-items: flex-start;
     height: 100vh;
-    padding-top: 10vh; /* This makes the container take up the full viewport height */
+    padding-top: 10vh; 
 }
 
 #login-registerContent label {
@@ -58,7 +58,7 @@
 }
 
 #login-registerContent > form label {
-    color: #000000; /* New text color */
+    color: #000000; 
 }
 
 input[type="text"]:focus,
