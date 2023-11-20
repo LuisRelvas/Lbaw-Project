@@ -48,10 +48,10 @@ class SpaceController extends Controller
  
     public function edit(Request $request)
     {
-        $this->authorize('edit', Space::class);
         $space = Space::find($request->id);
+        $this->authorize('edit', [Auth::user(),$space]);
         $space->content = $request->input('content');
-        $space->is_public = $request->input('is_public', false); // Default to false if not provided
+        $space->is_public = $request->input('is_public', false);
         $space->save();
     }
 

@@ -177,9 +177,9 @@ function editSpace(id) {
   button.onclick = function () {
     // Get the updated content and visibility
     let updatedContent = textarea.value;
-    
+
     // Send an AJAX request to update the content on the server
-    let url = '/space/' + id; // Replace with the actual server endpoint
+    let url = '/space/' + id // Replace with the actual server endpoint
     let data = {
       id: id,
       content: updatedContent

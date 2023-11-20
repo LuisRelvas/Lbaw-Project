@@ -45,7 +45,7 @@ class UserPolicy
     }
     public function unfollow(User $user)
     {
-        return Auth::check() && Auth::user()->isFollowing($user->id);
+        return (Auth::check());
     }
 }
 

@@ -22,7 +22,7 @@ class SpacePolicy
     }
     public function edit(User $user, Space $space)
     {
-        return (Auth::check() && Auth::user()->isAdmin(Auth::user())) || (Auth::check() && Auth::user()->id == $space->user_id);
+        return ((Auth::check() && Auth::user()->isAdmin(Auth::user())) || (Auth::check() && Auth::user()->id == $space->user_id));
     }
     public function delete(User $user, Space $space)
     {

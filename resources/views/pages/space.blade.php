@@ -17,7 +17,7 @@
                 <div><i class="cross"></i></div>
             </button>
         @endif
-        @if(Auth::check() && $space->user_id == Auth::user()->id || Auth::user()->isAdmin(Auth::user()))
+        @if(Auth::check() && $space->user_id == Auth::user()->id || Auth::check() && Auth::user()->isAdmin(Auth::user()))
         <button id="editSpace{{$space->id}}" onclick="editSpace({{$space->id}})" class="button-space-comment">&#9998;
             <div id="text-config"><i id="text-icon" class="pencil"></i></div>
         </button>
