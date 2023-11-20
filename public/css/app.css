@@ -1,6 +1,6 @@
 body {
   background-color: #ffffff;
-  color: #9b4dca;
+  color: #000000;
 }
 
 main > header {
@@ -88,7 +88,7 @@ main > header span {
   margin: 0 auto;
   padding: 1em;
   max-width: 20em;
-  border: 1px solid #d2afe7;
+  border: 1px solid #000000;
 }
 #content > form .error {
   font-weight: bold;
@@ -226,7 +226,7 @@ button {
 
 a.button {
   background-color: black;
-  border-color: #9b4dca;
+  border-color: #add8e6;
 }
 
 mark.sport {

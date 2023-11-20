@@ -1,5 +1,6 @@
 <?php $__env->startSection('content'); ?>
-    <main class="flex-container">
+
+<main class="flex-container">
         <?php if(Auth::check()): ?>
             <div class="sidebar">
                 <!-- Sidebar content -->
@@ -21,6 +22,18 @@
         <?php endif; ?>
 
         <div class="content">
+        <?php if($errors->has('profile')): ?>
+            <span class="error">
+                <?php echo e($errors->first('profile')); ?>
+
+            </span>
+        <?php endif; ?>
+        <?php if(session('success')): ?>
+                <p class="success">
+                    <?php echo e(session('success')); ?>
+
+                </p>
+        <?php endif; ?>
             <div class="card-header"><?php echo e(__('Public Spaces')); ?></div>
             <div class="card-body">
                 <ul class="card-list">
@@ -54,6 +67,12 @@
         <div class="searchbar">
             <?php if(Auth::check()): ?>
                 <?php echo $__env->make('partials.addSpace', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                <?php if(session('success')): ?>
+                <p class="success">
+                    <?php echo e(session('success')); ?>
+
+                </p>
+            <?php endif; ?>
             <?php endif; ?>
             <input type="text" id="search" placeholder="Search..." style="color: white;">
             <div id="results-users"></div>
