@@ -21,7 +21,11 @@
         @endif
 
         <label for="password">Password</label>
+        @if (Auth::user()->isAdmin(Auth::user()))
+        <input id="password" type="password" name="password" >
+        @else 
         <input id="password" type="password" name="password" required>
+        @endif
         @if ($errors->has('password'))
             <span class="error">
                 {{ $errors->first('password') }}
@@ -29,7 +33,11 @@
         @endif
 
         <label for="password-confirm">Confirm Password</label>
+        @if(Auth::user()->isAdmin(Auth::user()))
+        <input id="password-confirm" type="password" name="password_confirmation">
+        @else
         <input id="password-confirm" type="password" name="password_confirmation" required>
+        @endif
 
         <label for="is_public">Private Profile</label>
         <input id="is_public" type="hidden" name="is_public" value="0">

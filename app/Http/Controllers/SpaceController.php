@@ -11,13 +11,18 @@ use App\Models\User;
 class SpaceController extends Controller 
 {
 
-  public function show(int $id) : View
+  public function show(int $id)
   {
       $space = Space::findOrFail($id);
       $user = User::findOrFail($space->user_id);
-      return view('pages.space', [
-          'space' => $space
-      ]);
+    if($user->is_public == 0 || (Auth::check() && Auth::user()->id == $space->user_id) || (Auth::Check() && Auth::user()->isAdmin(Auth::user())) || (Auth::check() &&Auth::user()->isFollowing($user))){
+        return view('pages.space', [
+            'space' => $space
+        ]);
+    }
+    else {
+        return redirect('/homepage');
+     }
   }
 
 

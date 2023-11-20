@@ -89,7 +89,10 @@ public function edit(Request $request)
         {
             $user->is_public = $request->is_public;
         }
-        $user->password = $request->password;
+        if($request->password != null) 
+        {
+            $user->password = $request->password;
+         }
         $user->save();
         return redirect('/profile/'.$user->id);
     }

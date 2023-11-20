@@ -14,8 +14,7 @@ class SpacePolicy
 
     public function show(User $user)
     {
-        return (Auth::check() && Auth::user()->isAdmin(Auth::user())) || (Auth::check() && Auth::user()->id == $user->id) || (Auth::check() && Auth::user()->isFollowing($user->id)) || 
-        ($user->isPulblic == false);
+        return true;
     }
     public function add(User $user) 
     {
