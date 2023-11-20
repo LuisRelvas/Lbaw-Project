@@ -9,7 +9,8 @@ main > header {
   align-items: center;
   background-color: #add8e6;
   padding: 1em;
-  margin: 1em;
+  margin: 0;
+  border-radius: 5px;
 }
 main > header h1 {
   margin: 0;
@@ -136,14 +137,13 @@ main > header span {
   height: 100vh; /* Full height of the viewport */
 
   .content {
-    margin-top: 20px;
-    margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     flex: 1;
     padding: 1em;
     box-sizing: border-box; /* Prevent adding borders to the width */
     overflow: auto; /* Add a scrollbar when content overflows */
+    margin-top: 0;
 }
 
   /* Additional styling for the main content */
@@ -241,8 +241,4 @@ mark.hub {
   background-color: black;
   padding: 2px 5px; /* Adjust padding as needed */
 }
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus {
-  border-color: #9b4dca;
-}
+

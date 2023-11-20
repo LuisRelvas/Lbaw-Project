@@ -1,7 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    <form method="POST" action="{{ route('login') }}">
+<div id="login-registerContent">
+<div id="welcomePhrase">
+    <p id="introText">Welcome to the world of Sports!</p>
+    <button id="toggleLoginForm">Join us!</button>
+</div>
+
+    <form id="loginForm" method="POST" action="{{ route('login') }}" style="display: none;">
         {{ csrf_field() }}
 
         <label for="email">E-mail</label>
@@ -34,4 +40,7 @@
             </p>
         @endif
     </form>
+
+
+    </div>
 @endsection

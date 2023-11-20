@@ -1,0 +1,68 @@
+#welcomePhrase {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full height of the viewport */
+    flex-direction: column; /* Stack the children vertically */
+    margin-top: -20vh;
+}
+
+#introText {
+    font-size: 4em; /* Increase the font size */
+    color: black;
+}
+
+#toggleLoginForm {
+    display: block; /* Make the button start on a new line */
+    margin-top: 1em; /* Optional: add some space above the button */
+}
+
+#login-registerContent {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+    padding-top: 10vh; /* This makes the container take up the full viewport height */
+}
+
+#login-registerContent label {
+    font-weight: normal;
+}
+
+#login-registerContent > form {
+    margin: 0 auto;
+    padding: 1em;
+    min-width: 40em;
+    max-width: 50em;
+    border: 1px solid #000000;
+    border-radius: 5px;
+}
+
+#login-registerContent > form .error {
+    font-weight: bold;
+    color: #ff3333;
+}
+
+#login-registerContent > form .success {
+    font-weight: bold;
+    color: #106af1;
+}
+
+#login-registerContent > form input {
+    background-color: white;
+}
+
+#login-registerContent form {
+    margin: 0;
+    max-width: 35em;
+}
+
+#login-registerContent > form label {
+    color: #000000; /* New text color */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #add8e6;
+}
