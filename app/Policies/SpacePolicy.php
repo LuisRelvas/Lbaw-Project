@@ -12,7 +12,7 @@ class SpacePolicy
 {
     use HandlesAuthorization;
 
-    public function show(User $user, Space $space)
+    public function show(User $user,Space $space)
     {
     return ($user->is_public === false || 
         (Auth::check() && (Auth::user()->isAdmin(Auth::user()) || 

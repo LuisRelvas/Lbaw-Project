@@ -66,6 +66,7 @@
         </div>
         <div class="searchbar">
             @if (Auth::check())
+                @include('partials.addGroup')
                 @include('partials.addSpace')
                 @if (session('success'))
                 <p class="success">

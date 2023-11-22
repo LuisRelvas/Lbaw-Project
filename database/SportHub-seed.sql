@@ -523,36 +523,6 @@ FOR EACH ROW
 
 EXECUTE PROCEDURE verify_self_follow();
 
---Trigger05--
-
-CREATE FUNCTION verify_group_owner() RETURNS TRIGGER AS
-
-$BODY$
-
-BEGIN 
-
-RAISE NOTICE 'NEW.id = %', NEW.id;
-
-INSERT INTO member(user_id,group_id,is_favorite)
-
-VALUES(NEW.user_id,NEW.id,True);
-
-RETURN NEW;
-
-END 
-
-$BODY$
-
-LANGUAGE plpgsql; 
-
-CREATE TRIGGER verify_group_owner
-
-AFTER INSERT OR UPDATE ON groups
-
-FOR EACH ROW
-
-EXECUTE PROCEDURE verify_group_owner();
-
 
 --Trigger06--
 CREATE FUNCTION verify_group_join_request() RETURNS TRIGGER AS
@@ -946,6 +916,22 @@ INSERT INTO users(username,name,email,password,is_public) VALUES('leonorponte','
 INSERT INTO users(username,name,email,password,is_public) VALUES('bernardoalmeida','bernardo','bernardo@gmail.com','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',false);
 INSERT INTO users(username,name,email,password,is_public) VALUES('miguelalmeida','miguel','miguel@gmail.com ','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',true);
 INSERT INTO users(username,name,email,password,is_public) VALUES('joaquimnunes','joaquim','joaquim@gmail.com','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',true);
+INSERT INTO users(username, name, email, password, is_public) VALUES('anamartins', 'ana', 'ana.martins@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', false);
+INSERT INTO users(username, name, email, password, is_public) VALUES('pedrosilva', 'pedro', 'pedro.silva@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
+INSERT INTO users(username, name, email, password, is_public) VALUES('ritamoreira', 'rita', 'rita.moreira@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
+INSERT INTO users(username, name, email, password, is_public) VALUES('tiagosantos', 'tiago', 'tiago.santos@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', false);
+INSERT INTO users(username, name, email, password, is_public) VALUES('catarinaoliveira', 'catarina', 'catarina.oliveira@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
+INSERT INTO users(username, name, email, password, is_public) VALUES('josesousa', 'jose', 'jose.sousa@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', false);
+INSERT INTO users(username, name, email, password, is_public) VALUES('carlamachado', 'carla', 'carla.machado@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
+INSERT INTO users(username, name, email, password, is_public) VALUES('ricardosilveira', 'ricardo', 'ricardo.silveira@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
+INSERT INTO users(username, name, email, password, is_public) VALUES('andreapereira', 'andrea', 'andrea.pereira@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', false);
+INSERT INTO users(username, name, email, password, is_public) VALUES('carlosgomes', 'carlos', 'carlos.gomes@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
+INSERT INTO users(username, name, email, password, is_public) VALUES('patriciacosta', 'patricia', 'patricia.costa@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
+INSERT INTO users(username, name, email, password, is_public) VALUES('manuelrodrigues', 'manuel', 'manuel.rodrigues@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', false);
+INSERT INTO users(username, name, email, password, is_public) VALUES('susanaoliveira', 'susana', 'susana.oliveira@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
+INSERT INTO users(username, name, email, password, is_public) VALUES('fernandoalves', 'fernando', 'fernando.alves@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', false);
+INSERT INTO users(username, name, email, password, is_public) VALUES('danielasantos', 'daniela', 'daniela.santos@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
+INSERT INTO users(username, name, email, password, is_public) VALUES('antoniocarvalho', 'antonio', 'antonio.carvalho@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
 
 
 INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Look at Ronaldo goal',current_date,false,5,null);

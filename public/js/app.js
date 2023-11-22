@@ -8,7 +8,7 @@ function encodeForAjax(data) {
 
 function sendAjaxRequest(method, url, data, handler) {
   let request = new XMLHttpRequest();
-
+  console.log('The value of the data is',data);
   request.open(method, url, true);
   request.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').content);
   request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -254,6 +254,140 @@ sendAjaxRequest(method, url, data, function(event) {
 });
 }
 
+///////////////////////////
+
+
+
+
+function resetEditGroup(id) {
+  let group = document.querySelector("#group" + id);
+  let main = group.querySelector("main");
+
+  // Hide the cancel button
+  document.querySelector('#cancelEditGroup' + id).style.visibility = 'hidden';
+
+  // Change the button back to edit
+  let edit_button = document.querySelector("#editGroup" + id);
+  edit_button.textContent = 'Edit';
+
+  // Restore the original onclick function
+  edit_button.onclick = function () {
+      editGroup(id);
+  };
+}
+
+function editGroup(id) {
+  let group = document.querySelector("#group" + id);
+  let main = group.querySelector("main");
+
+  // Save the original content for cancel action
+  let originalName = group.querySelector(".groupname").textContent.trim();
+  let originalDescription = group.querySelector(".groupcontent").textContent.trim();
+
+  // Transform the content into two text boxes
+  let nameTextarea = document.createElement('textarea');
+  nameTextarea.className = 'groupname';
+  nameTextarea.value = originalName;
+
+  let descriptionTextarea = document.createElement('textarea');
+  descriptionTextarea.className = 'groupdescription';
+  descriptionTextarea.value = originalDescription;
+
+  main.innerHTML = ''; // Clear the main content
+  main.appendChild(nameTextarea);
+  main.appendChild(descriptionTextarea);
+
+  // Show the cancel button
+  document.querySelector('#cancelEditGroup' + id).style.visibility = 'visible';
+
+  // Change the button to confirm
+  let edit_button = document.querySelector("#editGroup" + id);
+  edit_button.textContent = 'Confirm';
+
+  // Change the onclick of the button
+  edit_button.onclick = function () {
+    // Get the updated content and visibility
+    let updatedName = nameTextarea.value;
+    let updatedDescription = descriptionTextarea.value;
+
+    // Send an AJAX request to update the content on the server
+    let url = '/group/edit';
+    let data = {
+      id: id,
+      name: updatedName,
+      description: updatedDescription
+    };
+
+    sendAjaxRequest('PUT', url, data, function (response) {
+      console.log('Updated Content:', updatedName, updatedDescription);
+
+      // Create new divs for the name and description
+      let newNameDiv = document.createElement('div');
+      newNameDiv.className = 'groupname';
+      newNameDiv.textContent = updatedName;
+
+      let newDescriptionDiv = document.createElement('div');
+      newDescriptionDiv.className = 'groupcontent';
+      newDescriptionDiv.textContent = updatedDescription;
+
+      // Replace the textareas with the new divs
+      main.innerHTML = '';
+      main.appendChild(newNameDiv);
+      main.appendChild(newDescriptionDiv);
+
+      // Hide the cancel button
+      document.querySelector('#cancelEditGroup' + id).style.visibility = 'hidden';
+
+      // Change the button back to edit
+      let edit_button = document.querySelector("#editGroup" + id);
+      edit_button.textContent = 'Edit';
+
+      // Restore the original onclick function
+      edit_button.onclick = function () {
+          editGroup(id);
+      };
+    });
+  };
+  }
+
+function cancelEditGroup(id) {
+  let group = document.querySelector("#group" + id);
+  let main = group.querySelector("main");
+
+  // Restore the original content
+  group.querySelector(".groupname").textContent = main.dataset.originalName;
+  group.querySelector(".groupcontent").textContent = main.dataset.originalDescription;
+
+  // Reset the edit state
+  resetEditGroup(id);
+}
+
+function deleteGroup(id) {
+  if (!confirm('Are you sure you want to delete this group?')) {
+      return;
+  }
+
+  var url = `/api/group/${id}`;
+  var method = 'DELETE';
+  var data = null; // No data to send for a DELETE request
+
+  sendAjaxRequest(method, url, data, function(event) {
+      if (event.target.status === 200) {
+          var response = JSON.parse(event.target.responseText);
+          console.log(response); // Log the server response (optional)
+          
+          // Redirect to the appropriate URL based on whether the user is an admin
+          if (response.isAdmin) {
+              window.location.href = '/admin';
+          } else {
+              window.location.href = '/homepage';
+          }
+      } else {
+          console.error('Error:', event.target.status, event.target.statusText);
+      }
+  });
+}
+
 
 
 async function getAPIResult(type, search) {
@@ -275,6 +409,10 @@ if (statistic) {
 }
 
 
+
+
+
+
 async function search(input) {
 document.querySelector('#results-users').innerHTML = await getAPIResult('profile', input);
 document.querySelector('#results-spaces').innerHTML = await getAPIResult('space', input);
@@ -282,6 +420,9 @@ updateTotal((document.querySelector('#results-users').innerHTML.match(/<article/
 updateTotal((document.querySelector('#results-spaces').innerHTML.match(/<article/g) || []).length, 'spaceResults');
 
 }
+
+
+
 
 function init() {
 const search_bar = document.querySelector("#search");

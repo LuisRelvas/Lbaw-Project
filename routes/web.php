@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\GroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +79,10 @@ Route::controller(CommentController::class) ->group(function() {
     Route::delete('/api/comment/{id}', 'delete');
 });
 
+
+Route::post('/group/add', [GroupController::class, 'add']);
+Route::get('/group/{id}', [GroupController::class, 'show']);
+Route::put('/group/edit', [GroupController::class, 'edit']);
 
 // Admin
 Route::controller(AdminController::class) ->group(function() {
