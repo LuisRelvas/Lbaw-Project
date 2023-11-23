@@ -26,6 +26,15 @@
         <button id="cancelEditGroup{{$group->id}}" onclick="cancelEditGroup({{$group->id}})" style="visibility:hidden;" class="button-group-comment">&#10761;
             <div><i class="cross"></i> </div>
         </button>
+        <section id="buttons" class="buttons">
+                @if(Auth::check() && Auth::user()->id != $group->owner_id)
+                    <button id="groupState{{$group->id}}" class="group-interaction-button" onclick="changeGroupState({{$group->id}},{{Auth::user()->id}},{{$group->is_public}})">
+                        @if($group->hasMember(Auth::user())) <i id="text-icon" class="fa fa-minus-circle" aria-hidden="true"></i> Leave Group
+                        @else <i id="text-icon" class="fa fa-plus-circle" aria-hidden="true"></i> Join Group
+                        @endif  
+                    </button>
+                @endif
+        </section>
         
     @endif
     @if (session('success'))

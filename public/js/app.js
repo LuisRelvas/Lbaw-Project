@@ -388,6 +388,39 @@ function deleteGroup(id) {
   });
 }
 
+function changeGroupState(id,user_id,publicGroup)
+{
+  const state_in_html = document.querySelector('#groupState' + id).innerHTML.replace(/\s/g, '');
+  const state = state_in_html.replace( /(<([^>]+)>)/ig,'');
+  switch(state) {
+    case 'JoinGroup':
+      if(publicGroup) {
+        // Define the URL and data
+        let url = '/group/join';
+        let data = {
+          id: id,
+          user_id: user_id
+        };
+
+        // Send the AJAX request
+        sendAjaxRequest('POST', url, data, function(response) {
+          console.log('Response:', response);
+
+        });
+      }
+      break;
+      case 'LeaveGroup': 
+      let url = '/group/leave';
+      let data = {
+        _method: 'DELETE',
+        id: id,
+        user_id: user_id
+      };
+      sendAjaxRequest('POST', url, data, function(response){
+        console.log('Response:', response);
+      });
+  }
+}
 
 
 async function getAPIResult(type, search) {

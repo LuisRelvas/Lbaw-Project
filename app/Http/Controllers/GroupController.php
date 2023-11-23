@@ -11,6 +11,8 @@ use App\Models\Group;
 use App\Models\User;
 use App\Models\Space;
 use App\Models\Comment;
+use App\Models\Member;
+use Illuminate\Support\Facades\DB;
 
 class GroupController extends Controller 
 {
@@ -57,6 +59,30 @@ class GroupController extends Controller
             'isAdmin' => $isAdmin
         ]);
     }
+
+    public function join(Request $request) 
+    {
+        $group = Group::find($request->id);  
+
+        DB::beginTransaction(); 
+
+        Member::insert([
+            'user_id' => Auth::user()->id,
+            'group_id' => $group->id,
+            'is_favorite' => false
+        ]);
+        DB::commit();
+    }
+
+    public function leave_group(Request $request) 
+{
+    $group = Group::find($request->id);
+    DB::beginTransaction();
+    Member::where('group_id', $group->id)->where('user_id', Auth::user()->id)->delete();
+    DB::commit();
+}
+
+    
     
 
 
