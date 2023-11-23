@@ -42,6 +42,21 @@ class GroupController extends Controller
     
         return redirect('/group/'.$request->id)->withSuccess('Group description edited successfully!');
     }
+
+    public function delete(int $id)
+    {
+        $group = Group::find($id);
+        $group->delete();
+
+        // Check if the user is an admin
+        $isAdmin = Auth::check() && Auth::user()->isAdmin(Auth::user());
+
+        // Return a JSON response
+        return response()->json([
+            'success' => 'Group deleted successfully!',
+            'isAdmin' => $isAdmin
+        ]);
+    }
     
 
 

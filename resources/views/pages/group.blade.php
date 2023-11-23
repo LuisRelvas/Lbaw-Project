@@ -26,6 +26,7 @@
         <button id="cancelEditGroup{{$group->id}}" onclick="cancelEditGroup({{$group->id}})" style="visibility:hidden;" class="button-group-comment">&#10761;
             <div><i class="cross"></i> </div>
         </button>
+        
     @endif
     @if (session('success'))
             <p class="success">

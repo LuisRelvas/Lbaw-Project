@@ -83,6 +83,8 @@ Route::controller(CommentController::class) ->group(function() {
 Route::post('/group/add', [GroupController::class, 'add']);
 Route::get('/group/{id}', [GroupController::class, 'show']);
 Route::put('/group/edit', [GroupController::class, 'edit']);
+Route::delete('/api/group/{id}', [GroupController::class, 'delete']);
+
 
 // Admin
 Route::controller(AdminController::class) ->group(function() {
