@@ -412,15 +412,45 @@ function changeGroupState(id,user_id,publicGroup)
       case 'LeaveGroup': 
       let url = '/group/leave';
       let data = {
-        _method: 'DELETE',
         id: id,
         user_id: user_id
       };
-      sendAjaxRequest('POST', url, data, function(response){
+      sendAjaxRequest('DELETE', url, data, function(response){
         console.log('Response:', response);
       });
   }
 }
+
+
+function deleteMember(id) {
+  var pathParts = window.location.pathname.split('/');
+  var groupId = parseInt(pathParts[pathParts.length - 1]);
+
+  console.log('The value of the id is', id);
+  console.log('The value of the groupId is', groupId);
+  if (!confirm('Are you sure you want to delete this member?')) {
+    return;
+  }
+
+  var url = '/api/group/' + groupId;  // Corrected line
+  var method = 'DELETE';
+  
+  let data = {
+    groupId: groupId,
+    userId: id
+  };
+
+  sendAjaxRequest(method, url, data, function(event) {
+    if (event.target.status === 200) {
+      var response = JSON.parse(event.target.responseText);
+      console.log(response); // Log the server response (optional)
+    } else {
+      console.error('Error:', event.target.status, event.target.statusText);
+    }
+  });
+}
+
+
 
 
 async function getAPIResult(type, search) {

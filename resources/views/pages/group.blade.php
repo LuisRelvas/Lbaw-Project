@@ -26,7 +26,9 @@
         <button id="cancelEditGroup{{$group->id}}" onclick="cancelEditGroup({{$group->id}})" style="visibility:hidden;" class="button-group-comment">&#10761;
             <div><i class="cross"></i> </div>
         </button>
-        <section id="buttons" class="buttons">
+        
+    @endif
+    <section id="buttons" class="buttons">
                 @if(Auth::check() && Auth::user()->id != $group->owner_id)
                     <button id="groupState{{$group->id}}" class="group-interaction-button" onclick="changeGroupState({{$group->id}},{{Auth::user()->id}},{{$group->is_public}})">
                         @if($group->hasMember(Auth::user())) <i id="text-icon" aria-hidden="true"></i> Leave Group
@@ -35,8 +37,24 @@
                     </button>
                 @endif
         </section>
-        
-    @endif
+
+        <section id="members" class="members">
+    <h2>Members</h2>
+    @foreach($members as $member)
+        <div class="member">
+            @php
+                $user = \App\Models\User::findOrFail($member->user_id);
+            @endphp
+            <p>{{ $user->username }}</p>
+            <!-- Add a cross icon next to each member -->
+            @if(Auth::check() && Auth::user()->id == $group->user_id || Auth::check() && Auth::user()->isAdmin(Auth::user()))
+            <button onclick="deleteMember({{ $member->user_id }})" class="button-member-delete">&#10761;
+                <div><i class="cross"></i></div>
+            </button>
+            @endif
+        </div>
+    @endforeach
+    </section>
     @if (session('success'))
             <p class="success">
                 {{ session('success') }}

@@ -30,8 +30,8 @@ class GroupController extends Controller
     public function show(int $id) 
     {
         $group = Group::findOrFail($id);
-        return view('pages.group',['group' => $group]);
-        
+        $members = $group->members; // Assuming you have a members() relationship in your Group model
+        return view('pages.group',['group' => $group, 'members' => $members]);
     }
 
     public function edit(Request $request)
@@ -82,10 +82,21 @@ class GroupController extends Controller
     DB::commit();
 }
 
-    
-    
+public function remove_member(Request $request)
+{
+    DB::beginTransaction();
+
+    Member::where('group_id', $request->groupId)->where('user_id', $request->userId)->delete();  // Corrected line
+
+    DB::commit();
+
+    return response()->json([
+        'success' => 'Member removed successfully!'
+    ]);
+}
 
 
+    
 }
 
 

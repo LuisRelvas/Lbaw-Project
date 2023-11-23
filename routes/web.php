@@ -86,6 +86,7 @@ Route::put('/group/edit', [GroupController::class, 'edit']);
 Route::delete('/api/group/{id}', [GroupController::class, 'delete']);
 Route::post('/group/join', [GroupController::class, 'join']);
 Route::delete('/group/leave',[GroupController::class,'leave_group']);
+Route::delete('/api/group/{id}',[GroupController::class,'remove_member']);
 
 
 
