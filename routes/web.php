@@ -49,16 +49,7 @@ Route::controller(RegisterController::class)->group(function () {
 
 
 // Users
-Route::controller(UserController::class)->group(function () {
-    Route::get('/profile/{id}','show');
-    Route::get('/api/profile','search');
-    Route::post('/profile/edit', 'edit')->name('edit');
-    Route::get('/profile/{id}/editUser','editUser');
-    Route::delete('/api/profile/{id}', 'delete');
-    Route::post('/profile/follow/{id}', 'follow');
-    Route::delete('/profile/unfollow/{id}', 'unfollow');
 
-});
 
 
 // Spaces
@@ -92,6 +83,20 @@ Route::post('/group/joinrequest',[GroupController::class,'join_request']);
 Route::post('/group/joinrequest/{id}',[GroupController::class,'accept_join_request']);
 Route::delete('/group/joinrequest',[GroupController::class,'decline_join_request']);
 
+
+Route::controller(UserController::class)->group(function () {
+    Route::get('/profile/{id}','show');
+    Route::get('/api/profile','search');
+    Route::post('/profile/edit', 'edit')->name('edit');
+    Route::get('/profile/{id}/editUser','editUser');
+    Route::delete('/api/profile/{id}', 'delete');
+    Route::post('/profile/follow/{id}', 'follow');
+    Route::delete('/profile/unfollow/{id}', 'unfollow');
+    Route::post('/profile/followsrequest', [UserController::class, 'follow_request']);
+    Route::post('/profile/followsrequest/{id}', [UserController::class, 'accept_follow_request']);
+    Route::delete('/profile/followsrequest', [UserController::class, 'decline_follow_request']);
+
+});
 
 // Admin
 Route::controller(AdminController::class) ->group(function() {

@@ -395,6 +395,13 @@ function declineJoin(id,group_id)
   });
 }
 
+function declineFollowRequest(user_id1,user_id2)
+{
+  sendAjaxRequest('DELETE', '/profile/followsrequest', {user_id1: user_id1,user_id2:user_id2}, function(response) {
+    console.log('Response:', response);
+  });
+}
+
 function acceptJoin(id,group_id)
 {
 
@@ -403,6 +410,59 @@ function acceptJoin(id,group_id)
 sendAjaxRequest('POST', url, {id: id,group_id:group_id}, function(response) {
   console.log('Response:', response);
 });
+}
+
+function acceptFollowRequest(user_id1,user_id2)
+{
+  let url = '/profile/followsrequest/'+ user_id2;
+  console.log('the value of the url in accept is',url);
+sendAjaxRequest('POST', url, {user_id1: user_id1,user_id2:user_id2}, function(response) {
+  console.log('Response:', response);
+});
+}
+
+
+
+
+function changeProfileState(user_id2,user_id1,publicProfile)
+{
+  console.log('The boolean of the public profile is',publicProfile);
+  const state_in_html = document.querySelector('#profileState' + user_id2).innerHTML.replace(/\s/g, '');
+  const state = state_in_html.replace( /(<([^>]+)>)/ig,'');
+  switch(state) {
+    case 'Follow':
+      if(publicProfile == null) {
+        console.log('entered in a public profile');
+        let url = '/profile/follow/' + user_id2;
+        let data = {
+          user_id1: user_id1,
+          user_id2: user_id2
+        };
+        // Send the AJAX request
+        sendAjaxRequest('POST', url, data, function(response) {
+          console.log('Response:', response);
+
+        });
+      }
+      else 
+      {
+        console.log('The value of the id is',user_id2);
+        console.log('The value of the user_id is',user_id1);
+        sendAjaxRequest('POST', '/profile/followsrequest', {user_id1: user_id1, user_id2: user_id2}, function(response) {
+          console.log('Response:', response);
+        });
+      }
+      break; 
+      case 'Unfollow':
+      let url = '/profile/unfollow/' + user_id2;
+      let data = {
+        user_id1: user_id1,
+        user_id2: user_id2
+      };
+      sendAjaxRequest('DELETE', url, data, function(response){
+        console.log('Response:', response);
+      });
+    }
 }
 
 function changeGroupState(id,user_id,publicGroup)

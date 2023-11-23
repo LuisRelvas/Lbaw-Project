@@ -11,6 +11,7 @@ use App\Models\Space;
 use App\Models\Follow;
 use Illuminate\Support\Facades\DB;
 use App\Models\Block;
+use App\Models\FollowsRequest;
 
 
 class UserController extends Controller {
@@ -21,10 +22,12 @@ class UserController extends Controller {
         $user = User::findOrFail($id);
         $isBlocked = Block::where('user_id', $id)->exists();
         $isFollowing = Auth::user()->isFollowing($user);
+        $wants = FollowsRequest::whereIn('user_id2',[$user->id])->get();
         return view('pages.user', [
             'user' => $user,
             'isFollowing' => $isFollowing,
-            'isBlocked' => $isBlocked
+            'isBlocked' => $isBlocked,
+            'wants' => $wants
         ]);}
         else
         {
@@ -157,6 +160,45 @@ public function search(Request $request) {
     }
 
 
+public function follow_request(Request $request) {
+        $user = User::find($request->user_id2);
+        DB::beginTransaction();
+        FollowsRequest::insert([
+            'user_id1' => $request->user_id1,
+            'user_id2' => $user->id
+        ]);
+        DB::commit();
 }
 
+public function accept_follow_request(Request $request) {
+    $user1 = User::find($request->user_id1);
+    $user2 = User::find($request->user_id2);
+    DB::beginTransaction();
+    FollowsRequest::where([
+        'user_id1' => $user1->id,
+        'user_id2' => $user2->id
+
+    ])->delete();
+
+    Follow::insert([
+        'user_id1' => $user1->id,
+        'user_id2' => $user2->id
+    ]);
+
+    DB::commit();
+}
+
+public function decline_follow_request(Request $request) 
+{
+    $user1 = User::find($request->user_id1);
+    $user2 = User::find($request->user_id2);
+    DB::beginTransaction();
+    FollowsRequest::where([
+        'user_id1' => $user1->id,
+        'user_id2' => $user2->id
+    ])->delete();
+    DB::commit();
+}
+
+}
 ?> 
