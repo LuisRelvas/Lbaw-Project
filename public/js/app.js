@@ -412,13 +412,13 @@ function changeGroupState(id,user_id,publicGroup)
   const state = state_in_html.replace( /(<([^>]+)>)/ig,'');
   switch(state) {
     case 'JoinGroup':
-      if(publicGroup == 0) {
+      if(publicGroup == null) {
+        console.log('entered in a public group');
         let url = '/group/join';
         let data = {
           id: id,
           user_id: user_id
         };
-
         // Send the AJAX request
         sendAjaxRequest('POST', url, data, function(response) {
           console.log('Response:', response);

@@ -69,7 +69,6 @@
         <button onclick="acceptJoin({{ $join->user_id }}, {{ $join->group_id }})" class="button-join-accept"> &#10003;
             <div><i class="tick"></i></div>
         </button>
-
         @endif
         </div>
     @endforeach
