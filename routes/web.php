@@ -87,7 +87,10 @@ Route::delete('/api/group/{id}', [GroupController::class, 'delete']);
 Route::post('/group/join', [GroupController::class, 'join']);
 Route::delete('/group/leave',[GroupController::class,'leave_group']);
 Route::delete('/api/group/{id}',[GroupController::class,'remove_member']);
-
+Route::get('/group',[GroupController::class,'list']);
+Route::post('/group/joinrequest',[GroupController::class,'join_request']);
+Route::post('/group/joinrequest/{id}',[GroupController::class,'accept_join_request']);
+Route::delete('/group/joinrequest',[GroupController::class,'decline_join_request']);
 
 
 // Admin

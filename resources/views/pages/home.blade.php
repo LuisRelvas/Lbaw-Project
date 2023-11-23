@@ -11,6 +11,7 @@
                 <a href="{{ url('/profile/' . Auth::user()->id) }}">Profile</a>
                 <a href="#">Notifications</a>
                 <a href="#">Settings</a>
+                <a href="{{url('/group')}}">Groups</a>
             </div>
         @else
             <div class="sidebar">

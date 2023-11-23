@@ -13,6 +13,7 @@ use App\Models\Space;
 use App\Models\Comment;
 use App\Models\Member;
 use Illuminate\Support\Facades\DB;
+use App\Models\GroupJoinRequest;
 
 class GroupController extends Controller 
 {
@@ -31,7 +32,15 @@ class GroupController extends Controller
     {
         $group = Group::findOrFail($id);
         $members = $group->members; // Assuming you have a members() relationship in your Group model
-        return view('pages.group',['group' => $group, 'members' => $members]);
+        $joins = GroupJoinRequest::whereIn('group_id', [$group->id])->get();
+        return view('pages.group',['group' => $group, 'members' => $members, 'joins' => $joins]);
+    }
+
+    public function list() 
+    {
+        $user = Auth::user(); 
+        $groups = Group::whereIn('user_id', [$user->id])->get();
+        return view('pages.listGroups',['groups' => $groups]);
     }
 
     public function edit(Request $request)
@@ -95,8 +104,48 @@ public function remove_member(Request $request)
     ]);
 }
 
+public function join_request(Request $request)
+{
+    $group = Group::find($request->id);  
 
+    DB::beginTransaction(); 
+
+    GroupJoinRequest::insert([
+        'user_id' => Auth::user()->id,
+        'group_id' => $group->id,
+    ]);
+    DB::commit();
+}
+
+public function accept_join_request(Request $request)
+{
+    $group = Group::find($request->group_id);
+    DB::beginTransaction();
+    GroupJoinRequest::where([
+        'user_id' => $request->id,
+        'group_id' => $group->id
+    ])->delete();    
     
+    Member::insert([
+        'user_id' => $request->id,
+        'group_id' => $group->id,
+        'is_favorite' => false
+    ]);
+
+    DB::commit();
+}
+
+public function decline_join_request(Request $request)
+{
+    $group = Group::find($request->group_id);
+    DB::beginTransaction();
+    GroupJoinRequest::where([
+        'user_id' => $request->id,
+        'group_id' => $group->id
+    ])->delete();    
+    DB::commit();
+    
+}
 }
 
 

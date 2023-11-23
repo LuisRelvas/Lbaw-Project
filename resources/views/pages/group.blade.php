@@ -54,6 +54,25 @@
             @endif
         </div>
     @endforeach
+    <h2>Join Requests</h2>
+@foreach($joins as $join)
+    <div class="join">
+        @php
+            $user = \App\Models\User::findOrFail($join->user_id);
+        @endphp
+        <p>{{ $user->username }}</p>
+        <!-- Add a cross icon next to each join request -->
+        @if(Auth::check() && (Auth::user()->id == $group->user_id || Auth::user()->isAdmin(Auth::user())))
+        <button onclick="declineJoin({{ $join->user_id }}, {{ $join->group_id }})" class="button-join-delete">&#10761;
+        <div><i class="cross"></i></div>
+        </button>
+        <button onclick="acceptJoin({{ $join->user_id }}, {{ $join->group_id }})" class="button-join-accept"> &#10003;
+            <div><i class="tick"></i></div>
+        </button>
+
+        @endif
+        </div>
+    @endforeach
     </section>
     @if (session('success'))
             <p class="success">

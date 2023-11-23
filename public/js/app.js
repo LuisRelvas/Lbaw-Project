@@ -388,14 +388,31 @@ function deleteGroup(id) {
   });
 }
 
+function declineJoin(id,group_id)
+{
+  sendAjaxRequest('DELETE', '/group/joinrequest', {id: id,group_id:group_id}, function(response) {
+    console.log('Response:', response);
+  });
+}
+
+function acceptJoin(id,group_id)
+{
+
+  let url = '/group/joinrequest/'+ id;
+  console.log('the value of the url in accept is',url);
+sendAjaxRequest('POST', url, {id: id,group_id:group_id}, function(response) {
+  console.log('Response:', response);
+});
+}
+
 function changeGroupState(id,user_id,publicGroup)
 {
+  console.log('The boolean of the public group is',publicGroup);
   const state_in_html = document.querySelector('#groupState' + id).innerHTML.replace(/\s/g, '');
   const state = state_in_html.replace( /(<([^>]+)>)/ig,'');
   switch(state) {
     case 'JoinGroup':
-      if(publicGroup) {
-        // Define the URL and data
+      if(publicGroup == 0) {
         let url = '/group/join';
         let data = {
           id: id,
@@ -406,6 +423,14 @@ function changeGroupState(id,user_id,publicGroup)
         sendAjaxRequest('POST', url, data, function(response) {
           console.log('Response:', response);
 
+        });
+      }
+      else 
+      {
+        console.log('The value of the id is',id);
+        console.log('The value of the user_id is',user_id);
+        sendAjaxRequest('POST', '/group/joinrequest', {id: id, user_id: user_id}, function(response) {
+          console.log('Response:', response);
         });
       }
       break;
