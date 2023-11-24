@@ -105,6 +105,22 @@ Route::post('/profile/block/{id}','block');
 Route::delete('/profile/unblock/{id}','unblock');
 });
 
+// Groups
+Route::controller(GroupController::class)->group(function () {
+    Route::get('/group/{id}', 'show');
+    Route::get('/group', 'list');
+    Route::post('/group/add', 'add');
+    Route::put('/group/edit', 'edit');
+    Route::delete('/api/group/{id}', 'delete');
+    Route::post('/group/join', 'join');
+    Route::delete('/group/leave', 'leave_group');
+    Route::delete('/api/group/{id}', 'remove_member');
+    Route::post('/group/joinrequest', 'join_request');
+    Route::post('/group/joinrequest/{id}', 'accept_join_request');
+    Route::delete('/group/joinrequest', 'decline_join_request');
+    Route::post('/invite', 'invite');
+});
+
 
 
 

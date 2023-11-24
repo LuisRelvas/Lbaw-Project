@@ -146,6 +146,23 @@ public function decline_join_request(Request $request)
     DB::commit();
     
 }
+
+public function invite(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email|exists:users,email',
+        'group_id' => 'required|exists:groups,id',
+    ]);
+
+    $group = Group::find($request->input('group_id'));
+    $userToInvite = User::where('email', $request->input('email'))->first();
+
+    // Send a notification to the user
+    $userToInvite->notify(new InviteNotification($group));
+
+    return back()->with('success', 'Invitation sent!');
+}
+
 }
 
 
