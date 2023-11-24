@@ -3,6 +3,8 @@
 @section('title', 'user')
 
 @section('content')
+<main class="flex-container">
+    @include('partials.sidebar')
 
     <div class="userinfo" data-id="{{ $user->id }}">
 
@@ -16,7 +18,8 @@
         </div>
         @if (Auth::check())
             @if ($user->id == Auth::User()->id || Auth::User()->isAdmin(Auth::User()))
-                <div class="button-container"><a class="button" href="/profile/{{ $user->id }}/editUser">Edit Profile</a>
+                <div class="button-container"><a class="button" href="/profile/{{ $user->id }}/editUser">Edit
+                        Profile</a>
                     <a class="button" href="/logout" class="delete">&#10761;Delete Profile</a>
                     <a class ="button"
                         href="{{ Auth::check() && Auth::user()->isAdmin(Auth::user()) ? url('/admin') : url('/homepage') }}">Back
@@ -51,13 +54,13 @@
                     </form>
                 @endif
             @endif
-            
+
         @endif
         @if (session('success'))
-                <p class="success">
-                    {{ session('success') }}
-                </p>
+            <p class="success">
+                {{ session('success') }}
+            </p>
         @endif
-        </article>
-
-    @endsection
+    </div>
+</main>
+@endsection
