@@ -55,4 +55,5 @@
             </button>
         </div>
     </form>
+    @include('partials.footer')
 @endsection
