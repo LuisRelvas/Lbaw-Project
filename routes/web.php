@@ -34,6 +34,11 @@ Route::get('/homepage', function () {
     return view('pages.home');
 });
 
+// About Us
+Route::get('/about', function () {
+    return view('pages.about');
+});
+
 // Authentication
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
