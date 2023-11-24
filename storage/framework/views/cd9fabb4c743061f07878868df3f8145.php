@@ -74,7 +74,7 @@
                 </p>
             <?php endif; ?>
             <?php endif; ?>
-            <input type="text" id="search" placeholder="Search..." style="color: white;">
+            <input type="text" id="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+">
             <div id="results-users"></div>
             <?php if(Auth::check()): ?>
                 <div id="results-spaces"></div>
