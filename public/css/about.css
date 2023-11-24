@@ -1,11 +1,16 @@
 /* ------ About ------ */
 
 .about-container {
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    grid-template-columns: 1fr auto auto;
-    flex: 1;
-    margin-left: 0; 
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  grid-template-columns: 1fr auto auto;
+  flex: 1;
+  margin-left: 0;
+}
+
+.about-container h2,
+h3 {
+  font-weight: bold;
 }
