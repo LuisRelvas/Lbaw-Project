@@ -46,4 +46,6 @@
         <a class="button" href="{{ route('login') }}">Login</a>
     </form>
     </div>
+    @include('partials.footer')
+
 @endsection
