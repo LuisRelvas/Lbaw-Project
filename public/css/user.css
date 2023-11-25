@@ -1,14 +1,14 @@
 .userinfo {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
-  padding: 1em;
-  margin: 1em;
-  grid-template-columns: 1fr auto auto;
-}
+    
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    grid-template-columns: 1fr auto auto;
+    flex: 1;
+    margin-left: 0; 
+  }
+  
 
 .user {
   font-weight: bold;
