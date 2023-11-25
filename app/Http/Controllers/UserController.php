@@ -195,7 +195,7 @@ public function follow_request(Request $request) {
 
         UserNotification::insert([
             'id' => $lastNotification->id,
-            'notification_type' => 'follow_request'
+            'notification_type' => 'request_follow'
         ]);
         DB::commit();
 }
@@ -219,10 +219,15 @@ public function accept_follow_request(Request $request) {
 
     $lastNotification = Notification::orderBy('id','desc')->first();
 
-    UserNotification::insert([
-        'id' => $lastNotification->id,
-        'notification_type' => 'accepted_follow_request'
+    $old = Notification::join('user_notification', 'notification.id', '=', 'user_notification.id')
+    ->where('user_notification.notification_type', 'request_follow')
+    ->orderBy('notification.id', 'desc')
+    ->first();
+
+    UserNotification::where('id',$old->id)->update([
+        'notification_type' => 'accepted_follow'
     ]);
+
     
     Follow::insert([
         'user_id1' => $user1->id,
@@ -249,10 +254,7 @@ public function decline_follow_request(Request $request)
         'date' => now()
     ]);
 
-    $lastNotification = Notification::orderBy('id','desc')->first();
-
     UserNotification::insert([
-        'id' => $lastNotification->id,
         'notification_type' => 'declined_follow_request'
     ]);
     
