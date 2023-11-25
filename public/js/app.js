@@ -388,6 +388,154 @@ function deleteGroup(id) {
   });
 }
 
+function declineJoin(id,group_id)
+{
+  sendAjaxRequest('DELETE', '/group/joinrequest', {id: id,group_id:group_id}, function(response) {
+    console.log('Response:', response);
+  });
+}
+
+function declineFollowRequest(user_id1,user_id2)
+{
+  sendAjaxRequest('DELETE', '/profile/followsrequest', {user_id1: user_id1,user_id2:user_id2}, function(response) {
+    console.log('Response:', response);
+  });
+}
+
+function acceptJoin(id,group_id)
+{
+
+  let url = '/group/joinrequest/'+ id;
+  console.log('the value of the url in accept is',url);
+sendAjaxRequest('POST', url, {id: id,group_id:group_id}, function(response) {
+  console.log('Response:', response);
+});
+}
+
+function acceptFollowRequest(user_id1,user_id2)
+{
+  let url = '/profile/followsrequest/'+ user_id2;
+  console.log('the value of the url in accept is',url);
+sendAjaxRequest('POST', url, {user_id1: user_id1,user_id2:user_id2}, function(response) {
+  console.log('Response:', response);
+});
+}
+
+
+
+
+function changeProfileState(user_id2,user_id1,publicProfile)
+{
+  console.log('The boolean of the public profile is',publicProfile);
+  const state_in_html = document.querySelector('#profileState' + user_id2).innerHTML.replace(/\s/g, '');
+  const state = state_in_html.replace( /(<([^>]+)>)/ig,'');
+  switch(state) {
+    case 'Follow':
+      if(publicProfile == null) {
+        console.log('entered in a public profile');
+        let url = '/profile/follow/' + user_id2;
+        let data = {
+          user_id1: user_id1,
+          user_id2: user_id2
+        };
+        // Send the AJAX request
+        sendAjaxRequest('POST', url, data, function(response) {
+          console.log('Response:', response);
+
+        });
+      }
+      else 
+      {
+        console.log('The value of the id is',user_id2);
+        console.log('The value of the user_id is',user_id1);
+        sendAjaxRequest('POST', '/profile/followsrequest', {user_id1: user_id1, user_id2: user_id2}, function(response) {
+          console.log('Response:', response);
+        });
+      }
+      break; 
+      case 'Unfollow':
+      let url = '/profile/unfollow/' + user_id2;
+      let data = {
+        user_id1: user_id1,
+        user_id2: user_id2
+      };
+      sendAjaxRequest('DELETE', url, data, function(response){
+        console.log('Response:', response);
+      });
+    }
+}
+
+function changeGroupState(id,user_id,publicGroup)
+{
+  console.log('The boolean of the public group is',publicGroup);
+  const state_in_html = document.querySelector('#groupState' + id).innerHTML.replace(/\s/g, '');
+  const state = state_in_html.replace( /(<([^>]+)>)/ig,'');
+  switch(state) {
+    case 'JoinGroup':
+      if(publicGroup == null) {
+        console.log('entered in a public group');
+        let url = '/group/join';
+        let data = {
+          id: id,
+          user_id: user_id
+        };
+        // Send the AJAX request
+        sendAjaxRequest('POST', url, data, function(response) {
+          console.log('Response:', response);
+
+        });
+      }
+      else 
+      {
+        console.log('The value of the id is',id);
+        console.log('The value of the user_id is',user_id);
+        sendAjaxRequest('POST', '/group/joinrequest', {id: id, user_id: user_id}, function(response) {
+          console.log('Response:', response);
+        });
+      }
+      break;
+      case 'LeaveGroup': 
+      let url = '/group/leave';
+      let data = {
+        id: id,
+        user_id: user_id
+      };
+      sendAjaxRequest('DELETE', url, data, function(response){
+        console.log('Response:', response);
+      });
+  }
+}
+
+
+function deleteMember(id) {
+  var pathParts = window.location.pathname.split('/');
+  var groupId = parseInt(pathParts[pathParts.length - 1]);
+
+  console.log('The value of the id is', id);
+  console.log('The value of the groupId is', groupId);
+  if (!confirm('Are you sure you want to delete this member?')) {
+    return;
+  }
+
+  var url = '/api/group/' + groupId;  // Corrected line
+  var method = 'DELETE';
+  
+  let data = {
+    groupId: groupId,
+    userId: id
+  };
+
+  sendAjaxRequest(method, url, data, function(event) {
+    if (event.target.status === 200) {
+      var response = JSON.parse(event.target.responseText);
+      console.log(response); // Log the server response (optional)
+    } else {
+      console.error('Error:', event.target.status, event.target.statusText);
+    }
+  });
+}
+
+
 
 
 async function getAPIResult(type, search) {

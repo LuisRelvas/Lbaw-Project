@@ -524,6 +524,8 @@ FOR EACH ROW
 EXECUTE PROCEDURE verify_self_follow();
 
 
+
+
 --Trigger06--
 CREATE FUNCTION verify_group_join_request() RETURNS TRIGGER AS
 

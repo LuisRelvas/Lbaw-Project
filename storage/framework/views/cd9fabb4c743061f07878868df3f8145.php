@@ -1,7 +1,26 @@
 <?php $__env->startSection('content'); ?>
 
-    <main class="flex-container">
-        <?php echo $__env->make('partials.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<main class="flex-container">
+        <?php if(Auth::check()): ?>
+            <div class="sidebar">
+                <!-- Sidebar content -->
+                <a href="#">Home</a>
+                <a href="<?php echo e(url('/search')); ?>">Explore</a>
+                <a href="<?php echo e(url('/profile/' . Auth::user()->id)); ?>">Profile</a>
+                <a href="#">Notifications</a>
+                <a href="#">Settings</a>
+                <a href="<?php echo e(url('/group')); ?>">Groups</a>
+            </div>
+        <?php else: ?>
+            <div class="sidebar">
+                <!-- Sidebar content -->
+                <a href="<?php echo e(url('/login')); ?>">Home</a>
+                <a href="<?php echo e(url('/login')); ?>">Explore</a>
+                <a href="<?php echo e(url('/login')); ?>">Profile</a>
+                <a href="<?php echo e(url('/login')); ?>">Notifications</a>
+                <a href="<?php echo e(url('/login')); ?>">Settings</a>
+            </div>
+        <?php endif; ?>
 
         <div class="content">
             <?php if($errors->has('profile')): ?>
@@ -48,6 +67,7 @@
         </div>
         <div class="searchbar">
             <?php if(Auth::check()): ?>
+                <?php echo $__env->make('partials.addGroup', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 <?php echo $__env->make('partials.addSpace', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 <?php if(session('success')): ?>
                     <p class="success">
@@ -55,6 +75,7 @@
 
                     </p>
                 <?php endif; ?>
+            <?php endif; ?>
             <?php endif; ?>
             <input type="text" id="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+">
             <div id="results-users"></div>

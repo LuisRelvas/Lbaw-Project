@@ -2,8 +2,27 @@
 
 @section('content')
 
-    <main class="flex-container">
-        @include('partials.sidebar')
+<main class="flex-container">
+        @if (Auth::check())
+            <div class="sidebar">
+                <!-- Sidebar content -->
+                <a href="#">Home</a>
+                <a href="{{ url('/search') }}">Explore</a>
+                <a href="{{ url('/profile/' . Auth::user()->id) }}">Profile</a>
+                <a href="#">Notifications</a>
+                <a href="#">Settings</a>
+                <a href="{{url('/group')}}">Groups</a>
+            </div>
+        @else
+            <div class="sidebar">
+                <!-- Sidebar content -->
+                <a href="{{ url('/login') }}">Home</a>
+                <a href="{{ url('/login') }}">Explore</a>
+                <a href="{{ url('/login') }}">Profile</a>
+                <a href="{{ url('/login') }}">Notifications</a>
+                <a href="{{ url('/login') }}">Settings</a>
+            </div>
+        @endif
 
         <div class="content">
             @if ($errors->has('profile'))
