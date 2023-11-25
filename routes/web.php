@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -124,6 +125,12 @@ Route::controller(GroupController::class)->group(function () {
     Route::post('/group/joinrequest/{id}', 'accept_join_request');
     Route::delete('/group/joinrequest', 'decline_join_request');
     Route::post('/invite', 'invite');
+});
+
+//Notifications
+Route::controller(NotificationController::class)->group(function () {
+    Route::get('/notification', 'list');
+    Route::delete('api/notification/{id}', 'delete');
 });
 
 
