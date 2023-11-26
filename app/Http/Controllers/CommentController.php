@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\CommentNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -9,6 +10,7 @@ use App\Models\Comment;
 use App\Models\Space;   
 use App\Models\LikesComments;
 use App\Models\LikesSpaces; 
+use App\Models\Notification;
 
 
 class CommentController extends Controller 
@@ -52,21 +54,48 @@ class CommentController extends Controller
 
     public function like_on_comments(Request $request) 
 {
-    $comment = Space::find($request->id);
+    $comment = Comment::find($request->id);
 
     LikesComments::insert([
         'user_id' => Auth::user()->id,
         'comment_id' => $comment->id
+    ]);
+
+    Notification::insert([
+        'received_user' => $comment->author_id,
+        'emits_user' => Auth::user()->id,
+        'viewed' => false,
+        'date' => date('Y-m-d H:i'),
+    ]); 
+
+    $lastNotification = Notification::orderBy('id', 'desc')->first();
+
+    CommentNotification::insert([
+        'id' => $lastNotification->id,
+        'comment_id' => $comment->id,
+        'notification_type' => 'liked_comment'
     ]);
 }
 
 public function unlike_on_comments(Request $request)
 {
     $comment = Space::find($request->id);
+    
+    $commentNotification = CommentNotification::where('comment_id', $comment->id)
+        ->where('notification_type', 'liked_comment')
+        ->first();
+    
+    if ($commentNotification) {
+        $id = $commentNotification->id;
+        $commentNotification->delete();
+    }
 
     LikesComments::where('user_id', Auth::user()->id)
         ->where('comment_id', $comment->id)
         ->delete();
+    Notification::where('id', $commentNotification->id)
+        ->delete();
+    
 }
   
     

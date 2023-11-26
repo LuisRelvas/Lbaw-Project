@@ -70,7 +70,7 @@
                             <button id="likeButton{{$comment->id}}" onclick="changeLikeStateC({{$comment->id}}, {{(Auth::check() && Auth::user()->likesComment(Auth::user(),$comment)) ? 'true' : 'false'}})">
                             <i id="likeIcon{{$comment->id}}" class="fa {{(Auth::check() && Auth::user()->likesComment(Auth::user(), $comment)) ? 'fa-heart' : 'fa-heart-o'}}"></i>
                             </button>
-                            <h4 id="countCommentLikes{{$comment->id}}" class="like-count"> {{ $comment->likes_c() }}</h4>
+                            <h4 id="countCommentLikes{{$comment->id}}" class="like-count"> {{ $comment->likes() }}</h4>
                             {{-- Add delete and edit options for comments if needed --}}
                             @if (
                                 (Auth::check() && $comment->author_id == Auth::user()->id) ||
