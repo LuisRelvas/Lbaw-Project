@@ -12,6 +12,7 @@ class GroupNotification extends Model
     public $timestamps  = false;
 
     protected $fillable = [
-        'group_id', 'notification_type'
+        'group_id', 
+        'notification_type'
     ];
 }

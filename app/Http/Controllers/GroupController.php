@@ -14,6 +14,8 @@ use App\Models\Comment;
 use App\Models\Member;
 use Illuminate\Support\Facades\DB;
 use App\Models\GroupJoinRequest;
+use App\Models\Notification;
+use App\Models\GroupNotification;
 
 class GroupController extends Controller 
 {
@@ -31,7 +33,7 @@ class GroupController extends Controller
     public function show(int $id) 
     {
         $group = Group::findOrFail($id);
-        $members = $group->members; // Assuming you have a members() relationship in your Group model
+        $members = $group->members;
         $joins = GroupJoinRequest::whereIn('group_id', [$group->id])->get();
         return view('pages.group',['group' => $group, 'members' => $members, 'joins' => $joins]);
     }
@@ -40,7 +42,10 @@ class GroupController extends Controller
     {
         $user = Auth::user(); 
         $groups = Group::whereIn('user_id', [$user->id])->get();
-        return view('pages.listGroups',['groups' => $groups]);
+        $publics = Group::where('is_public',false)->get();
+        return view('pages.listGroups',[
+        'groups' => $groups,
+        'publics' => $publics]);
     }
 
     public function edit(Request $request)
@@ -80,6 +85,22 @@ class GroupController extends Controller
             'group_id' => $group->id,
             'is_favorite' => false
         ]);
+
+        Notification::insert([
+            'received_user' => $group->user_id,
+            'emits_user' => Auth::user()->id,
+            'viewed' => false,
+            'date' => date('Y-m-d H:i')
+        ]);
+
+        $lastNotification = Notification::orderBy('id', 'desc')->first();
+
+        GroupNotification::insert([
+            'id' => $lastNotification->id,
+            'group_id' => $group->id,
+            'notification_type' => 'joined group'
+        ]);
+
         DB::commit();
     }
 
@@ -88,6 +109,18 @@ class GroupController extends Controller
     $group = Group::find($request->id);
     DB::beginTransaction();
     Member::where('group_id', $group->id)->where('user_id', Auth::user()->id)->delete();
+    Notification::insert([
+        'received_user' => $group->user_id,
+        'emits_user' => Auth::user()->id,
+        'viewed' => false,
+        'date' => date('Y-m-d H:i')
+    ]);
+    $lastNotification = Notification::orderBy('id','desc')->first();
+    GroupNotification::insert([
+        'id' => $lastNotification->id,
+        'group_id' => $group->id,
+        'notification_type' => 'leave group'
+    ]);
     DB::commit();
 }
 
@@ -96,6 +129,19 @@ public function remove_member(Request $request)
     DB::beginTransaction();
 
     Member::where('group_id', $request->groupId)->where('user_id', $request->userId)->delete();  // Corrected line
+
+    Notification::insert([
+        'received_user' => $request->userId,
+        'emits_user' => Auth::user()->id,
+        'viewed' => false,
+        'date' => date('Y-m-d H:i')
+    ]);
+    $lastNotification = Notification::orderBy('id','desc')->first();
+    GroupNotification::insert([
+        'id' => $lastNotification->id,
+        'group_id' => $request->groupId,
+        'notification_type' => 'remove'
+    ]);
 
     DB::commit();
 
@@ -114,6 +160,19 @@ public function join_request(Request $request)
         'user_id' => Auth::user()->id,
         'group_id' => $group->id,
     ]);
+
+    Notification::insert([
+        'received_user' => $group->user_id,
+        'emits_user' => Auth::user()->id,
+        'viewed' => false,
+        'date' => date('Y-m-d H:i')
+    ]);
+    $lastNotification = Notification::orderBy('id','desc')->first();
+    GroupNotification::insert([
+        'id' => $lastNotification->id,
+        'group_id' => $group->id,
+        'notification_type' => 'request_join'
+    ]);
     DB::commit();
 }
 
@@ -131,6 +190,20 @@ public function accept_join_request(Request $request)
         'group_id' => $group->id,
         'is_favorite' => false
     ]);
+
+    Notification::insert([
+        'received_user' => $request->id,
+        'emits_user' => Auth::user()->id,
+        'viewed' => false,
+        'date' => date('Y-m-d H:i')
+    ]);
+    $lastNotification = Notification::orderBy('id','desc')->first();
+    GroupNotification::insert([
+        'id' => $lastNotification->id,
+        'group_id' => $group->id,
+        'notification_type' => 'accepted_join'
+    ]);
+    
 
     DB::commit();
 }
