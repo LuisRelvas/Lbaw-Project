@@ -82,7 +82,7 @@
     <h3><a href="javascript:void(0);" onclick="editGroup({{$group->id }})"></a></h3>
 
     <h2>Invite your friends!</h2>
-<form action="{{ url('/invite') }}" method="POST">
+    <form action="{{ url('/group/invite') }}" method="POST">
     @csrf
     <input type="hidden" name="group_id" value="{{ $group->id }}">
     <input type="email" name="email" placeholder="Enter email">

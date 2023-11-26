@@ -222,21 +222,68 @@ public function decline_join_request(Request $request)
 
 public function invite(Request $request)
 {
-    $request->validate([
-        'email' => 'required|email|exists:users,email',
-        'group_id' => 'required|exists:groups,id',
+    $group = Group::find($request->group_id);
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user) {
+        return back()->withErrors(['email' => 'No user found with this email']);
+    }
+
+    DB::beginTransaction();
+
+    Notification::insert([
+        'received_user' => $user->id,
+        'emits_user' => $group->user_id,
+        'viewed' => false,
+        'date' => date('Y-m-d H:i')
     ]);
 
-    $group = Group::find($request->input('group_id'));
-    $userToInvite = User::where('email', $request->input('email'))->first();
+    $lastNotification = Notification::orderBy('id','desc')->first();
 
-    // Send a notification to the user
-    $userToInvite->notify(new InviteNotification($group));
+    GroupNotification::insert([
+        'id' => $lastNotification->id,
+        'group_id' => $group->id,
+        'notification_type' => 'invite'
+    ]);
+
+    DB::commit();
 
     return back()->with('success', 'Invitation sent!');
 }
 
+
+public function accept_invite(Request $request) 
+{
+    $group = Group::find($request->group_id); 
+    DB::beginTransaction();
+    Member::insert([
+        'user_id' => Auth::user()->id,
+        'group_id' => $group->id,
+        'is_favorite' => false
+    ]);
+    DB::commit();
 }
 
+public function decline_invite(Request $request) 
+{
+    $group = Group::find($request->group_id);
 
+    $getId = Notification::select('id')->where([
+        'received_user' => Auth::user()->id,
+        'emits_user' => $group->user_id,
+        'viewed' => false,
+        'date' => date('Y-m-d H:i')
+    ])->first();
+
+    GroupNotification::where('id', $getId->id)->delete();
+    Notification::where([
+        'received_user' => Auth::user()->id,
+        'emits_user' => $group->user_id,
+        'viewed' => false,
+        'date' => date('Y-m-d H:i')
+    ])->delete();
+    
+}
+
+}
 ?>

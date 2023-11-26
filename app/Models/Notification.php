@@ -14,4 +14,9 @@ class Notification extends Model
     protected $fillable = [
         'received_user', 'emits_user', 'viewed', 'date'
     ];
+
+    public function groupNotification()
+    {
+        return $this->hasOne(GroupNotification::class, 'id', 'id');
+    }
 }

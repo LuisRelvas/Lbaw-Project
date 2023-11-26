@@ -128,7 +128,9 @@ Route::controller(GroupController::class)->group(function () {
     Route::post('/group/joinrequest', 'join_request');
     Route::post('/group/joinrequest/{id}', 'accept_join_request');
     Route::delete('/group/joinrequest', 'decline_join_request');
-    Route::post('/invite', 'invite');
+    Route::post('/group/invite', 'invite');
+    Route::post('/group/acceptinvite', 'accept_invite');
+    Route::delete('/group/declineinvite', 'decline_invite');
 });
 
 //Notifications
