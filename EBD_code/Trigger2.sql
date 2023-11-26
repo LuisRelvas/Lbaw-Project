@@ -4,7 +4,7 @@ $BODY$
 
 BEGIN 
 
-IF EXISTS (SELECT * FROM likes_on_comments WHERE NEW.user_id =user_id AND NEW.comments_id = comments_id) THEN
+IF EXISTS (SELECT * FROM likes_on_comments WHERE NEW.user_id =user_id AND NEW.comment_id = comment_id) THEN
 
 RAISE EXCEPTION 'An user can only like a comment one time';
 

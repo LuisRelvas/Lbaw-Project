@@ -256,6 +256,52 @@ sendAjaxRequest(method, url, data, function(event) {
   }
 });
 }
+function changeLikeState(id, liked) {
+  let url, data;
+  console.log('The value of liked is',liked);
+  console.log('The value of id is',id);
+  switch (liked) {
+    case true:
+      url = '/space/unlike';
+      data = { id: id };
+      sendAjaxRequest('DELETE', url, data, function (response) {
+        console.log('Response:', response);
+      });
+      break;
+    case false:
+      console.log('entered in the false case');
+      let url2 = '/space/like';
+      let data2 = { id: id };
+      sendAjaxRequest('POST', url2, data2, function (response) {
+        console.log('Response:', response);
+      });
+      break;
+  }
+}
+
+
+function changeLikeStateC(id, liked) {
+  let url, data;
+  console.log('The value of liked is',liked);
+  console.log('The value of id is',id);
+  switch (liked) {
+    case true:
+      url = '/comment/unlike';
+      data = { id: id };
+      sendAjaxRequest('DELETE', url, data, function (response) {
+        console.log('Response:', response);
+      });
+      break;
+    case false:
+      console.log('entered in the false case');
+      let url2 = '/comment/like';
+      let data2 = { id: id };
+      sendAjaxRequest('POST', url2, data2, function (response) {
+        console.log('Response:', response);
+      });
+      break;
+  }
+}
 
 function deleteComment(id) {
   if (!confirm('Are you sure you want to delete this comment?')) {

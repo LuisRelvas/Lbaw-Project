@@ -242,8 +242,8 @@ CREATE TABLE likes_on_spaces (
 -- Create the 'likes_on_comments' table
 CREATE TABLE likes_on_comments (
     user_id INT REFERENCES users(id) ON UPDATE CASCADE,
-    comments_id INT REFERENCES comment(id) ON UPDATE CASCADE,
-    PRIMARY KEY(user_id,comments_id)
+    comment_id INT REFERENCES comment(id) ON UPDATE CASCADE,
+    PRIMARY KEY(user_id,comment_id)
 );
 
 -- Create the 'blocked' table
@@ -442,7 +442,7 @@ $BODY$
 
 BEGIN 
 
-IF EXISTS (SELECT * FROM likes_on_comments WHERE NEW.user_id =user_id AND NEW.comments_id = comments_id) THEN
+IF EXISTS (SELECT * FROM likes_on_comments WHERE NEW.user_id =user_id AND NEW.comment_id = comment_id) THEN
 
 RAISE EXCEPTION 'An user can only like a comment one time';
 
@@ -575,7 +575,7 @@ RAISE EXCEPTION 'An User can only like spaces from groups which they belong to';
 
 END IF;
 
-IF EXISTS(SELECT * FROM users,space WHERE NEW.space_id = space.id AND space.user_id = users.id AND NOT users.is_public AND space.group_id IS NULL) AND NOT EXISTS (SELECT * FROM space,follows WHERE NEW.space_id = space.id AND NEW.user_id = follows.user_id1 AND follows.user_id2 = space.user_id) THEN 
+IF EXISTS(SELECT * FROM users,space WHERE NEW.space_id = space.id AND space.user_id = users.id AND users.is_public AND space.group_id IS NULL) AND NOT EXISTS (SELECT * FROM space,follows WHERE NEW.space_id = space.id AND NEW.user_id = follows.user_id1 AND follows.user_id2 = space.user_id) THEN 
 
 RAISE EXCEPTION ' An User can only like comments or spaces from public users or from users that they follow';
 
@@ -775,7 +775,7 @@ $BODY$
 
 BEGIN 
 
-DELETE from likes_on_comments WHERE OLD.id = likes_on_comments.comments_id;
+DELETE from likes_on_comments WHERE OLD.id = likes_on_comments.comment_id;
 
 DELETE FROM comment_notification WHERE OLD.id = comment_notification.comment_id;
 
@@ -836,7 +836,7 @@ BEGIN
 IF EXISTS(
     SELECT 1
     FROM likes_on_comments
-    WHERE user_id = NEW.user_id AND comments_id = NEW.comments_id
+    WHERE user_id = NEW.user_id AND comment_id = NEW.comment_id
 ) THEN 
     RAISE EXCEPTION 'A user can only like a comment once';
 END IF;
@@ -846,7 +846,7 @@ IF EXISTS(
     SELECT 1
     FROM comment
     JOIN space ON comment.space_id = space.id
-    WHERE comment.id = NEW.comments_id AND space.group_id IS NOT NULL
+    WHERE comment.id = NEW.comment_id AND space.group_id IS NOT NULL
 ) THEN
     -- If the comment is in a group, check if the user is a member of that group
     IF NOT EXISTS(
@@ -859,7 +859,7 @@ IF EXISTS(
                 WHERE space.id = (
                     SELECT comment.space_id
                     FROM comment
-                    WHERE comment.id = NEW.comments_id
+                    WHERE comment.id = NEW.comment_id
                 )
             )
     ) THEN
@@ -873,9 +873,9 @@ ELSE
         WHERE id = (
             SELECT author_id
             FROM comment
-            WHERE id = NEW.comments_id
+            WHERE id = NEW.comment_id
         )
-        AND NOT is_public
+        AND is_public
     ) AND NOT EXISTS(
         SELECT 1
         FROM follows
@@ -883,7 +883,7 @@ ELSE
             AND user_id2 = (
                 SELECT author_id
                 FROM comment
-                WHERE id = NEW.comments_id
+                WHERE id = NEW.comment_id
             )
     ) THEN
         RAISE EXCEPTION 'A user can only like comments from public users or from users they follow';

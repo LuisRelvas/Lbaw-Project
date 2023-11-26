@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Auth;
 
 
 use App\Models\Comment;
-use App\Models\Space;    
+use App\Models\Space;   
+use App\Models\LikesComments;
+use App\Models\LikesSpaces; 
 
 
 class CommentController extends Controller 
@@ -46,6 +48,26 @@ class CommentController extends Controller
         redirect('/space/'.$comment->space_id)->withSuccess('Comment deleted successfully!');
         return response()->json(['message' => 'Comment deleted successfully']);
     }
+
+
+    public function like_on_comments(Request $request) 
+{
+    $comment = Space::find($request->id);
+
+    LikesComments::insert([
+        'user_id' => Auth::user()->id,
+        'comment_id' => $comment->id
+    ]);
+}
+
+public function unlike_on_comments(Request $request)
+{
+    $comment = Space::find($request->id);
+
+    LikesComments::where('user_id', Auth::user()->id)
+        ->where('comment_id', $comment->id)
+        ->delete();
+}
   
     
 }

@@ -18,7 +18,7 @@ INSERT INTO space(content,date,is_public,user_id) VALUES('Just a test','11-09-20
 INSERT INTO comment(space_id,author_id,username,content,date) VALUES(1,1,'wdyw','what do you want','11-09-2022');
 INSERT INTO comment(space_id,author_id,username,content,date) VALUES(2,2,'wdym','what do you mean','11-09-2022');
 
-INSERT INTO likes_on_comments(user_id,comments_id) VALUES(1,2);
+INSERT INTO likes_on_comments(user_id,comment_id) VALUES(1,2);
 
 INSERT INTO follows_request(user_id1,user_id2) VALUES(1,2); 
 

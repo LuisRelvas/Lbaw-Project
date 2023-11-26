@@ -31,6 +31,10 @@ class Comment extends Model
     {
         return Space::find($this->space_id)->get();
     }
+    public function likes_c() 
+    {
+        return count($this->hasMany('App\Models\LikesComments')->get());
+    }
 }
 
 

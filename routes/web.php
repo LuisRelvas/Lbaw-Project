@@ -66,6 +66,8 @@ Route::controller(SpaceController::class) ->group(function() {
     Route::get('/homepage','list');
     Route::delete('/api/space/{id}', 'delete');
     Route::get('/api/space', 'search');
+    Route::post('/space/like','like_on_spaces');
+    Route::delete('/space/unlike','unlike_on_spaces');
 });
 
 // Comments
@@ -74,6 +76,8 @@ Route::put('/comment/edit', [CommentController::class, 'edit']);
 Route::controller(CommentController::class) ->group(function() {
     Route::post('/comment/create', 'create');
     Route::delete('/api/comment/{id}', 'delete');
+    Route::post('/comment/like','like_on_comments');
+    Route::delete('/comment/unlike','unlike_on_comments');
 });
 
 

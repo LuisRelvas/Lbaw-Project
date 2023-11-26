@@ -1,6 +1,7 @@
 <?php 
 
 namespace App\Http\Controllers;
+use App\Models\LikesSpaces;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -109,10 +110,26 @@ public function search(Request $request)
 }
 
 
+public function like_on_spaces(Request $request) 
+{
+    $space = Space::find($request->id);
 
-
-
+    LikesSpaces::insert([
+        'user_id' => Auth::user()->id,
+        'space_id' => $space->id
+    ]);
 }
+
+public function unlike_on_spaces(Request $request)
+{
+    $space = Space::find($request->id);
+
+    LikesSpaces::where('user_id', Auth::user()->id)
+        ->where('space_id', $space->id)
+        ->delete();
+}
+}
+
 
 
 

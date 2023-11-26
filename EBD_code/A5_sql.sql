@@ -153,8 +153,8 @@ CREATE TABLE likes_on_spaces (
 -- Create the 'likes_on_comments' table
 CREATE TABLE likes_on_comments (
     user_id INT REFERENCES users(id) ON UPDATE CASCADE,
-    comments_id INT REFERENCES comment(id) ON UPDATE CASCADE,
-    PRIMARY KEY(user_id,comments_id)
+    comment_id INT REFERENCES comment(id) ON UPDATE CASCADE,
+    PRIMARY KEY(user_id,comment_id)
 );
 
 -- Create the 'blocked' table

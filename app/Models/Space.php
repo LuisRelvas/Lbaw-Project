@@ -46,6 +46,11 @@ class Space extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function likes() 
+    {
+        return count($this->hasMany('App\Models\LikesSpaces')->get());
+    }
 }
 
 

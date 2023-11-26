@@ -4,7 +4,7 @@ $BODY$
 
 BEGIN 
 
-DELETE from likes_on_comments WHERE OLD.id = likes_on_comments.comments_id;
+DELETE from likes_on_comments WHERE OLD.id = likes_on_comments.comment_id;
 
 DELETE FROM comment_notification WHERE OLD.id = comment_notification.comment_id;
 
