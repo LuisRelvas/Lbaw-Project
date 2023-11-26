@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Notification extends Model
+class GroupNotification extends Model
 {
     use HasFactory;
-    protected $table = 'notification';
+    protected $table = 'group_notification';
     public $timestamps  = false;
 
     protected $fillable = [
-        'received_user', 'emits_user', 'viewed', 'date'
+        'group_id', 'notification_type'
     ];
 }

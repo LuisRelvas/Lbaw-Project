@@ -12,7 +12,8 @@ use App\Models\Follow;
 use Illuminate\Support\Facades\DB;
 use App\Models\Block;
 use App\Models\FollowsRequest;
-
+use App\Models\Notification;
+use App\Models\UserNotification;
 
 class UserController extends Controller {
 
@@ -67,6 +68,21 @@ public function editUser()
          'user_id1' => Auth::user()->id,
          'user_id2' => $id,
      ]);
+
+    Notification::insert([
+        'received_user' => $id,
+        'emits_user' => Auth::user()->id,
+        'viewed' => false,
+        'date' => now()
+     ]);
+
+     $lastNotification = Notification::orderBy('id', 'desc')->first();
+
+     UserNotification::insert([
+        'id' => $lastNotification->id,
+        'notification_type' => 'started_following'
+     ]);
+
      return redirect('/profile/'.$id)->withSuccess('Followed successfully!');
  }
 
@@ -167,6 +183,20 @@ public function follow_request(Request $request) {
             'user_id1' => $request->user_id1,
             'user_id2' => $user->id
         ]);
+
+        Notification::insert([
+            'received_user' => $user->id,
+            'emits_user' => $request->user_id1,
+            'viewed' => false,
+            'date' => now()
+        ]);
+
+        $lastNotification = Notification::orderBy('id', 'desc')->first();
+
+        UserNotification::insert([
+            'id' => $lastNotification->id,
+            'notification_type' => 'request_follow'
+        ]);
         DB::commit();
 }
 
@@ -180,6 +210,25 @@ public function accept_follow_request(Request $request) {
 
     ])->delete();
 
+    Notification::insert([
+        'received_user' => $user1->id,
+        'emits_user' => $user2->id,
+        'viewed' => false,
+        'date' => now()
+    ]);
+
+    $lastNotification = Notification::orderBy('id','desc')->first();
+
+    $old = Notification::join('user_notification', 'notification.id', '=', 'user_notification.id')
+    ->where('user_notification.notification_type', 'request_follow')
+    ->orderBy('notification.id', 'desc')
+    ->first();
+
+    UserNotification::where('id',$old->id)->update([
+        'notification_type' => 'accepted_follow'
+    ]);
+
+    
     Follow::insert([
         'user_id1' => $user1->id,
         'user_id2' => $user2->id
@@ -197,6 +246,18 @@ public function decline_follow_request(Request $request)
         'user_id1' => $user1->id,
         'user_id2' => $user2->id
     ])->delete();
+
+    Notification::insert([
+        'received_user' => $user1->id,
+        'emits_user' => $user2->id,
+        'viewed' => false,
+        'date' => now()
+    ]);
+
+    UserNotification::insert([
+        'notification_type' => 'declined_follow_request'
+    ]);
+    
     DB::commit();
 }
 
