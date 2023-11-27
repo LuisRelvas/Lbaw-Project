@@ -12,6 +12,7 @@
                 <a href="{{ url('/notification') }}">Notifications</a>
                 <a href="#">Settings</a>
                 <a href="{{url('/group')}}">Groups</a>
+                <a href="{{url('/messages')}}">Messages</a>
             </div>
         @else
             <div class="sidebar">

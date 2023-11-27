@@ -125,4 +125,17 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'follows', 'user_id1', 'user_id2');
     }
 
+    public function getUserDMs() 
+    {
+        $users = Message::select('emits_id')
+            ->where('received_id', $this->id)
+            ->union(
+                Message::select('received_id')
+                        ->where('emits_id', $this->id)
+                )
+            ->distinct()->get();
+
+        return $users;
+    }
+
 }

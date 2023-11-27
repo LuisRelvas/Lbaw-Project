@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,6 +81,9 @@ Route::controller(CommentController::class) ->group(function() {
     Route::delete('/comment/unlike','unlike_on_comments');
 });
 
+Route::get('/messages',[MessageController::class,'list']);
+Route::get('/messages/{id}',[MessageController::class,'show']);
+Route::post('/messages/send',[MessageController::class,'send']);
 
 Route::post('/group/add', [GroupController::class, 'add']);
 Route::get('/group/{id}', [GroupController::class, 'show']);

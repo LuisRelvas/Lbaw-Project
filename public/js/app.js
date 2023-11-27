@@ -16,6 +16,9 @@ function sendAjaxRequest(method, url, data, handler) {
   request.send(encodeForAjax(data));
 }
 
+
+
+
 function resetEditStateComment(id) {
   let comment = document.querySelector("#comment" + id);
   let content = comment.querySelector(".content");
@@ -291,9 +294,9 @@ function acceptInvite(id, notification_id)
     console.log('Response:', response);
     delNot(notification_id);
   });
-  
-
 }
+
+
 
 function delNot(id) 
 {
@@ -627,6 +630,20 @@ function changeGroupState(id,user_id,publicGroup)
 }
 
 
+function addMessage() {
+  console.log('entered in the add message function');
+  let url = '/messages/send';
+  let data = {
+      content: document.getElementById('messageContent').value,
+      emits_id: document.getElementById('emitsId').value
+  };
+
+  sendAjaxRequest('POST', url, data, function(response) {
+      console.log('Response:', response);
+  });
+}
+
+
 function deleteMember(id) {
   var pathParts = window.location.pathname.split('/');
   var groupId = parseInt(pathParts[pathParts.length - 1]);
@@ -692,6 +709,8 @@ updateTotal((document.querySelector('#results-spaces').innerHTML.match(/<article
 
 
 
+
+
 function init() {
 const search_bar = document.querySelector("#search");
 if (search_bar) {
@@ -710,6 +729,7 @@ if (search_bar) {
 
 function handleSearchButtonClick() {
   const searchInput = document.querySelector("#search").value;
+  
   search(searchInput);
 }
 

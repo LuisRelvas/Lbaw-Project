@@ -50,6 +50,7 @@
                 @endif
             @endif
         @endif
+        @if(!empty($wants))
         @foreach($wants as $want)
             @if(Auth::check() && $want->user_id2 == Auth::user()->id)
             <p>Follow request from {{ $want->user_id1 }}</p>
@@ -61,6 +62,7 @@
                 </button>  
             @endif
         @endforeach
+        @endif
         @if (session('success'))
             <p class="success">
                 {{ session('success') }}
