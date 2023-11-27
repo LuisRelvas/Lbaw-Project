@@ -144,7 +144,7 @@ main > header span {
     overflow: auto; /* Add a scrollbar when content overflows */
     margin-top: 0;
     margin-bottom: 0;
-}
+  }
 
   /* Additional styling for the main content */
   .content input,
@@ -242,17 +242,17 @@ mark.hub {
   padding: 2px 5px; /* Adjust padding as needed */
 }
 
-.error{
+.error {
   color: red;
   font-weight: bold;
 }
 
-.success{
+.success {
   color: green;
   font-weight: bold;
 }
 
-.no_results{
+.no_results {
   color: red;
   font-weight: bold;
 }
