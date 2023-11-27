@@ -1,5 +1,6 @@
 /* ------ Space ------ */
 
+
 .space-card {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -100,3 +101,19 @@ form textarea {
     margin-bottom: 10px;
 }
 
+#likeButton {
+    display: inline-block;
+}
+
+#likeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #1da1f2;
+}
+
+#likeButton .like-count {
+    margin-left: 5px;
+}
