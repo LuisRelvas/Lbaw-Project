@@ -71,12 +71,13 @@
                             <div class="content">{{ $comment->content }}</div>
 
                             <button id="likeButton{{ $comment->id }}"
-                                onclick="changeLikeState({{ $comment->id }}, {{ Auth::check() && Auth::user()->likesComment(Auth::user(), $comment) ? 'true' : 'false' }})">
+                                onclick="changeLikeStateC({{ $comment->id }}, {{ Auth::check() && Auth::user()->likesComment(Auth::user(), $comment) ? 'true' : 'false' }})">
                                 <i id="likeIcon{{ $comment->id }}"
                                     class="fa {{ Auth::check() && Auth::user()->likesComment(Auth::user(), $comment) ? 'fa-heart' : 'fa-heart-o' }}"></i>
                                 <span id="countCommentLikes{{ $comment->id }}" class="like-count">
                                     {{ $comment->likes() }}</span>
                             </button>
+
                             {{-- Add delete and edit options for comments if needed --}}
                             @if (
                                 (Auth::check() && $comment->author_id == Auth::user()->id) ||
