@@ -247,16 +247,6 @@ public function decline_follow_request(Request $request)
         'user_id2' => $user2->id
     ])->delete();
 
-    Notification::insert([
-        'received_user' => $user1->id,
-        'emits_user' => $user2->id,
-        'viewed' => false,
-        'date' => now()
-    ]);
-
-    UserNotification::insert([
-        'notification_type' => 'declined_follow_request'
-    ]);
     DB::commit();
 }
 

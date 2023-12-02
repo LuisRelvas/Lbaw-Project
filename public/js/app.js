@@ -208,7 +208,28 @@ main.textContent = main.dataset.originalContent;
 resetEditState(id);
 }
 
-
+function updateNotification(id) 
+{
+  let url = 'notification/' + id; 
+  var method = 'PUT';
+  var data = {
+    id: id  };
+  sendAjaxRequest(method, url, data, function(event) {
+    if (event.target.status === 200) {
+      var response = JSON.parse(event.target.responseText);
+      console.log(response); // Log the server response (optional)
+      
+      // Redirect to the appropriate URL based on whether the user is an admin
+      if (response.isAdmin) {
+        window.location.href = '/admin';
+      } else {
+        window.location.href = '/homepage';
+      }
+    } else {
+      console.error('Error:', event.target.status, event.target.statusText);
+    }
+  });
+}
 
 
 function deleteNotification(id) {
@@ -235,7 +256,7 @@ function deleteNotification(id) {
       console.error('Error:', event.target.status, event.target.statusText);
     }
   });
-  }
+}
 
 function deleteSpace(id) {
 if (!confirm('Are you sure you want to delete this space?')) {

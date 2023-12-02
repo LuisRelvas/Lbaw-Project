@@ -148,6 +148,7 @@ Route::controller(GroupController::class)->group(function () {
 Route::controller(NotificationController::class)->group(function () {
     Route::get('/notification', 'list');
     Route::delete('api/notification/{id}', 'delete');
+    Route::put('/notification/{id}', 'edit');
 });
 
 
