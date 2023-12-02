@@ -14,6 +14,14 @@
                             <li><a href="/group/{{ $public->id }}" class="card">{{ $public->name }}</a></li>
                             @endif
                         @endforeach
+                        @foreach ($members as $member)
+                        @php 
+                            $group = \App\Models\Group::findOrFail($member->group_id);
+                        @endphp
+                            @if(Auth::check())
+                            <li><a href="/group/{{ $member->group_id }}" class="card">{{ $group->name}}</a></li>
+                            @endif
+                        @endforeach
                     </ul>
                 </div>
             </div>

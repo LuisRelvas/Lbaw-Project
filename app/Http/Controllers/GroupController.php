@@ -43,10 +43,13 @@ class GroupController extends Controller
     {
         $user = Auth::user(); 
         $groups = Group::whereIn('user_id', [$user->id])->get();
-        $publics = Group::where('is_public',false)->get();
+        $publics = Group::where('is_public',false)->get();        
+        $members = Member::where('user_id',Auth::user()->id)->get();
         return view('pages.listGroups',[
         'groups' => $groups,
-        'publics' => $publics]);
+        'publics' => $publics,
+        'members' => $members
+    ]);
     }
 
     public function edit(Request $request)

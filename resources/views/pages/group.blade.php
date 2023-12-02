@@ -38,7 +38,8 @@
                 @endif
         </section>
 
-        <section id="members" class="members">
+    @if(Auth::check() && $group->hasMember(Auth::user()))
+    <section id="members" class="members">
     <h2>Members</h2>
     @foreach($members as $member)
         <div class="member">
@@ -107,6 +108,7 @@
             <div class="spacecontent">{{ $space->content }}</div>
         </main>
     @endforeach
+    @endif
     @endif
 
 
