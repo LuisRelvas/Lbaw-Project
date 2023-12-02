@@ -49,7 +49,7 @@ class Space extends Model
 
     public function likes() 
     {
-        return count($this->hasMany('App\Models\LikesSpaces')->get());
+        return count($this->hasMany('App\Models\LikeSpace')->get());
     }
 }
 

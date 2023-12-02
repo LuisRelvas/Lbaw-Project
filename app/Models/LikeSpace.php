@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class LikesSpaces extends Model 
+class LikeSpace extends Model 
 {
     use HasFactory; 
 

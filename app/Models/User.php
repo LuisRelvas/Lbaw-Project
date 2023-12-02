@@ -78,14 +78,15 @@ class User extends Authenticatable
         return Follow::where('user_id1', $this->id)->where('user_id2', $user->id)->exists();
     }
 
-    public function likesSpace(User $user, Space $space) {
-        return LikesSpaces::where('user_id', $user->id)->where('space_id', $space->id)->exists();
+     public function likesSpace(User $user, Space $space) {
+        return LikeSpace::where('user_id', $user->id)->where('space_id', $space->id)->exists();
     }
 
     public function likesComment(User $user, Comment $comment) 
     {
         return LikesComments::where('user_id', $user->id)->where('comment_id', $comment->id)->exists();
     }
+    
 
     public function getUsername(int $space_id) 
     {

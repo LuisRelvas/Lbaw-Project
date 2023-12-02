@@ -20,12 +20,11 @@
         <link href="{{ url('css/about.css') }}" rel="stylesheet">
         <link href="{{ url('css/admin.css') }}" rel="stylesheet">
         <link href="{{ url('css/partials.css') }}" rel="stylesheet">
-        <script type="text/javascript">
-            // Fix for Firefox autofocus CSS bug
-            // See: http://stackoverflow.com/questions/18943276/html-5-autofocus-messes-up-css-loading/18945951#18945951
-        </script>
+        <script src="https://js.pusher.com/7.0/pusher.min.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/laravel-echo/dist/echo.iife.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script type="text/javascript"></script>
         <script type="text/javascript" src={{ url('js/app.js') }} defer>
-            
         </script>
     </head>
     <body>

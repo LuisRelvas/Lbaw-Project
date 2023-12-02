@@ -208,6 +208,9 @@ main.textContent = main.dataset.originalContent;
 resetEditState(id);
 }
 
+
+
+
 function deleteNotification(id) {
   if (!confirm('Are you sure you want to delete this notification?')) {
     return;
@@ -259,28 +262,120 @@ sendAjaxRequest(method, url, data, function(event) {
   }
 });
 }
-function changeLikeState(id, liked) {
-  let url, data;
-  console.log('The value of liked is',liked);
-  console.log('The value of id is',id);
-  switch (liked) {
-    case true:
-      url = '/space/unlike';
-      data = { id: id };
-      sendAjaxRequest('DELETE', url, data, function (response) {
-        console.log('Response:', response);
-      });
-      break;
-    case false:
-      console.log('entered in the false case');
-      let url2 = '/space/like';
-      let data2 = { id: id };
-      sendAjaxRequest('POST', url2, data2, function (response) {
-        console.log('Response:', response);
-      });
-      break;
-  }
+
+
+let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+Pusher.logToConsole = true;
+const pusher = new Pusher('e0f29d0e833b76381d01', {
+    cluster: 'eu',
+    authEndpoint: '/broadcasting/auth',
+    auth: {
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        }
+    }
+});
+
+var ownerChannel;
+var userChannel;
+var currentOwner; // The current owner of the page
+
+function setupOwnerChannel(owner) {
+    ownerChannel = pusher.subscribe('private-lbaw2372.' + owner);
+
+    ownerChannel.bind('pusher:subscription_succeeded', function () {
+        console.log('Owner Channel - Subscription succeeded');
+    });
+
+    ownerChannel.bind('notification-spaceLike', function (data) {
+        console.log('Owner Channel - Space ID:', data.space_id);
+        console.log('Owner Channel - Message:', data.message);
+        data.message = 'User ' + ' liked your space.';
+        showNotification(data.message);
+    });
 }
+
+function setupUserChannel(user) {
+    userChannel = pusher.subscribe('private-lbaw2372.' + user);
+
+    userChannel.bind('pusher:subscription_succeeded', function () {
+        console.log('User Channel - Subscription succeeded');
+    });
+
+    userChannel.bind('notification-spaceLike', function (data) {
+        console.log('User Channel - Space ID:', data.space_id);
+        console.log('User Channel - Message:', data.message);
+        showNotification(data.message);
+    });
+}
+
+function useCurrentOwner() {
+  console.log('The value of the currentOwner OUTSIDE is', currentOwner);
+}
+
+let currentUrl = window.location.href;
+let currentUrlParts = currentUrl.split('/');
+let currentUrlOwner = currentUrlParts[currentUrlParts.length - 1];
+setupOwnerChannel(window.spaceUserId);
+
+
+function changeLikeState(id, liked, user, owner) {
+    let url, data3;
+    currentOwner = owner;
+    useCurrentOwner();
+
+    console.log("The value of the currentOwner is",currentOwner);
+    let countElement = document.getElementById('countSpaceLikes' + id);
+    let currentCount = parseInt(countElement.textContent);
+    let likeButton = document.getElementById('likeButton' + id);
+    console.log('The value of the currentOwner INSIDE is', currentOwner);
+    if (!userChannel || !userChannel.subscribed) {
+        // Set up the user channel if it's not already set up
+        setupUserChannel(user);
+    }
+
+    switch (liked) {
+        case true:
+            url = '/space/unlike';
+            data3 = { id: id };
+            sendAjaxRequest('DELETE', url, data3, function (response) {
+                console.log('Response:', response);
+                countElement.textContent = currentCount - 1;
+                likeButton.setAttribute('onclick', `changeLikeState(${id}, false,${user},${owner})`);
+            });
+            break;
+        case false:
+            let url2 = '/space/like';
+            let data2 = { id: id };
+            sendAjaxRequest('POST', url2, data2, function (response) {
+                console.log('Response:', response);
+                countElement.textContent = currentCount + 1;
+                likeButton.setAttribute('onclick', `changeLikeState(${id}, true,${user},${owner})`);
+                
+                // Notify the user when they like a space
+                userChannel.trigger('client-notification-spaceLike', {
+                    space_id: id,
+                    message: 'You liked the space.'
+                });
+            });
+            break;
+    }
+}
+
+
+
+function showNotification(message) {
+  // Use SweetAlert2 or any other custom notification logic here
+  Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'Space',
+    text: message,
+    showConfirmButton: false,
+    timer: 3000 // Adjust the duration as needed
+  });
+}
+
 
 
 function acceptInvite(id, notification_id) 
@@ -295,7 +390,6 @@ function acceptInvite(id, notification_id)
     delNot(notification_id);
   });
 }
-
 
 
 function delNot(id) 
@@ -726,12 +820,10 @@ if (search_bar) {
     });
 }
 }
-
 function handleSearchButtonClick() {
   const searchInput = document.querySelector("#search").value;
   
   search(searchInput);
 }
-
 init();
 

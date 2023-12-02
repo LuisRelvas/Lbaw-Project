@@ -7,7 +7,7 @@
             <div class="sidebar">
                 <!-- Sidebar content -->
                 <a href="#">Home</a>
-                <a href="{{ url('/search') }}">Explore</a>
+                <a href="{{ url('/homepage/search') }}">Explore</a>
                 <a href="{{ url('/profile/' . Auth::user()->id) }}">Profile</a>
                 <a href="{{ url('/notification') }}">Notifications</a>
                 <a href="#">Settings</a>
@@ -77,6 +77,10 @@
                 @endif
             @endif
             <input type="text" id="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+">
+            <form action="{{ url('homepage/search') }}" method="get">
+            <input type="text" id="search" name="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+">
+            <button type="submit">Search</button>
+            </form>
             <div id="results-users"></div>
             @if (Auth::check())
                 <div id="results-spaces"></div>

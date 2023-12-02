@@ -12,8 +12,9 @@ class SpacePolicy
 {
     use HandlesAuthorization;
 
-    public function show(User $user,Space $space)
+    public function show(?User $user,Space $space)
     {
+    // echo ("<script>console.log('PHP:')</script>");
     return ($user->is_public === false || 
         (Auth::check() && (Auth::user()->isAdmin(Auth::user()) || 
                            Auth::user()->id == $user->id || 

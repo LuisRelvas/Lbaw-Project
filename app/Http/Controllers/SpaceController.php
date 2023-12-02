@@ -1,7 +1,6 @@
 <?php 
 
 namespace App\Http\Controllers;
-use App\Models\LikesSpaces;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,7 +8,8 @@ use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Space;
 use App\Models\User;
-
+use App\Events\LikesSpaces;
+use App\Models\LikeSpace;
 class SpaceController extends Controller 
 {
 
@@ -17,6 +17,9 @@ class SpaceController extends Controller
     {
         $space = Space::findOrFail($id);
         $user = User::findOrFail($space->user_id);
+        // echo ("<script>console.log('TEST:')</script>");
+        // $this->authorize('show', $space);
+        
         if($user->is_public == 0 || (Auth::check() && Auth::user()->id == $space->user_id) || (Auth::Check() && Auth::user()->isAdmin(Auth::user())) || (Auth::check() &&Auth::user()->isFollowing($user))){
         {
             return view('pages.space', [
@@ -112,9 +115,11 @@ public function search(Request $request)
 
 public function like_on_spaces(Request $request) 
 {
-    $space = Space::find($request->id);
 
-    LikesSpaces::insert([
+    $space = Space::find($request->id);
+    event(new LikesSpaces($space->id));    
+    // How can I add this info to the database ? 
+    LikeSpace::insert([
         'user_id' => Auth::user()->id,
         'space_id' => $space->id
     ]);
@@ -124,7 +129,7 @@ public function unlike_on_spaces(Request $request)
 {
     $space = Space::find($request->id);
 
-    LikesSpaces::where('user_id', Auth::user()->id)
+    LikeSpace::where('user_id', Auth::user()->id)
         ->where('space_id', $space->id)
         ->delete();
 }

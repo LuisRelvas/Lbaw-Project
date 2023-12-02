@@ -29,8 +29,14 @@ use App\Http\Controllers\MessageController;
 Route::redirect('/', '/login');
 
 // Homepage
+
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
+Broadcast::routes();
+
+
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/homepage/search', [UserController::class, 'searchPage'])->name('search');
+
+    Route::get('/homepage/search', [UserController::class, 'search_exact'])->name('search');
 });
 
 Route::get('/homepage', function () {
@@ -82,8 +88,9 @@ Route::controller(CommentController::class) ->group(function() {
 });
 
 Route::get('/messages',[MessageController::class,'list']);
-Route::get('/messages/{id}',[MessageController::class,'show']);
 Route::post('/messages/send',[MessageController::class,'send']);
+Route::get('/messages/{id}',[MessageController::class,'show']);
+Route::post('/messages/receive',[MessageController::class,'receive']);
 
 Route::post('/group/add', [GroupController::class, 'add']);
 Route::get('/group/{id}', [GroupController::class, 'show']);

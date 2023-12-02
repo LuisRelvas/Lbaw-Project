@@ -257,8 +257,14 @@ public function decline_follow_request(Request $request)
     UserNotification::insert([
         'notification_type' => 'declined_follow_request'
     ]);
-    
     DB::commit();
+}
+
+public function search_exact(Request $request)
+{
+    $input = $request->input('search');
+    $users = User::where('username', 'like', '%' . $input . '%')->get();
+    return view('pages.search', ['users' => $users]);
 }
 
 }

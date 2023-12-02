@@ -7,6 +7,10 @@
     <main class="flex-container">
         @include('partials.sidebar')
         <div class="content">
+        <script>
+                // Declare a global JavaScript variable
+                window.spaceUserId = "{{ $space->user_id }}";
+            </script>
             <div id="space{{ $space->id }}" data-space-id="{{ $space->id }}" class="space-card">
                 <span class="dot"></span>
                 <div class="spaceauthor"><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></div>
@@ -14,10 +18,12 @@
                 <main>
                     <div class="spacecontent">{{ $space->content }}</div>
                 </main>
-                <button id="likeButton{{$space->id}}" onclick="changeLikeState({{$space->id}}, {{(Auth::check() && Auth::user()->likesSpace(Auth::user(),$space)) ? 'true' : 'false'}})">
-                <i id="likeIcon{{$space->id}}" class="fa {{(Auth::check() && Auth::user()->likesSpace(Auth::user(), $space)) ? 'fa-heart' : 'fa-heart-o'}}"></i>
+                <button id="likeButton{{ $space->id }}"
+                    onclick="changeLikeState({{ $space->id }}, {{ Auth::check() && Auth::user()->likesSpace(Auth::user(), $space) ? 'true' : 'false' }}, {{Auth::user()->id}},{{$space->user_id}})">
+                    <i id="likeIcon{{ $space->id }}"
+                        class="fa {{ Auth::check() && Auth::user()->likesSpace(Auth::user(), $space) ? 'fa-heart' : 'fa-heart-o' }}"></i>
+                    <span id="countSpaceLikes{{ $space->id }}" class="like-count"> {{ $space->likes() }}</span>
                 </button>
-                <h4 id="countSpaceLikes{{$space->id}}" class="like-count"> {{ $space->likes() }}</h4>
                 @if ((Auth::check() && $space->user_id == Auth::user()->id) || (Auth::check() && Auth::user()->isAdmin(Auth::user())))
                     <button id="deleteSpace{{ $space->id }}" onclick="deleteSpace({{ $space->id }})"
                         class="button-space-comment">&#10761;
@@ -67,10 +73,15 @@
                                 <p><a href="/profile/{{ $comment->author_id }}">{{ $comment->username }}</a></p>
                             </div>
                             <div class="content">{{ $comment->content }}</div>
-                            <button id="likeButton{{$comment->id}}" onclick="changeLikeStateC({{$comment->id}}, {{(Auth::check() && Auth::user()->likesComment(Auth::user(),$comment)) ? 'true' : 'false'}})">
-                            <i id="likeIcon{{$comment->id}}" class="fa {{(Auth::check() && Auth::user()->likesComment(Auth::user(), $comment)) ? 'fa-heart' : 'fa-heart-o'}}"></i>
+
+                            <button id="likeButton{{ $comment->id }}"
+                                onclick="changeLikeStateC({{ $comment->id }}, {{ Auth::check() && Auth::user()->likesComment(Auth::user(), $comment) ? 'true' : 'false' }})">
+                                <i id="likeIcon{{ $comment->id }}"
+                                    class="fa {{ Auth::check() && Auth::user()->likesComment(Auth::user(), $comment) ? 'fa-heart' : 'fa-heart-o' }}"></i>
+                                <span id="countCommentLikes{{ $comment->id }}" class="like-count">
+                                    {{ $comment->likes() }}</span>
                             </button>
-                            <h4 id="countCommentLikes{{$comment->id}}" class="like-count"> {{ $comment->likes() }}</h4>
+
                             {{-- Add delete and edit options for comments if needed --}}
                             @if (
                                 (Auth::check() && $comment->author_id == Auth::user()->id) ||

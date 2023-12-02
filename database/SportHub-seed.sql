@@ -256,7 +256,7 @@ CREATE TABLE message (
 id SERIAL PRIMARY KEY,
 received_id INTEGER REFERENCES users(id) ON UPDATE CASCADE,
 emits_id INTEGER REFERENCES users(id) ON UPDATE CASCADE,
-content TEXT NOT NULL,
+content TEXT,
 date DATE NOT NULL CHECK (date <= current_date),
 is_viewed BOOLEAN NOT NULL DEFAULT FALSE
 );
