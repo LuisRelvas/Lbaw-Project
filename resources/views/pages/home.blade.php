@@ -3,27 +3,7 @@
 @section('content')
 
 <main class="flex-container">
-        @if (Auth::check())
-            <div class="sidebar">
-                <!-- Sidebar content -->
-                <a href="#">Home</a>
-                <a href="{{ url('/homepage/search') }}">Explore</a>
-                <a href="{{ url('/profile/' . Auth::user()->id) }}">Profile</a>
-                <a href="{{ url('/notification') }}">Notifications</a>
-                <a href="#">Settings</a>
-                <a href="{{url('/group')}}">Groups</a>
-                <a href="{{url('/messages')}}">Messages</a>
-            </div>
-        @else
-            <div class="sidebar">
-                <!-- Sidebar content -->
-                <a href="{{ url('/login') }}">Home</a>
-                <a href="{{ url('/login') }}">Explore</a>
-                <a href="{{ url('/login') }}">Profile</a>
-                <a href="{{ url('/login') }}">Notifications</a>
-                <a href="{{ url('/login') }}">Settings</a>
-            </div>
-        @endif
+       @include('partials.sidebar')
 
         <div class="content">
             @if ($errors->has('profile'))
@@ -67,6 +47,12 @@
             @endif
         </div>
         <div class="searchbar">
+            
+            <input type="text" id="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+">
+            <div id="results-users"></div>
+            @if (Auth::check())
+                <div id="results-spaces"></div>
+            @endif
             @if (Auth::check())
                 @include('partials.addGroup')
                 @include('partials.addSpace')
@@ -75,15 +61,6 @@
                         {{ session('success') }}
                     </p>
                 @endif
-            @endif
-            <input type="text" id="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+">
-            <form action="{{ url('homepage/search') }}" method="get">
-            <input type="text" id="search" name="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+">
-            <button type="submit">Search</button>
-            </form>
-            <div id="results-users"></div>
-            @if (Auth::check())
-                <div id="results-spaces"></div>
             @endif
         </div>
     </main>

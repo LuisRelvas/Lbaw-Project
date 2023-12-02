@@ -263,7 +263,7 @@ public function decline_follow_request(Request $request)
 public function search_exact(Request $request)
 {
     $input = $request->input('search');
-    $users = User::where('username', 'like', '%' . $input . '%')->get();
+    $users = User::where('username', 'like', '%' . $input . '%')->orderBy('username')->get();
     return view('pages.search', ['users' => $users]);
 }
 

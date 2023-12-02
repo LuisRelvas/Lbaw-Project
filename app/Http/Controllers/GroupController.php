@@ -35,7 +35,8 @@ class GroupController extends Controller
         $group = Group::findOrFail($id);
         $members = $group->members;
         $joins = GroupJoinRequest::whereIn('group_id', [$group->id])->get();
-        return view('pages.group',['group' => $group, 'members' => $members, 'joins' => $joins]);
+        $spaces = Space::whereIn('group_id', [$group->id])->get();
+        return view('pages.group',['group' => $group, 'members' => $members, 'joins' => $joins,'spaces' => $spaces]);
     }
 
     public function list() 

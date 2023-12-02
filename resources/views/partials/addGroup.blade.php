@@ -1,3 +1,6 @@
+<button id="createGroupButton">Create Group</button>
+
+<div id="addGroupForm" style="display: none;">
 <form method="POST" action="{{ url('/group/add') }}" enctype="multipart/form-data">
     {{ csrf_field() }}
     <label for="name" class="Title-color">Create a new Group</label>
@@ -21,3 +24,15 @@
         Create Group
     </button>
 </form>
+</div>
+
+<script>
+document.getElementById('createGroupButton').addEventListener('click', function() {
+    var form = document.getElementById('addGroupForm');
+    if (form.style.display === 'none') {
+        form.style.display = 'block';
+    } else {
+        form.style.display = 'none';
+    }
+});
+</script>

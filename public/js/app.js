@@ -521,6 +521,9 @@ function editGroup(id) {
   let edit_button = document.querySelector("#editGroup" + id);
   edit_button.textContent = 'Confirm';
 
+  main.dataset.originalName = originalName;
+  main.dataset.originalDescription = originalDescription;
+
   // Change the onclick of the button
   edit_button.onclick = function () {
     // Get the updated content and visibility
@@ -567,17 +570,31 @@ function editGroup(id) {
   };
   }
 
-function cancelEditGroup(id) {
-  let group = document.querySelector("#group" + id);
-  let main = group.querySelector("main");
-
-  // Restore the original content
-  group.querySelector(".groupname").textContent = main.dataset.originalName;
-  group.querySelector(".groupcontent").textContent = main.dataset.originalDescription;
-
-  // Reset the edit state
-  resetEditGroup(id);
-}
+  function cancelEditGroup(id) {
+    let group = document.querySelector("#group" + id);
+    let main = group.querySelector("main");
+  
+    // Get the original content from the main element's dataset
+    let originalName = main.dataset.originalName;
+    let originalDescription = main.dataset.originalDescription;
+  
+    // Create new divs for the name and description
+    let newNameDiv = document.createElement('div');
+    newNameDiv.className = 'groupname';
+    newNameDiv.textContent = originalName;
+  
+    let newDescriptionDiv = document.createElement('div');
+    newDescriptionDiv.className = 'groupcontent';
+    newDescriptionDiv.textContent = originalDescription;
+  
+    // Replace the textareas with the new divs
+    main.innerHTML = '';
+    main.appendChild(newNameDiv);
+    main.appendChild(newDescriptionDiv);
+  
+    // Reset the edit state
+    resetEditGroup(id);
+  }
 
 function deleteGroup(id) {
   if (!confirm('Are you sure you want to delete this group?')) {

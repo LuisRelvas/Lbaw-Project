@@ -71,13 +71,22 @@ class SpaceController extends Controller
     $this->authorize('add', Space::class);
     $space = new Space();
       $space->user_id = Auth::user()->id;
-      $space->group_id = null;
-      $space->is_public = false;
+      if($request->input('group_id') != null) 
+      {
+        $space->group_id = $request->input('group_id');
+        $space->is_public = true;
+      }
+      else {
+        $space->group_id = null;
+        $space->is_public = null !== $request->input('public');
+    }
       $space->content = $request->input('content');
       $space->date = date('Y-m-d H:i');
-      $space->is_public = null !== $request->input('public');
       $space->save();
-      return redirect('/homepage')->withSuccess('Space created successfully!');
+      if($space->group_id == null){
+      return redirect('/homepage')->withSuccess('Space created successfully!');}
+      else {
+        return redirect('/group/'.$space->group_id)->withSuccess('Space created successfully!');}
     }
 
     public function delete($id)
