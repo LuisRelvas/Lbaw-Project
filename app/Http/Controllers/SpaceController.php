@@ -10,6 +10,8 @@ use App\Models\Space;
 use App\Models\User;
 use App\Events\LikesSpaces;
 use App\Models\LikeSpace;
+use App\Models\Notification;
+use App\Models\SpaceNotification;
 class SpaceController extends Controller 
 {
 
@@ -127,10 +129,24 @@ public function like_on_spaces(Request $request)
 
     $space = Space::find($request->id);
     event(new LikesSpaces($space->id));    
-    // How can I add this info to the database ? 
     LikeSpace::insert([
         'user_id' => Auth::user()->id,
         'space_id' => $space->id
+    ]);
+
+    Notification::insert([
+        'received_user' => $space->user_id,
+        'emits_user' => Auth::user()->id,
+        'viewed' => false,
+        'date' => date('Y-m-d H:i')
+    ]);
+
+    $lastNotification = Notification::orderBy('id','desc')->first();
+
+    SpaceNotification::insert([
+        'id' => $lastNotification->id,
+        'space_id' => $space->id,
+        'notification_type' => 'liked_space',
     ]);
 }
 

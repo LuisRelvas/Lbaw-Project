@@ -201,6 +201,7 @@ public function accept_join_request(Request $request)
         'viewed' => false,
         'date' => date('Y-m-d H:i')
     ]);
+
     $lastNotification = Notification::orderBy('id','desc')->first();
     GroupNotification::insert([
         'id' => $lastNotification->id,
@@ -264,6 +265,18 @@ public function accept_invite(Request $request)
         'user_id' => Auth::user()->id,
         'group_id' => $group->id,
         'is_favorite' => false
+    ]);
+    Notification::insert([
+        'received_user' => $group->user_id,
+        'emits_user' => Auth::user()->id,
+        'viewed' => false,
+        'date' => date('Y-m-d H:i')
+    ]);
+    $lastNotification = Notification::orderBy('id','desc')->first();
+    GroupNotification::insert([
+        'id' => $lastNotification->id,
+        'group_id' => $group->id,
+        'notification_type' => 'joined group'
     ]);
     DB::commit();
 }

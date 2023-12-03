@@ -25,6 +25,21 @@ class CommentController extends Controller
         $comment->content = $request->content;
         $comment->date = date('Y-m-d H:i');
         $comment->save();
+
+        $space = Space::find($comment->space_id);
+        Notification::insert([
+            'received_user' => $space->user_id,
+            'emits_user' => Auth::user()->id,
+            'viewed' => false,
+            'date' => date('Y-m-d H:i'),
+        ]);
+        $lastNotification = Notification::orderBy('id', 'desc')->first();
+        CommentNotification::insert([
+            'id' => $lastNotification->id,
+            'comment_id' => $comment->id,
+            'notification_type' => 'comment_space'
+        
+        ]);
         return redirect('/space/'.$request->space_id)->withSuccess('Comment created successfully!');
     }
 

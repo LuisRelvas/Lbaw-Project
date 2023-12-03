@@ -225,6 +225,7 @@ public function accept_follow_request(Request $request) {
     ->first();
 
     UserNotification::where('id',$old->id)->update([
+        'id' => $lastNotification->id,
         'notification_type' => 'accepted_follow'
     ]);
 
