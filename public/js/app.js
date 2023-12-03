@@ -643,6 +643,33 @@ function deleteGroup(id) {
   });
 }
 
+function deleteProfile(id) {
+  if (!confirm('Are you sure you want to delete your account?')) {
+      return;
+  }
+
+  var url = `/api/profile/${id}`;
+  var method = 'DELETE';
+  var data = null; // No data to send for a DELETE request
+
+  sendAjaxRequest(method, url, data, function(event) {
+      if (event.target.status === 200) {
+          var response = JSON.parse(event.target.responseText);
+          console.log(response); // Log the server response (optional)
+          
+          // Redirect to the appropriate URL based on whether the user is an admin
+          if (response.isAdmin) {
+              window.location.href = '/admin';
+          } else {
+              window.location.href = '/logout';
+          }
+      } else {
+          console.error('Error:', event.target.status, event.target.statusText);
+      }
+  });
+}
+
+
 function declineJoin(id,group_id)
 {
   sendAjaxRequest('DELETE', '/group/joinrequest', {id: id,group_id:group_id}, function(response) {

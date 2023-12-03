@@ -3,6 +3,7 @@
 @section('content')
     @php
         $user = \App\Models\User::findOrFail($space->user_id);
+    
     @endphp
     <main class="flex-container">
         @include('partials.sidebar')
@@ -13,7 +14,11 @@
             </script>
             <div id="space{{ $space->id }}" data-space-id="{{ $space->id }}" class="space-card">
                 <span class="dot"></span>
+                @if($user->deleted == false)
                 <div class="spaceauthor"><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></div>
+                @else
+                <div class="spaceauthordeleted">Anonymous</div>
+                @endif
 
                 <main>
                     <div class="spacecontent">{{ $space->content }}</div>
@@ -70,7 +75,14 @@
                     @foreach ($space->comments as $comment)
                         <div id="comment{{ $comment->id }}" class="comment">
                             <div class="comment-user">
+                                @php 
+                                    $real = \App\Models\User::findOrFail($comment->author_id); 
+                                @endphp
+                                @if($real->deleted == false)
                                 <p><a href="/profile/{{ $comment->author_id }}">{{ $comment->username }}</a></p>
+                                @else
+                                <p>Anonymous</p>
+                                @endif
                             </div>
                             <div class="content">{{ $comment->content }}</div>
 

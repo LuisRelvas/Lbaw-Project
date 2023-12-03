@@ -11,8 +11,10 @@
         <span class="dot"></span>
         <div class="user">
             <p><a href="/profile/{{ $user->id }}">{{ $user->name }}</a></p>
+            @if (Auth::check())
             <p>Following: {{ $countFollows }}</p>
             <p>Followers: {{ $countFollowers }}</p>
+            @endif
         </div>
         <div class="username">
             <p>@ {{ $user->username }}</p>
@@ -21,8 +23,11 @@
             @if ($user->id == Auth::User()->id || Auth::User()->isAdmin(Auth::User()))
                 <div class="button-container"><a class="button" href="/profile/{{ $user->id }}/editUser">Edit
                         Profile</a>
-                    <a class="button" href="/logout" class="delete">&#10761;Delete Profile</a>
-                    <a class ="button"
+                        <button id="deleteProfile{{ $user->id }}" onclick="deleteProfile({{ $user->id }})"
+                            class="button-user">&#10761;
+                            <div><i class="cross"></i></div>
+                        </button>
+                        <a class ="button"
                         href="{{ Auth::check() && Auth::user()->isAdmin(Auth::user()) ? url('/admin') : url('/homepage') }}">Back
                         to
                         home page</a>
@@ -42,13 +47,15 @@
                     @endif
                 @endif
             @else
-                @if(Auth::check() && Auth::user()->id != $user->id)
+                @if(Auth::check() && Auth::user()->id != $user->id && $user->deleted == false)
                     <button id="profileState{{$user->id}}" class="profile-interaction-button" onclick="changeProfileState({{$user->id}},{{Auth::user()->id}},{{$user->is_public}})">
                         @if(Auth::user()->isFollowing($user)) <i id="text-icon" aria-hidden="true"></i> Unfollow
                         @elseif(Auth::user()->hasSentFollowRequest($user)) <i id="text-icon" aria-hidden="true"></i> Pending
                         @else <i id="text-icon" aria-hidden="true"></i> Follow
                         @endif
                     </button>
+                @else
+                    <h3>Account Deleted</h3>
                 @endif
             @endif
         @endif
