@@ -14,6 +14,8 @@ use App\Models\Block;
 use App\Models\FollowsRequest;
 use App\Models\Notification;
 use App\Models\UserNotification;
+use App\Models\Group;
+use App\Models\Comment;
 
 class UserController extends Controller {
 
@@ -24,11 +26,15 @@ class UserController extends Controller {
         $isBlocked = Block::where('user_id', $id)->exists();
         $isFollowing = Auth::user()->isFollowing($user);
         $wants = FollowsRequest::whereIn('user_id2',[$user->id])->get();
+        $countFollows = Follow::where('user_id1', $user->id)->count();
+        $countFollowers = Follow::where('user_id2', $user->id)->count();
         return view('pages.user', [
             'user' => $user,
             'isFollowing' => $isFollowing,
             'isBlocked' => $isBlocked,
-            'wants' => $wants
+            'wants' => $wants,
+            'countFollows' => $countFollows,
+            'countFollowers' => $countFollowers
         ]);}
         else
         {
@@ -253,9 +259,23 @@ public function decline_follow_request(Request $request)
 
 public function search_exact(Request $request)
 {
+    $itemsPerPage = 10;
+    $date = $request->input('date');
     $input = $request->input('search');
+    if($date != null) 
+    {
+        $spaces = Space::where('content', 'like', '%' . $input . '%')->where('date',$date)->orderBy('content')->get();
+        $comments = Comment::where('content', 'like', '%' . $input . '%')->where('date',$date)->orderBy('content')->get(); 
+        return view('pages.search', ['spaces' => $spaces, 'comments' => $comments]);
+    }
+    else {
     $users = User::where('username', 'like', '%' . $input . '%')->orderBy('username')->get();
-    return view('pages.search', ['users' => $users]);
+    $spaces = Space::where('content', 'like', '%' . $input . '%')->orderBy('content')->get();
+    $comments = Comment::where('content', 'like', '%' . $input . '%')->orderBy('content')->get();
+    $groups = Group::where('name', 'like', '%' . $input . '%')->orderBy('name')->get();
+    
+    return view('pages.search', ['users' => $users, 'spaces' => $spaces, 'comments' => $comments, 'groups' => $groups]);
+    }
 }
 
 }

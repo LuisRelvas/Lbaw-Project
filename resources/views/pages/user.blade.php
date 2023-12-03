@@ -11,6 +11,8 @@
         <span class="dot"></span>
         <div class="user">
             <p><a href="/profile/{{ $user->id }}">{{ $user->name }}</a></p>
+            <p>Following: {{ $countFollows }}</p>
+            <p>Followers: {{ $countFollowers }}</p>
         </div>
 
         <div class="username">

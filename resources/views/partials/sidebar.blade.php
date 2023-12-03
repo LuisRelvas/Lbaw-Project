@@ -5,6 +5,7 @@
         <a href="{{ url('/homepage/search') }}" class="{{ Request::is('search') ? 'active' : '' }}">Explore</a>
         <a href="{{ url('/profile/' . Auth::user()->id) }}"
             class="{{ Request::is('profile/*') ? 'active' : '' }}">Profile</a>
+        <a href="{{ url('/messages') }}" class="{{ Request::is('messages') ? 'active' : '' }}">Messages</a>
         <a href="{{ url('/group') }}" class="{{ Request::is('group') ? 'active' : '' }}">Groups</a>
         <a href="{{ url('/about') }}" class="{{ Request::is('about') ? 'active' : '' }}">About Us</a>
         <a href="{{ url('/notification') }}" class="{{ Request::is('notification') ? 'active' : '' }}">Notifications</a>
