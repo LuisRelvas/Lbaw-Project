@@ -696,7 +696,6 @@ function changeProfileState(user_id2,user_id1,publicProfile)
         // Send the AJAX request
         sendAjaxRequest('POST', url, data, function(response) {
           console.log('Response:', response);
-
         });
       }
       else 
@@ -705,6 +704,8 @@ function changeProfileState(user_id2,user_id1,publicProfile)
         console.log('The value of the user_id is',user_id1);
         sendAjaxRequest('POST', '/profile/followsrequest', {user_id1: user_id1, user_id2: user_id2}, function(response) {
           console.log('Response:', response);
+          // Change the button text to 'Pending'
+          document.querySelector('#profileState' + user_id2).innerHTML = 'Pending';
         });
       }
       break; 
@@ -718,7 +719,7 @@ function changeProfileState(user_id2,user_id1,publicProfile)
         console.log('Response:', response);
       });
     }
-}
+} 
 
 function changeGroupState(id,user_id,publicGroup)
 {

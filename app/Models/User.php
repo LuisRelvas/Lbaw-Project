@@ -139,4 +139,9 @@ class User extends Authenticatable
         return $users;
     }
 
+    public function hasSentFollowRequest($user) 
+    {
+        return FollowsRequest::where('user_id1', Auth::user()->id)->where('user_id2', $user->id)->exists();
+    }
+
 }

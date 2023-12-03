@@ -14,7 +14,6 @@
             <p>Following: {{ $countFollows }}</p>
             <p>Followers: {{ $countFollowers }}</p>
         </div>
-
         <div class="username">
             <p>@ {{ $user->username }}</p>
         </div>
@@ -46,6 +45,7 @@
                 @if(Auth::check() && Auth::user()->id != $user->id)
                     <button id="profileState{{$user->id}}" class="profile-interaction-button" onclick="changeProfileState({{$user->id}},{{Auth::user()->id}},{{$user->is_public}})">
                         @if(Auth::user()->isFollowing($user)) <i id="text-icon" aria-hidden="true"></i> Unfollow
+                        @elseif(Auth::user()->hasSentFollowRequest($user)) <i id="text-icon" aria-hidden="true"></i> Pending
                         @else <i id="text-icon" aria-hidden="true"></i> Follow
                         @endif
                     </button>
