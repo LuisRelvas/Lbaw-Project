@@ -15,7 +15,7 @@
                     <div class="user">
                         <p><a href="/profile/{{ $user->id }}">{{ $user->name }}</a></p>
                         <div class="username">
-                            <p>@ {{ $user->username }}</p>
+                            <p>{{ $user->username }}</p>
                         </div>
                         @if (Auth::check())
                             <p>Following: {{ $countFollows }}</p>

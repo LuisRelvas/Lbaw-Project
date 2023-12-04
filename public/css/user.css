@@ -25,6 +25,11 @@
   margin-top: 0;
 }
 
+.username p::before {
+    
+    content: "@";
+}
+
 .dot {
   height: 50px;
   width: 50px;
