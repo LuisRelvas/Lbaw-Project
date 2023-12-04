@@ -3,8 +3,8 @@
 @section('content')
 
 <main class="flex-container">
-    
-    @include('partials.sidebar')
+       @include('partials.sidebar')
+
         <div class="content">
             @if ($errors->has('profile'))
                 <span class="error">
@@ -47,6 +47,12 @@
             @endif
         </div>
         <div class="searchbar">
+            
+            <input type="text" id="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+">
+            <div id="results-users"></div>
+            @if (Auth::check())
+                <div id="results-spaces"></div>
+            @endif
             @if (Auth::check())
                 @include('partials.addGroup')
                 @include('partials.addSpace')
@@ -55,11 +61,6 @@
                         {{ session('success') }}
                     </p>
                 @endif
-            @endif
-            <input type="text" id="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+">
-            <div id="results-users"></div>
-            @if (Auth::check())
-                <div id="results-spaces"></div>
             @endif
         </div>
     </main>

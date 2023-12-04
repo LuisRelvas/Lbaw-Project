@@ -14,6 +14,8 @@ use App\Models\Block;
 use App\Models\FollowsRequest;
 use App\Models\Notification;
 use App\Models\UserNotification;
+use App\Models\Group;
+use App\Models\Comment;
 
 class UserController extends Controller {
 
@@ -24,11 +26,15 @@ class UserController extends Controller {
         $isBlocked = Block::where('user_id', $id)->exists();
         $isFollowing = Auth::user()->isFollowing($user);
         $wants = FollowsRequest::whereIn('user_id2',[$user->id])->get();
+        $countFollows = Follow::where('user_id1', $user->id)->count();
+        $countFollowers = Follow::where('user_id2', $user->id)->count();
         return view('pages.user', [
             'user' => $user,
             'isFollowing' => $isFollowing,
             'isBlocked' => $isBlocked,
-            'wants' => $wants
+            'wants' => $wants,
+            'countFollows' => $countFollows,
+            'countFollowers' => $countFollowers
         ]);}
         else
         {
@@ -143,10 +149,44 @@ public function edit(Request $request)
     {
         $user->is_public = $request->is_public;
     }
+    if($request->file('image') != null)
+    {
+        if( !in_array(pathinfo($_FILES["image"]["name"],PATHINFO_EXTENSION),['jpg','jpeg','png'])) {
+            return redirect('user/edit')->with('error', 'File not supported');
+        }
+        $request->validate([
+            'image' =>  'mimes:png,jpeg,jpg',
+        ]);
+        UserController::update($user->id,'profile',$request);
+    }
     $user->password = $request->password;
     $user->save();
     return redirect('/profile/'.$user->id)->withSuccess('User edited successfully!');}
 
+}
+
+public function update(int $id, string $type, Request $request)
+{
+    if ($request->file('image')) {
+        foreach ( glob(public_path().'/images/'.$type.'/'.$id.'.*',GLOB_BRACE) as $image){
+            if (file_exists($image)) unlink($image);
+        }
+    }
+    $file= $request->file('image');
+    $filename= $id.".jpg";
+    $file->move(public_path('images/'. $type. '/'), $filename);
+}
+
+
+public function updatePhoto(Request $request, $id)
+{
+    $user = User::find($id);
+    if($request->hasFile('profile_picture')) {
+        $filename = $user->id . '.jpg';
+        $request->profile_picture->move(public_path('images/profile'), $filename);
+    }
+
+    return redirect('/profile/' . $id);
 }
 
 public function delete(Request $request, $id)
@@ -225,6 +265,7 @@ public function accept_follow_request(Request $request) {
     ->first();
 
     UserNotification::where('id',$old->id)->update([
+        'id' => $lastNotification->id,
         'notification_type' => 'accepted_follow'
     ]);
 
@@ -247,18 +288,28 @@ public function decline_follow_request(Request $request)
         'user_id2' => $user2->id
     ])->delete();
 
-    Notification::insert([
-        'received_user' => $user1->id,
-        'emits_user' => $user2->id,
-        'viewed' => false,
-        'date' => now()
-    ]);
-
-    UserNotification::insert([
-        'notification_type' => 'declined_follow_request'
-    ]);
-    
     DB::commit();
+}
+
+public function search_exact(Request $request)
+{
+    $itemsPerPage = 10;
+    $date = $request->input('date');
+    $input = $request->input('search');
+    if($date != null) 
+    {
+        $spaces = Space::where('content', 'like', '%' . $input . '%')->where('date',$date)->orderBy('content')->get();
+        $comments = Comment::where('content', 'like', '%' . $input . '%')->where('date',$date)->orderBy('content')->get(); 
+        return view('pages.search', ['spaces' => $spaces, 'comments' => $comments]);
+    }
+    else {
+    $users = User::where('username', 'like', '%' . $input . '%')->orderBy('username')->get();
+    $spaces = Space::where('content', 'like', '%' . $input . '%')->orderBy('content')->get();
+    $comments = Comment::where('content', 'like', '%' . $input . '%')->orderBy('content')->get();
+    $groups = Group::where('name', 'like', '%' . $input . '%')->orderBy('name')->get();
+    
+    return view('pages.search', ['users' => $users, 'spaces' => $spaces, 'comments' => $comments, 'groups' => $groups]);
+    }
 }
 
 }

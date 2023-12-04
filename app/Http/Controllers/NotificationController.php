@@ -23,9 +23,23 @@ class NotificationController extends Controller
             return redirect('/homepage')->with('error','qualquer coisa');
         }
         $notifications = Notification::where('received_user', Auth::user()->id)->get();
+        $notificationsIds = $notifications->pluck('id');
+        $userNotifications = UserNotification::whereIn('id', $notificationsIds)->get();
+        $spaceNotifications = SpaceNotification::whereIn('id', $notificationsIds)->get();
+        $commentNotifications = CommentNotification::whereIn('id', $notificationsIds)->get();
+        $groupNotifications = GroupNotification::whereIn('id', $notificationsIds)->get();
+        $notifications = $userNotifications->merge($spaceNotifications)->merge($commentNotifications)->merge($groupNotifications);
         return view('pages.notification', [
             'notifications' => $notifications
         ]);
+    }
+
+    public function edit(int $id) 
+    {
+        $notification = Notification::findOrFail($id);
+        $notification->viewed = true;
+        $notification->save();
+        return redirect('/notification')->with('success', 'Notification updated successfully!');
     }
 
 

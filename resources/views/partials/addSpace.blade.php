@@ -1,3 +1,5 @@
+<button id="createSpaceButton">Create Space</button>
+<div id="addSpaceForm" style="display: none;">
 <form method="POST" action="{{ url('space/add') }}" enctype="multipart/form-data">
     {{ csrf_field() }}
     <label for="content" class="label-color">Create a new Space</label>
@@ -13,3 +15,16 @@
         Create Space
     </button>
 </form>
+</div>
+
+
+<script>
+document.getElementById('createSpaceButton').addEventListener('click', function() {
+    var form = document.getElementById('addSpaceForm');
+    if (form.style.display === 'none') {
+        form.style.display = 'block';
+    } else {
+        form.style.display = 'none';
+    }
+});
+</script>

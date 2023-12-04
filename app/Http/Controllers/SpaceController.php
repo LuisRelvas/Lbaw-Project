@@ -1,7 +1,6 @@
 <?php 
 
 namespace App\Http\Controllers;
-use App\Models\LikesSpaces;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,7 +8,10 @@ use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Space;
 use App\Models\User;
-
+use App\Events\LikesSpaces;
+use App\Models\LikeSpace;
+use App\Models\Notification;
+use App\Models\SpaceNotification;
 class SpaceController extends Controller 
 {
 
@@ -17,6 +19,9 @@ class SpaceController extends Controller
     {
         $space = Space::findOrFail($id);
         $user = User::findOrFail($space->user_id);
+        // echo ("<script>console.log('TEST:')</script>");
+        // $this->authorize('show', $space);
+        
         if($user->is_public == 0 || (Auth::check() && Auth::user()->id == $space->user_id) || (Auth::Check() && Auth::user()->isAdmin(Auth::user())) || (Auth::check() &&Auth::user()->isFollowing($user))){
         {
             return view('pages.space', [
@@ -42,7 +47,6 @@ class SpaceController extends Controller
       $followingIds = Auth::user()->showFollows()->pluck('id');
       $spaces = Space::whereIn('user_id', $followingIds)->get(); 
       $mines = Space::where('user_id', Auth::user()->id)->get();
-  
       return view('pages.home', [
           'publics' => $publics,
           'spaces' => $spaces,
@@ -68,13 +72,22 @@ class SpaceController extends Controller
     $this->authorize('add', Space::class);
     $space = new Space();
       $space->user_id = Auth::user()->id;
-      $space->group_id = null;
-      $space->is_public = false;
+      if($request->input('group_id') != null) 
+      {
+        $space->group_id = $request->input('group_id');
+        $space->is_public = true;
+      }
+      else {
+        $space->group_id = null;
+        $space->is_public = null !== $request->input('public');
+    }
       $space->content = $request->input('content');
       $space->date = date('Y-m-d H:i');
-      $space->is_public = null !== $request->input('public');
       $space->save();
-      return redirect('/homepage')->withSuccess('Space created successfully!');
+      if($space->group_id == null){
+      return redirect('/homepage')->withSuccess('Space created successfully!');}
+      else {
+        return redirect('/group/'.$space->group_id)->withSuccess('Space created successfully!');}
     }
 
     public function delete($id)
@@ -112,11 +125,27 @@ public function search(Request $request)
 
 public function like_on_spaces(Request $request) 
 {
-    $space = Space::find($request->id);
 
-    LikesSpaces::insert([
+    $space = Space::find($request->id);
+    event(new LikesSpaces($space->id));    
+    LikeSpace::insert([
         'user_id' => Auth::user()->id,
         'space_id' => $space->id
+    ]);
+
+    Notification::insert([
+        'received_user' => $space->user_id,
+        'emits_user' => Auth::user()->id,
+        'viewed' => false,
+        'date' => date('Y-m-d H:i')
+    ]);
+
+    $lastNotification = Notification::orderBy('id','desc')->first();
+
+    SpaceNotification::insert([
+        'id' => $lastNotification->id,
+        'space_id' => $space->id,
+        'notification_type' => 'liked_space',
     ]);
 }
 
@@ -124,7 +153,7 @@ public function unlike_on_spaces(Request $request)
 {
     $space = Space::find($request->id);
 
-    LikesSpaces::where('user_id', Auth::user()->id)
+    LikeSpace::where('user_id', Auth::user()->id)
         ->where('space_id', $space->id)
         ->delete();
 }

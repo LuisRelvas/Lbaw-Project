@@ -78,14 +78,15 @@ class User extends Authenticatable
         return Follow::where('user_id1', $this->id)->where('user_id2', $user->id)->exists();
     }
 
-    public function likesSpace(User $user, Space $space) {
-        return LikesSpaces::where('user_id', $user->id)->where('space_id', $space->id)->exists();
+     public function likesSpace(User $user, Space $space) {
+        return LikeSpace::where('user_id', $user->id)->where('space_id', $space->id)->exists();
     }
 
     public function likesComment(User $user, Comment $comment) 
     {
         return LikesComments::where('user_id', $user->id)->where('comment_id', $comment->id)->exists();
     }
+    
 
     public function getUsername(int $space_id) 
     {
@@ -123,6 +124,31 @@ class User extends Authenticatable
     public function follows()
     {
         return $this->belongsToMany(User::class, 'follows', 'user_id1', 'user_id2');
+    }
+
+    public function getUserDMs() 
+    {
+        $users = Message::select('emits_id')
+            ->where('received_id', $this->id)
+            ->union(
+                Message::select('received_id')
+                        ->where('emits_id', $this->id)
+                )
+            ->distinct()->get();
+
+        return $users;
+    }
+
+    public function hasSentFollowRequest($user) 
+    {
+        return FollowsRequest::where('user_id1', Auth::user()->id)->where('user_id2', $user->id)->exists();
+    }
+
+    public function media() { 
+        $files = glob("images/profile/".$this->id.".jpg", GLOB_BRACE);
+        $default = "/images/profile/default.jpg";
+        if(sizeof($files) < 1) return $default;
+        return "/".$files[0];
     }
 
 }

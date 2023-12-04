@@ -1,16 +1,47 @@
 @extends('layouts.app')
-@include('partials.confirmation')
+
+<script>
+    function toggleFilters() {
+        var filters = document.getElementById('filters');
+        if (filters.style.display === 'none') {
+            filters.style.display = 'block';
+        } else {
+            filters.style.display = 'none';
+        }
+    }
+</script>
 
 @section('content')
-    Search Page
-    <nav class="search-page" id="searchpage-nav" role="tablist">
-        <a class="search" id="spaceResults" data-toggle="pill" href="#results-spaces" role="tab">0 Spaces</a>
-        <a class="search" id="userResults" data-toggle="pill" href="#results-users" role="tab">0 Users</a>
-    </nav>
+    <h1>Search Page</h1>
+    <form action="{{ url('homepage/search') }}" method="get">
+        <input type="text" id="search" name="search" placeholder="Search..." style="color: black;" pattern="[a-zA-Z0-9\s]+">
+        <div id="filters" style="display: none;">
+            <input type="date" id="date" name="date">
 
-    <div class="tab-content">
-        <section class="tab-pane" id="results-spaces" role="tabpanel"></section>
-        <section class="tab-pane" id="results-users" role="tabpanel"></section>
-
-    </div>
+        </div>
+        <button type="button" onclick="toggleFilters()">Filters</button>
+        <button type="submit">Search</button>
+    </form>
+    @if(isset($users))
+        @foreach($users as $user)
+            <h2><a href="/profile/{{$user->id}}">{{ $user->username }}</a></h2>
+        @endforeach
+    @endif
+    @if(isset($spaces))
+        @foreach($spaces as $space)
+            <h2><a href="/space/{{$space->id}}">{{ $space->content }}</a></h2>
+        @endforeach
+    @endif
+    @if(isset($groups))
+        @foreach($groups as $group)
+            <h2><a href="/group/{{$group->id}}">{{ $group->name }}</a></h2>
+        @endforeach
+    @endif
+    @if(isset($comments))
+        @foreach($comments as $comment)
+            <h2><a href="/space/{{$comment->space_id}}">{{ $comment->content }}</a></h2>
+        @endforeach
+    @endif
 @endsection
+
+

@@ -16,6 +16,9 @@ function sendAjaxRequest(method, url, data, handler) {
   request.send(encodeForAjax(data));
 }
 
+
+
+
 function resetEditStateComment(id) {
   let comment = document.querySelector("#comment" + id);
   let content = comment.querySelector(".content");
@@ -205,6 +208,30 @@ main.textContent = main.dataset.originalContent;
 resetEditState(id);
 }
 
+function updateNotification(id) 
+{
+  let url = 'notification/' + id; 
+  var method = 'PUT';
+  var data = {
+    id: id  };
+  sendAjaxRequest(method, url, data, function(event) {
+    if (event.target.status === 200) {
+      var response = JSON.parse(event.target.responseText);
+      console.log(response); // Log the server response (optional)
+      
+      // Redirect to the appropriate URL based on whether the user is an admin
+      if (response.isAdmin) {
+        window.location.href = '/admin';
+      } else {
+        window.location.href = '/homepage';
+      }
+    } else {
+      console.error('Error:', event.target.status, event.target.statusText);
+    }
+  });
+}
+
+
 function deleteNotification(id) {
   if (!confirm('Are you sure you want to delete this notification?')) {
     return;
@@ -229,7 +256,7 @@ function deleteNotification(id) {
       console.error('Error:', event.target.status, event.target.statusText);
     }
   });
-  }
+}
 
 function deleteSpace(id) {
 if (!confirm('Are you sure you want to delete this space?')) {
@@ -256,28 +283,120 @@ sendAjaxRequest(method, url, data, function(event) {
   }
 });
 }
-function changeLikeState(id, liked) {
-  let url, data;
-  console.log('The value of liked is',liked);
-  console.log('The value of id is',id);
-  switch (liked) {
-    case true:
-      url = '/space/unlike';
-      data = { id: id };
-      sendAjaxRequest('DELETE', url, data, function (response) {
-        console.log('Response:', response);
-      });
-      break;
-    case false:
-      console.log('entered in the false case');
-      let url2 = '/space/like';
-      let data2 = { id: id };
-      sendAjaxRequest('POST', url2, data2, function (response) {
-        console.log('Response:', response);
-      });
-      break;
-  }
+
+
+let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+Pusher.logToConsole = true;
+const pusher = new Pusher('e0f29d0e833b76381d01', {
+    cluster: 'eu',
+    authEndpoint: '/broadcasting/auth',
+    auth: {
+        headers: {
+            'X-CSRF-TOKEN': csrfToken
+        }
+    }
+});
+
+var ownerChannel;
+var userChannel;
+var currentOwner; // The current owner of the page
+
+function setupOwnerChannel(owner) {
+    ownerChannel = pusher.subscribe('private-lbaw2372.' + owner);
+
+    ownerChannel.bind('pusher:subscription_succeeded', function () {
+        console.log('Owner Channel - Subscription succeeded');
+    });
+
+    ownerChannel.bind('notification-spaceLike', function (data) {
+        console.log('Owner Channel - Space ID:', data.space_id);
+        console.log('Owner Channel - Message:', data.message);
+        data.message = 'User ' + ' liked your space.';
+        showNotification(data.message);
+    });
 }
+
+function setupUserChannel(user) {
+    userChannel = pusher.subscribe('private-lbaw2372.' + user);
+
+    userChannel.bind('pusher:subscription_succeeded', function () {
+        console.log('User Channel - Subscription succeeded');
+    });
+
+    userChannel.bind('notification-spaceLike', function (data) {
+        console.log('User Channel - Space ID:', data.space_id);
+        console.log('User Channel - Message:', data.message);
+        showNotification(data.message);
+    });
+}
+
+function useCurrentOwner() {
+  console.log('The value of the currentOwner OUTSIDE is', currentOwner);
+}
+
+let currentUrl = window.location.href;
+let currentUrlParts = currentUrl.split('/');
+let currentUrlOwner = currentUrlParts[currentUrlParts.length - 1];
+setupOwnerChannel(window.spaceUserId);
+
+
+function changeLikeState(id, liked, user, owner) {
+    let url, data3;
+    currentOwner = owner;
+    useCurrentOwner();
+
+    console.log("The value of the currentOwner is",currentOwner);
+    let countElement = document.getElementById('countSpaceLikes' + id);
+    let currentCount = parseInt(countElement.textContent);
+    let likeButton = document.getElementById('likeButton' + id);
+    console.log('The value of the currentOwner INSIDE is', currentOwner);
+    if (!userChannel || !userChannel.subscribed) {
+        // Set up the user channel if it's not already set up
+        setupUserChannel(user);
+    }
+
+    switch (liked) {
+        case true:
+            url = '/space/unlike';
+            data3 = { id: id };
+            sendAjaxRequest('DELETE', url, data3, function (response) {
+                console.log('Response:', response);
+                countElement.textContent = currentCount - 1;
+                likeButton.setAttribute('onclick', `changeLikeState(${id}, false,${user},${owner})`);
+            });
+            break;
+        case false:
+            let url2 = '/space/like';
+            let data2 = { id: id };
+            sendAjaxRequest('POST', url2, data2, function (response) {
+                console.log('Response:', response);
+                countElement.textContent = currentCount + 1;
+                likeButton.setAttribute('onclick', `changeLikeState(${id}, true,${user},${owner})`);
+                
+                // Notify the user when they like a space
+                userChannel.trigger('client-notification-spaceLike', {
+                    space_id: id,
+                    message: 'You liked the space.'
+                });
+            });
+            break;
+    }
+}
+
+
+
+function showNotification(message) {
+  // Use SweetAlert2 or any other custom notification logic here
+  Swal.fire({
+    position: 'top-end',
+    icon: 'success',
+    title: 'Space',
+    text: message,
+    showConfirmButton: false,
+    timer: 3000 // Adjust the duration as needed
+  });
+}
+
 
 
 function acceptInvite(id, notification_id) 
@@ -291,9 +410,8 @@ function acceptInvite(id, notification_id)
     console.log('Response:', response);
     delNot(notification_id);
   });
-  
-
 }
+
 
 function delNot(id) 
 {
@@ -424,6 +542,9 @@ function editGroup(id) {
   let edit_button = document.querySelector("#editGroup" + id);
   edit_button.textContent = 'Confirm';
 
+  main.dataset.originalName = originalName;
+  main.dataset.originalDescription = originalDescription;
+
   // Change the onclick of the button
   edit_button.onclick = function () {
     // Get the updated content and visibility
@@ -470,17 +591,31 @@ function editGroup(id) {
   };
   }
 
-function cancelEditGroup(id) {
-  let group = document.querySelector("#group" + id);
-  let main = group.querySelector("main");
-
-  // Restore the original content
-  group.querySelector(".groupname").textContent = main.dataset.originalName;
-  group.querySelector(".groupcontent").textContent = main.dataset.originalDescription;
-
-  // Reset the edit state
-  resetEditGroup(id);
-}
+  function cancelEditGroup(id) {
+    let group = document.querySelector("#group" + id);
+    let main = group.querySelector("main");
+  
+    // Get the original content from the main element's dataset
+    let originalName = main.dataset.originalName;
+    let originalDescription = main.dataset.originalDescription;
+  
+    // Create new divs for the name and description
+    let newNameDiv = document.createElement('div');
+    newNameDiv.className = 'groupname';
+    newNameDiv.textContent = originalName;
+  
+    let newDescriptionDiv = document.createElement('div');
+    newDescriptionDiv.className = 'groupcontent';
+    newDescriptionDiv.textContent = originalDescription;
+  
+    // Replace the textareas with the new divs
+    main.innerHTML = '';
+    main.appendChild(newNameDiv);
+    main.appendChild(newDescriptionDiv);
+  
+    // Reset the edit state
+    resetEditGroup(id);
+  }
 
 function deleteGroup(id) {
   if (!confirm('Are you sure you want to delete this group?')) {
@@ -507,6 +642,33 @@ function deleteGroup(id) {
       }
   });
 }
+
+function deleteProfile(id) {
+  if (!confirm('Are you sure you want to delete your account?')) {
+      return;
+  }
+
+  var url = `/api/profile/${id}`;
+  var method = 'DELETE';
+  var data = null; // No data to send for a DELETE request
+
+  sendAjaxRequest(method, url, data, function(event) {
+      if (event.target.status === 200) {
+          var response = JSON.parse(event.target.responseText);
+          console.log(response); // Log the server response (optional)
+          
+          // Redirect to the appropriate URL based on whether the user is an admin
+          if (response.isAdmin) {
+              window.location.href = '/admin';
+          } else {
+              window.location.href = '/logout';
+          }
+      } else {
+          console.error('Error:', event.target.status, event.target.statusText);
+      }
+  });
+}
+
 
 function declineJoin(id,group_id)
 {
@@ -561,7 +723,6 @@ function changeProfileState(user_id2,user_id1,publicProfile)
         // Send the AJAX request
         sendAjaxRequest('POST', url, data, function(response) {
           console.log('Response:', response);
-
         });
       }
       else 
@@ -570,6 +731,8 @@ function changeProfileState(user_id2,user_id1,publicProfile)
         console.log('The value of the user_id is',user_id1);
         sendAjaxRequest('POST', '/profile/followsrequest', {user_id1: user_id1, user_id2: user_id2}, function(response) {
           console.log('Response:', response);
+          // Change the button text to 'Pending'
+          document.querySelector('#profileState' + user_id2).innerHTML = 'Pending';
         });
       }
       break; 
@@ -583,7 +746,7 @@ function changeProfileState(user_id2,user_id1,publicProfile)
         console.log('Response:', response);
       });
     }
-}
+} 
 
 function changeGroupState(id,user_id,publicGroup)
 {
@@ -624,6 +787,20 @@ function changeGroupState(id,user_id,publicGroup)
         console.log('Response:', response);
       });
   }
+}
+
+
+function addMessage() {
+  console.log('entered in the add message function');
+  let url = '/messages/send';
+  let data = {
+      content: document.getElementById('messageContent').value,
+      emits_id: document.getElementById('emitsId').value
+  };
+
+  sendAjaxRequest('POST', url, data, function(response) {
+      console.log('Response:', response);
+  });
 }
 
 
@@ -692,6 +869,8 @@ updateTotal((document.querySelector('#results-spaces').innerHTML.match(/<article
 
 
 
+
+
 function init() {
 const search_bar = document.querySelector("#search");
 if (search_bar) {
@@ -707,11 +886,10 @@ if (search_bar) {
     });
 }
 }
-
 function handleSearchButtonClick() {
   const searchInput = document.querySelector("#search").value;
+  
   search(searchInput);
 }
-
 init();
 

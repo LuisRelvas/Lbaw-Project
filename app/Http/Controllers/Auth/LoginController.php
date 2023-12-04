@@ -39,10 +39,18 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
             $isBlocked = DB::table('blocked')->where('user_id', Auth::id())->exists();
+            $isdeleted = DB::table('users')->where('id',Auth::id())->where('deleted',true)->exists();
         if($isBlocked) {
             Auth::logout();
             return back()->withErrors([
                 'email' => 'This account has been blocked.',
+            ])->onlyInput('email');
+        }
+        if($isdeleted)
+        {
+            Auth::logout();
+            return back()->withErrors([
+                'email' => 'This account has been deleted.',
             ])->onlyInput('email');
         }
             $isAdmin = DB::table('admin')->where('id', Auth::id())->exists();
@@ -52,7 +60,10 @@ class LoginController extends Controller
             } else {
                 return redirect()->intended('/homepage');
             }
+        
         }
+
+        
     
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',

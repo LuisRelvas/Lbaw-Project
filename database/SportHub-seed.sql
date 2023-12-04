@@ -121,7 +121,8 @@ CREATE TABLE users (
     name TEXT,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    is_public BOOLEAN DEFAULT false NOT NULL
+    is_public BOOLEAN DEFAULT false NOT NULL,
+    deleted BOOLEAN DEFAULT false NOT NULL
 );
 -- Create the 'group' table
 CREATE TABLE groups (
@@ -256,7 +257,7 @@ CREATE TABLE message (
 id SERIAL PRIMARY KEY,
 received_id INTEGER REFERENCES users(id) ON UPDATE CASCADE,
 emits_id INTEGER REFERENCES users(id) ON UPDATE CASCADE,
-content TEXT NOT NULL,
+content TEXT,
 date DATE NOT NULL CHECK (date <= current_date),
 is_viewed BOOLEAN NOT NULL DEFAULT FALSE
 );
@@ -523,6 +524,35 @@ FOR EACH ROW
 
 EXECUTE PROCEDURE verify_self_follow();
 
+--Trigger05--
+
+CREATE FUNCTION verify_group_owner() RETURNS TRIGGER AS
+
+$BODY$
+
+BEGIN 
+
+RAISE NOTICE 'NEW.id = %', NEW.id;
+
+INSERT INTO member(user_id,group_id,is_favorite)
+
+VALUES(NEW.user_id,NEW.id,True);
+
+RETURN NEW;
+
+END 
+
+$BODY$
+
+LANGUAGE plpgsql; 
+
+CREATE TRIGGER verify_group_owner
+
+AFTER INSERT ON groups
+
+FOR EACH ROW
+
+EXECUTE PROCEDURE verify_group_owner();
 
 
 
@@ -720,9 +750,8 @@ CREATE FUNCTION update_username_on_delete()
 RETURNS TRIGGER AS $$
 BEGIN
     UPDATE comment SET username = 'Anonymous' WHERE author_id = OLD.id;
-    UPDATE users SET is_public = FALSE where id = OLD.id;
+    UPDATE users SET deleted = TRUE where id = OLD.id;
     DELETE from follows where user_id1 = OLD.id or user_id2 = OLD.id;
-    UPDATE space SET is_public = FALSE where user_id = OLD.id;
     DELETE FROM member where user_id = OLD.id;
     DELETE FROM follows_request where user_id1 = OLD.id or user_id2 = OLD.id;
 

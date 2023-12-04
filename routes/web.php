@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\MessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,8 +29,14 @@ use App\Http\Controllers\NotificationController;
 Route::redirect('/', '/login');
 
 // Homepage
+
+Broadcast::routes(['middleware' => ['auth:sanctum']]);
+Broadcast::routes();
+
+
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/homepage/search', [UserController::class, 'searchPage'])->name('search');
+
+    Route::get('/homepage/search', [UserController::class, 'search_exact'])->name('search');
 });
 
 Route::get('/homepage', function () {
@@ -80,6 +87,10 @@ Route::controller(CommentController::class) ->group(function() {
     Route::delete('/comment/unlike','unlike_on_comments');
 });
 
+Route::get('/messages',[MessageController::class,'list']);
+Route::post('/messages/send',[MessageController::class,'send']);
+Route::get('/messages/{id}',[MessageController::class,'show']);
+Route::post('/messages/receive',[MessageController::class,'receive']);
 
 Route::post('/group/add', [GroupController::class, 'add']);
 Route::get('/group/{id}', [GroupController::class, 'show']);
@@ -99,9 +110,10 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/api/profile','search');
     Route::post('/profile/edit', 'edit')->name('edit');
     Route::get('/profile/{id}/editUser','editUser');
-    Route::delete('/api/profile/{id}', 'delete');
+    Route::delete('api/profile/{id}', 'delete');
     Route::post('/profile/follow/{id}', 'follow');
     Route::delete('/profile/unfollow/{id}', 'unfollow');
+    Route::put('/profile/{id}/updatePhoto', 'updatePhoto');
     Route::post('/profile/followsrequest', [UserController::class, 'follow_request']);
     Route::post('/profile/followsrequest/{id}', [UserController::class, 'accept_follow_request']);
     Route::delete('/profile/followsrequest', [UserController::class, 'decline_follow_request']);
@@ -137,7 +149,11 @@ Route::controller(GroupController::class)->group(function () {
 Route::controller(NotificationController::class)->group(function () {
     Route::get('/notification', 'list');
     Route::delete('api/notification/{id}', 'delete');
+    Route::put('/notification/{id}', 'edit');
 });
+
+
+
 
 
 

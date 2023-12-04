@@ -3,19 +3,28 @@
 @section('content')
     @php
         $user = \App\Models\User::findOrFail($space->user_id);
+    
     @endphp
     <main class="flex-container">
         @include('partials.sidebar')
         <div class="content">
+        <script>
+                // Declare a global JavaScript variable
+                window.spaceUserId = "{{ $space->user_id }}";
+            </script>
             <div id="space{{ $space->id }}" data-space-id="{{ $space->id }}" class="space-card">
-                <span class="dot"></span>
+                <img src="{{ asset($user->media()) }}" class="profile-img" width=20% style="border-radius: 50%; padding: 1em" alt="profile media">
+                @if($user->deleted == false)
                 <div class="spaceauthor"><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></div>
+                @else
+                <div class="spaceauthordeleted">Anonymous</div>
+                @endif
 
                 <main>
                     <div class="spacecontent">{{ $space->content }}</div>
                 </main>
                 <button id="likeButton{{ $space->id }}"
-                    onclick="changeLikeState({{ $space->id }}, {{ Auth::check() && Auth::user()->likesSpace(Auth::user(), $space) ? 'true' : 'false' }})">
+                    onclick="changeLikeState({{ $space->id }}, {{ Auth::check() && Auth::user()->likesSpace(Auth::user(), $space) ? 'true' : 'false' }}, {{Auth::user()->id}},{{$space->user_id}})">
                     <i id="likeIcon{{ $space->id }}"
                         class="fa {{ Auth::check() && Auth::user()->likesSpace(Auth::user(), $space) ? 'fa-heart' : 'fa-heart-o' }}"></i>
                     <span id="countSpaceLikes{{ $space->id }}" class="like-count"> {{ $space->likes() }}</span>
@@ -66,7 +75,14 @@
                     @foreach ($space->comments as $comment)
                         <div id="comment{{ $comment->id }}" class="comment">
                             <div class="comment-user">
+                                @php 
+                                    $real = \App\Models\User::findOrFail($comment->author_id); 
+                                @endphp
+                                @if($real->deleted == false)
                                 <p><a href="/profile/{{ $comment->author_id }}">{{ $comment->username }}</a></p>
+                                @else
+                                <p>Anonymous</p>
+                                @endif
                             </div>
                             <div class="content">{{ $comment->content }}</div>
 
