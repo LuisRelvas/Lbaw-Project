@@ -39,11 +39,11 @@
                 </a>
             </h1>
             @if (Auth::check())
-                <a class="button" href="{{ url('/logout') }}"> Logout </a> 
-                <a class="button" href="{{ url('/profile/'.Auth::user()->id) }}"><span>{{ Auth::user()->name }}</span></a>
+                <a class="button" href="{{ url('/logout') }}"> Logout <i class="fa-solid fa-right-from-bracket"></i></a> 
+                <a class="button" href="{{ url('/profile/'.Auth::user()->id) }}"><span>{{ Auth::user()->name }}</span><i class="fa-solid fa-user"></i></a>
             @else 
-                <a class="button" href="{{ url('/login') }}"> Login </a> 
-                <a class="button" href="{{ url('/register') }}"> Register </a>
+                <a class="button" href="{{ url('/login') }}"> Login <i class="fa-solid fa-right-to-bracket"></i></a> 
+                <a class="button" href="{{ url('/register') }}"> Register <i class="fa-solid fa-pen-to-square"></i></a>
             @endif
         </header>
         <section id="content">

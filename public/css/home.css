@@ -101,3 +101,21 @@ mark.hub {
   border-radius: 5px;
   padding: 2px 5px; /* Adjust padding as needed */
 }
+
+/* ------ Scrollbar ------ */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

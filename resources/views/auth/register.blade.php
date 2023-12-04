@@ -5,7 +5,7 @@
     <form method="POST" action="{{ route('register') }}">
         {{ csrf_field() }}
 
-        <label for="name">Name</label>
+        <label for="name"><i class="fa-solid fa-user-pen"></i> Name</label>
         <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus>
         @if ($errors->has('name'))
             <span class="error">
@@ -13,7 +13,7 @@
             </span>
         @endif
 
-        <label for="username">Username</label>
+        <label for="username"><i class="fa-solid fa-circle-user"></i> Username</label>
         <input id="username" type="text" name="username" value="{{ old('username') }}" required autofocus>
         @if ($errors->has('username'))
             <span class="error">
@@ -21,7 +21,7 @@
             </span>
         @endif
 
-        <label for="email">E-Mail Address</label>
+        <label for="email"><i class="fa-solid fa-square-envelope"></i> E-Mail Address</label>
         <input id="email" type="email" name="email" value="{{ old('email') }}" required>
         @if ($errors->has('email'))
             <span class="error">
@@ -29,7 +29,7 @@
             </span>
         @endif
 
-        <label for="password">Password</label>
+        <label for="password"><i class="fa-solid fa-lock"></i> Password</label>
         <input id="password" type="password" name="password" required>
         @if ($errors->has('password'))
             <span class="error">
@@ -37,13 +37,13 @@
             </span>
         @endif
 
-        <label for="password-confirm">Confirm Password</label>
+        <label for="password-confirm"><i class="fa-solid fa-circle-check"></i> Confirm Password</label>
         <input id="password-confirm" type="password" name="password_confirmation" required>
 
         <button type="submit">
-            Register
+            Register <i class="fa-solid fa-pen-to-square"></i>
         </button>
-        <a class="button" href="{{ route('login') }}">Login</a>
+        <a class="button" href="{{ route('login') }}">Login <i class="fa-solid fa-right-to-bracket"></i></a>
     </form>
     </div>
     @include('partials.footer')
