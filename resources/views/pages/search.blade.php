@@ -12,6 +12,7 @@
 </script>
 
 @section('content')
+<div class="search-page-container">
     <h1>Search Page</h1>
     <form action="{{ url('homepage/search') }}" method="get">
         <input type="text" id="search" name="search" placeholder="Search..." style="color: black;" pattern="[a-zA-Z0-9\s]+">
@@ -42,6 +43,8 @@
             <h2><a href="/space/{{$comment->space_id}}">{{ $comment->content }}</a></h2>
         @endforeach
     @endif
+</div>
+@include('partials.footer')
 @endsection
 
 
