@@ -84,10 +84,32 @@ class SpaceController extends Controller
       $space->content = $request->input('content');
       $space->date = date('Y-m-d H:i');
       $space->save();
+      if($request->file('image') != null)
+    {
+        if( !in_array(pathinfo($_FILES["image"]["name"],PATHINFO_EXTENSION),['jpg','jpeg','png'])) {
+            return redirect('/homepage')->with('error', 'File not supported');
+        }
+        $request->validate([
+            'image' =>  'mimes:png,jpeg,jpg',
+        ]);
+        SpaceController::update($space->id,'space',$request);
+    }
       if($space->group_id == null){
       return redirect('/homepage')->withSuccess('Space created successfully!');}
       else {
         return redirect('/group/'.$space->group_id)->withSuccess('Space created successfully!');}
+    }
+
+    public function update(int $id, string $type, Request $request)
+    {
+    if ($request->file('image')) {
+        foreach ( glob(public_path().'/images/'.$type.'/'.$id.'.*',GLOB_BRACE) as $image){
+            if (file_exists($image)) unlink($image);
+        }
+    }
+    $file= $request->file('image');
+    $filename= $id.".jpg";
+    $file->move(public_path('images/'. $type. '/'), $filename);
     }
 
     public function delete($id)

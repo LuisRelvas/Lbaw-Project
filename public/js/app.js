@@ -446,24 +446,29 @@ function declineInvite(id,notification_id)
   });
 }
 
-function changeLikeStateC(id, liked) {
+function changeLikeStateC(id, liked, user, owner) {
   let url, data;
-  console.log('The value of liked is',liked);
-  console.log('The value of id is',id);
+  let countElement = document.getElementById('countCommentLikes' + id);
+  let currentCount = parseInt(countElement.textContent);
+  let likeButton = document.getElementById('likeButton' + id); // Corrected here
+
   switch (liked) {
     case true:
       url = '/comment/unlike';
       data = { id: id };
       sendAjaxRequest('DELETE', url, data, function (response) {
         console.log('Response:', response);
+        countElement.textContent = currentCount - 1;
+        likeButton.setAttribute('onclick', `changeLikeStateC(${id}, false,${user},${owner})`);
       });
       break;
     case false:
-      console.log('entered in the false case');
-      let url2 = '/comment/like';
-      let data2 = { id: id };
-      sendAjaxRequest('POST', url2, data2, function (response) {
+      url = '/comment/like';
+      data = { id: id };
+      sendAjaxRequest('POST', url, data, function (response) {
         console.log('Response:', response);
+        countElement.textContent = currentCount + 1;
+        likeButton.setAttribute('onclick', `changeLikeStateC(${id}, true,${user},${owner})`);
       });
       break;
   }
@@ -723,6 +728,8 @@ function changeProfileState(user_id2,user_id1,publicProfile)
         // Send the AJAX request
         sendAjaxRequest('POST', url, data, function(response) {
           console.log('Response:', response);
+          // Change the button text to 'Unfollow'
+          document.querySelector('#profileState' + user_id2).innerHTML = '<i id="text-icon" aria-hidden="true"></i> Unfollow';
         });
       }
       else 
@@ -744,6 +751,7 @@ function changeProfileState(user_id2,user_id1,publicProfile)
       };
       sendAjaxRequest('DELETE', url, data, function(response){
         console.log('Response:', response);
+        document.querySelector('#profileState' + user_id2).innerHTML = '<i id="text-icon" aria-hidden="true"></i> Follow';
       });
     }
 } 

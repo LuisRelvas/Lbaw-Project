@@ -13,7 +13,7 @@
                 window.spaceUserId = "{{ $space->user_id }}";
             </script>
             <div id="space{{ $space->id }}" data-space-id="{{ $space->id }}" class="space-card">
-                <img src="{{ asset($user->media()) }}" class="profile-img" width=20% style="border-radius: 50%; padding: 1em" alt="profile media">
+                <img src="{{ asset($user->media()) }}" class="profile-img" width=10% style="border-radius: 50%; padding: 1em" alt="profile media">
                 @if($user->deleted == false)
                 <div class="spaceauthor"><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></div>
                 @else
@@ -23,6 +23,11 @@
                 <main>
                     <div class="spacecontent">{{ $space->content }}</div>
                 </main>
+                <div class="space-img">
+                @if($space->media())
+                <img src="{{ asset($space->media()) }}" class="space-img" width=20% style=padding: 1em alt="profile media">
+                @endif
+                </div>
                 <button id="likeButton{{ $space->id }}"
                     onclick="changeLikeState({{ $space->id }}, {{ Auth::check() && Auth::user()->likesSpace(Auth::user(), $space) ? 'true' : 'false' }}, {{Auth::user()->id}},{{$space->user_id}})">
                     <i id="likeIcon{{ $space->id }}"

@@ -51,6 +51,13 @@ class Space extends Model
     {
         return count($this->hasMany('App\Models\LikeSpace')->get());
     }
+
+    public function media() 
+    {
+        $files = glob("images/space/".$this->id.".jpg", GLOB_BRACE);
+        if($files){
+        return "/".$files[0];}
+    }
 }
 
 
