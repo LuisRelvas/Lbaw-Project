@@ -11,21 +11,26 @@ main > header {
   padding: 1em;
   margin: 0;
 }
+
 main > header h1 {
   margin: 0;
 }
+
 main > header a.button {
   margin: 1em;
   justify-self: center;
 }
+
 main > header span {
   margin: 1em;
   justify-self: center;
 }
+
 #cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
+
 #cards article.card {
   display: flex;
   flex-direction: column;
@@ -33,13 +38,16 @@ main > header span {
   padding: 1em;
   margin: 1em;
 }
+
 #cards article.card header {
   display: flex;
   align-items: center;
 }
+
 #cards article.card header h2 {
   flex-grow: 1;
 }
+
 #cards article.card header a.delete {
   display: none;
   font-size: 2.6rem;
@@ -47,59 +55,75 @@ main > header span {
   margin-bottom: 2.5rem;
   line-height: 1.25;
 }
+
 #cards article.card header:hover a.delete {
   display: inline;
 }
+
 #cards article.card li {
   list-style-type: none;
 }
+
 #cards article.card li label {
   display: flex;
   align-items: baseline;
 }
+
 #cards article.card li label span {
   margin-left: 0.5em;
   flex-grow: 1;
 }
+
 #cards article.card li label a {
   display: none;
 }
+
 #cards article.card li label:hover a {
   display: inline;
 }
+
 #cards article.card input:checked + span {
   text-decoration: var(--primary-color) solid line-through;
 }
+
 #cards article.card ul {
   margin: 0;
 }
+
 #cards article.card form {
   margin: 0;
 }
+
 #cards article.card input[type="text"] {
   background-color: white;
   margin: 0;
 }
+
 #content label {
   font-weight: normal;
 }
+
 #content > form {
   margin: 0 auto;
   padding: 1em;
   max-width: 20em;
   border: 1px solid #000000;
 }
+
 #content > form .error {
   font-weight: bold;
   color: #ff3333;
 }
+
 #content > form .success {
   font-weight: bold;
   color: #106af1;
 }
+
 #content > form input {
   background-color: white;
 }
+
 @media (max-width: 70em) {
   #cards {
     grid-template-columns: repeat(2, 1fr);
@@ -112,11 +136,13 @@ main > header span {
     grid-row-end: span 2;
   }
 }
+
 @media (max-width: 40em) {
   #cards {
     grid-template-columns: 1fr;
   }
 }
+
 @media (max-width: 25em) {
   body {
     margin: 0;
@@ -135,7 +161,6 @@ main > header span {
   display: flex;
   height: 100vh; /* Full height of the viewport */
   .content {
-    
     border-radius: 5px;
     flex: 1;
     padding: 1em;
@@ -242,4 +267,3 @@ a.button {
   color: red;
   font-weight: bold;
 }
-
