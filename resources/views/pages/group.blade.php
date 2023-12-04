@@ -36,7 +36,7 @@
                         @endif  
                     </button>
                 @endif
-        </section>
+            </section>
 
     @if(Auth::check() && $group->hasMember(Auth::user()))
     <section id="members" class="members">
@@ -113,4 +113,3 @@
 
 
 @endsection
-

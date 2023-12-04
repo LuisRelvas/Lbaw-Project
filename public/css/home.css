@@ -2,7 +2,6 @@
 /* ------ Searchbar ------ */
 
 .searchbar {
-  
   width: 250px;
   border-radius: 5px;
   background-color: #124347;
@@ -25,6 +24,13 @@
   color: whiTE;
   font-weight: bold;
   font-size: 1em;
+}
+
+#results-users, #results-spaces {
+    max-height: 200px; /* adjust as needed */
+    overflow-y: auto;
+    font-weight: bold;
+    color: #007bff;
 }
 
 /* ------ Spaces in Home ------ */

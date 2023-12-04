@@ -1,16 +1,33 @@
 /* ------ About ------ */
 
-.about-container {
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
-  grid-template-columns: 1fr auto auto;
-  flex: 1;
-  margin-left: 0;
+.aboutus-container {
+    display: flex;
+    justify-content: space-between;
+    height: 100vh;
 }
 
-.about-container h2,
-h3 {
-  font-weight: bold;
+.about-card {
+    background-color: #fff;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    padding: 20px;    
+}
+
+.about-card h2, .about-card h3 {
+    font-size: 24px; /* adjust as needed */
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.about-card p {
+    font-size: 16px; /* adjust as needed */
+    margin-bottom: 10px;
+}
+
+.about-card ul {
+    padding-left: 20px;
+}
+
+.about-card ul li {
+    margin-bottom: 10px;
 }

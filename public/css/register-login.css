@@ -1,11 +1,3 @@
-#welcomePhrase {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; 
-    flex-direction: column; 
-    margin-top: -20vh;
-}
 
 #introText {
     font-size: 4em; 

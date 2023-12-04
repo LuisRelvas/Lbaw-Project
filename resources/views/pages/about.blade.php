@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <main class="flex-container">
+    <div class="aboutus-container">
         @include('partials.sidebar')
-        <div class="about-container">
+        <div class="about-card">
             <h2>Welcome to SportHUB!</h2>
 
             <p>SportHUB is more than just a platform; it's a thriving community that brings together sports enthusiasts from
@@ -37,6 +37,6 @@
 
             <p>Let's build a community where the love for sports unites us all!</p>
         </div>
-    </main>
+    </div>
     @include('partials.footer')
 @endsection
