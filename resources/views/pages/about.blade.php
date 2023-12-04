@@ -36,6 +36,9 @@
                 someone looking to explore the sports landscape, SportHUB is the place for you.</p>
 
             <p>Let's build a community where the love for sports unites us all!</p>
+            <div class="icon-center">
+                <i class="fa-solid fa-futbol white-icon"></i> <i class="fa-solid fa-basketball white-icon"></i> <i class="fa-solid fa-volleyball white-icon"></i>
+            </div>
         </div>
     </div>
     @include('partials.footer')

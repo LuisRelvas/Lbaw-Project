@@ -21,11 +21,11 @@
 
 #results-users, #results-spaces { /* @ username */
     font-weight: bold;
-    color: #007bff; 
+    color: white; 
 }
 
 #results-users a, #results-spaces a { /* Name */
     font-size: 14px; 
-    color: #007bff; 
+    color: white; 
     text-decoration: underline;
 }

@@ -3,13 +3,12 @@
 .aboutus-container {
     display: flex;
     justify-content: space-between;
-    height: 100vh;
+    min-height: 100vh;
+    overflow: auto;
 }
 
 .about-card {
-    background-color: #fff;
-    border: 1px solid #e1e4e8;
-    border-radius: 6px;
+    background-color: #1c2632;
     padding: 20px;    
 }
 
@@ -17,17 +16,31 @@
     font-size: 24px; /* adjust as needed */
     font-weight: bold;
     margin-bottom: 10px;
+    color: white;
 }
 
 .about-card p {
     font-size: 16px; /* adjust as needed */
     margin-bottom: 10px;
+    color: white;
 }
 
 .about-card ul {
     padding-left: 20px;
+    color: white;
 }
 
 .about-card ul li {
     margin-bottom: 10px;
+    color: white;
+}
+
+.icon-center {
+    text-align: center;
+    padding-top: 5em;
+}
+
+.white-icon {
+    color: white;
+    font-size: 8em;
 }
