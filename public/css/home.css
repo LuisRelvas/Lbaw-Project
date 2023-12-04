@@ -1,10 +1,8 @@
-
 /* ------ Searchbar ------ */
 
 .searchbar {
   width: 250px;
-  border-radius: 5px;
-  background-color: #124347;
+  background-color: #49535f;
   right: 0;
   color: #fff;
   padding: 1em;
@@ -26,11 +24,12 @@
   font-size: 1em;
 }
 
-#results-users, #results-spaces {
-    max-height: 200px; /* adjust as needed */
-    overflow-y: auto;
-    font-weight: bold;
-    color: #007bff;
+#results-users,
+#results-spaces {
+  max-height: 200px; /* adjust as needed */
+  overflow-y: auto;
+  font-weight: bold;
+  color: #007bff;
 }
 
 /* ------ Spaces in Home ------ */
@@ -46,14 +45,15 @@
 }
 
 .card {
-  border: 1px solid #ccc;
+  border: 1px solid;
   border-radius: 8px;
   padding: 10px;
   margin-bottom: 10px;
   text-decoration: none;
-  color: #333;
+  color: white;
   display: block;
   transition: box-shadow 0.3s ease-in-out;
+  background-color: #1c2632;
 }
 
 .card:hover {
@@ -64,6 +64,7 @@
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 10px;
+  color: white;
 }
 
 .card-body {
@@ -79,3 +80,24 @@
   margin: 0;
 }
 
+/* ------ Logo ------ */
+
+.logo {
+  height: 1.5em; /* adjust as needed */
+  vertical-align: middle;
+  filter: invert(1) sepia(1) saturate(5) hue-rotate(90deg);
+}
+
+mark.sport {
+  color: white;
+  font-weight: bold;
+  background-color: #2a3543;
+}
+
+mark.hub {
+  color: #2a3543;
+  font-weight: bold;
+  background-color: white;
+  border-radius: 5px;
+  padding: 2px 5px; /* Adjust padding as needed */
+}

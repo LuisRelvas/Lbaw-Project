@@ -2,11 +2,10 @@
 
 .sidebar {
   width: 250px;
-  background-color: #124347;
+  background-color: #49535f;
   color: #fff;
   padding: 1em;
   box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
 }
 
 .sidebar a {
@@ -30,8 +29,7 @@
 .footer {
   text-align: center;
   padding: 10px;
-  background-color: #add8e6;
-  color: black;
+  background-color: #2a3543;
+  color: white;
   font-weight: bold;
-  border-radius: 5px;
 }

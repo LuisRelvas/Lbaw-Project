@@ -11,6 +11,8 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Styles -->
+        <script src="https://kit.fontawesome.com/b10add5646.js" crossorigin="anonymous"></script>
+
         <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
         <link href="{{ url('css/user.css') }}" rel="stylesheet">
@@ -31,7 +33,10 @@
     <main>
         <header>
             <h1>
-                <a href="{{ Auth::check() && Auth::user()->isAdmin(Auth::user()) ? url('/admin') : url('/homepage') }}"><mark class="sport">Sport</mark><mark class="hub">HUB</mark></a>
+                <a href="{{ Auth::check() && Auth::user()->isAdmin(Auth::user()) ? url('/admin') : url('/homepage') }}">
+                    <img class="logo" src="{{ url('images/sporthub-icon.jpg') }}" alt="Logo">
+                    <mark class="sport">Sport</mark><mark class="hub">HUB</mark>
+                </a>
             </h1>
             @if (Auth::check())
                 <a class="button" href="{{ url('/logout') }}"> Logout </a> 
