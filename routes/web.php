@@ -113,6 +113,7 @@ Route::controller(UserController::class)->group(function () {
     Route::delete('api/profile/{id}', 'delete');
     Route::post('/profile/follow/{id}', 'follow');
     Route::delete('/profile/unfollow/{id}', 'unfollow');
+    Route::put('/profile/{id}/updatePhoto', 'updatePhoto');
     Route::post('/profile/followsrequest', [UserController::class, 'follow_request']);
     Route::post('/profile/followsrequest/{id}', [UserController::class, 'accept_follow_request']);
     Route::delete('/profile/followsrequest', [UserController::class, 'decline_follow_request']);
@@ -150,6 +151,9 @@ Route::controller(NotificationController::class)->group(function () {
     Route::delete('api/notification/{id}', 'delete');
     Route::put('/notification/{id}', 'edit');
 });
+
+
+
 
 
 

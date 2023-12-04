@@ -47,7 +47,6 @@ class SpaceController extends Controller
       $followingIds = Auth::user()->showFollows()->pluck('id');
       $spaces = Space::whereIn('user_id', $followingIds)->get(); 
       $mines = Space::where('user_id', Auth::user()->id)->get();
-  
       return view('pages.home', [
           'publics' => $publics,
           'spaces' => $spaces,

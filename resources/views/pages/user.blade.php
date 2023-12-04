@@ -8,7 +8,7 @@
 
     <div class="userinfo" data-id="{{ $user->id }}">
 
-        <span class="dot"></span>
+        <img src="{{ asset($user->media()) }}" class="profile-img" width="10%" style="border-radius: 50%; padding: 1em" alt="profile media">
         <div class="user">
             <p><a href="/profile/{{ $user->id }}">{{ $user->name }}</a></p>
             @if (Auth::check())

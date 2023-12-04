@@ -13,7 +13,7 @@
                 window.spaceUserId = "{{ $space->user_id }}";
             </script>
             <div id="space{{ $space->id }}" data-space-id="{{ $space->id }}" class="space-card">
-                <span class="dot"></span>
+                <img src="{{ asset($user->media()) }}" class="profile-img" width=20% style="border-radius: 50%; padding: 1em" alt="profile media">
                 @if($user->deleted == false)
                 <div class="spaceauthor"><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></div>
                 @else

@@ -3,6 +3,12 @@
 @section('content')
     <form method="POST" action="{{ url('profile/edit') }}" enctype="multipart/form-data">
         {{ csrf_field() }}
+        <section class="edit-page-photo-options">
+                    <img id="edit-profile-photo" class="edit-page-image" src="{{ Auth::user()->media() }}" width=50% alt="Profile image">
+                    <h4 for="image">Choose a profile picture:</h4>
+                    <input type="file" name="image" id="image">
+                    <button form="removePhoto" class="edit-page-button">Remove Photo</button>
+                </section>
         <input type="hidden" name="user_id" value="{{ request()->route('id') }}">
         <label for="name">Name</label>
         <input id="name" type="text" name="name" value="{{ old('name') }}">

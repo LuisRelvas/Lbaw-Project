@@ -149,10 +149,44 @@ public function edit(Request $request)
     {
         $user->is_public = $request->is_public;
     }
+    if($request->file('image') != null)
+    {
+        if( !in_array(pathinfo($_FILES["image"]["name"],PATHINFO_EXTENSION),['jpg','jpeg','png'])) {
+            return redirect('user/edit')->with('error', 'File not supported');
+        }
+        $request->validate([
+            'image' =>  'mimes:png,jpeg,jpg',
+        ]);
+        UserController::update($user->id,'profile',$request);
+    }
     $user->password = $request->password;
     $user->save();
     return redirect('/profile/'.$user->id)->withSuccess('User edited successfully!');}
 
+}
+
+public function update(int $id, string $type, Request $request)
+{
+    if ($request->file('image')) {
+        foreach ( glob(public_path().'/images/'.$type.'/'.$id.'.*',GLOB_BRACE) as $image){
+            if (file_exists($image)) unlink($image);
+        }
+    }
+    $file= $request->file('image');
+    $filename= $id.".jpg";
+    $file->move(public_path('images/'. $type. '/'), $filename);
+}
+
+
+public function updatePhoto(Request $request, $id)
+{
+    $user = User::find($id);
+    if($request->hasFile('profile_picture')) {
+        $filename = $user->id . '.jpg';
+        $request->profile_picture->move(public_path('images/profile'), $filename);
+    }
+
+    return redirect('/profile/' . $id);
 }
 
 public function delete(Request $request, $id)

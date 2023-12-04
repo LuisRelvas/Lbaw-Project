@@ -144,4 +144,11 @@ class User extends Authenticatable
         return FollowsRequest::where('user_id1', Auth::user()->id)->where('user_id2', $user->id)->exists();
     }
 
+    public function media() { 
+        $files = glob("images/profile/".$this->id.".jpg", GLOB_BRACE);
+        $default = "/images/profile/default.jpg";
+        if(sizeof($files) < 1) return $default;
+        return "/".$files[0];
+    }
+
 }

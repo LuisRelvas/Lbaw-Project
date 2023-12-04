@@ -5,7 +5,7 @@
         $user = \App\Models\User::findOrFail($group->user_id);
     @endphp
     <div id="group{{ $group->id }}" data-group-id="{{ $group->id }}" class="group-card">
-        <span class="dot"></span>
+    <img src="{{ asset($user->media()) }}" class="profile-img" width="10%" style="border-radius: 50%; padding: 1em" alt="profile media">
         <div class="groupauthor"><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></div>
 
         <main>
