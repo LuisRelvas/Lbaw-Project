@@ -24,6 +24,7 @@
         <link href="{{ url('css/partials.css') }}" rel="stylesheet">
         <link href="{{ url('css/groups.css') }}" rel="stylesheet">
         <link href="{{ url('css/search.css') }}" rel="stylesheet">
+        <link href="{{ url('css/message.css') }}" rel="stylesheet">
         <script src="https://js.pusher.com/7.0/pusher.min.js" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/laravel-echo/dist/echo.iife.js" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
