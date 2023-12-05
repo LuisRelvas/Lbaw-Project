@@ -44,7 +44,7 @@
                 <button type="submit">
                     Register <i class="fa-solid fa-pen-to-square"></i>
                 </button>
-                <a class="button" href="{{ route('login') }}">Login <i class="fa-solid fa-right-to-bracket"></i></a>
+                
             </form>
         </div>
     </div>

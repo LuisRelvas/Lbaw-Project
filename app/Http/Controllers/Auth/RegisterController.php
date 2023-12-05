@@ -27,6 +27,7 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
+        $user = Auth::user();
         $request->validate([
             'name' => 'required|string|max:250',
             'username' => 'required|string|max:255|unique:users',
@@ -50,4 +51,5 @@ class RegisterController extends Controller
                 return redirect('/homepage')
             ->withSuccess('You have successfully registered & logged in!');
         }
+    }
 }
