@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="edit-user-container"
+    <div class="edit-user-container"> <!-- Fixed here -->
     <form method="POST" action="{{ url('profile/edit') }}" enctype="multipart/form-data">
         {{ csrf_field() }}
         <section class="edit-page-photo-options">

@@ -9,6 +9,10 @@
             {{ $errors->first('content') }}
         </span>
     @endif
+    <section class="edit-page-photo-options">
+        <h4 for="image">Choose a profile picture:</h4>
+        <input type="file" name="image" id="image">
+    </section>
 
     <button type="submit">
         Create Space
