@@ -1,13 +1,4 @@
 
-#introText {
-    font-size: 4em; 
-    color: black;
-}
-
-#toggleLoginForm {
-    display: block; 
-    margin-top: 1em;
-}
 
 #login-registerContent {
     display: flex;
@@ -56,4 +47,48 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus {
   border-color: #add8e6;
+}
+
+/* ------- Login ------- */
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the start */
+    padding-top: 10vh; /* Add some padding to the top */
+    min-height: 100vh;
+    overflow: auto;
+}
+
+.login-card form {
+    margin: 0 auto;
+    padding: 1em;
+    max-width: 20em;
+    background-color: #1c2632;
+}
+
+.login-card form label, input {
+    color: white;
+}
+
+/* ------- Register ------- */
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the start */
+    padding-top: 10vh; /* Add some padding to the top */
+    min-height: 100vh;
+    overflow: auto;
+}
+
+.register-card form {
+    margin: 0 auto;
+    padding: 1em;
+    max-width: 20em;
+    background-color: #1c2632;
+}
+
+.register-card form label, input {
+    color: white;
 }
