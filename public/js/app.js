@@ -861,7 +861,29 @@ if (statistic) {
 }
 }
 
+function handleUsers() {
+  document.getElementById('users').style.display = 'block';
+  document.getElementById('spaces').style.display = 'none';
+  document.getElementById('comments').style.display = 'none';
+}
 
+function handleSpaces() {
+  document.getElementById('users').style.display = 'none';
+  document.getElementById('spaces').style.display = 'block';
+  document.getElementById('comments').style.display = 'none';
+}
+
+function handleComments() {
+  document.getElementById('users').style.display = 'none';
+  document.getElementById('spaces').style.display = 'none';
+  document.getElementById('comments').style.display = 'block';
+}
+
+function handlePrincipal() {
+  document.getElementById('users').style.display = 'block';
+  document.getElementById('spaces').style.display = 'block';
+  document.getElementById('comments').style.display = 'block';
+}
 
 
 

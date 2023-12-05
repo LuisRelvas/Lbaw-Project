@@ -296,6 +296,10 @@ public function search_exact(Request $request)
     $itemsPerPage = 10;
     $date = $request->input('date');
     $input = $request->input('search');
+    if($input == null)
+    {
+        return view('pages.search');
+    }
     if($date != null) 
     {
         $spaces = Space::where('content', 'like', '%' . $input . '%')->where('date',$date)->orderBy('content')->get();
