@@ -9,7 +9,7 @@
                 <div class="grouplist-card-body">
                     <ul class="grouplist-card-list">
                         @foreach ($groups as $group)
-                            <li><a href="/group/{{ $group->id }}" class="card">{{ $group->name }}</a></li>
+                            <li><a href="/group/{{ $group->id }}" class="groupname-card">{{ $group->name }}</a></li>
                         @endforeach
                         @foreach ($publics as $public)
                             @if (Auth::check() && $public->user_id != Auth::user()->id)
@@ -21,7 +21,7 @@
                             $group = \App\Models\Group::findOrFail($member->group_id);
                         @endphp
                             @if(Auth::check())
-                            <li><a href="/group/{{ $member->group_id }}" class="card">{{ $group->name}}</a></li>
+                            <li><a href="/group/{{ $member->group_id }}" class="groupname-card">{{ $group->name}}</a></li>
                             @endif
                         @endforeach
                     </ul>
