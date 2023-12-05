@@ -19,5 +19,6 @@
         <button onclick="location.href='{{ url('/register') }}'" class="btn btn-primary">Create User</button>
 </div>
 </div>
+</div>
 @include('partials.footer')
 @endsection
