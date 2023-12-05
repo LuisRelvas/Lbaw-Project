@@ -43,8 +43,8 @@
                 @endif
                 @if ((Auth::check() && $space->user_id == Auth::user()->id) || (Auth::check() && Auth::user()->isAdmin(Auth::user())))
                     <button id="editSpace{{ $space->id }}" onclick="editSpace({{ $space->id }})"
-                        class="button-space-comment">&#9998;
-                        <div id="text-config"><i id="text-icon" class="pencil"></i></div>
+                        class="button-space-comment">
+                        <i class="fa-solid fa-pen-to-square"></i>
                     </button>
                     <button id="cancelEditSpace{{ $space->id }}" onclick="cancelEditSpace({{ $space->id }})"
                         style="visibility:hidden;" class="button-space-comment">
@@ -105,9 +105,7 @@
                                 (Auth::check() && $comment->author_id == Auth::user()->id) ||
                                     (Auth::check() && Auth::user()->isAdmin(Auth::user())))
                                 <button id="editComment{{ $comment->id }}" onclick="editComment({{ $comment->id }})"
-                                    class="button-comment">&#9998;
-
-                                    <div id="text-config"><i id="text-icon" class="pencil"></i></div>
+                                    class="button-comment"> <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
                                 <button id="deleteComment{{ $comment->id }}" onclick="deleteComment({{ $comment->id }})"
                                     class="button-comment"><i class="fa-solid fa-trash"></i>
