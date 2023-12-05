@@ -16,7 +16,8 @@
         <div id="results-spaces"></div>
         <div id="results-groups"></div>
         <div class="admincreate">
-    <button onclick="location.href='{{ url('/register') }}'" class="btn btn-primary">Create User</button>
+        <button onclick="location.href='{{ url('/register') }}'" class="btn btn-primary">Create User</button>
+</div>
 </div>
 </div>
 @include('partials.footer')
