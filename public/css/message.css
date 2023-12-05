@@ -1,0 +1,94 @@
+/* ------ Messages ------ */
+
+.messages-container {
+  display: flex;
+  justify-content: space-between;
+  min-height: 100vh;
+  overflow: auto;
+}
+
+.messages-card {
+  background-color: #1c2632;
+  flex: 1;
+  padding: 1em;
+  box-sizing: border-box; 
+  overflow: auto; 
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.messages-card h3 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.messages-card th {
+  color: white;
+}
+
+.messages-card td {
+  color: white;
+}
+
+.messages-card td.username::before {
+  margin-left: 10px;
+  content: "@";
+}
+
+.messages-card td a {
+  color: white;
+}
+
+.messages-card td a:hover {
+  text-decoration: underline;
+}
+
+td {
+  border-left: 1px solid white;
+}
+
+/* ------ Message ------ */
+
+.message-container {
+  display: flex;
+  justify-content: space-between;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.message-card {
+  background-color: #131a21;
+  flex: 1;
+  padding: 1em;
+  box-sizing: border-box; /* Prevent adding borders to the width */
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.message-input-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.message-content {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  max-height: 85vh;
+  border-radius: 5px;
+  background-color: #1c2632; /* Optional background color */
+  overflow-y: auto;
+}
+
+.message-content .profile {
+    font-weight: bold;
+    color: white;
+}
+
+.message-content .message {
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5); /* 50% opacity */
+    padding: 5px;
+}

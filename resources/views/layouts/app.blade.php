@@ -11,6 +11,8 @@
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Styles -->
+        <script src="https://kit.fontawesome.com/b10add5646.js" crossorigin="anonymous"></script>
+
         <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
         <link href="{{ url('css/app.css') }}" rel="stylesheet">
         <link href="{{ url('css/user.css') }}" rel="stylesheet">
@@ -20,6 +22,9 @@
         <link href="{{ url('css/about.css') }}" rel="stylesheet">
         <link href="{{ url('css/admin.css') }}" rel="stylesheet">
         <link href="{{ url('css/partials.css') }}" rel="stylesheet">
+        <link href="{{ url('css/groups.css') }}" rel="stylesheet">
+        <link href="{{ url('css/search.css') }}" rel="stylesheet">
+        <link href="{{ url('css/message.css') }}" rel="stylesheet">
         <script src="https://js.pusher.com/7.0/pusher.min.js" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/laravel-echo/dist/echo.iife.js" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -31,14 +36,17 @@
     <main>
         <header>
             <h1>
-                <a href="{{ Auth::check() && Auth::user()->isAdmin(Auth::user()) ? url('/admin') : url('/homepage') }}"><mark class="sport">Sport</mark><mark class="hub">HUB</mark></a>
+                <a href="{{ Auth::check() && Auth::user()->isAdmin(Auth::user()) ? url('/admin') : url('/homepage') }}">
+                    <img class="logo" src="{{ url('images/sporthub-icon.jpg') }}" alt="Logo">
+                    <mark class="sport">Sport</mark><mark class="hub">HUB</mark>
+                </a>
             </h1>
             @if (Auth::check())
-                <a class="button" href="{{ url('/logout') }}"> Logout </a> 
-                <a class="button" href="{{ url('/profile/'.Auth::user()->id) }}"><span>{{ Auth::user()->name }}</span></a>
+                <a class="button" href="{{ url('/logout') }}"> Logout <i class="fa-solid fa-right-from-bracket"></i></a> 
+                <a class="button" href="{{ url('/profile/'.Auth::user()->id) }}"><span>{{ Auth::user()->name }}</span><i class="fa-solid fa-user"></i></a>
             @else 
-                <a class="button" href="{{ url('/login') }}"> Login </a> 
-                <a class="button" href="{{ url('/register') }}"> Register </a>
+                <a class="button" href="{{ url('/login') }}"> Login <i class="fa-solid fa-right-to-bracket"></i></a> 
+                <a class="button" href="{{ url('/register') }}"> Register <i class="fa-solid fa-pen-to-square"></i></a>
             @endif
         </header>
         <section id="content">

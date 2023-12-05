@@ -4,16 +4,27 @@
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 20px;
-  border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #add8e6;
+  background-color: #1c2632;
   padding: 1em;
   margin: 1em;
   grid-template-columns: 1fr auto auto;
+  width: 100%;
 }
 
 .adminsearch #search {
     background-color: #fff;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.white-icon {
+    color: white;
+    margin-right: 10px; 
+    font-size: 25px;
 }
 
 /* ------- Results ------- */
@@ -21,11 +32,18 @@
 
 #results-users, #results-spaces { /* @ username */
     font-weight: bold;
-    color: #007bff; 
+    color: white; 
 }
 
 #results-users a, #results-spaces a { /* Name */
     font-size: 14px; 
-    color: #007bff; 
+    color: white; 
     text-decoration: underline;
+}
+
+.admin-container {
+    display: flex;
+    justify-content: space-between;
+    min-height: 100vh;
+    overflow: auto;
 }

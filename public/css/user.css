@@ -1,14 +1,12 @@
+/* ------ User ------- */
+
 .userinfo {
-    
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #fff;
-    grid-template-columns: 1fr auto auto;
-    flex: 1;
-    margin-left: 0; 
-  }
-  
+  padding: 20px;
+  background-color: #131a21;
+  grid-template-columns: 1fr auto auto;
+  flex: 1;
+  margin-left: 0;
+}
 
 .user {
   font-weight: bold;
@@ -19,23 +17,59 @@
 }
 
 .user a {
-  color: black;
+  color: white;
 }
 
 .username p {
-  color: gray;
+  color: white;
   margin-top: 0;
+}
+
+.username p::before {
+    
+    content: "@";
 }
 
 .dot {
   height: 50px;
   width: 50px;
-  background-color: black;
+  background-color: white;
   border-radius: 50%;
   display: inline-block;
 }
 
 .button-container {
-    display: flex;
+  display: flex;
 }
 
+.profile-container {
+  display: flex;
+  align-items: start;
+}
+
+.profile-info {
+  margin-left: 20px;
+}
+
+.user p {
+  color: white;
+  margin-bottom: 0;
+}
+
+/* ------ Edit User ------ */
+
+.edit-page-photo-options h4 {
+    color: white;
+}
+
+.edit-user-container {
+    margin: 0 auto;
+    padding: 1em;
+    max-width: 20em;
+    border: 1px solid #000000;
+    background-color: #1c2632;
+}
+
+.edit-user-container label {
+    color: white;
+}
