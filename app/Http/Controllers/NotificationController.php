@@ -13,6 +13,7 @@ use App\Models\SpaceNotification;
 use App\Models\UserNotification;
 use App\Models\CommentNotification;
 use App\Models\GroupNotification;
+use App\Models\User;
 
 class NotificationController extends Controller
 {
@@ -29,9 +30,15 @@ class NotificationController extends Controller
         $commentNotifications = CommentNotification::whereIn('id', $notificationsIds)->get();
         $groupNotifications = GroupNotification::whereIn('id', $notificationsIds)->get();
         $notifications = $userNotifications->merge($spaceNotifications)->merge($commentNotifications)->merge($groupNotifications);
-        return view('pages.notification', [
-            'notifications' => $notifications
-        ]);
+        $final = [];
+        foreach($notifications as $notification) 
+        {
+            $type = $notification->notification_type;
+            $aux = Notification::select('emits_user')->where('id',$notification->id)->first();
+            $name = User::select('name')->where('id',$aux->emits_user)->first();
+            array_push($final,[$type,$name]);
+        }
+        return response()->json($final);
     }
 
     public function edit(int $id) 
