@@ -208,45 +208,138 @@ main.textContent = main.dataset.originalContent;
 resetEditState(id);
 }
 
-
-function showNotifications() {
+function showNotifications(id) {
   var notificationsContainer = document.getElementById('notificationsContainer');
-  sendAjaxRequest('GET','/notification',null,function(response) {
+  
+  // If notifications are already shown, hide them and return
+  if (notificationsContainer.style.display === 'block') {
+    notificationsContainer.style.display = 'none';
+    return;
+  }
+
+  sendAjaxRequest('GET', '/notification', null, function(response) {
     var notifications = JSON.parse(response.target.responseText);
     notificationsContainer.innerHTML = '';
     notifications.forEach(notification => {
-      var p = document.createElement('p');
-      p.textContent = JSON.stringify(notification); // Convert each notification object to a string
-      notificationsContainer.appendChild(p);
-    });
+      var card = document.createElement('div');
+      card.id = 'notification_' + notification[4]; // Set a unique ID for each notification
+      card.style.border = '1px solid #ccc';
+      card.style.borderRadius = '4px';
+      card.style.marginBottom = '10px';
+      card.style.padding = '10px';
 
+      var a = document.createElement('a');
+      a.href = notification[3];
+      
+      var notificationType = notification[0].replace('_', ' ');
+      console.log("The value of the nofiticationType is",notificationType);
+      var userName = notification[1].name;
+      var who = notification[2].name;
+
+      if (notificationType == 'invite') {
+        console.log("the value of the notification is",notification);
+        var url = notification[3];
+        var parts = url.split('/'); // ["", "group", "2"]
+        var groupId = parts[2]; // "2"
+        console.log(groupId);
+        console.log("the value of the url is",url);
+        a.textContent = `${userName} has invited you`;
+      
+        var acceptButton = document.createElement('button');
+        acceptButton.textContent = 'Accept';
+        acceptButton.addEventListener('click', function() {
+          acceptInvite(groupId, notification[4]);
+          updateNotification(notification[4]);
+        });
+      
+        var declineButton = document.createElement('button');
+        declineButton.textContent = 'Decline';
+        declineButton.addEventListener('click', function() {
+          declineInvite(groupId,notification[4]);
+          updateNotification(notification[4]);
+        });
+      
+        // Append the text and buttons to the card element
+        card.appendChild(a);
+        card.appendChild(acceptButton);
+        card.appendChild(declineButton);
+      }
+      else if(notificationType == 'request follow') {
+        console.log("the value of the notification is",notification);
+        var url = notification[3];
+        var parts = url.split('/');
+        var userid = parts[2];
+        console.log(groupId);
+        console.log("the value of the url is",url);
+        a.textContent = `${userName} has requested to follow you`;
+      
+        var acceptButton = document.createElement('button');
+        acceptButton.textContent = 'Accept';
+        acceptButton.addEventListener('click', function() {
+          acceptFollowRequest(userid,id);
+          updateNotification(notification[4]);
+
+        });
+      
+        var declineButton = document.createElement('button');
+        declineButton.textContent = 'Decline';
+        declineButton.addEventListener('click', function() {
+          declineFollowRequest(userid,id);
+          updateNotification(notification[4]);
+
+        });
+      
+        // Append the text and buttons to the card element
+        card.appendChild(a);
+        card.appendChild(acceptButton);
+        card.appendChild(declineButton);
+      }
+      else {
+        a.textContent = `${userName} ${notificationType} ${who}`;
+
+        var button = document.createElement('button');
+        button.textContent = '✓';
+        button.addEventListener('click', function() {
+          updateNotification(notification[4]); // Pass the ID to updateNotification
+        });
+
+        card.appendChild(a);
+        card.appendChild(button);
+      }
+
+      notificationsContainer.appendChild(card);
+    });
     notificationsContainer.style.display = 'block';
   });
 }
 
-function updateNotification(id) 
-{
-  let url = 'notification/' + id; 
+function updateNotification(id) {
+  console.log(id);
+   url = '/notification/' + id;
+  console.log("The url is",url);
   var method = 'PUT';
+  console.log("The value of the id is",id);
   var data = {
-    id: id  };
+    id: id
+  };
+
+  // Remove the HTML element associated with the notification
+  var notificationElement = document.getElementById('notification_' + id);
+  console.log("THe value of the notificationElement is",notificationElement);
+  if (notificationElement) {
+    notificationElement.remove();
+  }
+
   sendAjaxRequest(method, url, data, function(event) {
     if (event.target.status === 200) {
+      // Parse the server response
       var response = JSON.parse(event.target.responseText);
       console.log(response); // Log the server response (optional)
-      
-      // Redirect to the appropriate URL based on whether the user is an admin
-      if (response.isAdmin) {
-        window.location.href = '/admin';
-      } else {
-        window.location.href = '/homepage';
-      }
     } else {
       console.error('Error:', event.target.status, event.target.statusText);
     }
   });
 }
-
 
 function deleteNotification(id) {
   if (!confirm('Are you sure you want to delete this notification?')) {
@@ -418,6 +511,7 @@ function showNotification(message) {
 function acceptInvite(id, notification_id) 
 {
   console.log(notification_id);
+  console.log("The value of the groupId is",id);
   let url = '/group/acceptinvite';
   let data = {
     group_id: id
@@ -520,13 +614,13 @@ sendAjaxRequest(method, url, data, function(event) {
 
 function resetEditGroup(id) {
   let group = document.querySelector("#group" + id);
-  let main = group.querySelector("main");
 
   // Hide the cancel button
   document.querySelector('#cancelEditGroup' + id).style.visibility = 'hidden';
 
   // Change the button back to edit
   let edit_button = document.querySelector("#editGroup" + id);
+  document.querySelector("#text-icon" + id).classList.remove("confirm");
   edit_button.textContent = 'Edit';
 
   // Restore the original onclick function
@@ -537,11 +631,11 @@ function resetEditGroup(id) {
 
 function editGroup(id) {
   let group = document.querySelector("#group" + id);
-  let main = group.querySelector("main");
+  let contentContainer = group.querySelector(".groupcontent-card");
 
   // Save the original content for cancel action
-  let originalName = group.querySelector(".groupname").textContent.trim();
-  let originalDescription = group.querySelector(".groupcontent").textContent.trim();
+  let originalName = contentContainer.querySelector(".groupname").textContent.trim();
+  let originalDescription = contentContainer.querySelector(".groupcontent").textContent.trim();
 
   // Transform the content into two text boxes
   let nameTextarea = document.createElement('textarea');
@@ -552,9 +646,9 @@ function editGroup(id) {
   descriptionTextarea.className = 'groupdescription';
   descriptionTextarea.value = originalDescription;
 
-  main.innerHTML = ''; // Clear the main content
-  main.appendChild(nameTextarea);
-  main.appendChild(descriptionTextarea);
+  contentContainer.innerHTML = ''; // Clear the main content
+  contentContainer.appendChild(nameTextarea);
+  contentContainer.appendChild(descriptionTextarea);
 
   // Show the cancel button
   document.querySelector('#cancelEditGroup' + id).style.visibility = 'visible';
@@ -563,91 +657,91 @@ function editGroup(id) {
   let edit_button = document.querySelector("#editGroup" + id);
   edit_button.textContent = 'Confirm';
 
-  main.dataset.originalName = originalName;
-  main.dataset.originalDescription = originalDescription;
+  contentContainer.dataset.originalName = originalName;
+  contentContainer.dataset.originalDescription = originalDescription;
 
   // Change the onclick of the button
   edit_button.onclick = function () {
-    // Get the updated content and visibility
-    let updatedName = nameTextarea.value;
-    let updatedDescription = descriptionTextarea.value;
+      // Get the updated content and visibility
+      let updatedName = nameTextarea.value;
+      let updatedDescription = descriptionTextarea.value;
 
-    // Send an AJAX request to update the content on the server
-    let url = '/group/edit';
-    let data = {
-      id: id,
-      name: updatedName,
-      description: updatedDescription
-    };
-
-    sendAjaxRequest('PUT', url, data, function (response) {
-      console.log('Updated Content:', updatedName, updatedDescription);
-
-      // Create new divs for the name and description
-      let newNameDiv = document.createElement('div');
-      newNameDiv.className = 'groupname';
-      newNameDiv.textContent = updatedName;
-
-      let newDescriptionDiv = document.createElement('div');
-      newDescriptionDiv.className = 'groupcontent';
-      newDescriptionDiv.textContent = updatedDescription;
-
-      // Replace the textareas with the new divs
-      main.innerHTML = '';
-      main.appendChild(newNameDiv);
-      main.appendChild(newDescriptionDiv);
-
-      // Hide the cancel button
-      document.querySelector('#cancelEditGroup' + id).style.visibility = 'hidden';
-
-      // Change the button back to edit
-      let edit_button = document.querySelector("#editGroup" + id);
-      edit_button.textContent = 'Edit';
-
-      // Restore the original onclick function
-      edit_button.onclick = function () {
-          editGroup(id);
+      // Send an AJAX request to update the content on the server
+      let url = '/group/edit';
+      let data = {
+          id: id,
+          name: updatedName,
+          description: updatedDescription
       };
-    });
-  };
-  }
 
-  function cancelEditGroup(id) {
-    let group = document.querySelector("#group" + id);
-    let main = group.querySelector("main");
-  
-    // Get the original content from the main element's dataset
-    let originalName = main.dataset.originalName;
-    let originalDescription = main.dataset.originalDescription;
-  
-    // Create new divs for the name and description
-    let newNameDiv = document.createElement('div');
-    newNameDiv.className = 'groupname';
-    newNameDiv.textContent = originalName;
-  
-    let newDescriptionDiv = document.createElement('div');
-    newDescriptionDiv.className = 'groupcontent';
-    newDescriptionDiv.textContent = originalDescription;
-  
-    // Replace the textareas with the new divs
-    main.innerHTML = '';
-    main.appendChild(newNameDiv);
-    main.appendChild(newDescriptionDiv);
-  
-    // Reset the edit state
-    resetEditGroup(id);
-  }
+      sendAjaxRequest('PUT', url, data, function (response) {
+          console.log('Updated Content:', updatedName, updatedDescription);
+
+          // Create new divs for the name and description
+          let newNameDiv = document.createElement('div');
+          newNameDiv.className = 'groupname';
+          newNameDiv.textContent = updatedName;
+
+          let newDescriptionDiv = document.createElement('div');
+          newDescriptionDiv.className = 'groupcontent';
+          newDescriptionDiv.textContent = updatedDescription;
+
+          // Replace the textareas with the new divs
+          contentContainer.innerHTML = '';
+          contentContainer.appendChild(newNameDiv);
+          contentContainer.appendChild(newDescriptionDiv);
+
+          // Hide the cancel button
+          document.querySelector('#cancelEditGroup' + id).style.visibility = 'hidden';
+
+          // Change the button back to edit
+          let edit_button = document.querySelector("#editGroup" + id);
+          edit_button.textContent = 'Edit';
+
+          // Restore the original onclick function
+          edit_button.onclick = function () {
+              editGroup(id);
+          };
+      });
+  };
+}
+
+function cancelEditGroup(id) {
+  let group = document.querySelector("#group" + id);
+  let contentContainer = group.querySelector(".groupcontent-card");
+
+  // Get the original content from the content container's dataset
+  let originalName = contentContainer.dataset.originalName;
+  let originalDescription = contentContainer.dataset.originalDescription;
+
+  // Create new divs for the name and description
+  let newNameDiv = document.createElement('div');
+  newNameDiv.className = 'groupname';
+  newNameDiv.textContent = originalName;
+
+  let newDescriptionDiv = document.createElement('div');
+  newDescriptionDiv.className = 'groupcontent';
+  newDescriptionDiv.textContent = originalDescription;
+
+  // Replace the textareas with the new divs
+  contentContainer.innerHTML = '';
+  contentContainer.appendChild(newNameDiv);
+  contentContainer.appendChild(newDescriptionDiv);
+
+  // Reset the edit state
+  resetEditGroup(id);
+}
 
 function deleteGroup(id) {
+  console.log('The value of the id is', id);
   if (!confirm('Are you sure you want to delete this group?')) {
       return;
   }
 
   var url = `/api/group/${id}`;
   var method = 'DELETE';
-  var data = null; // No data to send for a DELETE request
 
-  sendAjaxRequest(method, url, data, function(event) {
+  sendAjaxRequest(method, url, null, function(event) {
       if (event.target.status === 200) {
           var response = JSON.parse(event.target.responseText);
           console.log(response); // Log the server response (optional)
@@ -663,6 +757,7 @@ function deleteGroup(id) {
       }
   });
 }
+
 
 function deleteProfile(id) {
   if (!confirm('Are you sure you want to delete your account?')) {
@@ -838,7 +933,7 @@ function deleteMember(id) {
     return;
   }
 
-  var url = '/api/group/' + groupId;  // Corrected line
+  var url = '/api/group/member/' + id;  // Corrected line
   var method = 'DELETE';
   
   let data = {

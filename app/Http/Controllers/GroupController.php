@@ -78,6 +78,7 @@ class GroupController extends Controller
         ]);
     }
 
+
     public function join(Request $request) 
     {
         $group = Group::find($request->id);  
@@ -128,12 +129,12 @@ class GroupController extends Controller
     DB::commit();
 }
 
+
 public function remove_member(Request $request)
 {
-    DB::beginTransaction();
 
     Member::where('group_id', $request->groupId)->where('user_id', $request->userId)->delete();  // Corrected line
-
+    DB::beginTransaction();
     Notification::insert([
         'received_user' => $request->userId,
         'emits_user' => Auth::user()->id,
@@ -146,7 +147,6 @@ public function remove_member(Request $request)
         'group_id' => $request->groupId,
         'notification_type' => 'remove'
     ]);
-
     DB::commit();
 
     return response()->json([

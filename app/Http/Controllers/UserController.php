@@ -86,6 +86,7 @@ public function editUser()
 
      UserNotification::insert([
         'id' => $lastNotification->id,
+        'user_id' => $id,
         'notification_type' => 'started_following'
      ]);
 
@@ -235,6 +236,7 @@ public function follow_request(Request $request) {
 
         UserNotification::insert([
             'id' => $lastNotification->id,
+            'user_id' => $user->id,
             'notification_type' => 'request_follow'
         ]);
         DB::commit();
@@ -259,13 +261,9 @@ public function accept_follow_request(Request $request) {
 
     $lastNotification = Notification::orderBy('id','desc')->first();
 
-    $old = Notification::join('user_notification', 'notification.id', '=', 'user_notification.id')
-    ->where('user_notification.notification_type', 'request_follow')
-    ->orderBy('notification.id', 'desc')
-    ->first();
-
-    UserNotification::where('id',$old->id)->update([
+    UserNotification::insert([
         'id' => $lastNotification->id,
+        'user_id' => $user1->id,
         'notification_type' => 'accepted_follow'
     ]);
 

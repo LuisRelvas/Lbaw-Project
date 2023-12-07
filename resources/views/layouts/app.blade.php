@@ -45,7 +45,7 @@
             @if (Auth::check())
             <a class="button" href="{{ url('/logout') }}"> Logout <i class="fa-solid fa-right-from-bracket"></i></a> 
             <a class="button" href="{{ url('/profile/'.Auth::user()->id) }}"><span>{{ Auth::user()->name }}</span><i class="fa-solid fa-user"></i></a>
-            <button id="notificationsButton" class="button" onclick="showNotifications()">Notifications<i class="fa-solid fa-bell"></i></button>
+            <button id="notificationsButton" class="button" onclick="showNotifications({{Auth::user()->id}})"><i class="fa-solid fa-bell"></i></button>
             <div id="notificationsContainer" style="display: none;"></div>
             @else 
                 <a class="button" href="{{ url('/login') }}"> Login <i class="fa-solid fa-right-to-bracket"></i></a> 

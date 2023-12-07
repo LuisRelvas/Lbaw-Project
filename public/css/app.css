@@ -3,6 +3,21 @@ body {
   color: #000000;
 }
 
+
+#notificationsButton
+{
+  background-color: #131a21;
+  color: #000000;
+  border: none;
+  cursor: pointer;
+  padding: 0.5em;
+  font-size: 1em;
+  border-radius: 5px;
+  margin: 0;
+  margin-left: 1em;
+  margin-right: 1em;
+  width: 50px;
+}
 main > header {
   display: grid;
   grid-template-columns: 1fr auto auto;
