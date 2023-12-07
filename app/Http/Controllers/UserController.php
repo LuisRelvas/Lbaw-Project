@@ -259,12 +259,7 @@ public function accept_follow_request(Request $request) {
 
     $lastNotification = Notification::orderBy('id','desc')->first();
 
-    $old = Notification::join('user_notification', 'notification.id', '=', 'user_notification.id')
-    ->where('user_notification.notification_type', 'request_follow')
-    ->orderBy('notification.id', 'desc')
-    ->first();
-
-    UserNotification::where('id',$old->id)->update([
+    UserNotification::insert([
         'id' => $lastNotification->id,
         'notification_type' => 'accepted_follow'
     ]);
@@ -293,7 +288,6 @@ public function decline_follow_request(Request $request)
 
 public function search_exact(Request $request)
 {
-    $itemsPerPage = 10;
     $date = $request->input('date');
     $input = $request->input('search');
     if($input == null)

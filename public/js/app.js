@@ -208,6 +208,21 @@ main.textContent = main.dataset.originalContent;
 resetEditState(id);
 }
 
+function showNotifications() {
+  var notificationsContainer = document.getElementById('notificationsContainer');
+  sendAjaxRequest('GET','/notification',null,function(response) {
+    var notifications = JSON.parse(response.target.responseText);
+    notificationsContainer.innerHTML = '';
+    notifications.forEach(notification => {
+      var p = document.createElement('p');
+      p.textContent = JSON.stringify(notification); // Convert each notification object to a string
+      notificationsContainer.appendChild(p);
+    });
+
+    notificationsContainer.style.display = 'block';
+  });
+}
+
 function updateNotification(id) 
 {
   let url = 'notification/' + id; 
