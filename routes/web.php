@@ -61,9 +61,6 @@ Route::controller(RegisterController::class)->group(function () {
 });
 
 
-// Users
-
-
 
 // Spaces
 Route::controller(SpaceController::class) ->group(function() {
@@ -78,33 +75,41 @@ Route::controller(SpaceController::class) ->group(function() {
 });
 
 // Comments
-Route::put('/comment/edit', [CommentController::class, 'edit']);
-
 Route::controller(CommentController::class) ->group(function() {
     Route::post('/comment/create', 'create');
     Route::delete('/api/comment/{id}', 'delete');
     Route::post('/comment/like','like_on_comments');
     Route::delete('/comment/unlike','unlike_on_comments');
+    Route::put('/comment/edit', 'edit');
 });
 
-Route::get('/messages',[MessageController::class,'list']);
-Route::post('/messages/send',[MessageController::class,'send']);
-Route::get('/messages/{id}',[MessageController::class,'show']);
-Route::post('/messages/receive',[MessageController::class,'receive']);
+// Messages
+Route::controller(MessageController::class)->group(function(){
+    Route::get('/messages','list');
+    Route::post('/messages/send','send');
+    Route::get('/messages/{id}','show');
+    Route::post('/messages/receive','receive');  
+});
 
-Route::post('/group/add', [GroupController::class, 'add']);
-Route::get('/group/{id}', [GroupController::class, 'show']);
-Route::put('/group/edit', [GroupController::class, 'edit']);
-Route::delete('/api/group/{id}', [GroupController::class, 'delete']);
-Route::post('/group/join', [GroupController::class, 'join']);
-Route::delete('/group/leave',[GroupController::class,'leave_group']);
-Route::delete('/api/group/{id}',[GroupController::class,'remove_member']);
-Route::get('/group',[GroupController::class,'list']);
-Route::post('/group/joinrequest',[GroupController::class,'join_request']);
-Route::post('/group/joinrequest/{id}',[GroupController::class,'accept_join_request']);
-Route::delete('/group/joinrequest',[GroupController::class,'decline_join_request']);
+//Group
+Route::controller(GroupController::class)->group(function () {
+    Route::post('/group/add', 'add');
+    Route::get('/group/{id}', 'show');
+    Route::put('/group/edit', 'edit');
+    Route::delete('/api/group/{id}', 'delete');
+    Route::post('/group/join', 'join');
+    Route::delete('/group/leave', 'leave_group');
+    Route::delete('/api/group/member/{id}',[GroupController::class,'remove_member']);
+    Route::get('/group', 'list');
+    Route::post('/group/invite', 'invite');
+    Route::post('/group/joinrequest', 'join_request');
+    Route::post('/group/joinrequest/{id}', 'accept_join_request');
+    Route::delete('/group/joinrequest', 'decline_join_request');
+    Route::post('/group/acceptinvite', 'accept_invite');
+    Route::delete('/group/declineinvite', 'decline_invite');
+});
 
-
+//Users
 Route::controller(UserController::class)->group(function () {
     Route::get('/profile/{id}','show');
     Route::get('/api/profile','search');
@@ -120,6 +125,9 @@ Route::controller(UserController::class)->group(function () {
 
 });
 
+
+
+
 // Admin
 Route::controller(AdminController::class) ->group(function() {
 Route::get('/admin','show');
@@ -127,23 +135,6 @@ Route::post('/profile/block/{id}','block');
 Route::delete('/profile/unblock/{id}','unblock');
 });
 
-// Groups
-Route::controller(GroupController::class)->group(function () {
-    Route::get('/group/{id}', 'show');
-    Route::get('/group', 'list');
-    Route::post('/group/add', 'add');
-    Route::put('/group/edit', 'edit');
-    Route::delete('/api/group/{id}', 'delete');
-    Route::post('/group/join', 'join');
-    Route::delete('/group/leave', 'leave_group');
-    Route::delete('/api/group/{id}', 'remove_member');
-    Route::post('/group/joinrequest', 'join_request');
-    Route::post('/group/joinrequest/{id}', 'accept_join_request');
-    Route::delete('/group/joinrequest', 'decline_join_request');
-    Route::post('/group/invite', 'invite');
-    Route::post('/group/acceptinvite', 'accept_invite');
-    Route::delete('/group/declineinvite', 'decline_invite');
-});
 
 //Notifications
 Route::controller(NotificationController::class)->group(function () {

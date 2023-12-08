@@ -216,6 +216,7 @@ CREATE TABLE group_notification (
 -- Create the 'user_notification' table
 CREATE TABLE user_notification (
     id SERIAL PRIMARY KEY REFERENCES notification(id) ON UPDATE CASCADE,
+    user_id INT NOT NULL REFERENCES users(id) ON UPDATE CASCADE,
     notification_type user_notification_enum NOT NULL
 );
 

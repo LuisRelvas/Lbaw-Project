@@ -33,7 +33,6 @@ class Space extends Model
       public static function publicSpaces() {
         return Space::select('space.*')
                     ->join('users', 'users.id', '=', 'space.user_id')
-                    ->where('users.is_public', false)
                     ->where('space.is_public', false)
                     ->orderBy('date', 'desc');
       }
