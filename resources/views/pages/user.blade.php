@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('title', 'user')
-
 @section('content')
     <main class="flex-container">
         @include('partials.sidebar')
@@ -18,9 +17,19 @@
                             <p>{{ $user->username }}</p>
                         </div>
                         @if (Auth::check())
-                            <p>Following: {{ $countFollows }}</p>
-                            <p>Followers: {{ $countFollowers }}</p>
+                        <p>Following: <a href="#" onclick="showFollows({{Auth::user()->getFollowings()}})">{{ $countFollows }}</a></p>
+                        <p>Followers: <a href="#" onclick="showFollowers({{Auth::user()->getFollowers()}})">{{ $countFollowers }}</a></p>
+                        <div id="followsDiv">
+                            <h3>Following</h3>
+                            <ul id="followsList"></ul>
+                        </div>
+
+                        <div id="followersDiv">
+                            <h3>Followers</h3>
+                            <ul id="followersList"></ul>
+                        </div>
                         @endif
+                    
                     </div>
                 </div>
             </div>

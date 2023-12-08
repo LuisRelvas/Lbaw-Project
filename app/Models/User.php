@@ -151,4 +151,18 @@ class User extends Authenticatable
         return "/".$files[0];
     }
 
+    public function getFollowers() 
+    {
+        $followers = Follow::where('user_id2',Auth::user()->id)->get();
+
+        return $followers;
+    }
+
+    public function getFollowings() 
+    {
+        $followings = Follow::where('user_id1',Auth::user()->id)->get();
+        
+        return $followings;
+    }
+
 }
