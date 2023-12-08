@@ -13,7 +13,9 @@
         <h4 for="image">Choose a profile picture:</h4>
         <input type="file" name="image" id="image">
     </section>
-
+    <label>
+        Public Group? <input type="checkbox" name="public" checked>
+    </label>
     <button type="submit">
         Create Space
     </button>

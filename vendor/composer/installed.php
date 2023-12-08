@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '2b56a17c03c823aa9620b0a9ec5fcbf19de4aa28',
+        'reference' => '299a1b67a59260f7e6240cf8bb1fe15ad51b4137',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -385,7 +385,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '2b56a17c03c823aa9620b0a9ec5fcbf19de4aa28',
+            'reference' => '299a1b67a59260f7e6240cf8bb1fe15ad51b4137',
             'dev_requirement' => false,
         ),
         'laravel/pint' => array(
@@ -1299,12 +1299,12 @@
             'dev_requirement' => true,
         ),
         'tijsverkoyen/css-to-inline-styles' => array(
-            'pretty_version' => '2.2.6',
-            'version' => '2.2.6.0',
+            'pretty_version' => 'v2.2.7',
+            'version' => '2.2.7.0',
             'type' => 'library',
             'install_path' => __DIR__ . '/../tijsverkoyen/css-to-inline-styles',
             'aliases' => array(),
-            'reference' => 'c42125b83a4fa63b187fdf29f9c93cb7733da30c',
+            'reference' => '83ee6f38df0a63106a9e4536e3060458b74ccedb',
             'dev_requirement' => false,
         ),
         'vlucas/phpdotenv' => array(
