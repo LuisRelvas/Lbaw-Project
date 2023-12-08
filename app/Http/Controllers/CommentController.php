@@ -12,6 +12,8 @@ use App\Models\LikesComments;
 use App\Models\LikesSpaces; 
 use App\Models\Notification;
 
+use Illuminate\Support\Facades\DB;
+
 
 class CommentController extends Controller 
 {
@@ -68,34 +70,41 @@ class CommentController extends Controller
 
 
     public function like_on_comments(Request $request) 
-{
+    {
+        try{
     $comment = Comment::find($request->id);
-
+    DB::beginTransaction();
     LikesComments::insert([
         'user_id' => Auth::user()->id,
         'comment_id' => $comment->id
     ]);
-
     Notification::insert([
         'received_user' => $comment->author_id,
         'emits_user' => Auth::user()->id,
         'viewed' => false,
         'date' => date('Y-m-d H:i'),
     ]); 
-
     $lastNotification = Notification::orderBy('id', 'desc')->first();
-
     CommentNotification::insert([
         'id' => $lastNotification->id,
         'comment_id' => $comment->id,
         'notification_type' => 'liked_comment'
     ]);
-}
+    DB::commit();
+    return response()->json(['success' => 'Comment liked successfully!'], 200);
+    }
+    catch (\Exception $e) {
+        DB::rollback();
+        return response()->json(['error' => 'Comment not liked'], 500);
+    }
+    }
 
 public function unlike_on_comments(Request $request)
 {
+    try{
+
     $comment = Space::find($request->id);
-    
+    DB::beginTransaction();
     $commentNotification = CommentNotification::where('comment_id', $comment->id)
         ->where('notification_type', 'liked_comment')
         ->first();
@@ -110,11 +119,18 @@ public function unlike_on_comments(Request $request)
         ->delete();
     Notification::where('id', $commentNotification->id)
         ->delete();
+    DB::commit();
+    return response()->json(['success' => 'Comment unliked successfully!'], 200);}
+    catch (\Exception $e) {
+        DB::rollback();
+        return response()->json(['error' => 'Comment not liked'], 500);
+    }
+    }
+ 
     
 }
   
-    
-}
+
 
 
 ?>

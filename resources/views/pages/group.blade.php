@@ -20,12 +20,11 @@
                     {{ $group->description }}</div>
             </div>
             @if ((Auth::check() && $group->user_id == Auth::user()->id) || (Auth::check() && Auth::user()->isAdmin(Auth::user())))
-            <button id="deleteGroup{{ $group->id }}" onclick="deleteGroup({{ $group->id }})"
-                class="button-group-comment">&#10761;
-                <div><i class="cross"></i></div>
-            </button>
+                <button id="deleteGroup{{ $group->id }}" onclick="deleteGroup({{ $group->id }})"
+                    class="button-group-comment">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
             @endif
-
 
             @if(Auth::check() && $group->user_id == Auth::user()->id || Auth::check() && Auth::user()->isAdmin(Auth::user()))
         <button id="editGroup{{$group->id}}" onclick="editGroup({{$group->id}})" class="button-group-comment">&#9998;
@@ -60,10 +59,15 @@
                 @endif
 
                 <div class="group-chat">
+                   
                     @if ($spaces)
                         @foreach ($spaces as $space)
+                        @php
+                            $spaceAuthor = \App\Models\Space::findOrFail($space->id);
+                            $username = \App\Models\User::findOrFail($space->user_id);
+                        @endphp
                             <div class="space-card">
-                                <div class="spaceauthor"><a href="/space/{{ $space->id }}">{{ $user->username }}</a>
+                                <div class="spaceauthor"><a href="/space/{{ $space->id }}">{{ $username->username }}</a>
                                 </div>
                                 <main>
                                     <div class="spacecontent">{{ $space->content }}</div>
@@ -78,6 +82,7 @@
                     <form method="POST" action="{{ url('space/add') }}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="group_id" value="{{ $group->id }}">
+
                         <div class="space-input-container">
                             <input id="content" type="text" name="content" placeholder="Enter space content"
                                 style="color: white;" required autofocus>

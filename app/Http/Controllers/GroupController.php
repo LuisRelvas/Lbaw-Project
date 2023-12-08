@@ -235,7 +235,6 @@ public function invite(Request $request)
     }
 
     DB::beginTransaction();
-
     Notification::insert([
         'received_user' => $user->id,
         'emits_user' => $group->user_id,

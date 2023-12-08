@@ -234,7 +234,7 @@ function showNotifications(id) {
       var notificationType = notification[0].replace('_', ' ');
       console.log("The value of the nofiticationType is",notificationType);
       var userName = notification[1].name;
-      var who = notification[2].name;
+      var who = notification[2];
 
       if (notificationType == 'invite') {
         console.log("the value of the notification is",notification);
@@ -295,8 +295,8 @@ function showNotifications(id) {
         card.appendChild(declineButton);
       }
       else {
+        console.log("the value of who is",who);
         a.textContent = `${userName} ${notificationType} ${who}`;
-
         var button = document.createElement('button');
         button.textContent = '✓';
         button.addEventListener('click', function() {
@@ -315,7 +315,7 @@ function showNotifications(id) {
 
 function updateNotification(id) {
   console.log(id);
-   url = '/notification/' + id;
+  var url = '/notification/' + id;
   console.log("The url is",url);
   var method = 'PUT';
   console.log("The value of the id is",id);
@@ -324,17 +324,17 @@ function updateNotification(id) {
   };
 
   // Remove the HTML element associated with the notification
-  var notificationElement = document.getElementById('notification_' + id);
-  console.log("THe value of the notificationElement is",notificationElement);
-  if (notificationElement) {
-    notificationElement.remove();
-  }
+  
 
   sendAjaxRequest(method, url, data, function(event) {
     if (event.target.status === 200) {
-      // Parse the server response
       var response = JSON.parse(event.target.responseText);
       console.log(response); // Log the server response (optional)
+      var notificationElement = document.getElementById('notification_' + id);
+      console.log("THe value of the notificationElement is",notificationElement);
+      if (notificationElement) {
+        notificationElement.remove();
+      }
     } else {
       console.error('Error:', event.target.status, event.target.statusText);
     }
@@ -478,6 +478,7 @@ function changeLikeState(id, liked, user, owner) {
             let url2 = '/space/like';
             let data2 = { id: id };
             sendAjaxRequest('POST', url2, data2, function (response) {
+              if (this.status == 200) {
                 console.log('Response:', response);
                 countElement.textContent = currentCount + 1;
                 likeButton.setAttribute('onclick', `changeLikeState(${id}, true,${user},${owner})`);
@@ -486,7 +487,12 @@ function changeLikeState(id, liked, user, owner) {
                 userChannel.trigger('client-notification-spaceLike', {
                     space_id: id,
                     message: 'You liked the space.'
-                });
+                });}
+                else
+                {
+                  console.log('Response:', response);
+                  showNotificationC("You cant like spaces from private users");
+                }
             });
             break;
     }
@@ -556,33 +562,57 @@ function declineInvite(id,notification_id)
   });
 }
 
+function showNotificationC(message) {
+  // Use SweetAlert2 or any other custom notification logic here
+  Swal.fire({
+    position: 'center',
+    icon: 'error',
+    title: 'Like',
+    text: message,
+    showConfirmButton: false,
+    timer: 3000 // Adjust the duration as needed
+  });
+}
+
 function changeLikeStateC(id, liked, user, owner) {
   let url, data;
   let countElement = document.getElementById('countCommentLikes' + id);
   let currentCount = parseInt(countElement.textContent);
-  let likeButton = document.getElementById('likeButton' + id); // Corrected here
+  let likeButton = document.getElementById('likeButton' + id);
 
   switch (liked) {
     case true:
       url = '/comment/unlike';
       data = { id: id };
-      sendAjaxRequest('DELETE', url, data, function (response) {
-        console.log('Response:', response);
-        countElement.textContent = currentCount - 1;
-        likeButton.setAttribute('onclick', `changeLikeStateC(${id}, false,${user},${owner})`);
+      sendAjaxRequest('DELETE', url, data, function () {
+        if (this.status == 200) {
+          let response = JSON.parse(this.responseText);
+          console.log('Response:', response);
+          countElement.textContent = currentCount - 1;
+          likeButton.setAttribute('onclick', `changeLikeStateC(${id}, false,${user},${owner})`);
+        } else {
+          console.error('Error:', this.status);
+        }
       });
       break;
     case false:
       url = '/comment/like';
       data = { id: id };
-      sendAjaxRequest('POST', url, data, function (response) {
-        console.log('Response:', response);
-        countElement.textContent = currentCount + 1;
-        likeButton.setAttribute('onclick', `changeLikeStateC(${id}, true,${user},${owner})`);
+      sendAjaxRequest('POST', url, data, function () {
+        if (this.status == 200) {
+          let response = JSON.parse(this.responseText);
+          console.log('Response:', response);
+          countElement.textContent = currentCount + 1;
+          likeButton.setAttribute('onclick', `changeLikeStateC(${id}, true,${user},${owner})`);
+        } else {
+          console.error('Error:', this.status);
+          showNotificationC("You cant like comments from private users");
+        }
       });
       break;
   }
 }
+
 
 function deleteComment(id) {
   if (!confirm('Are you sure you want to delete this comment?')) {
@@ -815,6 +845,7 @@ function acceptFollowRequest(user_id1,user_id2)
   let url = '/profile/followsrequest/'+ user_id2;
   console.log('the value of the url in accept is',url);
 sendAjaxRequest('POST', url, {user_id1: user_id1,user_id2:user_id2}, function(response) {
+
   console.log('Response:', response);
 });
 }
@@ -973,27 +1004,73 @@ if (statistic) {
 }
 
 function handleUsers() {
-  document.getElementById('users').style.display = 'block';
-  document.getElementById('spaces').style.display = 'none';
-  document.getElementById('comments').style.display = 'none';
+  let users = document.getElementById('users');
+  let spaces = document.getElementById('spaces');
+  let comments = document.getElementById('comments');
+  let groups = document.getElementById('groups');
+
+  if(users && users.innerHTML.trim() !== '') {
+    users.style.display = 'block';
+    spaces.style.display = 'none';
+    comments.style.display = 'none';
+    groups.style.display = 'none';
+  } else {
+    users.innerHTML = 'No results found for your search';
+  }
 }
 
 function handleSpaces() {
   document.getElementById('users').style.display = 'none';
   document.getElementById('spaces').style.display = 'block';
   document.getElementById('comments').style.display = 'none';
+  document.getElementById('groups').style.display = 'none';
 }
 
 function handleComments() {
   document.getElementById('users').style.display = 'none';
   document.getElementById('spaces').style.display = 'none';
   document.getElementById('comments').style.display = 'block';
+  document.getElementById('groups').style.display = 'none';
+}
+
+function handleGroups() 
+{
+  document.getElementById('groups').style.display = 'block';
+  document.getElementById('comments').style.display = 'none';
+  document.getElementById('spaces').style.display = 'none';
+  document.getElementById('users').style.display = 'none';
 }
 
 function handlePrincipal() {
-  document.getElementById('users').style.display = 'block';
-  document.getElementById('spaces').style.display = 'block';
-  document.getElementById('comments').style.display = 'block';
+  let users = document.getElementById('users');
+  let spaces = document.getElementById('spaces');
+  let comments = document.getElementById('comments');
+  let groups = document.getElementById('groups');
+
+  if(users && users.innerHTML.trim() !== '') users.style.display = 'block';
+  else if(users) users.style.display = 'none';
+
+  if(spaces && spaces.innerHTML.trim() !== '') spaces.style.display = 'block';
+  else if(spaces) spaces.style.display = 'none';
+
+  if(comments && comments.innerHTML.trim() !== '') comments.style.display = 'block';
+  else if(comments) comments.style.display = 'none';
+
+  if(groups && groups.innerHTML.trim() !== '') groups.style.display = 'block';
+  else if(groups) groups.style.display = 'none';
+}
+
+function toggleFilters() {
+  var filters = document.getElementById('filters');
+  if (filters.style.display === 'none') {
+      filters.style.display = 'block';
+  } else {
+      filters.style.display = 'none';
+  }
+}
+
+function handleButtonClick(buttonType) {
+  alert(`Button ${buttonType} clicked`);
 }
 
 

@@ -274,6 +274,7 @@ public function accept_follow_request(Request $request) {
     ]);
 
     DB::commit();
+    return response()->json(['sucess' => 'User accepted successfully']);
 }
 
 public function decline_follow_request(Request $request) 
@@ -287,31 +288,72 @@ public function decline_follow_request(Request $request)
     ])->delete();
 
     DB::commit();
+    return response()->json(['sucess' => 'User declined successfully']);
+
 }
 
 public function search_exact(Request $request)
 {
-    $itemsPerPage = 10;
     $date = $request->input('date');
     $input = $request->input('search');
-    if($input == null)
-    {
-        return view('pages.search');
-    }
+    $profileType = $request->input('profileType');
+    $spaceType = $request->input('spaceType');
+    $groupType = $request->input('groupType');
+    $users = collect(); 
+    $spaces = collect();
+    $groups = collect();
+    $comments = collect();
     if($date != null) 
     {
         $spaces = Space::where('content', 'like', '%' . $input . '%')->where('date',$date)->orderBy('content')->get();
         $comments = Comment::where('content', 'like', '%' . $input . '%')->where('date',$date)->orderBy('content')->get(); 
-        return view('pages.search', ['spaces' => $spaces, 'comments' => $comments]);
     }
-    else {
-    $users = User::where('username', 'like', '%' . $input . '%')->orderBy('username')->get();
+    if($input == null && $date == null && $profileType == null && $spaceType == null && $groupType == null)
+    {
+        return view('pages.search', ['users' => $users, 'spaces' => $spaces, 'comments' => $comments, 'groups' => $groups]);
+    }
+    if($profileType != null) 
+    {
+        if($profileType == 'public') 
+        {
+            $users = User::where('username', 'like', '%' . $input . '%')->where('is_public',false)->orderBy('username')->get();
+
+        }
+        else if($profileType == 'private')
+        {
+            $users = User::where('username', 'like', '%' . $input . '%')->where('is_public',true)->orderBy('username')->get();
+        }
+    }
+    if($spaceType != null) 
+    {
+        if($spaceType == 'public') 
+        {
+            $spaces = Space::where('content', 'like', '%' . $input . '%')->where('is_public',false)->orderBy('content')->get();
+        }
+        else if($spaceType == 'private')
+        {
+            $spaces = Space::where('content', 'like', '%' . $input . '%')->where('is_public',true)->orderBy('content')->get();
+        }
+    }
+    if($groupType != null) 
+    {
+        if($groupType == 'public') 
+        {
+            $groups = Group::where('name', 'like', '%' . $input . '%')->where('is_public',false)->orderBy('name')->get();
+        }
+        else if($groupType == 'private')
+        {
+            $groups = Group::where('name', 'like', '%' . $input . '%')->where('is_public',true)->orderBy('name')->get();
+        }
+    }
+    if($input != null) {
     $spaces = Space::where('content', 'like', '%' . $input . '%')->orderBy('content')->get();
-    $comments = Comment::where('content', 'like', '%' . $input . '%')->orderBy('content')->get();
+    $users = User::where('username', 'like', '%' . $input . '%')->orderBy('username')->get();
     $groups = Group::where('name', 'like', '%' . $input . '%')->orderBy('name')->get();
-    
+    $comments = Comment::where('content', 'like', '%' . $input . '%')->orderBy('content')->get();}
+
     return view('pages.search', ['users' => $users, 'spaces' => $spaces, 'comments' => $comments, 'groups' => $groups]);
-    }
+
 }
 
 }

@@ -38,24 +38,28 @@ class NotificationController extends Controller
             {
                 
                 $who = User::select('name')->where('id',$notification->user_id)->first();
- 
+                $who = $who->name;
                 $not = Notification::select('emits_user')->where('id',$notification->id)->first();
                 $link = '/profile/'.$not->emits_user;
             }
             if($notification->group_id) 
             {
                 $who = Group::select('name')->where('id',$notification->group_id)->first();
+                $who = $who->name;
                 $link = '/group/'.$notification->group_id;
             }
             if($notification->space_id) 
             {
-                $who = Space::select('name')->where('id',$notification->space_id)->first();
+                $who = Space::select('content')->where('id',$notification->space_id)->first();
+                $who = $who->content;
                 $link = '/space/'.$notification->space_id;
             }
             if($notification->comment_id) 
             {
                 $who = Comment::select('content')->where('id',$notification->comment_id)->first();
-                $link = '/space/'.$notification->space_id;
+                $who = $who->content;
+                $space = Comment::select('space_id')->where('id',$notification->comment_id)->first();
+                $link = '/space/'.$space->space_id;
             }
             $type = $notification->notification_type;
             $aux = Notification::select('emits_user')->where('id',$notification->id)->first();
@@ -67,10 +71,11 @@ class NotificationController extends Controller
 
     public function edit(int $id) 
     {
+
         $notification = Notification::findOrFail($id);
         $notification->viewed = true;
         $notification->save();
-        return redirect('/notification')->with('success', 'Notification updated successfully!');
+        return response()->json(['success' => 'Notification viewed !'], 200);
     }
 
 

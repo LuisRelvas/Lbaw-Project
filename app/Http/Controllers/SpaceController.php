@@ -12,6 +12,7 @@ use App\Events\LikesSpaces;
 use App\Models\LikeSpace;
 use App\Models\Notification;
 use App\Models\SpaceNotification;
+use Illuminate\Support\Facades\DB;
 class SpaceController extends Controller 
 {
 
@@ -22,7 +23,7 @@ class SpaceController extends Controller
         // echo ("<script>console.log('TEST:')</script>");
         // $this->authorize('show', $space);
         
-        if($user->is_public == 0 || (Auth::check() && Auth::user()->id == $space->user_id) || (Auth::Check() && Auth::user()->isAdmin(Auth::user())) || (Auth::check() &&Auth::user()->isFollowing($user))){
+        if($user->is_public == 0 ||($space->is_public == false) ||(Auth::check() && Auth::user()->id == $space->user_id) || (Auth::Check() && Auth::user()->isAdmin(Auth::user())) || (Auth::check() &&Auth::user()->isFollowing($user))){
         {
             return view('pages.space', [
                 'space' => $space
@@ -77,10 +78,13 @@ class SpaceController extends Controller
         $space->group_id = $request->input('group_id');
         $space->is_public = true;
       }
+      if($request->input('public') != null) 
+      {
+        $space->is_public = true;
+      }
       else {
-        $space->group_id = null;
-        $space->is_public = null !== $request->input('public');
-    }
+        $space->is_public = false;
+      }
       $space->content = $request->input('content');
       $space->date = date('Y-m-d H:i');
       $space->save();
@@ -150,6 +154,7 @@ public function like_on_spaces(Request $request)
 
     $space = Space::find($request->id);
     event(new LikesSpaces($space->id));    
+    DB::beginTransaction();
     LikeSpace::insert([
         'user_id' => Auth::user()->id,
         'space_id' => $space->id
@@ -169,6 +174,8 @@ public function like_on_spaces(Request $request)
         'space_id' => $space->id,
         'notification_type' => 'liked_space',
     ]);
+    DB::commit();
+    return response()->json(['success' => 'You liked this space!']);
 }
 
 public function unlike_on_spaces(Request $request)
