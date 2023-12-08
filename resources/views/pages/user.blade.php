@@ -16,7 +16,7 @@
                         <div class="username">
                             <p>{{ $user->username }}</p>
                         </div>
-                        @if (Auth::check())
+                        @if (Auth::check() && Auth::user()->id == $user->id)
                         <p>Following: <a href="#" onclick="showFollows({{Auth::user()->getFollowings()}})">{{ $countFollows }}</a></p>
                         <p>Followers: <a href="#" onclick="showFollowers({{Auth::user()->getFollowers()}})">{{ $countFollowers }}</a></p>
                         <div id="followsDiv">
