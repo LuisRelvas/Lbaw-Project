@@ -324,8 +324,6 @@ function updateNotification(id) {
   };
 
   // Remove the HTML element associated with the notification
-  
-
   sendAjaxRequest(method, url, data, function(event) {
     if (event.target.status === 200) {
       var response = JSON.parse(event.target.responseText);
@@ -338,6 +336,49 @@ function updateNotification(id) {
     } else {
       console.error('Error:', event.target.status, event.target.statusText);
     }
+  });
+}
+
+function showFollows(following) {
+  console.log("The value of the following is", following);
+  var followsList = document.getElementById('followsList');
+  followsList.innerHTML = ''; // Clear the list
+  following.forEach(function(user) {
+      var li = document.createElement('li');
+      li.textContent = 'User ID: ' + user.user_id2;
+      var removeButton = document.createElement('button');
+      removeButton.textContent = 'Remove';
+      removeButton.onclick = function() {
+          sendAjaxRequest('DELETE', '/profile/unfollow/' + user.user_id2, null, function(response) {
+              console.log('Response:', response);
+              li.remove();
+          });
+          console.log('Stop following user ID: ' + user.user_id2);
+      };
+      li.appendChild(removeButton);
+      followsList.appendChild(li);
+  });
+}
+
+function showFollowers(followers) {
+  console.log("The value of the followers is", followers);
+  var followersList = document.getElementById('followersList');
+  followersList.innerHTML = ''; // Clear the list
+  followers.forEach(function(follower) {
+      var li = document.createElement('li');
+      li.textContent = 'User ID: ' + follower.user_id1;
+      var removeButton = document.createElement('button');
+      removeButton.textContent = 'Remove';
+      removeButton.onclick = function() {
+        sendAjaxRequest('DELETE', '/profile/unfollow/' + follower.user_id2, {id : follower.user_id1}, function(response) {
+          console.log('Response:', response);
+          li.remove();
+      }
+      );
+        console.log('Remove follower user ID: ' + follower.user_id1);
+      };
+      li.appendChild(removeButton);
+      followersList.appendChild(li);
   });
 }
 

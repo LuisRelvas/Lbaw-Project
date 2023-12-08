@@ -93,10 +93,16 @@ public function editUser()
      return redirect('/profile/'.$id)->withSuccess('Followed successfully!');
  }
 
- public function unfollow(Request $request, $id) {
+public function unfollow(Request $request, $id) {
     $this->authorize('unfollow', User::class);
+    if(Auth::user()->id == $id)
+    {
+        Follow::where('user_id1', $request->input('id'))->where('user_id2', $id)->delete();
+        return redirect('/profile/'.$id)->withSuccess('Unfollowed successfully!');
+    }
+    else{
     Follow::where('user_id1', Auth::user()->id)->where('user_id2', $id)->delete();
-    return redirect('/profile/'.$id)->withSuccess('Unfollowed successfully!');
+    return redirect('/profile/'.$id)->withSuccess('Unfollowed successfully!');}
 }
 
 public function edit(Request $request) 
