@@ -78,6 +78,7 @@ Route::controller(SpaceController::class) ->group(function() {
 Route::controller(CommentController::class) ->group(function() {
     Route::post('/comment/create', 'create');
     Route::delete('/api/comment/{id}', 'delete');
+    Route::get('/api/comment', 'search');
     Route::post('/comment/like','like_on_comments');
     Route::delete('/comment/unlike','unlike_on_comments');
     Route::put('/comment/edit', 'edit');
@@ -94,6 +95,7 @@ Route::controller(MessageController::class)->group(function(){
 //Group
 Route::controller(GroupController::class)->group(function () {
     Route::post('/group/add', 'add');
+    Route::get('/api/group', 'search');
     Route::get('/group/{id}', 'show');
     Route::put('/group/edit', 'edit');
     Route::delete('/api/group/{id}', 'delete');

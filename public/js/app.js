@@ -1117,8 +1117,13 @@ function handleButtonClick(buttonType) {
 async function search(input) {
 document.querySelector('#results-users').innerHTML = await getAPIResult('profile', input);
 document.querySelector('#results-spaces').innerHTML = await getAPIResult('space', input);
+document.querySelector('#results-groups').innerHTML = await getAPIResult('group', input);
+document.querySelector('#results-comments').innerHTML = await getAPIResult('comment', input);
 updateTotal((document.querySelector('#results-users').innerHTML.match(/<article/g) || []).length, 'userResults');
 updateTotal((document.querySelector('#results-spaces').innerHTML.match(/<article/g) || []).length, 'spaceResults');
+updateTotal((document.querySelector('#results-groups').innerHTML.match(/<article/g) || []).length, 'groupResults');
+updateTotal((document.querySelector('#results-comments').innerHTML.match(/<article/g) || []).length, 'commentResults');
+
 
 }
 
