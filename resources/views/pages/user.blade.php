@@ -16,20 +16,25 @@
                         <div class="username">
                             <p>{{ $user->username }}</p>
                         </div>
-                        @if (Auth::check() && Auth::user()->id == $user->id)
-                        <p>Following: <a href="#" onclick="showFollows({{Auth::user()->getFollowings()}})">{{ $countFollows }}</a></p>
-                        <p>Followers: <a href="#" onclick="showFollowers({{Auth::user()->getFollowers()}})">{{ $countFollowers }}</a></p>
-                        <div id="followsDiv">
-                            <h3>Following</h3>
-                            <ul id="followsList"></ul>
-                        </div>
 
-                        <div id="followersDiv">
-                            <h3>Followers</h3>
-                            <ul id="followersList"></ul>
-                        </div>
+                        @if (Auth::check() && Auth::user()->id == $user->id)
+                            <p>Following: <a href="#"
+                                    onclick="showFollows({{ Auth::user()->getFollowings() }})">{{ $countFollows }}</a></p>
+                            <p>Followers: <a href="#"
+                                    onclick="showFollowers({{ Auth::user()->getFollowers() }})">{{ $countFollowers }}</a>
+                            </p>
+                            <div class="follow-card">
+                                <div id="followsDiv">
+                                    <h3>Following</h3>
+                                    <ul id="followsList"></ul>
+                                </div>
+
+                                <div id="followersDiv">
+                                    <h3>Followers</h3>
+                                    <ul id="followersList"></ul>
+                                </div>
+                            </div>
                         @endif
-                    
                     </div>
                 </div>
             </div>

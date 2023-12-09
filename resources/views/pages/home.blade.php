@@ -20,7 +20,11 @@
                 <ul class="card-list">
                     @if (Auth::check())
                         @php
-                            $allSpaces = $publics->concat($spaces)->concat($mines)->sortByDesc('date')->reverse();
+                            $allSpaces = $publics
+                                ->concat($spaces)
+                                ->concat($mines)
+                                ->sortByDesc('date')
+                                ->reverse();
                         @endphp
                         @foreach ($allSpaces as $space)
                             <li><a href="/space/{{ $space->id }}" class="card">{{ $space->content }}</a></li>
