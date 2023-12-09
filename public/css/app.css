@@ -3,9 +3,6 @@ body {
   color: #000000;
 }
 
-
-<<<<<<< HEAD
-=======
 #notificationsButton
 {
   background-color: #131a21;
@@ -20,7 +17,6 @@ body {
   margin-right: 1em;
   width: 50px;
 }
->>>>>>> b1bd9f48e0cf8cbafefa60975b3aedb6f855ad8e
 main > header {
   display: grid;
   grid-template-columns: 1fr auto auto;
