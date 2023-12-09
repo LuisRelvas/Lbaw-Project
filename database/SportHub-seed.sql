@@ -38,6 +38,17 @@ DROP TRIGGER IF EXISTS update_username_on_delete ON users CASCADE;
 DROP TRIGGER IF EXISTS delete_space ON space CASCADE;
 DROP TRIGGER IF EXISTS delete_comment ON comment CASCADE;
 DROP TRIGGER IF EXISTS delete_group ON groups CASCADE;
+DROP TRIGGER IF EXISTS follow_request_notification ON follows_request CASCADE;
+DROP TRIGGER IF EXISTS follows_notification ON follows CASCADE;
+DROP TRIGGER IF EXISTS accept_follow_request_notification ON follows_request CASCADE;
+DROP TRIGGER IF EXISTS leave_group_notification ON member CASCADE;
+DROP TRIGGER IF EXISTS remove_member_notification ON member CASCADE;
+DROP TRIGGER IF EXISTS join_request_notification ON group_join_request CASCADE;
+DROP TRIGGER IF EXISTS accept_join_group_notification ON group_join_request CASCADE;
+DROP TRIGGER IF EXISTS liked_space_notification ON likes_on_spaces CASCADE;
+DROP TRIGGER IF EXISTS liked_comment_notification ON likes_on_comments CASCADE;
+DROP TRIGGER IF EXISTS comment_space_notification ON comment CASCADE;
+
 
 
 -- Drop functions with CASCADE
@@ -60,6 +71,17 @@ DROP FUNCTION IF EXISTS update_username_on_delete() CASCADE;
 DROP FUNCTION IF EXISTS delete_space() CASCADE;
 DROP FUNCTION IF EXISTS delete_comment() CASCADE;
 DROP FUNCTION IF EXISTS delete_group() CASCADE;
+DROP FUNCTION IF EXISTS follow_request_notification() CASCADE;
+DROP FUNCTION IF EXISTS follows_notification() CASCADE;
+DROP FUNCTION IF EXISTS accept_follow_request_notification() CASCADE;
+DROP FUNCTION IF EXISTS leave_group_notification() CASCADE;
+DROP FUNCTION IF EXISTS remove_member_notification() CASCADE;
+DROP FUNCTION IF EXISTS join_request_notification() CASCADE;
+DROP FUNCTION IF EXISTS accept_join_group_notification() CASCADE;
+DROP FUNCTION IF EXISTS liked_space_notification() CASCADE;
+DROP FUNCTION IF EXISTS liked_comment_notification() CASCADE;
+DROP FUNCTION IF EXISTS comment_space_notification() CASCADE;
+
 
 
 -- Drop indexes with CASCADE
@@ -184,6 +206,7 @@ CREATE TABLE comment (
 CREATE TABLE follows_request (
     user_id1 INT REFERENCES users(id) ON UPDATE CASCADE,
     user_id2 INT REFERENCES users(id) ON UPDATE CASCADE,
+    status BOOLEAN DEFAULT false NOT NULL,
    PRIMARY KEY(user_id1,user_id2)
 );
 
@@ -231,6 +254,7 @@ CREATE TABLE space_notification (
 CREATE TABLE group_join_request (
     user_id INT REFERENCES users(id) ON UPDATE CASCADE,
     group_id INT REFERENCES groups(id) ON UPDATE CASCADE,
+    status BOOLEAN DEFAULT false NOT NULL,
     PRIMARY KEY(user_id,group_id)
 );
 
@@ -928,11 +952,250 @@ $BODY$
 
 LANGUAGE plpgsql;
 
--- Create the trigger
-CREATE TRIGGER verify_comment_restrictions
-BEFORE INSERT OR UPDATE ON likes_on_comments
+-- Trigger16
+CREATE FUNCTION follow_request_notification() RETURNS TRIGGER AS 
+$BODY$ 
+DECLARE
+    new_id INTEGER;
+BEGIN 
+    INSERT INTO notification(received_user, emits_user, viewed, date) 
+    VALUES(NEW.user_id2, NEW.user_id1, false, CURRENT_DATE)
+    RETURNING id INTO new_id;
+
+    INSERT INTO user_notification(id, user_id, notification_type) 
+    VALUES(new_id, NEW.user_id2, 'request_follow');
+
+    RETURN NEW;
+END 
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER follow_request_notification
+AFTER INSERT ON follows_request
 FOR EACH ROW
-EXECUTE PROCEDURE verify_comment_restrictions();
+EXECUTE PROCEDURE follow_request_notification();
+
+
+--Triger17--
+
+CREATE FUNCTION follows_notification() RETURNS TRIGGER AS 
+$BODY$ 
+DECLARE
+    new_id INTEGER;
+BEGIN 
+    INSERT INTO notification(received_user, emits_user, viewed, date) 
+    VALUES(NEW.user_id2, NEW.user_id1, false, CURRENT_DATE)
+    RETURNING id INTO new_id;
+
+    INSERT INTO user_notification(id, user_id, notification_type) 
+    VALUES(new_id, NEW.user_id2, 'started_following');
+
+    RETURN NEW;
+END 
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER follows_notification
+AFTER INSERT ON follows
+FOR EACH ROW
+EXECUTE PROCEDURE follows_notification();
+
+--Trigger18--
+CREATE OR REPLACE FUNCTION accept_follow_request_notification() RETURNS TRIGGER AS 
+$BODY$ 
+DECLARE
+    new_id INTEGER;
+BEGIN 
+    IF OLD.status = true THEN
+        INSERT INTO notification(received_user, emits_user, viewed, date) 
+        VALUES(OLD.user_id1, OLD.user_id2, false, CURRENT_DATE)
+        RETURNING id INTO new_id;
+
+        INSERT INTO user_notification(id, user_id, notification_type) 
+        VALUES(new_id, OLD.user_id1, 'accepted_follow');
+        
+        INSERT INTO follows(user_id1,user_id2) VALUES(OLD.user_id1,OLD.user_id2);
+    END IF;
+
+    RETURN OLD;
+END 
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER accept_follow_request_notification
+BEFORE DELETE ON follows_request
+FOR EACH ROW
+EXECUTE PROCEDURE accept_follow_request_notification();
+
+--Trigger19--
+CREATE OR REPLACE FUNCTION leave_group_notification() RETURNS TRIGGER AS 
+$BODY$ 
+DECLARE
+    new_id INTEGER;
+    owner INTEGER;
+BEGIN 
+    SELECT user_id INTO owner FROM groups WHERE id = OLD.group_id;
+
+    INSERT INTO notification(received_user, emits_user, viewed, date) 
+    VALUES(owner, OLD.user_id, false, CURRENT_DATE)
+    RETURNING id INTO new_id;
+
+    INSERT INTO group_notification(id, group_id, notification_type) 
+    VALUES(new_id, OLD.group_id, 'leave group');
+    
+    RETURN OLD;
+END 
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER leave_group_notification
+BEFORE DELETE ON member
+FOR EACH ROW
+EXECUTE PROCEDURE leave_group_notification();
+
+
+--Trigger20--
+CREATE FUNCTION remove_member_notification() RETURNS TRIGGER AS 
+$BODY$ 
+DECLARE
+    new_id INTEGER;
+BEGIN 
+    INSERT INTO notification(received_user, emits_user, viewed, date) 
+    VALUES(OLD.user_id, (SELECT user_id FROM groups WHERE id = OLD.group_id), false, CURRENT_TIMESTAMP)
+    RETURNING id INTO new_id;
+
+    INSERT INTO group_notification(id, group_id, notification_type) 
+    VALUES(new_id, OLD.group_id, 'remove');
+    
+    RETURN OLD;
+END 
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER remove_member_notification
+AFTER DELETE ON member
+FOR EACH ROW
+EXECUTE PROCEDURE remove_member_notification();
+
+--Trigger21--
+
+CREATE FUNCTION join_request_notification() RETURNS TRIGGER AS 
+$BODY$ 
+DECLARE
+    new_id INTEGER;
+BEGIN 
+    INSERT INTO notification(received_user, emits_user, viewed, date) 
+    VALUES((SELECT user_id FROM groups WHERE id = NEW.group_id), NEW.user_id, false, CURRENT_TIMESTAMP)
+    RETURNING id INTO new_id;
+
+    INSERT INTO group_notification(id, group_id, notification_type) 
+    VALUES(new_id, NEW.group_id, 'request_join');
+    
+    RETURN NEW;
+END 
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER join_request_notification
+AFTER INSERT ON group_join_request
+FOR EACH ROW
+EXECUTE PROCEDURE join_request_notification();
+
+--Trigger22--
+CREATE OR REPLACE FUNCTION accept_join_group_notification() RETURNS TRIGGER AS 
+$BODY$ 
+DECLARE
+    new_id INTEGER;
+BEGIN 
+    IF OLD.status = true THEN
+        INSERT INTO member(user_id,group_id,is_favorite) VALUES(OLD.user_id,OLD.group_id,false);
+        INSERT INTO notification(received_user, emits_user, viewed, date) 
+        VALUES(OLD.user_id, (SELECT user_id FROM groups WHERE id = OLD.group_id), false, CURRENT_TIMESTAMP)
+        RETURNING id INTO new_id;
+        INSERT INTO group_notification(id, group_id, notification_type) 
+        VALUES(new_id, OLD.group_id, 'accepted_join');
+    END IF;
+    
+    RETURN OLD;
+END 
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER accept_join_group_notification
+AFTER DELETE ON group_join_request
+FOR EACH ROW
+EXECUTE PROCEDURE accept_join_group_notification();
+
+--Trigger23--
+CREATE FUNCTION liked_space_notification() RETURNS TRIGGER AS 
+$BODY$ 
+DECLARE
+    new_id INTEGER;
+BEGIN 
+
+    INSERT INTO notification(received_user, emits_user, viewed, date) 
+    VALUES((SELECT user_id FROM space WHERE id = NEW.space_id),NEW.user_id, false, CURRENT_TIMESTAMP)
+    RETURNING id INTO new_id;
+    INSERT INTO space_notification(id, space_id, notification_type) 
+    VALUES(new_id, NEW.space_id, 'liked_space');
+    
+    RETURN NEW;
+END 
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER liked_space_notification
+AFTER INSERT ON likes_on_spaces
+FOR EACH ROW
+EXECUTE PROCEDURE liked_space_notification();
+
+--Trigger24--
+CREATE FUNCTION liked_comment_notification() RETURNS TRIGGER AS 
+$BODY$ 
+DECLARE
+    new_id INTEGER;
+BEGIN 
+
+    INSERT INTO notification(received_user, emits_user, viewed, date) 
+    VALUES((SELECT author_id FROM comment WHERE id = NEW.comment_id),NEW.user_id,false, CURRENT_TIMESTAMP)
+    RETURNING id INTO new_id;
+    INSERT INTO comment_notification(id, comment_id, notification_type) 
+    VALUES(new_id, NEW.comment_id, 'liked_comment');
+    
+    RETURN NEW;
+END 
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER liked_comment_notification
+AFTER INSERT ON likes_on_comments
+FOR EACH ROW
+EXECUTE PROCEDURE liked_comment_notification();
+
+--Trigger25--
+CREATE OR REPLACE FUNCTION comment_space_notification() RETURNS TRIGGER AS 
+$BODY$ 
+DECLARE
+    new_id INTEGER;
+BEGIN 
+    INSERT INTO notification(received_user, emits_user, viewed, date) 
+    VALUES((SELECT user_id FROM space WHERE id = NEW.space_id), NEW.author_id, false, CURRENT_TIMESTAMP)
+    RETURNING id INTO new_id;
+
+    INSERT INTO comment_notification(id, comment_id, notification_type) 
+    VALUES(new_id, NEW.id, 'comment_space');
+    
+    RETURN NEW;
+END 
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER comment_space_notification
+AFTER INSERT ON comment
+FOR EACH ROW
+EXECUTE PROCEDURE comment_space_notification();
+
+
 
 
 INSERT INTO users (username, name, email, password, is_public) VALUES ('luisvrelvas','luis','luisrelvas@netcabo.pt','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',false);

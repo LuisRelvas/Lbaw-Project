@@ -74,22 +74,6 @@ public function editUser()
          'user_id1' => Auth::user()->id,
          'user_id2' => $id,
      ]);
-
-    Notification::insert([
-        'received_user' => $id,
-        'emits_user' => Auth::user()->id,
-        'viewed' => false,
-        'date' => now()
-     ]);
-
-     $lastNotification = Notification::orderBy('id', 'desc')->first();
-
-     UserNotification::insert([
-        'id' => $lastNotification->id,
-        'user_id' => $id,
-        'notification_type' => 'started_following'
-     ]);
-
      return redirect('/profile/'.$id)->withSuccess('Followed successfully!');
  }
 
@@ -230,21 +214,6 @@ public function follow_request(Request $request) {
             'user_id1' => $request->user_id1,
             'user_id2' => $user->id
         ]);
-
-        Notification::insert([
-            'received_user' => $user->id,
-            'emits_user' => $request->user_id1,
-            'viewed' => false,
-            'date' => now()
-        ]);
-
-        $lastNotification = Notification::orderBy('id', 'desc')->first();
-
-        UserNotification::insert([
-            'id' => $lastNotification->id,
-            'user_id' => $user->id,
-            'notification_type' => 'request_follow'
-        ]);
         DB::commit();
 }
 
@@ -255,47 +224,26 @@ public function accept_follow_request(Request $request) {
     FollowsRequest::where([
         'user_id1' => $user1->id,
         'user_id2' => $user2->id
-
-    ])->delete();
-
-    Notification::insert([
-        'received_user' => $user1->id,
-        'emits_user' => $user2->id,
-        'viewed' => false,
-        'date' => now()
-    ]);
-
-    $lastNotification = Notification::orderBy('id','desc')->first();
-
-    UserNotification::insert([
-        'id' => $lastNotification->id,
-        'user_id' => $user1->id,
-        'notification_type' => 'accepted_follow'
-    ]);
-
-    
-    Follow::insert([
+    ])->update(['status' => true]);
+    FollowsRequest::where([
         'user_id1' => $user1->id,
         'user_id2' => $user2->id
-    ]);
-
+    ])->delete();
     DB::commit();
-    return response()->json(['sucess' => 'User accepted successfully']);
 }
 
 public function decline_follow_request(Request $request) 
 {
     $user1 = User::find($request->user_id1);
     $user2 = User::find($request->user_id2);
-    DB::beginTransaction();
+    FollowsRequest::where([
+        'user_id1' => $user1->id,
+        'user_id2' => $user2->id
+    ])->update(['status' => false]);
     FollowsRequest::where([
         'user_id1' => $user1->id,
         'user_id2' => $user2->id
     ])->delete();
-
-    DB::commit();
-    return response()->json(['sucess' => 'User declined successfully']);
-
 }
 
 public function search_exact(Request $request)

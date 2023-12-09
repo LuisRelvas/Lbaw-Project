@@ -625,30 +625,21 @@ function changeLikeStateC(id, liked, user, owner) {
     case true:
       url = '/comment/unlike';
       data = { id: id };
-      sendAjaxRequest('DELETE', url, data, function () {
-        if (this.status == 200) {
-          let response = JSON.parse(this.responseText);
+      sendAjaxRequest('DELETE', url, data, function (response) {
           console.log('Response:', response);
           countElement.textContent = currentCount - 1;
           likeButton.setAttribute('onclick', `changeLikeStateC(${id}, false,${user},${owner})`);
-        } else {
-          console.error('Error:', this.status);
-        }
+
       });
       break;
     case false:
       url = '/comment/like';
       data = { id: id };
-      sendAjaxRequest('POST', url, data, function () {
-        if (this.status == 200) {
-          let response = JSON.parse(this.responseText);
+      sendAjaxRequest('POST', url, data, function (response) {
           console.log('Response:', response);
           countElement.textContent = currentCount + 1;
           likeButton.setAttribute('onclick', `changeLikeStateC(${id}, true,${user},${owner})`);
-        } else {
-          console.error('Error:', this.status);
-          showNotificationC("You cant like comments from private users");
-        }
+      
       });
       break;
   }
@@ -866,7 +857,7 @@ function declineJoin(id,group_id)
 
 function declineFollowRequest(user_id1,user_id2)
 {
-  sendAjaxRequest('DELETE', '/profile/followsrequest', {user_id1: user_id1,user_id2:user_id2}, function(response) {
+  sendAjaxRequest('DELETE', '/profile/followsrequest', {user_id1: user_id1,user_id2:user_id2,status:false}, function(response) {
     console.log('Response:', response);
   });
 }
@@ -876,7 +867,7 @@ function acceptJoin(id,group_id)
 
   let url = '/group/joinrequest/'+ id;
   console.log('the value of the url in accept is',url);
-sendAjaxRequest('POST', url, {id: id,group_id:group_id}, function(response) {
+sendAjaxRequest('POST', url, {id: id,group_id:group_id,status:true}, function(response) {
   console.log('Response:', response);
 });
 }
@@ -885,7 +876,7 @@ function acceptFollowRequest(user_id1,user_id2)
 {
   let url = '/profile/followsrequest/'+ user_id2;
   console.log('the value of the url in accept is',url);
-sendAjaxRequest('POST', url, {user_id1: user_id1,user_id2:user_id2}, function(response) {
+sendAjaxRequest('POST', url, {user_id1: user_id1,user_id2:user_id2,status:true}, function(response) {
 
   console.log('Response:', response);
 });

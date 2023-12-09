@@ -15,7 +15,8 @@ class GroupJoinRequest extends Model
 
     protected $fillable = [
         'user_id',
-        'group_id'
+        'group_id',
+        'status'
     ];
 }
 

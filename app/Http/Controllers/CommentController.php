@@ -20,28 +20,14 @@ class CommentController extends Controller
     public function create(Request $request) 
     {
         $this->authorize('create', Comment::class);
-        $comment = new Comment();
-        $comment->author_id = Auth::user()->id;
-        $comment->space_id = $request->space_id;
-        $comment->username = Auth::user()->username;
-        $comment->content = $request->content;
-        $comment->date = date('Y-m-d H:i');
-        $comment->save();
+        Comment::insert([
+            'author_id' => Auth::user()->id,
+            'space_id' => $request->space_id,
+            'username' => Auth::user()->username,
+            'content' => $request->content,
+            'date' => date('Y-m-d H:i')
+        ]);
 
-        $space = Space::find($comment->space_id);
-        Notification::insert([
-            'received_user' => $space->user_id,
-            'emits_user' => Auth::user()->id,
-            'viewed' => false,
-            'date' => date('Y-m-d H:i'),
-        ]);
-        $lastNotification = Notification::orderBy('id', 'desc')->first();
-        CommentNotification::insert([
-            'id' => $lastNotification->id,
-            'comment_id' => $comment->id,
-            'notification_type' => 'comment_space'
-        
-        ]);
         return redirect('/space/'.$request->space_id)->withSuccess('Comment created successfully!');
     }
 
@@ -71,32 +57,12 @@ class CommentController extends Controller
 
     public function like_on_comments(Request $request) 
     {
-        try{
+    
     $comment = Comment::find($request->id);
-    DB::beginTransaction();
     LikesComments::insert([
         'user_id' => Auth::user()->id,
         'comment_id' => $comment->id
     ]);
-    Notification::insert([
-        'received_user' => $comment->author_id,
-        'emits_user' => Auth::user()->id,
-        'viewed' => false,
-        'date' => date('Y-m-d H:i'),
-    ]); 
-    $lastNotification = Notification::orderBy('id', 'desc')->first();
-    CommentNotification::insert([
-        'id' => $lastNotification->id,
-        'comment_id' => $comment->id,
-        'notification_type' => 'liked_comment'
-    ]);
-    DB::commit();
-    return response()->json(['success' => 'Comment liked successfully!'], 200);
-    }
-    catch (\Exception $e) {
-        DB::rollback();
-        return response()->json(['error' => 'Comment not liked'], 500);
-    }
     }
 
 public function unlike_on_comments(Request $request)
