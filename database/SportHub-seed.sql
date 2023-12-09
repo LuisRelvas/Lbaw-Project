@@ -1094,6 +1094,31 @@ AFTER INSERT ON comment
 FOR EACH ROW
 EXECUTE PROCEDURE comment_space_notification();
 
+--Trigger26--
+
+CREATE FUNCTION joined_group_notification() RETURNS TRIGGER AS 
+$BODY$ 
+DECLARE
+    new_id INTEGER;
+BEGIN 
+    INSERT INTO notification(received_user, emits_user, viewed, date) 
+    VALUES((SELECT user_id from groups where id = NEW.group_id), NEW.user_id, false, CURRENT_DATE)
+    RETURNING id INTO new_id;
+
+    INSERT INTO group_notification(id, group_id, notification_type) 
+    VALUES(new_id, NEW.group_id, 'joined group');
+
+    RETURN NEW;
+END 
+$BODY$
+LANGUAGE plpgsql;
+
+CREATE TRIGGER joined_group_notification
+AFTER INSERT ON member
+FOR EACH ROW
+EXECUTE PROCEDURE joined_group_notification();
+
+
 
 
 

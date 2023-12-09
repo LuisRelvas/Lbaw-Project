@@ -74,7 +74,6 @@ public function editUser()
          'user_id1' => Auth::user()->id,
          'user_id2' => $id,
      ]);
-     return redirect('/profile/'.$id)->withSuccess('Followed successfully!');
  }
 
 public function unfollow(Request $request, $id) {
@@ -82,11 +81,10 @@ public function unfollow(Request $request, $id) {
     if(Auth::user()->id == $id)
     {
         Follow::where('user_id1', $request->input('id'))->where('user_id2', $id)->delete();
-        return redirect('/profile/'.$id)->withSuccess('Unfollowed successfully!');
     }
     else{
     Follow::where('user_id1', Auth::user()->id)->where('user_id2', $id)->delete();
-    return redirect('/profile/'.$id)->withSuccess('Unfollowed successfully!');}
+    }
 }
 
 public function edit(Request $request) 
@@ -183,10 +181,7 @@ public function updatePhoto(Request $request, $id)
 public function delete(Request $request, $id)
     {
         $this->authorize('delete', User::class);
-        // Find the user.
         $user = User::find($id);
-
-        // Delete the user and return it as JSON.
         $user->delete();
         redirect('/homepage')->withSuccess('User deleted successfully!');
         return response()->json($user);
@@ -249,7 +244,6 @@ public function accept_follow_request(Request $request) {
     ]);
 
     DB::commit();
-    return response()->json(['sucess' => 'User accepted successfully']);
 }
 
 public function decline_follow_request(Request $request) 
@@ -263,8 +257,6 @@ public function decline_follow_request(Request $request)
     ])->delete();
 
     DB::commit();
-    return response()->json(['sucess' => 'User declined successfully']);
-
 }
 
 

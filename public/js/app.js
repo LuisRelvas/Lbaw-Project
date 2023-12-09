@@ -255,8 +255,8 @@ function showNotifications(id) {
         var declineButton = document.createElement('button');
         declineButton.textContent = 'Decline';
         declineButton.addEventListener('click', function() {
-          declineInvite(groupId,notification[4]);
           updateNotification(notification[4]);
+          declineInvite(groupId,notification[4]);
         });
       
         // Append the text and buttons to the card element
@@ -324,17 +324,14 @@ function updateNotification(id) {
   };
 
   // Remove the HTML element associated with the notification
-  sendAjaxRequest(method, url, data, function(event) {
-    if (event.target.status === 200) {
-      var response = JSON.parse(event.target.responseText);
+  sendAjaxRequest(method, url, data, function(response) {
+    if (this.status == 200) {
       console.log(response); // Log the server response (optional)
       var notificationElement = document.getElementById('notification_' + id);
       console.log("THe value of the notificationElement is",notificationElement);
       if (notificationElement) {
         notificationElement.remove();
       }
-    } else {
-      console.error('Error:', event.target.status, event.target.statusText);
     }
   });
 }
@@ -565,7 +562,7 @@ function acceptInvite(id, notification_id)
   };
   sendAjaxRequest('POST', url, data, function (response) {
     console.log('Response:', response);
-    delNot(notification_id);
+    updateNotification(notification_id);
   });
 }
 
@@ -599,6 +596,7 @@ function declineInvite(id,notification_id)
     group_id: id
   };
   sendAjaxRequest('DELETE', url, data, function (response) {
+    console.log("The value of the status",this.status);
     console.log('Response:', response);
   });
 }
@@ -803,19 +801,14 @@ function deleteGroup(id) {
   var url = `/api/group/${id}`;
   var method = 'DELETE';
 
-  sendAjaxRequest(method, url, null, function(event) {
-      if (event.target.status === 200) {
-          var response = JSON.parse(event.target.responseText);
+  sendAjaxRequest(method, url, null, function(response) {
+      if (this.status == 200) {
           console.log(response); // Log the server response (optional)
-          
-          // Redirect to the appropriate URL based on whether the user is an admin
           if (response.isAdmin) {
               window.location.href = '/admin';
           } else {
               window.location.href = '/homepage';
           }
-      } else {
-          console.error('Error:', event.target.status, event.target.statusText);
       }
   });
 }
@@ -830,19 +823,13 @@ function deleteProfile(id) {
   var method = 'DELETE';
   var data = null; // No data to send for a DELETE request
 
-  sendAjaxRequest(method, url, data, function(event) {
-      if (event.target.status === 200) {
-          var response = JSON.parse(event.target.responseText);
-          console.log(response); // Log the server response (optional)
-          
-          // Redirect to the appropriate URL based on whether the user is an admin
+  sendAjaxRequest(method, url, data, function(response) {
+      if(this.status == 200){
           if (response.isAdmin) {
               window.location.href = '/admin';
           } else {
               window.location.href = '/logout';
           }
-      } else {
-          console.error('Error:', event.target.status, event.target.statusText);
       }
   });
 }
@@ -851,13 +838,15 @@ function deleteProfile(id) {
 function declineJoin(id,group_id)
 {
   sendAjaxRequest('DELETE', '/group/joinrequest', {id: id,group_id:group_id}, function(response) {
-    console.log('Response:', response);
+    if(this.status == 200) {
+      console.log("the value of the status is ",this.status);
+    console.log('Response:', response);}
   });
 }
 
 function declineFollowRequest(user_id1,user_id2)
 {
-  sendAjaxRequest('DELETE', '/profile/followsrequest', {user_id1: user_id1,user_id2:user_id2,status:false}, function(response) {
+  sendAjaxRequest('DELETE', '/profile/followsrequest', {user_id1: user_id1,user_id2:user_id2}, function(response) {
     console.log('Response:', response);
   });
 }
@@ -867,8 +856,13 @@ function acceptJoin(id,group_id)
 
   let url = '/group/joinrequest/'+ id;
   console.log('the value of the url in accept is',url);
-sendAjaxRequest('POST', url, {id: id,group_id:group_id,status:true}, function(response) {
-  console.log('Response:', response);
+sendAjaxRequest('POST', url, {id: id,group_id:group_id}, function(response) {
+  if(this.status == 200) 
+  {
+    console.log("The value of the status is",this.status);
+    console.log('Response:', response);
+
+  }
 });
 }
 
@@ -876,7 +870,7 @@ function acceptFollowRequest(user_id1,user_id2)
 {
   let url = '/profile/followsrequest/'+ user_id2;
   console.log('the value of the url in accept is',url);
-sendAjaxRequest('POST', url, {user_id1: user_id1,user_id2:user_id2,status:true}, function(response) {
+sendAjaxRequest('POST', url, {user_id1: user_id1,user_id2:user_id2}, function(response) {
 
   console.log('Response:', response);
 });
@@ -901,9 +895,8 @@ function changeProfileState(user_id2,user_id1,publicProfile)
         };
         // Send the AJAX request
         sendAjaxRequest('POST', url, data, function(response) {
-          console.log('Response:', response);
-          // Change the button text to 'Unfollow'
-          document.querySelector('#profileState' + user_id2).innerHTML = '<i id="text-icon" aria-hidden="true"></i> Unfollow';
+          if(this.status == 200){
+          document.querySelector('#profileState' + user_id2).innerHTML = '<i id="text-icon" aria-hidden="true"></i> Unfollow';}
         });
       }
       else 
@@ -924,8 +917,10 @@ function changeProfileState(user_id2,user_id1,publicProfile)
         user_id2: user_id2
       };
       sendAjaxRequest('DELETE', url, data, function(response){
-        console.log('Response:', response);
-        document.querySelector('#profileState' + user_id2).innerHTML = '<i id="text-icon" aria-hidden="true"></i> Follow';
+        if(this.status == 200)
+        {
+          document.querySelector('#profileState' + user_id2).innerHTML = '<i id="text-icon" aria-hidden="true"></i> Follow';
+        }
       });
     }
 } 
@@ -946,7 +941,8 @@ function changeGroupState(id,user_id,publicGroup)
         };
         // Send the AJAX request
         sendAjaxRequest('POST', url, data, function(response) {
-          console.log('Response:', response);
+          if(this.status == 200){
+          console.log('Response:', response);}
 
         });
       }
@@ -955,6 +951,8 @@ function changeGroupState(id,user_id,publicGroup)
         console.log('The value of the id is',id);
         console.log('The value of the user_id is',user_id);
         sendAjaxRequest('POST', '/group/joinrequest', {id: id, user_id: user_id}, function(response) {
+          if(this.status) {
+            console.log("the value of the status is",this.status);}
           console.log('Response:', response);
         });
       }
@@ -966,7 +964,11 @@ function changeGroupState(id,user_id,publicGroup)
         user_id: user_id
       };
       sendAjaxRequest('DELETE', url, data, function(response){
+        if(this.status == 200) {
+        console.log("The value of the status is",this.status);
         console.log('Response:', response);
+        
+      }
       });
   }
 }
@@ -1004,12 +1006,10 @@ function deleteMember(id) {
     userId: id
   };
 
-  sendAjaxRequest(method, url, data, function(event) {
-    if (event.target.status === 200) {
-      var response = JSON.parse(event.target.responseText);
+  sendAjaxRequest(method, url, data, function(response) {
+    if (this.status == 200) {
+      console.log("The value of the status is",this.status);
       console.log(response); // Log the server response (optional)
-    } else {
-      console.error('Error:', event.target.status, event.target.statusText);
     }
   });
 }

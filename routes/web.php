@@ -99,7 +99,7 @@ Route::controller(GroupController::class)->group(function () {
     Route::delete('/api/group/{id}', 'delete');
     Route::post('/group/join', 'join');
     Route::delete('/group/leave', 'leave_group');
-    Route::delete('/api/group/member/{id}',[GroupController::class,'remove_member']);
+    Route::delete('/api/group/member/{id}','remove_member');
     Route::get('/group', 'list');
     Route::post('/group/invite', 'invite');
     Route::post('/group/joinrequest', 'join_request');

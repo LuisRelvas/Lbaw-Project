@@ -73,7 +73,6 @@ class GroupController extends Controller
 
         // Return a JSON response
         return response()->json([
-            'success' => 'Group deleted successfully!',
             'isAdmin' => $isAdmin
         ]);
     }
@@ -82,31 +81,11 @@ class GroupController extends Controller
     public function join(Request $request) 
     {
         $group = Group::find($request->id);  
-
-        DB::beginTransaction(); 
-
         Member::insert([
             'user_id' => Auth::user()->id,
             'group_id' => $group->id,
             'is_favorite' => false
         ]);
-
-        Notification::insert([
-            'received_user' => $group->user_id,
-            'emits_user' => Auth::user()->id,
-            'viewed' => false,
-            'date' => date('Y-m-d H:i')
-        ]);
-
-        $lastNotification = Notification::orderBy('id', 'desc')->first();
-
-        GroupNotification::insert([
-            'id' => $lastNotification->id,
-            'group_id' => $group->id,
-            'notification_type' => 'joined group'
-        ]);
-
-        DB::commit();
     }
 
     public function leave_group(Request $request) 
@@ -148,24 +127,16 @@ class GroupController extends Controller
             'notification_type' => 'remove'
         ]);
         DB::commit();
-    
-        return response()->json([
-            'success' => 'Member removed successfully!'
-        ]);
     }
     
 
 public function join_request(Request $request)
 {
     $group = Group::find($request->id);  
-
-    DB::beginTransaction(); 
-
     GroupJoinRequest::insert([
         'user_id' => Auth::user()->id,
         'group_id' => $group->id,
     ]);
-    DB::commit();
 }
 
 public function accept_join_request(Request $request)
@@ -196,8 +167,6 @@ public function accept_join_request(Request $request)
         'group_id' => $group->id,
         'notification_type' => 'accepted_join'
     ]);
-    
-
     DB::commit();
 }
 
@@ -213,16 +182,71 @@ public function decline_join_request(Request $request)
     
 }
 
-public function decline_invite(Request $request) 
+public function invite(Request $request)
 {
     $group = Group::find($request->group_id);
+    $user = User::where('email', $request->email)->first();
 
-    $getId = Notification::select('id')->where([
-        'received_user' => Auth::user()->id,
+    if (!$user) {
+        return back()->withErrors(['email' => 'No user found with this email']);
+    }
+
+    DB::beginTransaction();
+    Notification::insert([
+        'received_user' => $user->id,
         'emits_user' => $group->user_id,
         'viewed' => false,
         'date' => date('Y-m-d H:i')
-    ])->first();
+    ]);
+
+    $lastNotification = Notification::orderBy('id','desc')->first();
+
+    GroupNotification::insert([
+        'id' => $lastNotification->id,
+        'group_id' => $group->id,
+        'notification_type' => 'invite'
+    ]);
+
+    DB::commit();
+
+    return back()->with('success', 'Invitation sent!');
+}
+
+
+public function accept_invite(Request $request) 
+{
+    $group = Group::find($request->group_id); 
+    DB::beginTransaction();
+    Member::insert([
+        'user_id' => Auth::user()->id,
+        'group_id' => $group->id,
+        'is_favorite' => false
+    ]);
+    Notification::insert([
+        'received_user' => $group->user_id,
+        'emits_user' => Auth::user()->id,
+        'viewed' => false,
+        'date' => date('Y-m-d H:i')
+    ]);
+    $lastNotification = Notification::orderBy('id','desc')->first();
+    GroupNotification::insert([
+        'id' => $lastNotification->id,
+        'group_id' => $group->id,
+        'notification_type' => 'joined group'
+    ]);
+    DB::commit();
+}
+
+
+public function decline_invite(Request $request) 
+{
+    $group = Group::find($request->group_id);
+    DB::beginTransaction();
+    $getId = DB::table('notification')->join('group_notification','notification.id','=','group_notification.id')->where([
+        'received_user' => Auth::user()->id,
+        'emits_user' => $group->user_id,
+        'notification_type' => 'invite'
+    ])->select('notification.id')->first();
 
     GroupNotification::where('id', $getId->id)->delete();
     Notification::where([
@@ -231,7 +255,7 @@ public function decline_invite(Request $request)
         'viewed' => false,
         'date' => date('Y-m-d H:i')
     ])->delete();
-    
+    DB::commit();
 }
 
 }
