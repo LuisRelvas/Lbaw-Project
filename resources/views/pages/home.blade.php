@@ -35,6 +35,8 @@
             <div id="results-users"></div>
             @if (Auth::check())
                 <div id="results-spaces"></div>
+                <div id="results-groups"></div>
+                <div id="results-comments"></div>
             @endif
             @if (Auth::check())
                 @include('partials.addGroup')

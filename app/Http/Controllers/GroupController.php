@@ -244,5 +244,20 @@ public function decline_invite(Request $request)
     DB::commit();
 }
 
+public function searchPage() {
+    return view('pages.search');
+}
+public function search(Request $request) 
+{
+$input = $request->get('search', '*');
+
+    $groups = Group::select('id', 'user_id', 'name', 'is_public', 'description')
+        ->whereRaw("tsvectors @@ to_tsquery(?)", [$input])
+        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$input])
+        ->get();
+
+return view('partials.searchGroup', compact('groups'))->render();
+}
+
 }
 ?>

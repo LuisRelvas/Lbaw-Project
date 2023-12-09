@@ -88,6 +88,23 @@ public function unlike_on_comments(Request $request)
 
 }
 
+
+public function searchPage() {
+    return view('pages.search');
+}
+public function search(Request $request) 
+{
+$input = $request->get('search', '*');
+
+    $comments = Comment::select('id', 'space_id', 'author_id', 'username', 'content','date')
+        ->whereRaw("tsvectors @@ to_tsquery(?)", [$input])
+        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$input])
+        ->get();
+
+return view('partials.searchComment', compact('comments'))->render();
+}
+
+
 }
 
   
