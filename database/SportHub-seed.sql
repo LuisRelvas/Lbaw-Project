@@ -206,7 +206,6 @@ CREATE TABLE comment (
 CREATE TABLE follows_request (
     user_id1 INT REFERENCES users(id) ON UPDATE CASCADE,
     user_id2 INT REFERENCES users(id) ON UPDATE CASCADE,
-    status BOOLEAN DEFAULT false NOT NULL,
    PRIMARY KEY(user_id1,user_id2)
 );
 
@@ -254,7 +253,6 @@ CREATE TABLE space_notification (
 CREATE TABLE group_join_request (
     user_id INT REFERENCES users(id) ON UPDATE CASCADE,
     group_id INT REFERENCES groups(id) ON UPDATE CASCADE,
-    status BOOLEAN DEFAULT false NOT NULL,
     PRIMARY KEY(user_id,group_id)
 );
 
@@ -1000,82 +998,7 @@ AFTER INSERT ON follows
 FOR EACH ROW
 EXECUTE PROCEDURE follows_notification();
 
---Trigger18--
-CREATE OR REPLACE FUNCTION accept_follow_request_notification() RETURNS TRIGGER AS 
-$BODY$ 
-DECLARE
-    new_id INTEGER;
-BEGIN 
-    IF OLD.status = true THEN
-        INSERT INTO notification(received_user, emits_user, viewed, date) 
-        VALUES(OLD.user_id1, OLD.user_id2, false, CURRENT_DATE)
-        RETURNING id INTO new_id;
 
-        INSERT INTO user_notification(id, user_id, notification_type) 
-        VALUES(new_id, OLD.user_id1, 'accepted_follow');
-        
-        INSERT INTO follows(user_id1,user_id2) VALUES(OLD.user_id1,OLD.user_id2);
-    END IF;
-
-    RETURN OLD;
-END 
-$BODY$
-LANGUAGE plpgsql;
-
-CREATE TRIGGER accept_follow_request_notification
-BEFORE DELETE ON follows_request
-FOR EACH ROW
-EXECUTE PROCEDURE accept_follow_request_notification();
-
---Trigger19--
-CREATE OR REPLACE FUNCTION leave_group_notification() RETURNS TRIGGER AS 
-$BODY$ 
-DECLARE
-    new_id INTEGER;
-    owner INTEGER;
-BEGIN 
-    SELECT user_id INTO owner FROM groups WHERE id = OLD.group_id;
-
-    INSERT INTO notification(received_user, emits_user, viewed, date) 
-    VALUES(owner, OLD.user_id, false, CURRENT_DATE)
-    RETURNING id INTO new_id;
-
-    INSERT INTO group_notification(id, group_id, notification_type) 
-    VALUES(new_id, OLD.group_id, 'leave group');
-    
-    RETURN OLD;
-END 
-$BODY$
-LANGUAGE plpgsql;
-
-CREATE TRIGGER leave_group_notification
-BEFORE DELETE ON member
-FOR EACH ROW
-EXECUTE PROCEDURE leave_group_notification();
-
-
---Trigger20--
-CREATE FUNCTION remove_member_notification() RETURNS TRIGGER AS 
-$BODY$ 
-DECLARE
-    new_id INTEGER;
-BEGIN 
-    INSERT INTO notification(received_user, emits_user, viewed, date) 
-    VALUES(OLD.user_id, (SELECT user_id FROM groups WHERE id = OLD.group_id), false, CURRENT_TIMESTAMP)
-    RETURNING id INTO new_id;
-
-    INSERT INTO group_notification(id, group_id, notification_type) 
-    VALUES(new_id, OLD.group_id, 'remove');
-    
-    RETURN OLD;
-END 
-$BODY$
-LANGUAGE plpgsql;
-
-CREATE TRIGGER remove_member_notification
-AFTER DELETE ON member
-FOR EACH ROW
-EXECUTE PROCEDURE remove_member_notification();
 
 --Trigger21--
 
@@ -1101,30 +1024,6 @@ AFTER INSERT ON group_join_request
 FOR EACH ROW
 EXECUTE PROCEDURE join_request_notification();
 
---Trigger22--
-CREATE OR REPLACE FUNCTION accept_join_group_notification() RETURNS TRIGGER AS 
-$BODY$ 
-DECLARE
-    new_id INTEGER;
-BEGIN 
-    IF OLD.status = true THEN
-        INSERT INTO member(user_id,group_id,is_favorite) VALUES(OLD.user_id,OLD.group_id,false);
-        INSERT INTO notification(received_user, emits_user, viewed, date) 
-        VALUES(OLD.user_id, (SELECT user_id FROM groups WHERE id = OLD.group_id), false, CURRENT_TIMESTAMP)
-        RETURNING id INTO new_id;
-        INSERT INTO group_notification(id, group_id, notification_type) 
-        VALUES(new_id, OLD.group_id, 'accepted_join');
-    END IF;
-    
-    RETURN OLD;
-END 
-$BODY$
-LANGUAGE plpgsql;
-
-CREATE TRIGGER accept_join_group_notification
-AFTER DELETE ON group_join_request
-FOR EACH ROW
-EXECUTE PROCEDURE accept_join_group_notification();
 
 --Trigger23--
 CREATE FUNCTION liked_space_notification() RETURNS TRIGGER AS 
