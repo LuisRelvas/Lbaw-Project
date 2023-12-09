@@ -1,0 +1,21 @@
+.button-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+#notificationsContainer {
+    position: absolute;
+    right: 0;
+    top: 90px; /* adjust as needed */
+    width: 400px; /* adjust as needed */
+    background-color: #1c2632;
+    border-radius: 4px;
+    overflow: auto;
+    max-height: 600px; /* adjust as needed */
+}
+
+#notificationsContainer a {
+    color: white;
+    margin-right: 10px;
+}
+
