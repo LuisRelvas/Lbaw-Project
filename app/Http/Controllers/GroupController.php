@@ -59,9 +59,7 @@ class GroupController extends Controller
         $group->name = $request->input('name');
         $group->description = $request->input('description');
         $group->save();
-    
-        return redirect('/group/'.$request->id)->withSuccess('Group description edited successfully!');
-    }
+        }
 
     public function delete(int $id)
     {
@@ -221,18 +219,6 @@ public function accept_invite(Request $request)
         'user_id' => Auth::user()->id,
         'group_id' => $group->id,
         'is_favorite' => false
-    ]);
-    Notification::insert([
-        'received_user' => $group->user_id,
-        'emits_user' => Auth::user()->id,
-        'viewed' => false,
-        'date' => date('Y-m-d H:i')
-    ]);
-    $lastNotification = Notification::orderBy('id','desc')->first();
-    GroupNotification::insert([
-        'id' => $lastNotification->id,
-        'group_id' => $group->id,
-        'notification_type' => 'joined group'
     ]);
     DB::commit();
 }

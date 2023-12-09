@@ -118,7 +118,7 @@
                                 <button id="cancelEditComment{{ $comment->id }}"
                                     onclick="cancelEditComment({{ $comment->id }})" style="visibility:hidden;"
                                     class="button-comment">&#10761;
-                                    <div><i class="cross"></i>Edit</div>
+                                    <div><i class="cross"></i></div>
                                 </button>
                             @endif
                         </div>

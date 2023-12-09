@@ -634,10 +634,16 @@ function changeLikeStateC(id, liked, user, owner) {
       url = '/comment/like';
       data = { id: id };
       sendAjaxRequest('POST', url, data, function (response) {
+        if(this.status == 200){
+          console.log("the value of the status is",this.status);
           console.log('Response:', response);
           countElement.textContent = currentCount + 1;
           likeButton.setAttribute('onclick', `changeLikeStateC(${id}, true,${user},${owner})`);
-      
+        }
+        else 
+        {
+          showNotificationC('You cant like comments from private users');
+        }
       });
       break;
   }

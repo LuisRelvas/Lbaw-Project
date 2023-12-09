@@ -950,6 +950,11 @@ $BODY$
 
 LANGUAGE plpgsql;
 
+CREATE TRIGGER verify_comment_restrictions
+BEFORE INSERT OR UPDATE ON likes_on_comments
+FOR EACH ROW
+EXECUTE PROCEDURE verify_comment_restrictions();
+
 -- Trigger16
 CREATE FUNCTION follow_request_notification() RETURNS TRIGGER AS 
 $BODY$ 
@@ -1117,6 +1122,8 @@ CREATE TRIGGER joined_group_notification
 AFTER INSERT ON member
 FOR EACH ROW
 EXECUTE PROCEDURE joined_group_notification();
+
+
 
 
 

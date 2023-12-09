@@ -67,34 +67,29 @@ class CommentController extends Controller
 
 public function unlike_on_comments(Request $request)
 {
-    try{
-
     $comment = Space::find($request->id);
     DB::beginTransaction();
-    $commentNotification = CommentNotification::where('comment_id', $comment->id)
-        ->where('notification_type', 'liked_comment')
-        ->first();
-    
-    if ($commentNotification) {
-        $id = $commentNotification->id;
-        $commentNotification->delete();
-    }
-
+    $commentNotification = DB::table('notification')
+    ->join('comment_notification', 'notification.id', '=', 'comment_notification.id')
+    ->where([
+        'comment_id' => $comment->id,
+        'notification_type' => 'liked_comment'
+    ])
+    ->select('notification.*')
+    ->first();
+    CommentNotification::where('id', $commentNotification->id)
+        ->delete();
     LikesComments::where('user_id', Auth::user()->id)
         ->where('comment_id', $comment->id)
         ->delete();
     Notification::where('id', $commentNotification->id)
         ->delete();
     DB::commit();
-    return response()->json(['success' => 'Comment unliked successfully!'], 200);}
-    catch (\Exception $e) {
-        DB::rollback();
-        return response()->json(['error' => 'Comment not liked'], 500);
-    }
-    }
- 
-    
+
 }
+
+}
+
   
 
 
