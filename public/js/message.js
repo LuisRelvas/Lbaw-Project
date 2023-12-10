@@ -1,4 +1,3 @@
-Pusher.logToConsole = true;
 
 console.log("the value of the Echo socket is",Echo.socketId());
 
