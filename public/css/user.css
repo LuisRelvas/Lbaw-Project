@@ -56,6 +56,28 @@
   margin-bottom: 0;
 }
 
+.follow-card {
+    background-color: #1c2632;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    width: 500px;
+    color: white;
+}
+
+.follow-card #followsDiv {
+    border-bottom: white solid 1px;
+}
+
+.follow-card #followersDiv {
+    margin-top: 10px;
+}
+
+.follow-card ul #text {
+    margin-right: 10px;
+}
+
 /* ------ Edit User ------ */
 
 .edit-page-photo-options h4 {

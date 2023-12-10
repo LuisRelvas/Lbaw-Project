@@ -19,7 +19,9 @@ class CommentController extends Controller
 {
     public function create(Request $request) 
     {
-        $this->authorize('create', Comment::class);
+        $getSpace = $request->space_id;
+        $space = Space::find($getSpace);
+        $this->authorize('create', [Comment::class,$space]);
         Comment::insert([
             'author_id' => Auth::user()->id,
             'space_id' => $request->space_id,
@@ -57,8 +59,8 @@ class CommentController extends Controller
 
     public function like_on_comments(Request $request) 
     {
-    
     $comment = Comment::find($request->id);
+    $this->authorize('like', $comment);
     LikesComments::insert([
         'user_id' => Auth::user()->id,
         'comment_id' => $comment->id
@@ -67,34 +69,48 @@ class CommentController extends Controller
 
 public function unlike_on_comments(Request $request)
 {
-    try{
-
-    $comment = Space::find($request->id);
-    DB::beginTransaction();
-    $commentNotification = CommentNotification::where('comment_id', $comment->id)
-        ->where('notification_type', 'liked_comment')
-        ->first();
     
-    if ($commentNotification) {
-        $id = $commentNotification->id;
-        $commentNotification->delete();
-    }
-
+    $comment = Comment::find($request->id);
+    $this->authorize('unlike', $comment);
+    DB::beginTransaction();
+    $commentNotification = DB::table('notification')
+    ->join('comment_notification', 'notification.id', '=', 'comment_notification.id')
+    ->where([
+        'comment_id' => $comment->id,
+        'notification_type' => 'liked_comment'
+    ])
+    ->select('notification.*')
+    ->first();
+    CommentNotification::where('id', $commentNotification->id)
+        ->delete();
     LikesComments::where('user_id', Auth::user()->id)
         ->where('comment_id', $comment->id)
         ->delete();
     Notification::where('id', $commentNotification->id)
         ->delete();
     DB::commit();
-    return response()->json(['success' => 'Comment unliked successfully!'], 200);}
-    catch (\Exception $e) {
-        DB::rollback();
-        return response()->json(['error' => 'Comment not liked'], 500);
-    }
-    }
- 
-    
+
 }
+
+
+public function searchPage() {
+    return view('pages.search');
+}
+public function search(Request $request) 
+{
+$input = $request->get('search', '*');
+
+    $comments = Comment::select('id', 'space_id', 'author_id', 'username', 'content','date')
+        ->whereRaw("tsvectors @@ to_tsquery(?)", [$input])
+        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$input])
+        ->get();
+
+return view('partials.searchComment', compact('comments'))->render();
+}
+
+
+}
+
   
 
 

@@ -18,15 +18,16 @@
             @endif
             <div class="card-body">
                 <ul class="card-list">
-                    @foreach ($publics as $public)
-                        <li><a href="/space/{{ $public->id }}" class="card">{{ $public->content }}</a></li>
-                    @endforeach
                     @if (Auth::check())
-                        @foreach ($spaces as $space)
+                        @php
+                            $allSpaces = $publics
+                                ->concat($spaces)
+                                ->concat($mines)
+                                ->sortByDesc('date')
+                                ->reverse();
+                        @endphp
+                        @foreach ($allSpaces as $space)
                             <li><a href="/space/{{ $space->id }}" class="card">{{ $space->content }}</a></li>
-                        @endforeach
-                        @foreach ($mines as $mine)
-                            <li><a href="/space/{{ $mine->id }}" class="card">{{ $mine->content }}</a></li>
                         @endforeach
                     @endif
                 </ul>
@@ -38,6 +39,8 @@
             <div id="results-users"></div>
             @if (Auth::check())
                 <div id="results-spaces"></div>
+                <div id="results-groups"></div>
+                <div id="results-comments"></div>
             @endif
             @if (Auth::check())
                 @include('partials.addGroup')

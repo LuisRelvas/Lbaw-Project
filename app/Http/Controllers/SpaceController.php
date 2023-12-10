@@ -73,8 +73,6 @@ class SpaceController extends Controller
         $space->content = $request->input('content');
         $space->is_public = $request->input('is_public', false);
         $space->save();
-        return redirect('/space/'.$request->space_id)->withSuccess('Space edited successfully!');
-
     }
 
 
@@ -139,7 +137,6 @@ class SpaceController extends Controller
 
         return response()->json([
             'isAdmin' => Auth::user()->isAdmin(Auth::user()),
-            redirect('/homepage')->withSuccess('Space deleted successfully!')
         ]);    
     }
 

@@ -75,7 +75,6 @@ class NotificationController extends Controller
         $notification = Notification::findOrFail($id);
         $notification->viewed = true;
         $notification->save();
-        return response()->json(['success' => 'Notification viewed !'], 200);
     }
 
 
@@ -89,7 +88,6 @@ class NotificationController extends Controller
         GroupNotification::where('id', $id)->delete();
         DB::commit();
         $notification->delete();   
-        return redirect('/notification')->with('success', 'Notification deleted successfully!');
     }
 
 }

@@ -46,8 +46,6 @@ class MessageController extends Controller
         $message->date = now(); // Use the now() helper to get the current timestamp
         $message->save();
         broadcast(new Messages($message))->toOthers();
-        
-
         return redirect()->back();
     }
 }

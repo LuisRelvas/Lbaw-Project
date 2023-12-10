@@ -22,6 +22,13 @@ class Message extends Model
         'is_viewed'
     ];
 
+
+    public function messages() 
+    {
+        return $this->hasMany(Message::class);
+    
+    }
+
     public function received() 
     {
         return User::find($this->received_id);

@@ -433,7 +433,6 @@ sendAjaxRequest(method, url, data, function(event) {
 
 
 let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-Pusher.logToConsole = true;
 const pusher = new Pusher('e0f29d0e833b76381d01', {
     cluster: 'eu',
     authEndpoint: '/broadcasting/auth',
@@ -444,9 +443,19 @@ const pusher = new Pusher('e0f29d0e833b76381d01', {
     }
 });
 
+window.Pusher = Pusher;
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: "e0f29d0e833b76381d01",
+    cluster: "eu",
+    encrypted: true
+});
+
 var ownerChannel;
 var userChannel;
 var currentOwner; // The current owner of the page
+
+
 
 function setupOwnerChannel(owner) {
     ownerChannel = pusher.subscribe('private-lbaw2372.' + owner);
@@ -634,10 +643,16 @@ function changeLikeStateC(id, liked, user, owner) {
       url = '/comment/like';
       data = { id: id };
       sendAjaxRequest('POST', url, data, function (response) {
+        if(this.status == 200){
+          console.log("the value of the status is",this.status);
           console.log('Response:', response);
           countElement.textContent = currentCount + 1;
           likeButton.setAttribute('onclick', `changeLikeStateC(${id}, true,${user},${owner})`);
-      
+        }
+        else 
+        {
+          showNotificationC('You cant like comments from private users');
+        }
       });
       break;
   }
@@ -1111,14 +1126,15 @@ function handleButtonClick(buttonType) {
 async function search(input) {
 document.querySelector('#results-users').innerHTML = await getAPIResult('profile', input);
 document.querySelector('#results-spaces').innerHTML = await getAPIResult('space', input);
+document.querySelector('#results-groups').innerHTML = await getAPIResult('group', input);
+document.querySelector('#results-comments').innerHTML = await getAPIResult('comment', input);
 updateTotal((document.querySelector('#results-users').innerHTML.match(/<article/g) || []).length, 'userResults');
 updateTotal((document.querySelector('#results-spaces').innerHTML.match(/<article/g) || []).length, 'spaceResults');
+updateTotal((document.querySelector('#results-groups').innerHTML.match(/<article/g) || []).length, 'groupResults');
+updateTotal((document.querySelector('#results-comments').innerHTML.match(/<article/g) || []).length, 'commentResults');
+
 
 }
-
-
-
-
 
 
 function init() {

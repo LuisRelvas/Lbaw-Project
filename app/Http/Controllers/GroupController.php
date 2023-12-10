@@ -70,9 +70,7 @@ class GroupController extends Controller
         $group->name = $request->input('name');
         $group->description = $request->input('description');
         $group->save();
-
-        return redirect('/group/' . $request->id)->withSuccess('Group description edited successfully!');
-    }
+        }
 
     public function delete(int $id)
     {
@@ -284,3 +282,55 @@ class GroupController extends Controller
         return view('partials.searchGroup', compact('groups'))->render();
     }
 }
+
+
+public function accept_invite(Request $request) 
+{
+    $group = Group::find($request->group_id); 
+    DB::beginTransaction();
+    Member::insert([
+        'user_id' => Auth::user()->id,
+        'group_id' => $group->id,
+        'is_favorite' => false
+    ]);
+    DB::commit();
+}
+
+
+public function decline_invite(Request $request) 
+{
+    $group = Group::find($request->group_id);
+    DB::beginTransaction();
+    $getId = DB::table('notification')->join('group_notification','notification.id','=','group_notification.id')->where([
+        'received_user' => Auth::user()->id,
+        'emits_user' => $group->user_id,
+        'notification_type' => 'invite'
+    ])->select('notification.id')->first();
+
+    GroupNotification::where('id', $getId->id)->delete();
+    Notification::where([
+        'received_user' => Auth::user()->id,
+        'emits_user' => $group->user_id,
+        'viewed' => false,
+        'date' => date('Y-m-d H:i')
+    ])->delete();
+    DB::commit();
+}
+
+public function searchPage() {
+    return view('pages.search');
+}
+public function search(Request $request) 
+{
+$input = $request->get('search', '*');
+
+    $groups = Group::select('id', 'user_id', 'name', 'is_public', 'description')
+        ->whereRaw("tsvectors @@ to_tsquery(?)", [$input])
+        ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$input])
+        ->get();
+
+return view('partials.searchGroup', compact('groups'))->render();
+}
+
+}
+?>
