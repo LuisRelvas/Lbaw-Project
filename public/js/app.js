@@ -431,6 +431,7 @@ sendAjaxRequest(method, url, data, function(event) {
 });
 }
 
+Pusher.logToConsole = true;
 
 let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 const pusher = new Pusher('e0f29d0e833b76381d01', {
