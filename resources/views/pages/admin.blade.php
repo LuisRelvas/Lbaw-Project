@@ -11,8 +11,8 @@
 
             <div class="main-menu admin-options">
                 <button id="usersButton" onclick="UsersDropDown()"><i class="fa-solid fa-user"></i> Users</button>
-                <button id="groupsButton" onclick="GroupsDropDown()"><i class="fa-solid fa-users"></i> Groups</button>
                 <button id="spacesButton" onclick="SpacesDropDown()"><i class="fa-solid fa-comment"></i> Spaces</button>
+                <button id="groupsButton" onclick="GroupsDropDown()"><i class="fa-solid fa-users"></i> Groups</button>
             </div>
 
             <div id="adminUsersSearch" class="search-container" style="display: none;">
