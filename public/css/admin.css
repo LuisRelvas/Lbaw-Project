@@ -23,12 +23,6 @@
     align-items: center;
 }
 
-.white-icon {
-    color: white;
-    margin-right: 10px; 
-    font-size: 25px;
-}
-
 /* ------- Results ------- */
 
 #results-users, #results-spaces, #results-groups { /* @ username */

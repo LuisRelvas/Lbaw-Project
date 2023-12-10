@@ -16,21 +16,18 @@
             </div>
 
             <div id="adminUsersSearch" class="search-container" style="display: none;">
-                <i class="fa-solid fa-magnifying-glass white-icon"></i>
                 <input type="text" id="search" placeholder="User Search...">
                 <div id="results-users"></div>
             </div>
-            <div id="adminGroupsSearch" class="search-container" style="display: none;">
-                <i class="fa-solid fa-magnifying-glass white-icon"></i>
-                <input type="text" id="search" placeholder="Groups Search...">
-                <div id="results-groups"></div>
-            </div>
             <div id="adminSpacesSearch" class="search-container" style="display: none;">
-                <i class="fa-solid fa-magnifying-glass white-icon"></i>
                 <input type="text" id="search" placeholder="Spaces Search...">
                 <div id="results-spaces"></div>
             </div>
-
+            <div id="adminGroupsSearch" class="search-container" style="display: none;">
+                <input type="text" id="search" placeholder="Groups Search...">
+                <div id="results-groups"></div>
+            </div>
+            
             <div id="createUser" class="admincreate" style="display: none;">
                 <button onclick="location.href='{{ url('/register') }}'" class="btn btn-primary">Create User</button>
             </div>
