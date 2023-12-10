@@ -1,5 +1,4 @@
 
-
 console.log("the value of the Echo socket is",Echo.socketId());
 
 
@@ -8,22 +7,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
   var form = forms[forms.length - 1];
 
   form.addEventListener('submit', function(e) {
-      // Prevent the form from being submitted
       e.preventDefault();
 
-      // Get the received_id input field
       var receivedIdInput = form.querySelector('#received_id');
 
-      // Get the value of the received_id input field
       var receivedId = receivedIdInput.value;
 
-      // Log the value to the console
       console.log(receivedId);
 
-      // Get the content input field
       var contentInput = form.querySelector('#content');
 
-      // Get the value of the content input field
       var content = contentInput.value;
   });
 });
@@ -33,17 +26,18 @@ let order_cur = -1;
 function updateMessage(e, form) {
   e.preventDefault();
   new Date();
-  var receivedIdInput = form.querySelector('#received_id'); // Get the received_id input field
-  var receivedId = receivedIdInput.value; // Get the value of the received_id input field
-  var emitsIdInput = form.querySelector('#emits_id'); // Get the emits_id input field
-  var emitsId = emitsIdInput.value; // Get the value of the emits_id input field
-  var contentInput = form.querySelector('#content'); // Get the content input field
-  var content = contentInput.value; // Get the value of the content input field
-  console.log(receivedId); // Log the value to the console
-  console.log(content); // Log the message content to the console
-  sendAjaxRequest('POST', '/messages/send', {emits_id: emitsId,received_id: receivedId, content: content, date:Date()}, function(response) {
+  var receivedIdInput = form.querySelector('#received_id'); 
+  var receivedId = receivedIdInput.value; 
+  var emitsIdInput = form.querySelector('#emits_id'); 
+  var emitsId = emitsIdInput.value; 
+  var contentInput = form.querySelector('#content'); 
+  var content = contentInput.value; 
+  console.log(receivedId); 
+  console.log(content); 
+  sendAjaxRequest('POST', '/messages/send', {emits_id: emitsId,received_id: receivedId, content: content, date:Date(), is_viewed:false}, function(response) {
     console.log('Response:', response);
-});
+    contentInput.value = ''; 
+  });
 }
 
 document.querySelectorAll('.message-form').forEach(form => {
@@ -55,14 +49,38 @@ document.querySelectorAll('.message-form').forEach(form => {
 let userId = document.getElementById('user-identifier').dataset.userId;
 
 Echo.private(`user.${userId}`).listen('.App\\Events\\Messages', (e) => {
-  // Create a new h1 element
-  let messageElement = document.createElement('h1');
+  let messageElement = document.createElement('div');
 
-  // Set the content of the h1 element to the message content
-  messageElement.textContent = e.content; // Change this line
+  messageElement.classList.add('message');
 
-  // Append the h1 element to the body of the document
-  document.body.appendChild(messageElement);
+  let profileElement = document.createElement('div');
+  profileElement.classList.add('profile');
+  profileElement.textContent = e.emits_id; 
+
+  let bodyElement = document.createElement('div');
+  bodyElement.classList.add('body');
+  bodyElement.textContent = e.content;
+
+  let timestampElement = document.createElement('div');
+  timestampElement.classList.add('timestamp');
+  timestampElement.textContent = 'just now'; 
+
+  messageElement.appendChild(profileElement);
+  messageElement.appendChild(bodyElement);
+  messageElement.appendChild(timestampElement);
+
+  let messageCardElement = document.querySelector('.message-card');
+
+
+  let messageContentElement = document.querySelector('.message-content');
+
+  if (!messageContentElement) {
+    messageContentElement = document.createElement('div');
+    messageContentElement.classList.add('message-content');
+    messageCardElement.prepend(messageContentElement);
+  }
+
+  messageContentElement.appendChild(messageElement);
 });
 
 function handleMessageSent(e) {

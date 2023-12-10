@@ -66,7 +66,7 @@
                 <h4>Comments</h4>
 
                 {{-- Add a form for submitting comments --}}
-                @if (Auth::check() && !Auth::user()->isAdmin(Auth::user()))
+                @if (Auth::check() && !Auth::user()->isAdmin(Auth::user()) && ($user->is_public == false || Auth::user()->isFollowing($user)))
                     <form method="POST" action="/comment/create">
                         @csrf
                         <input type="hidden" name="space_id" value="{{ $space->id }}">
