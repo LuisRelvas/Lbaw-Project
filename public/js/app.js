@@ -433,7 +433,6 @@ sendAjaxRequest(method, url, data, function(event) {
 
 
 let csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-Pusher.logToConsole = true;
 const pusher = new Pusher('e0f29d0e833b76381d01', {
     cluster: 'eu',
     authEndpoint: '/broadcasting/auth',
@@ -444,9 +443,19 @@ const pusher = new Pusher('e0f29d0e833b76381d01', {
     }
 });
 
+window.Pusher = Pusher;
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: "e0f29d0e833b76381d01",
+    cluster: "eu",
+    encrypted: true
+});
+
 var ownerChannel;
 var userChannel;
 var currentOwner; // The current owner of the page
+
+
 
 function setupOwnerChannel(owner) {
     ownerChannel = pusher.subscribe('private-lbaw2372.' + owner);
@@ -1128,10 +1137,6 @@ updateTotal((document.querySelector('#results-comments').innerHTML.match(/<artic
 }
 
 
-
-
-
-
 function init() {
 const search_bar = document.querySelector("#search");
 if (search_bar) {
@@ -1153,4 +1158,6 @@ function handleSearchButtonClick() {
   search(searchInput);
 }
 init();
+
+
 

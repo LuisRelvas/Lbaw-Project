@@ -83,7 +83,8 @@ main > header span {
 }
 
 #cards article.card input:checked + span {
-  text-decoration: var(--primary-color) solid line-through;
+  -webkit-text-decoration: var(--primary-color) solid line-through;
+          text-decoration: var(--primary-color) solid line-through;
 }
 
 #cards article.card ul {
@@ -225,7 +226,8 @@ main > header span {
     display: inline;
   }
   #cards article.card input:checked + span {
-    text-decoration: var(--primary-color) solid line-through;
+    -webkit-text-decoration: var(--primary-color) solid line-through;
+            text-decoration: var(--primary-color) solid line-through;
   }
   #cards article.card ul {
     margin: 0;
@@ -267,3 +269,10 @@ a.button {
   color: red;
   font-weight: bold;
 }
+
+
+
+
+
+
+

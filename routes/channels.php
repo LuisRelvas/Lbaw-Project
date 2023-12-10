@@ -22,6 +22,8 @@ Broadcast::channel('lbaw2372.{userId}', function ($user, $userId) {
     return (int) $user->id === (int) $userId;
 });
 
-Broadcast::channel('user.{userId}', function ($user, $userId) {
+Broadcast::channel('user.{id}', function ($user, $id) {
     return true; 
 }); 
+
+

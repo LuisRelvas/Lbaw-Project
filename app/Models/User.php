@@ -165,4 +165,14 @@ class User extends Authenticatable
         return $followings;
     }
 
+    public function messages() 
+    {
+        return $this->hasMany(Message::class);
+    }
+
+    public function user() 
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }
