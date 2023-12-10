@@ -23,7 +23,6 @@ Broadcast::channel('lbaw2372.{userId}', function ($user, $userId) {
 });
 
 Broadcast::channel('user.{id}', function ($user, $id) {
-    return true; 
-}); 
-
+    return (int) $user->id === (int) $id || (int) $user->id === (int) Auth::user()->id;
+});
 
