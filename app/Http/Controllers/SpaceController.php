@@ -44,6 +44,16 @@ class SpaceController extends Controller
       if (!Auth::check()) {
           return view('pages.home', ['publics' => $publics, 'spaces' => $publics]);
       }
+
+      if(Auth::user()->isAdmin(Auth::user())) {
+          $spaces = Space::all();
+          $mines = Space::where('user_id', Auth::user()->id)->get();
+          return view('pages.home', [
+              'publics' => $publics,
+              'spaces' => $spaces,
+              'mines' => $mines
+          ]);
+      }
   
       $followingIds = Auth::user()->showFollows()->pluck('id');
       $spaces = Space::whereIn('user_id', $followingIds)->get(); 

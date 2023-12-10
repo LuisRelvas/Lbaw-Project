@@ -124,6 +124,7 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/profile/followsrequest', [UserController::class, 'follow_request']);
     Route::post('/profile/followsrequest/{id}', [UserController::class, 'accept_follow_request']);
     Route::delete('/profile/followsrequest', [UserController::class, 'decline_follow_request']);
+    Route::get('/getAllUsers', 'UserController@getAllUsers');
 
 });
 

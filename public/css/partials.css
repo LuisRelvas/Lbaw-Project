@@ -11,7 +11,7 @@
 .sidebar a {
   color: #fff;
   text-decoration: none;
-  padding: 0.5em;
+  padding: 1em;
   display: block;
 }
 
@@ -22,7 +22,6 @@
 
 .sidebar a.active {
   font-weight: bold;
-  /* Add other styling as needed */
 }
 
 /* ------ Footer ------ */

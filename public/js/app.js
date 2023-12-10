@@ -1159,5 +1159,60 @@ function handleSearchButtonClick() {
 }
 init();
 
+//auxiliar functions for the admin page
+function GroupsDropDown() {
+    var searchUsers = document.getElementById('adminUsersSearch');
+    var searchGroups = document.getElementById('adminGroupsSearch');
+    var searchSpaces = document.getElementById('adminSpacesSearch');
+    var createUser = document.getElementById('createUser');
+    if (searchGroups.style.display === 'none') {
+        searchGroups.style.display = 'block';
+        searchUsers.style.display = 'none';
+        searchSpaces.style.display = 'none';
+        createUser.style.display = 'none';
+    } else {
+        searchGroups.style.display = 'none';
+    }
+}
 
+function SpacesDropDown() {
+    var searchUsers = document.getElementById('adminUsersSearch');
+    var searchGroups = document.getElementById('adminGroupsSearch');
+    var searchSpaces = document.getElementById('adminSpacesSearch');
+    var createUser = document.getElementById('createUser');
+    if (searchSpaces.style.display === 'none') {
+        searchSpaces.style.display = 'block';
+        searchUsers.style.display = 'none';
+        searchGroups.style.display = 'none';
+        createUser.style.display = 'none';
+    } else {
+        searchSpaces.style.display = 'none';
+    }
+}
 
+function UsersDropDown() {
+    var searchUsers = document.getElementById('adminUsersSearch');
+    var searchGroups = document.getElementById('adminGroupsSearch');
+    var searchSpaces = document.getElementById('adminSpacesSearch');
+    var createUser = document.getElementById('createUser');
+    if (searchUsers.style.display === 'none') {
+        searchUsers.style.display = 'block';
+        createUser.style.display = 'block';
+        searchGroups.style.display = 'none';
+        searchSpaces.style.display = 'none';
+
+        // Fetch all users when the search bar is displayed
+        fetch('/getAllUsers')
+            .then(response => response.json())
+            .then(users => {
+                var results = document.getElementById('results-users');
+                results.innerHTML = '';
+                users.forEach(function(user) {
+                    results.innerHTML += '<p>' + user.name + '</p>';
+                });
+            });
+    } else {
+        searchUsers.style.display = 'none';
+        createUser.style.display = 'none';
+    }
+}
