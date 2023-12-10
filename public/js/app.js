@@ -1200,17 +1200,6 @@ function UsersDropDown() {
         createUser.style.display = 'block';
         searchGroups.style.display = 'none';
         searchSpaces.style.display = 'none';
-
-        // Fetch all users when the search bar is displayed
-        fetch('/getAllUsers')
-            .then(response => response.json())
-            .then(users => {
-                var results = document.getElementById('results-users');
-                results.innerHTML = '';
-                users.forEach(function(user) {
-                    results.innerHTML += '<p>' + user.name + '</p>';
-                });
-            });
     } else {
         searchUsers.style.display = 'none';
         createUser.style.display = 'none';
