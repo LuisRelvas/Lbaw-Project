@@ -1,19 +1,21 @@
 /* ------ Admin Panel ------- */
+.admin-container {
+    display: flex;
+    justify-content: space-between;
+    min-height: 100vh;
+    overflow: auto;
+}
 
 .adminsearch {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 20px;
-  border-radius: 5px;
   background-color: #1c2632;
   padding: 1em;
-  margin: 1em;
   grid-template-columns: 1fr auto auto;
   width: 100%;
 }
 
 .adminsearch #search {
     background-color: #fff;
+    color: black;
 }
 
 .search-container {
@@ -29,10 +31,11 @@
 
 /* ------- Results ------- */
 
-
-#results-users, #results-spaces { /* @ username */
+#results-users, #results-spaces, #results-groups { /* @ username */
     font-weight: bold;
     color: white; 
+    max-height: 600vh;
+    overflow: auto;
 }
 
 #results-users a, #results-spaces a { /* Name */
@@ -41,9 +44,16 @@
     text-decoration: underline;
 }
 
-.admin-container {
+.admin-options {
     display: flex;
     justify-content: space-between;
-    min-height: 100vh;
-    overflow: auto;
+}
+
+.admin-options button {
+    flex: 1;
+    text-align: center;
+}
+
+.admin-options button:active {
+    background-color: white;
 }
