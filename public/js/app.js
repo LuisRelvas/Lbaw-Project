@@ -1143,3 +1143,57 @@ function handleSearchButtonClick() {
 }
 init();
 
+//auxiliar functions for the admin page
+function GroupsDropDown() {
+  var search = document.getElementById('adminGroupsSearch');
+  if (search.style.display === 'none') {
+      search.style.display = 'block';
+  } else {
+      search.style.display = 'none';
+  }
+}
+
+function SpacesDropDown() {
+  var search = document.getElementById('adminSpacesSearch');
+  if (search.style.display === 'none') {
+      search.style.display = 'block';
+  } else {
+      search.style.display = 'none';
+  }
+}
+
+function UsersDropDown() {
+  var search = document.getElementById('adminUsersSearch');
+  var createUser = document.getElementById('createUser');
+  if (search.style.display === 'none') {
+      search.style.display = 'block';
+      createUser.style.display = 'block';
+
+      // Fetch all users when the search bar is displayed
+      fetch('/getAllUsers')
+        .then(response => response.json())
+        .then(users => {
+            var results = document.getElementById('results-users');
+            results.innerHTML = '';
+            users.forEach(function(user) {
+                results.innerHTML += '<p>' + user.name + '</p>';
+            });
+        });
+  } else {
+      search.style.display = 'none';
+      createUser.style.display = 'none';
+  }
+}
+
+function UsersDropDown() {
+  var search = document.getElementById('adminUsersSearch');
+  var createUser = document.getElementById('createUser');
+  if (search.style.display === 'none') {
+      search.style.display = 'block';
+      createUser.style.display = 'block';
+  } else {
+      search.style.display = 'none';
+      createUser.style.display = 'none';
+  }
+}
+

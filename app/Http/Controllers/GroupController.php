@@ -41,15 +41,27 @@ class GroupController extends Controller
 
     public function list() 
     {
-        $user = Auth::user(); 
-        $groups = Group::whereIn('user_id', [$user->id])->get();
-        $publics = Group::where('is_public',false)->get();        
-        $members = Member::where('user_id',Auth::user()->id)->get();
-        return view('pages.listGroups',[
-        'groups' => $groups,
-        'publics' => $publics,
-        'members' => $members
-    ]);
+        if (Auth::check() && Auth::user()->isAdmin(Auth::user())) {
+            $groups = Group::all();
+            $publics = Group::where('is_public',false)->get();
+            $members = Member::all();
+            return view('pages.listGroups',[
+                'groups' => $groups,
+                'publics' => $publics,
+                'members' => $members
+            ]);
+        }
+        else{
+            $user = Auth::user(); 
+            $groups = Group::whereIn('user_id', [$user->id])->get();
+            $publics = Group::where('is_public',false)->get();        
+            $members = Member::where('user_id',Auth::user()->id)->get();
+            return view('pages.listGroups',[
+            'groups' => $groups,
+            'publics' => $publics,
+            'members' => $members
+            ]);
+        }
     }
 
     public function edit(Request $request)

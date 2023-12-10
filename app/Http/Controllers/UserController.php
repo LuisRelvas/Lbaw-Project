@@ -324,5 +324,9 @@ public function search_exact(Request $request)
 
 }
 
+public function getAllUsers() {
+    $users = User::all();
+    return response()->json($users);
+}
 }
 ?> 
