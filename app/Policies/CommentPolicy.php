@@ -40,5 +40,9 @@ class CommentPolicy
     {
     return (Auth::check() && Auth::user()->likesComment(Auth::user(),$comment));
     }
+    public function search(User $user, Comment $comment)
+    {
+        return Auth::check();
+    }
 
 }

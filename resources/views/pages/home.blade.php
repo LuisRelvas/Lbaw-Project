@@ -29,7 +29,12 @@
                         @foreach ($allSpaces as $space)
                             <li><a href="/space/{{ $space->id }}" class="card">{{ $space->content }}</a></li>
                         @endforeach
+                    @else
+                        @foreach ($publics as $space)
+                            <li><a href="/space/{{ $space->id }}" class="card">{{ $space->content }}</a></li>
+                        @endforeach
                     @endif
+                    
                 </ul>
             </div>
         </div>

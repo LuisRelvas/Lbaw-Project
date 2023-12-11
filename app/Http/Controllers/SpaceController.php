@@ -18,11 +18,9 @@ class SpaceController extends Controller
 
     public function show(int $id)
     {
+        
         $space = Space::findOrFail($id);
         $user = User::findOrFail($space->user_id);
-        // echo ("<script>console.log('TEST:')</script>");
-        // $this->authorize('show', $space);
-        
         if($user->is_public == 0 ||($space->is_public == false) ||(Auth::check() && Auth::user()->id == $space->user_id) || (Auth::Check() && Auth::user()->isAdmin(Auth::user())) || (Auth::check() &&Auth::user()->isFollowing($user))){
         {
             return view('pages.space', [
