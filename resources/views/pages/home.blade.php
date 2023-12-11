@@ -34,7 +34,6 @@
             </div>
         </div>
         <div class="searchbar">
-
             <input type="text" id="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+">
             <div id="results-users"></div>
             @if (Auth::check())

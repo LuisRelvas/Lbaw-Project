@@ -1121,8 +1121,6 @@ function handleButtonClick(buttonType) {
 }
 
 
-
-
 async function search(input) {
 document.querySelector('#results-users').innerHTML = await getAPIResult('profile', input);
 document.querySelector('#results-spaces').innerHTML = await getAPIResult('space', input);
@@ -1132,8 +1130,6 @@ updateTotal((document.querySelector('#results-users').innerHTML.match(/<article/
 updateTotal((document.querySelector('#results-spaces').innerHTML.match(/<article/g) || []).length, 'spaceResults');
 updateTotal((document.querySelector('#results-groups').innerHTML.match(/<article/g) || []).length, 'groupResults');
 updateTotal((document.querySelector('#results-comments').innerHTML.match(/<article/g) || []).length, 'commentResults');
-
-
 }
 
 
@@ -1158,50 +1154,3 @@ function handleSearchButtonClick() {
   search(searchInput);
 }
 init();
-
-//auxiliar functions for the admin page
-function GroupsDropDown() {
-    var searchUsers = document.getElementById('adminUsersSearch');
-    var searchGroups = document.getElementById('adminGroupsSearch');
-    var searchSpaces = document.getElementById('adminSpacesSearch');
-    var createUser = document.getElementById('createUser');
-    if (searchGroups.style.display === 'none') {
-        searchGroups.style.display = 'block';
-        searchUsers.style.display = 'none';
-        searchSpaces.style.display = 'none';
-        createUser.style.display = 'none';
-    } else {
-        searchGroups.style.display = 'none';
-    }
-}
-
-function SpacesDropDown() {
-    var searchUsers = document.getElementById('adminUsersSearch');
-    var searchGroups = document.getElementById('adminGroupsSearch');
-    var searchSpaces = document.getElementById('adminSpacesSearch');
-    var createUser = document.getElementById('createUser');
-    if (searchSpaces.style.display === 'none') {
-        searchSpaces.style.display = 'block';
-        searchUsers.style.display = 'none';
-        searchGroups.style.display = 'none';
-        createUser.style.display = 'none';
-    } else {
-        searchSpaces.style.display = 'none';
-    }
-}
-
-function UsersDropDown() {
-    var searchUsers = document.getElementById('adminUsersSearch');
-    var searchGroups = document.getElementById('adminGroupsSearch');
-    var searchSpaces = document.getElementById('adminSpacesSearch');
-    var createUser = document.getElementById('createUser');
-    if (searchUsers.style.display === 'none') {
-        searchUsers.style.display = 'block';
-        createUser.style.display = 'block';
-        searchGroups.style.display = 'none';
-        searchSpaces.style.display = 'none';
-    } else {
-        searchUsers.style.display = 'none';
-        createUser.style.display = 'none';
-    }
-}

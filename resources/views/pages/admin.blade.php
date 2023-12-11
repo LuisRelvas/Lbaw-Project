@@ -1,5 +1,6 @@
-@extends ('layouts.app')
+@extends('layouts.app')
 @section('content')
+    <script src="{{ asset('js/admin.js') }}" defer></script>
     <div class="admin-container">
         @include('partials.sidebar')
         <div class="adminsearch">
@@ -10,28 +11,31 @@
             @endif
 
             <div class="main-menu admin-options">
-                <button id="usersButton" onclick="UsersDropDown()"><i class="fa-solid fa-user"></i> Users</button>
-                <button id="spacesButton" onclick="SpacesDropDown()"><i class="fa-solid fa-comment"></i> Spaces</button>
-                <button id="groupsButton" onclick="GroupsDropDown()"><i class="fa-solid fa-users"></i> Groups</button>
-            </div>
+                <ul>
 
+                <li><button id="usersButton" onclick="UsersDropDown()"><i class="fa-solid fa-user"></i> Users</button></li>
+                <li><button id="spacesButton" onclick="SpacesDropDown()"><i class="fa-solid fa-comment"></i> Spaces</button></li>    
+                <li><button id="groupsButton" onclick="GroupsDropDown()"><i class="fa-solid fa-users"></i> Groups</button></li>
+                </ul>
+            </div>                
             <div id="adminUsersSearch" class="search-container" style="display: none;">
-                <input type="text" id="search" placeholder="User Search...">
+                <input type="text" id="userSearch" placeholder="User Search...">
                 <div id="results-users"></div>
             </div>
             <div id="adminSpacesSearch" class="search-container" style="display: none;">
-                <input type="text" id="search" placeholder="Spaces Search...">
+                <input type="text" id="spacesSearch" placeholder="Spaces Search...">
                 <div id="results-spaces"></div>
             </div>
             <div id="adminGroupsSearch" class="search-container" style="display: none;">
-                <input type="text" id="search" placeholder="Groups Search...">
+                <input type="text" id="groupsSearch" placeholder="Groups Search...">
                 <div id="results-groups"></div>
             </div>
-            
-            <div id="createUser" class="admincreate" style="display: none;">
-                <button onclick="location.href='{{ url('/register') }}'" class="btn btn-primary">Create User</button>
+                <div id="createUser" class="admincreate">
+                    <button onclick="location.href='{{ url('/register') }}'" class="btn btn-primary">Create User</button>
+                </div>
             </div>
         </div>
     </div>
     @include('partials.footer')
+
 @endsection
