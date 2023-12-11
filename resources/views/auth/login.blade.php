@@ -29,6 +29,8 @@
                     Login <i class="fa-solid fa-right-to-bracket"></i>
                 </button>
                 <a class="button" href="{{ route('register') }}">Register <i class="fa-solid fa-pen-to-square"></i></a>
+                <a class="button" href="{{ route('resetPassword') }}">Reset Password <i class="fa-solid fa-pen-to-square"></i></a>
+
                 @if (session('success'))
                     <p class="success">
                         {{ session('success') }}

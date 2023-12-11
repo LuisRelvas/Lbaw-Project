@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,12 @@ Route::controller(LoginController::class)->group(function () {
 Route::controller(RegisterController::class)->group(function () {
     Route::get('/register', 'showRegistrationForm')->name('register');
     Route::post('/register', 'register');
+});
+
+Route::controller(LoginController::class)->group(function () {
+    Route::get('/login/resetPassword', 'showResetPassword')->name('resetPassword');
+    Route::get('/login/createPassword', 'showCreatePasswordForm')->name('createPassword');
+    Route::put('/login/createPassword', 'createPassword');
 });
 
 
@@ -121,10 +128,9 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/profile/follow/{id}', 'follow');
     Route::delete('/profile/unfollow/{id}', 'unfollow');
     Route::put('/profile/{id}/updatePhoto', 'updatePhoto');
-    Route::post('/profile/followsrequest', [UserController::class, 'follow_request']);
-    Route::post('/profile/followsrequest/{id}', [UserController::class, 'accept_follow_request']);
-    Route::delete('/profile/followsrequest', [UserController::class, 'decline_follow_request']);
-    Route::get('/getAllUsers', 'UserController@getAllUsers');
+    Route::post('/profile/followsrequest', 'follow_request');
+    Route::post('/profile/followsrequest/{id}','accept_follow_request');
+    Route::delete('/profile/followsrequest','decline_follow_request');
 
 });
 
@@ -145,6 +151,9 @@ Route::controller(NotificationController::class)->group(function () {
     Route::delete('api/notification/{id}', 'delete');
     Route::put('/notification/{id}', 'edit');
 });
+
+Route::post('/send', [MailController::class, 'send']);
+
 
 
 
