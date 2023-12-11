@@ -11,6 +11,7 @@ use App\Models\Space;
 use App\Models\LikesComments;
 use App\Models\LikesSpaces; 
 use App\Models\Notification;
+use App\Models\User;
 
 use Illuminate\Support\Facades\DB;
 
@@ -98,8 +99,8 @@ public function searchPage() {
 }
 public function search(Request $request) 
 {
-$input = $request->get('search', '*');
-
+    $this->authorize('search', [User::class,Comment::class]);
+    $input = $request->get('search', '*');
     $comments = Comment::select('id', 'space_id', 'author_id', 'username', 'content','date')
         ->whereRaw("tsvectors @@ to_tsquery(?)", [$input])
         ->orderByRaw("ts_rank(tsvectors, to_tsquery(?)) ASC", [$input])

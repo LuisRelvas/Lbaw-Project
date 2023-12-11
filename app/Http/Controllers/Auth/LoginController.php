@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\MailController;
+
 
 
 class LoginController extends Controller
@@ -62,9 +66,6 @@ class LoginController extends Controller
             }
         
         }
-
-        
-    
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
@@ -81,4 +82,32 @@ class LoginController extends Controller
         return redirect()->route('login')
             ->withSuccess('You have logged out successfully!');
     } 
+    public function showResetPassword()
+    {
+        return view('partials.recoverPassword');
+    }
+
+    public function showCreatePasswordForm() 
+    {
+        return view('partials.createPassword');
+    }
+
+    public function createPassword(Request $request)
+    {
+        $user = Auth::user();
+         
+        $request->validate([
+            'password' => 'required|min:8|confirmed',
+            'token' => 'required',
+            'email' => 'required|email'
+        ]);
+        $token = DB::table('users')->where('email', $request->email)->value('password');
+        if(Hash::check($request->token,$token) && $request->password == $request->password_confirmation){
+            DB::table('users')->where('email', $request->email)->update(['password' => Hash::make($request->password)]);
+            return redirect('/login');
+        }
+        else{
+            return redirect('/login/createPassword');
+        }
+    }
 }
