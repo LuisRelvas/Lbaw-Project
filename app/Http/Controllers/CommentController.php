@@ -12,6 +12,9 @@ use App\Models\LikesComments;
 use App\Models\LikesSpaces; 
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\Tag;
+use App\Http\Controllers\TagController;
+
 
 use Illuminate\Support\Facades\DB;
 
@@ -23,26 +26,8 @@ class CommentController extends Controller
     {
         $getSpace = $request->space_id;
         $space = Space::find($getSpace);
-        $string = $request->content;
-        $words = explode(" ", $string);
-        $modifiedWords = [];
-
-        foreach($words as $word)
-        {
-            if($word[0] == "@")
-            {
-                $username = str_replace("@", "", $word);
-                if(User::where('username', $username)->exists())
-                {
-                    $getUser = User::where('username', $username)->first();
-                    $word = "<a href='/profile/$getUser->id'>$getUser->username</a>";
-                }
-            }
-            $modifiedWords[] = $word;
-        }
-
-        $string = implode(" ", $modifiedWords);
-
+        
+        $string = TagController::tag($request->input('content'));
         $this->authorize('create', [Comment::class,$space]);
         Comment::insert([
             'author_id' => Auth::user()->id,
