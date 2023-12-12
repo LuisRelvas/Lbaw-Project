@@ -18,21 +18,44 @@ use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller 
 {
+
     public function create(Request $request) 
     {
         $getSpace = $request->space_id;
         $space = Space::find($getSpace);
+        $string = $request->content;
+        $words = explode(" ", $string);
+        $modifiedWords = [];
+
+        foreach($words as $word)
+        {
+            if($word[0] == "@")
+            {
+                $username = str_replace("@", "", $word);
+                if(User::where('username', $username)->exists())
+                {
+                    $getUser = User::where('username', $username)->first();
+                    $word = "<a href='/profile/$getUser->id'>$getUser->username</a>";
+                }
+            }
+            $modifiedWords[] = $word;
+        }
+
+        $string = implode(" ", $modifiedWords);
+
         $this->authorize('create', [Comment::class,$space]);
         Comment::insert([
             'author_id' => Auth::user()->id,
             'space_id' => $request->space_id,
             'username' => Auth::user()->username,
-            'content' => $request->content,
+            'content' => $string,
             'date' => date('Y-m-d H:i')
         ]);
 
         return redirect('/space/'.$request->space_id)->withSuccess('Comment created successfully!');
     }
+
+    
 
     public function edit(Request $request)
     {
@@ -74,6 +97,7 @@ public function unlike_on_comments(Request $request)
     $comment = Comment::find($request->id);
     $this->authorize('unlike', $comment);
     DB::beginTransaction();
+    
     $commentNotification = DB::table('notification')
     ->join('comment_notification', 'notification.id', '=', 'comment_notification.id')
     ->where([

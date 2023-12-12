@@ -92,7 +92,7 @@
                                 <p>Anonymous</p>
                                 @endif
                             </div>
-                            <div class="content">{{ $comment->content }}</div>
+                            <div class="content">{!! $comment->content !!}</div>
                             @if(Auth::check())
                             <button id="likeButton{{ $comment->id }}"
                                 onclick="changeLikeStateC({{ $comment->id }}, {{ Auth::check() && Auth::user()->likesComment(Auth::user(), $comment) ? 'true' : 'false' }})">
