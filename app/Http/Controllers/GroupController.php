@@ -96,7 +96,7 @@ class GroupController extends Controller
     public function leave_group(Request $request) 
     {
         $group = Group::find($request->id);
-        $this->authorize('leave_group', Group::class);
+        $this->authorize('leave_group', $group);
         DB::beginTransaction();
         Member::where('group_id', $group->id)->where('user_id', Auth::user()->id)->delete();
         Notification::insert([

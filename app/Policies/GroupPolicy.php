@@ -45,10 +45,11 @@ class GroupPolicy
         return Auth::check();
     }
 
-    public function leave_group()
+    public function leave_group(User $user,Group $group)
     {
-        return Auth::check();
+        return Auth::check() && Auth::user()->id != $group->user_id;
     }
+
 
     public function remove(User $user, Group $group)
     {
