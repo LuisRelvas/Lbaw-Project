@@ -23,6 +23,9 @@
             <div id="adminUsersSearch" class="search-container" style="display: none;">
                 <input type="text" id="userSearch" placeholder="User Search...">
                 <div id="results-users"></div>
+                <div id="createUser" class="admincreate">
+                <button onclick="location.href='{{ url('/register') }}'" class="btn btn-primary">Create User</button>
+            </div>
             </div>
             <div id="adminSpacesSearch" class="search-container" style="display: none;">
                 <input type="text" id="spacesSearch" placeholder="Spaces Search...">
@@ -31,9 +34,6 @@
             <div id="adminGroupsSearch" class="search-container" style="display: none;">
                 <input type="text" id="groupsSearch" placeholder="Groups Search...">
                 <div id="results-groups"></div>
-            </div>
-            <div id="createUser" class="admincreate">
-                <button onclick="location.href='{{ url('/register') }}'" class="btn btn-primary">Create User</button>
             </div>
         </div>
     </div>
