@@ -254,47 +254,42 @@ class UserController extends Controller
         $date = $request->input('date');
         $input = $request->input('search');
         $profileType = $request->input('profileType');
-        $spaceType = $request->input('spaceType');
-        $groupType = $request->input('groupType');
-        $users = collect();
-        $spaces = collect();
-        $groups = collect();
-        $comments = collect();
+    
+        $users = User::query();
+        $spaces = Space::query();
+        $groups = Group::query();
+        $comments = Comment::query();
+    
+        if($input != null)
+        {
+            $users->where('username', 'like', '%' . $input . '%');
+            $spaces->where('content', 'like', '%' . $input . '%');
+            $comments->where('content', 'like', '%' . $input . '%');
+            $groups->where('name', 'like', '%' . $input . '%');
+        }
+    
         if ($date != null) {
-            $spaces = Space::where('content', 'like', '%' . $input . '%')->where('date', $date)->orderBy('content')->get();
-            $comments = Comment::where('content', 'like', '%' . $input . '%')->where('date', $date)->orderBy('content')->get();
+            $spaces->where('date', $date);
+            $comments->where('date', $date);
         }
-        if ($input == null && $date == null && $profileType == null && $spaceType == null && $groupType == null) {
-            return view('pages.search', ['users' => $users, 'spaces' => $spaces, 'comments' => $comments, 'groups' => $groups]);
-        }
-        if ($profileType != null) {
-            if ($profileType == 'public') {
-                $users = User::where('username', 'like', '%' . $input . '%')->where('is_public', false)->orderBy('username')->get();
-            } else if ($profileType == 'private') {
-                $users = User::where('username', 'like', '%' . $input . '%')->where('is_public', true)->orderBy('username')->get();
+    
+        if($profileType != null) {
+            if($profileType == 'anyone') {
+                // No additional filters needed
+            } else if($profileType == 'follow') {
+                $following = Follow::select('user_id2')->where('user_id1',Auth::user()->id)->get()->pluck('user_id2');
+                $users->whereIn('id', $following);
+                $spaces->whereIn('user_id', $following);
+                $comments->whereIn('author_id', $following);
+                $groups->whereIn('user_id', $following);
             }
         }
-        if ($spaceType != null) {
-            if ($spaceType == 'public') {
-                $spaces = Space::where('content', 'like', '%' . $input . '%')->where('is_public', false)->orderBy('content')->get();
-            } else if ($spaceType == 'private') {
-                $spaces = Space::where('content', 'like', '%' . $input . '%')->where('is_public', true)->orderBy('content')->get();
-            }
-        }
-        if ($groupType != null) {
-            if ($groupType == 'public') {
-                $groups = Group::where('name', 'like', '%' . $input . '%')->where('is_public', false)->orderBy('name')->get();
-            } else if ($groupType == 'private') {
-                $groups = Group::where('name', 'like', '%' . $input . '%')->where('is_public', true)->orderBy('name')->get();
-            }
-        }
-        if ($input != null) {
-            $spaces = Space::where('content', 'like', '%' . $input . '%')->orderBy('content')->get();
-            $users = User::where('username', 'like', '%' . $input . '%')->orderBy('username')->get();
-            $groups = Group::where('name', 'like', '%' . $input . '%')->orderBy('name')->get();
-            $comments = Comment::where('content', 'like', '%' . $input . '%')->orderBy('content')->get();
-        }
-
+    
+        $users = $users->orderBy('username')->get();
+        $spaces = $spaces->orderBy('content')->get();
+        $comments = $comments->orderBy('content')->get();
+        $groups = $groups->orderBy('name')->get();
+    
         return view('pages.search', ['users' => $users, 'spaces' => $spaces, 'comments' => $comments, 'groups' => $groups]);
     }
 }

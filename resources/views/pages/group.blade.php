@@ -104,9 +104,11 @@
                         <p>{{ $user->username }}</p>
                         <!-- Add a cross icon next to each member -->
                         @if ((Auth::check() && Auth::user()->id == $group->user_id) || (Auth::check() && Auth::user()->isAdmin(Auth::user())))
+                            @if($member->user_id != $group->user_id)
                             <button onclick="deleteMember({{ $member->user_id }})" class="button-member-delete"><i
                                     class="fa-solid fa-trash"></i>
                             </button>
+                            @endif
                         @endif
                     </div>
                 @endforeach
