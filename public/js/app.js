@@ -546,6 +546,21 @@ function changeLikeState(id, liked, user, owner) {
 }
 
 
+function isFavorite(id, groupId)
+{
+  let button = document.querySelector('#fav' + groupId);
+  if(button.className == 'group-interaction-button fa fa-star') // corrected class name
+  {
+    sendAjaxRequest('PUT', '/group/unfavorite', {user_id:id,group_id: groupId,is_favorite: false},function(response) {
+    button.className = 'group-interaction-button fa fa-star-o'
+  });}
+  else
+  {
+    sendAjaxRequest('PUT', '/group/favorite', {user_id:id,group_id: groupId,is_favorite: true},function(response) {
+    button.className = 'group-interaction-button fa fa-star'
+  });
+}
+}
 
 function showNotification(message) {
   // Use SweetAlert2 or any other custom notification logic here

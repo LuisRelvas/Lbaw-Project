@@ -37,6 +37,14 @@ class Space extends Model
                     ->orderBy('date', 'desc');
       }
 
+    public static function privateSpaces() 
+    {
+        return Space::select('space.*')
+                    ->join('users', 'users.id', '=', 'space.user_id')
+                    ->where('space.is_public', false)
+                    ->orderBy('date', 'desc');
+    }
+
     public function comments()
     {
         return $this->hasMany(Comment::class);

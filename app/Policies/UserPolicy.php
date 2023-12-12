@@ -13,7 +13,7 @@ class UserPolicy
 
     public function show(User $user,User $user2)
     {
-        return (Auth::user()->id == $user->id);
+        return (Auth::user() || $user->is_public == false);
     }
 
     public function editUser(User $user) 
@@ -46,6 +46,11 @@ class UserPolicy
     public function unfollow(User $user)
     {
         return (Auth::check());
+    }
+
+    public function request(User $user) 
+    {
+        return ((Auth::check() && Auth::user()->isAdmin(Auth::user()))|| (Auth::check() && Auth::user()->id == $user->id));
     }
 }
 

@@ -104,6 +104,8 @@ Route::controller(GroupController::class)->group(function () {
     Route::post('/group/add', 'add');
     Route::get('/api/group', 'search');
     Route::get('/group/{id}', 'show');
+    Route::put('/group/favorite', 'favorite');
+    Route::put('/group/unfavorite', 'unfavorite');
     Route::put('/group/edit', 'edit');
     Route::delete('/api/group/{id}', 'delete');
     Route::post('/group/join', 'join');

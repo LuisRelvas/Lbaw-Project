@@ -17,21 +17,19 @@ class SpaceController extends Controller
 {
 
     public function show(int $id)
-    {
-        
-        $space = Space::findOrFail($id);
-        $user = User::findOrFail($space->user_id);
-        if($user->is_public == 0 ||($space->is_public == false) ||(Auth::check() && Auth::user()->id == $space->user_id) || (Auth::Check() && Auth::user()->isAdmin(Auth::user())) || (Auth::check() &&Auth::user()->isFollowing($user))){
-        {
-            return view('pages.space', [
-                'space' => $space
-            ]);}
-        } else {
-            return back()->withErrors([
-                'profile' => 'The provided space is private.'
-            ]);
-        }
+{
+    $space = Space::findOrFail($id);
+    $user = User::findOrFail($space->user_id);
+
+    if ($space->is_public || Auth::check()) {
+        // Only authorize if the space is not public or the user is authenticated
+        $this->authorize('show', [$user, $space]);
     }
+
+    return view('pages.space',[
+        'space' => $space
+    ]);
+}
     
 
 
@@ -42,24 +40,12 @@ class SpaceController extends Controller
       if (!Auth::check()) {
           return view('pages.home', ['publics' => $publics, 'spaces' => $publics]);
       }
-
-      if(Auth::user()->isAdmin(Auth::user())) {
-          $spaces = Space::all();
-          $mines = Space::where('user_id', Auth::user()->id)->get();
-          return view('pages.home', [
-              'publics' => $publics,
-              'spaces' => $spaces,
-              'mines' => $mines
-          ]);
-      }
-  
+      $this->authorize('list', Space::class);
       $followingIds = Auth::user()->showFollows()->pluck('id');
       $spaces = Space::whereIn('user_id', $followingIds)->get(); 
-      $mines = Space::where('user_id', Auth::user()->id)->get();
       return view('pages.home', [
           'publics' => $publics,
-          'spaces' => $spaces,
-          'mines' => $mines
+          'spaces' => $spaces
       ]);
   }
 
@@ -126,6 +112,7 @@ class SpaceController extends Controller
     {
 
         $space = Space::find($id);
+        $this->authorize('delete', [Auth::user(),$space]);
 
         if (!$space) {
             return response()->json(['error' => 'Space not found'], 404);
@@ -143,6 +130,7 @@ class SpaceController extends Controller
 }
 public function search(Request $request) 
 {
+    $this->authorize('search', Space::class);
     $input = $request->get('search', '*');
     
         $spaces = Space::select('id', 'content', 'date', 'user_id', 'group_id')
@@ -156,9 +144,8 @@ public function search(Request $request)
 
 public function like_on_spaces(Request $request) 
 {
-
     $space = Space::find($request->id);
-    event(new LikesSpaces($space->id));    
+    event(new LikesSpaces($space->id));
     LikeSpace::insert([
         'user_id' => Auth::user()->id,
         'space_id' => $space->id
@@ -169,7 +156,6 @@ public function like_on_spaces(Request $request)
 public function unlike_on_spaces(Request $request)
 {
     $space = Space::find($request->id);
-
     LikeSpace::where('user_id', Auth::user()->id)
         ->where('space_id', $space->id)
         ->delete();

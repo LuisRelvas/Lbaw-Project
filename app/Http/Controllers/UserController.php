@@ -22,9 +22,9 @@ class UserController extends Controller
 {
 
     public function show(int $id)
-    {
+    {   
+        $user = User::findOrFail($id);
         if (Auth::check()) {
-            $user = User::findOrFail($id);
             $isBlocked = Block::where('user_id', $id)->exists();
             $isFollowing = Auth::user()->isFollowing($user);
             $wants = FollowsRequest::whereIn('user_id2', [$user->id])->get();
@@ -39,7 +39,6 @@ class UserController extends Controller
                 'countFollowers' => $countFollowers
             ]);
         } else {
-            $user = User::findOrFail($id);
             if ($user->is_public == 1) {
                 return back()->withErrors([
                     'profile' => 'The provided profile is private.'
@@ -178,7 +177,6 @@ class UserController extends Controller
 
     public function search(Request $request)
     {
-
         $input = $request->get('search') ? $request->get('search') . ':*' : "*";
         $users = User::select('users.id', 'users.name', 'users.username')
             ->whereRaw("users.tsvectors @@ to_tsquery(?)", [$input])
@@ -191,6 +189,7 @@ class UserController extends Controller
     public function follow_request(Request $request)
     {
         $user = User::find($request->user_id2);
+        $this->authorize('follow', $user);
         DB::beginTransaction();
         FollowsRequest::insert([
             'user_id1' => $request->user_id1,
@@ -203,6 +202,7 @@ class UserController extends Controller
     {
         $user1 = User::find($request->user_id1);
         $user2 = User::find($request->user_id2);
+        $this->authorize('request',$user2);
         DB::beginTransaction();
         FollowsRequest::where([
             'user_id1' => $user1->id,
@@ -238,6 +238,7 @@ class UserController extends Controller
     {
         $user1 = User::find($request->user_id1);
         $user2 = User::find($request->user_id2);
+        $this->authorize('request',$user2);
         DB::beginTransaction();
         FollowsRequest::where([
             'user_id1' => $user1->id,

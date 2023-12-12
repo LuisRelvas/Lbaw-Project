@@ -22,7 +22,6 @@
                         @php
                             $allSpaces = $publics
                                 ->concat($spaces)
-                                ->concat($mines)
                                 ->sortByDesc('date')
                                 ->reverse();
                         @endphp

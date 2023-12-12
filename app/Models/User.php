@@ -78,6 +78,11 @@ class User extends Authenticatable
         return Follow::where('user_id1', $this->id)->where('user_id2', $user->id)->exists();
     }
 
+    public function isFavorite(User $user,Group $group)
+    {
+        return Member::where('user_id', $user->id)->where('group_id', $group->id)->where('is_favorite', true)->exists();
+    }
+
      public function likesSpace(User $user, Space $space) {
         return LikeSpace::where('user_id', $user->id)->where('space_id', $space->id)->exists();
     }

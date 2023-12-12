@@ -16,6 +16,7 @@ class MessageController extends Controller
 {
     public function list() 
     {
+        $this->authorize('list', Message::class);
         $users = Auth::user()->getUserDMs();
         $emits_ids = collect($users)->pluck('emits_id');
         
@@ -29,6 +30,7 @@ class MessageController extends Controller
     public function show($id)
     {
         $user = Auth::user();
+        $this->authorize('show', Message::class);
         $all_1 = Message::select('*')->where('received_id', Auth::user()->id)->where('emits_id', $id);
         $all_2 = Message::select('*')->where('received_id', $id)->where('emits_id',Auth::user()->id);
         $all = $all_1->union($all_2)->get();
@@ -39,6 +41,7 @@ class MessageController extends Controller
 
     public function send(Request $request) 
     {
+        $this->authorize('send', Message::class);
         $message = new Message();
         $message->emits_id = Auth::user()->id;
         $message->received_id = $request->received_id;

@@ -21,6 +21,9 @@ class GroupController extends Controller
 {
     public function add(Request $request)
     {
+        echo("<script>console.log('PHP:');</script>");
+        $this->authorize('add', Group::class);
+        echo("<script>console.log('PHP:');</script>");
         $group = new Group();
         $group->name = $request->input('name');
         $group->user_id = Auth::user()->id;
@@ -33,6 +36,7 @@ class GroupController extends Controller
     public function show(int $id) 
     {
         $group = Group::findOrFail($id);
+        $this->authorize('show', $group);
         $members = $group->members;
         $joins = GroupJoinRequest::whereIn('group_id', [$group->id])->get();
         $spaces = Space::whereIn('group_id', [$group->id])->get();
@@ -42,6 +46,7 @@ class GroupController extends Controller
     public function list() 
     {
         $user = Auth::user(); 
+        $this->authorize('list', Group::class);
         $groups = Group::whereIn('user_id', [$user->id])->get();
         $publics = Group::where('is_public',false)->get();        
         $members = Member::where('user_id',Auth::user()->id)->get();
@@ -55,7 +60,7 @@ class GroupController extends Controller
     public function edit(Request $request)
     {
         $group = Group::find($request->id);
-    
+        $this->authorize('edit', $group);
         $group->name = $request->input('name');
         $group->description = $request->input('description');
         $group->save();
@@ -64,6 +69,7 @@ class GroupController extends Controller
     public function delete(int $id)
     {
         $group = Group::find($id);
+        $this->authorize('delete', $group);
         $group->delete();
 
         // Check if the user is an admin
@@ -78,7 +84,8 @@ class GroupController extends Controller
 
     public function join(Request $request) 
     {
-        $group = Group::find($request->id);  
+        $group = Group::find($request->id);
+        $this->authorize('join', Group::class);  
         Member::insert([
             'user_id' => Auth::user()->id,
             'group_id' => $group->id,
@@ -89,6 +96,7 @@ class GroupController extends Controller
     public function leave_group(Request $request) 
     {
         $group = Group::find($request->id);
+        $this->authorize('leave_group', Group::class);
         DB::beginTransaction();
         Member::where('group_id', $group->id)->where('user_id', Auth::user()->id)->delete();
         Notification::insert([
@@ -109,7 +117,9 @@ class GroupController extends Controller
     
     public function remove_member(Request $request)
     {
-    
+        $group = Group::find($request->groupId);
+        $user = User::find($request->userId);
+        $this->authorize('remove', [$group,$user]);
         Member::where('group_id', $request->groupId)->where('user_id', $request->userId)->delete();  // Corrected line
         DB::beginTransaction();
         Notification::insert([
@@ -130,7 +140,8 @@ class GroupController extends Controller
 
 public function join_request(Request $request)
 {
-    $group = Group::find($request->id);  
+    $group = Group::find($request->id); 
+    $this->authorize('join', Group::class); 
     GroupJoinRequest::insert([
         'user_id' => Auth::user()->id,
         'group_id' => $group->id,
@@ -140,6 +151,7 @@ public function join_request(Request $request)
 public function accept_join_request(Request $request)
 {
     $group = Group::find($request->group_id);
+    $this->authorize('request', $group);
     DB::beginTransaction();
     GroupJoinRequest::where([
         'user_id' => $request->id,
@@ -171,6 +183,7 @@ public function accept_join_request(Request $request)
 public function decline_join_request(Request $request)
 {
     $group = Group::find($request->group_id);
+    $this->authorize('request', $group);
     DB::beginTransaction();
     GroupJoinRequest::where([
         'user_id' => $request->id,
@@ -183,6 +196,7 @@ public function decline_join_request(Request $request)
 public function invite(Request $request)
 {
     $group = Group::find($request->group_id);
+    $this->authorize('invite', $group);
     $user = User::where('email', $request->email)->first();
 
     if (!$user) {
@@ -214,6 +228,7 @@ public function invite(Request $request)
 public function accept_invite(Request $request) 
 {
     $group = Group::find($request->group_id); 
+    $this->authorize('invite_request',Group::class);
     DB::beginTransaction();
     Member::insert([
         'user_id' => Auth::user()->id,
@@ -227,6 +242,7 @@ public function accept_invite(Request $request)
 public function decline_invite(Request $request) 
 {
     $group = Group::find($request->group_id);
+    $this->authorize('invite_request',Group::class);
     DB::beginTransaction();
     $getId = DB::table('notification')->join('group_notification','notification.id','=','group_notification.id')->where([
         'received_user' => Auth::user()->id,
@@ -249,6 +265,7 @@ public function searchPage() {
 }
 public function search(Request $request) 
 {
+$this->authorize('search', Group::class);  
 $input = $request->get('search', '*');
 
     $groups = Group::select('id', 'user_id', 'name', 'is_public', 'description')
@@ -257,6 +274,18 @@ $input = $request->get('search', '*');
         ->get();
 
 return view('partials.searchGroup', compact('groups'))->render();
+}
+
+public function favorite(Request $request)
+{
+    $group = Group::find($request->group_id);
+    Member::where('group_id', $group->id)->where('user_id', Auth::user()->id)->update(['is_favorite' => true]);
+}
+
+public function unfavorite(Request $request)
+{
+    $group = Group::find($request->group_id);
+    Member::where('group_id', $group->id)->where('user_id', Auth::user()->id)->update(['is_favorite' => false]);
 }
 
 }

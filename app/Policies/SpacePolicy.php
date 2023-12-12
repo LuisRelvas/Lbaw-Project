@@ -12,14 +12,16 @@ class SpacePolicy
 {
     use HandlesAuthorization;
 
-    public function show(?User $user,Space $space)
+    public function show(?User $user, Space $space)
+{
+    // Allow viewing the space if the space is public or if the user is the owner, an admin, or following the owner
+    return $space->is_public == false || ($user && ($user->isAdmin(Auth::user()) || $user->id == $space->user_id || $user->isFollowing($space->user_id)));
+}
+
+    public function list(User $user)
     {
-    echo ("<script>console.log('PHP:')</script>");
-    return ($user->is_public === false || 
-        (Auth::check() && (Auth::user()->isAdmin(Auth::user()) || 
-                           Auth::user()->id == $user->id || 
-                           Auth::user()->isFollowing($user->id))));
-    }   
+        return Auth::check();
+    }
 
     public function add(User $user) 
     {
@@ -34,6 +36,16 @@ class SpacePolicy
         return (Auth::check() && Auth::user()->isAdmin(Auth::user())) || (Auth::check() && Auth::user()->id == $space->user_id);
     }
     public function search()
+    {
+        return Auth::check();
+    }
+
+    public function likes()
+    {
+        return true; 
+    }
+
+    public function unlikes(User $user, Space $space)
     {
         return Auth::check();
     }

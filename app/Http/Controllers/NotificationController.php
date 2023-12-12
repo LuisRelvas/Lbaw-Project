@@ -20,6 +20,7 @@ class NotificationController extends Controller
 {
     public function list() 
     {
+        $this->authorize('list', Notification::class);
         if(!Auth::check())
         {
             return redirect('/homepage')->with('error','qualquer coisa');
@@ -71,8 +72,8 @@ class NotificationController extends Controller
 
     public function edit(int $id) 
     {
-
         $notification = Notification::findOrFail($id);
+        $this->authorize('edit', $notification);
         $notification->viewed = true;
         $notification->save();
     }
