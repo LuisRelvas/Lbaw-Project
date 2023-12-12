@@ -14,12 +14,8 @@
             </div>
             <div id="filters" style="display: none;">
                 <input type="date" id="date" name="date">
-                <input type="radio" id="publicRadio" name="profileType" value="public">Only Public Profiles
-                <input type="radio" id="privateRadio" name="profileType" value="private">Only Private Profiles
-                <input type="radio" id="publicRadioSpace" name="spaceType" value="public">Only Public Spaces
-                <input type="radio" id="privateRadioSpace" name="spaceType" value="private">Only Private Spaces
-                <input type="radio" id="publicRadioGroup" name="groupType" value="public">Only Public Groups
-                <input type="radio" id="privateRadioGroup" name="groupType" value="private">Only Private Groups
+                <input type="radio" id="publicRadio" name="profileType" value="anyone">Anyone
+                <input type="radio" id="privateRadio" name="profileType" value="follow">People that You follow
             </div>  
             <button type="button" onclick="toggleFilters()">Filters <i class="fa-solid fa-filter"></i></button>
             <button type="submit">Search <i class="fa-solid fa-magnifying-glass"></i></button>        
