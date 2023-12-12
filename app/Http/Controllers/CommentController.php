@@ -27,15 +27,23 @@ class CommentController extends Controller
         $getSpace = $request->space_id;
         $space = Space::find($getSpace);
         
-        $string = TagController::tag($request->input('content'));
         $this->authorize('create', [Comment::class,$space]);
+        DB::beginTransaction();
         Comment::insert([
             'author_id' => Auth::user()->id,
             'space_id' => $request->space_id,
             'username' => Auth::user()->username,
-            'content' => $string,
+            'content' => " ",
             'date' => date('Y-m-d H:i')
         ]);
+        $lastComment = Comment::orderBy('id','desc')->first();
+        $string = TagController::tag($request->input('content'), $lastComment);
+        Comment::where('id', $lastComment->id)
+            ->update([
+                'content' => $string
+            ]);
+        DB::commit();
+       
 
         return redirect('/space/'.$request->space_id)->withSuccess('Comment created successfully!');
     }

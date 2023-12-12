@@ -294,6 +294,22 @@ function showNotifications(id) {
         card.appendChild(acceptButton);
         card.appendChild(declineButton);
       }
+      else if(notificationType == 'comment_tagging') {
+        var tempDiv = document.createElement("div");
+        tempDiv.innerHTML = who;
+        var plainTextWho = tempDiv.textContent || tempDiv.innerText || "";
+      
+        a.textContent = `${userName} ${notificationType} ${plainTextWho}`;
+      
+        var button = document.createElement('button');
+        button.textContent = '✓';
+        button.addEventListener('click', function() {
+          updateNotification(notification[4]); // Pass the ID to updateNotification
+        });
+      
+        card.appendChild(a);
+        card.appendChild(button);
+      }
       else {
         console.log("the value of who is",who);
         a.textContent = `${userName} ${notificationType} ${who}`;
