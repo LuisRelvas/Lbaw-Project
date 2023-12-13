@@ -7,7 +7,7 @@ $space = App\Models\Space::find($comment->space_id);
         <a href="../space/{{ $space->id }}">
             <h2 class="comment-content search-page-card-comment">{{ $user->username }}</h2>
         </a>
-        <h3 class="search-comment-card-content">{{ $comment->content }}</h3>
+        <h3 class="search-comment-card-content">{!! $comment->content !!}</h3>
     </article>
 @empty
     <h2 class="no_results">No results found</h2>

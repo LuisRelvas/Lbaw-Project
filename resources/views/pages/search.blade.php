@@ -43,7 +43,7 @@
         <div id="comments" class="search-page-results">
             @if (isset($comments) && !$comments->isEmpty())
                 @foreach ($comments as $comment)
-                    <h2><a href="/space/{{ $comment->space_id }}">{{ $comment->content }}</a></h2>
+                    <h2><a href="/space/{{ $comment->space_id }}">{!! strip_tags($comment->content) !!}</a></h2>
                 @endforeach
             @else
                 <p>No results found for your search</p>
