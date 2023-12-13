@@ -58,7 +58,7 @@ class NotificationController extends Controller
             if($notification->comment_id) 
             {
                 $who = Comment::select('content')->where('id',$notification->comment_id)->first();
-                $who = $who->content;
+                $who = strip_tags($who->content);
                 $space = Comment::select('space_id')->where('id',$notification->comment_id)->first();
                 $link = '/space/'.$space->space_id;
             }

@@ -12,27 +12,43 @@ use App\Models\LikesComments;
 use App\Models\LikesSpaces; 
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\Tag;
+use App\Http\Controllers\TagController;
+
 
 use Illuminate\Support\Facades\DB;
 
 
 class CommentController extends Controller 
 {
+
     public function create(Request $request) 
     {
         $getSpace = $request->space_id;
         $space = Space::find($getSpace);
+        
         $this->authorize('create', [Comment::class,$space]);
+        DB::beginTransaction();
         Comment::insert([
             'author_id' => Auth::user()->id,
             'space_id' => $request->space_id,
             'username' => Auth::user()->username,
-            'content' => $request->content,
+            'content' => " ",
             'date' => date('Y-m-d H:i')
         ]);
+        $lastComment = Comment::orderBy('id','desc')->first();
+        $string = TagController::tag($request->input('content'), $lastComment);
+        Comment::where('id', $lastComment->id)
+            ->update([
+                'content' => $string
+            ]);
+        DB::commit();
+       
 
         return redirect('/space/'.$request->space_id)->withSuccess('Comment created successfully!');
     }
+
+    
 
     public function edit(Request $request)
     {
@@ -74,6 +90,7 @@ public function unlike_on_comments(Request $request)
     $comment = Comment::find($request->id);
     $this->authorize('unlike', $comment);
     DB::beginTransaction();
+    
     $commentNotification = DB::table('notification')
     ->join('comment_notification', 'notification.id', '=', 'comment_notification.id')
     ->where([

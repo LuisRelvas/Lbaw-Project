@@ -49,11 +49,15 @@ class GroupController extends Controller
         $this->authorize('list', Group::class);
         $groups = Group::whereIn('user_id', [$user->id])->get();
         $publics = Group::where('is_public',false)->get();        
-        $members = Member::where('user_id',Auth::user()->id)->get();
+        $members = DB::table('groups')
+             ->join('member', 'member.group_id', '=', 'groups.id')
+             ->where('member.user_id', Auth::user()->id)
+             ->select('groups.*')
+             ->get();      
+        $all = $groups->concat($publics)->concat($members);
+        $all = $all->unique('id');
         return view('pages.listGroups',[
-        'groups' => $groups,
-        'publics' => $publics,
-        'members' => $members
+        'all' => $all,
     ]);
     }
 
@@ -96,7 +100,7 @@ class GroupController extends Controller
     public function leave_group(Request $request) 
     {
         $group = Group::find($request->id);
-        $this->authorize('leave_group', $group);
+        $this->authorize('leave_group', Group::class);
         DB::beginTransaction();
         Member::where('group_id', $group->id)->where('user_id', Auth::user()->id)->delete();
         Notification::insert([
