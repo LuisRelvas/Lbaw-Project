@@ -43,6 +43,8 @@ class SpaceController extends Controller
       $this->authorize('list', Space::class);
       $followingIds = Auth::user()->showFollows()->pluck('id');
       $spaces = Space::whereIn('user_id', $followingIds)->get(); 
+      $all = $publics->concat($spaces);
+      $all = $all->unique('id');
       return view('pages.home', [
           'publics' => $publics,
           'spaces' => $spaces

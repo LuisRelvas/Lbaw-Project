@@ -24,6 +24,7 @@
                                 ->concat($spaces)
                                 ->sortByDesc('date')
                                 ->reverse();
+                            $allSpaces = $allSpaces->unique('id');
                         @endphp
                         @foreach ($allSpaces as $space)
                             <li><a href="/space/{{ $space->id }}" class="card">{{ $space->content }}</a></li>
