@@ -10,5 +10,5 @@ $space = App\Models\Space::find($comment->space_id);
         <h3 class="search-comment-card-content">{!! $comment->content !!}</h3>
     </article>
 @empty
-    <h2 class="no_results">No results found</h2>
+    <h2 class="no_results"></h2>
 @endforelse

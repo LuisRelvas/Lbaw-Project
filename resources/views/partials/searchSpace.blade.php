@@ -9,5 +9,5 @@ $user = App\Models\User::find($space->user_id);
         <h3 class="search-space-card-content">{{ $space->content }}</h3>
     </article>
 @empty
-    <h2 class="no_results">No results found</h2>
+    <h2 class="no_results"></h2>
 @endforelse

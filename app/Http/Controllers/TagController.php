@@ -19,41 +19,37 @@ use App\Models\CommentNotification;
 class TagController extends Controller 
 {
 
-    public static function tag(String $string,Comment $comment){
+    public static function tag(String $string, Comment $comment){
         $string = strip_tags($string);
-        $words = explode(" ", $string);
-        $modifiedWords = [];
-
-        foreach($words as $word)
+        $modifiedString = $string;
+    
+        preg_match_all('/@(\w+)/', $string, $matches);
+    
+        foreach($matches[1] as $username)
         {
-            if($word[0] == "@")
+            if(User::where('username', $username)->exists())
             {
-                $username = str_replace("@", "", $word);
-                if(User::where('username', $username)->exists())
-                {
-                    $getUser = User::where('username', $username)->first();
-                    $word = "<a href='/profile/$getUser->id'>$getUser->username</a>";
-                    DB::beginTransaction();
-                    Notification::insert([
-                        'received_user' => $getUser->id,
-                        'emits_user' => Auth::user()->id,
-                        'viewed' => false,
-                        'date' => date('Y-m-d H:i')
-                    ]);
-                    $lastNotification = Notification::orderBy('id','desc')->first();
-                    CommentNotification::insert([
-                        'id' => $lastNotification->id,
-                        'comment_id' => $comment->id,
-                        'notification_type' => 'comment_tagging'
-                    ]);
-                    DB::commit();
-                }
+                $getUser = User::where('username', $username)->first();
+                $replacement = "<a href='/profile/$getUser->id'>$getUser->username</a>";
+                $modifiedString = str_replace('@'.$username, $replacement, $modifiedString);
+    
+                DB::beginTransaction();
+                Notification::insert([
+                    'received_user' => $getUser->id,
+                    'emits_user' => Auth::user()->id,
+                    'viewed' => false,
+                    'date' => date('Y-m-d H:i')
+                ]);
+                $lastNotification = Notification::orderBy('id','desc')->first();
+                CommentNotification::insert([
+                    'id' => $lastNotification->id,
+                    'comment_id' => $comment->id,
+                    'notification_type' => 'comment_tagging'
+                ]);
+                DB::commit();
             }
-            $modifiedWords[] = $word;
         }
-
-        $string = implode(" ", $modifiedWords);
-        return $string; 
+    
+        return $modifiedString; 
     }
-
 }

@@ -1068,6 +1068,10 @@ async function getAPIResult(type, search) {
   const sanitizedSearch = search.replace(/[^a-zA-Z0-9]/g, '');
 
   const query = `../api/${type}?search=${sanitizedSearch}`;
+  if(sanitizedSearch == '')
+  {
+    return '';
+  }
   const response = await fetch(query);
 
   return response.text();
@@ -1161,6 +1165,20 @@ updateTotal((document.querySelector('#results-users').innerHTML.match(/<article/
 updateTotal((document.querySelector('#results-spaces').innerHTML.match(/<article/g) || []).length, 'spaceResults');
 updateTotal((document.querySelector('#results-groups').innerHTML.match(/<article/g) || []).length, 'groupResults');
 updateTotal((document.querySelector('#results-comments').innerHTML.match(/<article/g) || []).length, 'commentResults');
+}
+
+function showResultsContainer() {
+  var resultsContainer = document.getElementById('resultsContainer');
+  resultsContainer.style.display = 'block';
+}
+
+function hideResultsContainer() {
+  setTimeout(function() {
+      var resultsContainer = document.getElementById('resultsContainer');
+      if (document.activeElement !== resultsContainer) {
+          resultsContainer.style.display = 'none';
+      }
+  }, 100);
 }
 
 

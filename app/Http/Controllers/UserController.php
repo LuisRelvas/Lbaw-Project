@@ -17,6 +17,8 @@ use App\Models\UserNotification;
 use App\Models\Group;
 use App\Models\Comment;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\FileController;
+
 
 class UserController extends Controller
 {
@@ -129,7 +131,7 @@ class UserController extends Controller
                 $request->validate([
                     'image' =>  'mimes:png,jpeg,jpg',
                 ]);
-                UserController::update($user->id, 'profile', $request);
+                FileController::update($user->id, 'profile', $request);
             }
             $user->password = $request->password;
             $user->save();

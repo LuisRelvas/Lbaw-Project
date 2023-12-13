@@ -6,11 +6,13 @@
         <h1><i class="fa-solid fa-magnifying-glass"></i> Explore</h1>
         <form action="{{ url('homepage/search') }}" method="get">           
             <div class="searchbar">
-            <input type="text" id="search" name="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+" oninput="performFTS()">                <div id="results-users"></div>
+            <input type="text" id="search" name="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+"  onclick="showResultsContainer()" onblur="hideResultsContainer()" autocomplete="off">         
+                <div class="results-container" id="resultsContainer">
                     <div id="results-users"></div>
                     <div id="results-spaces"></div>
                     <div id="results-groups"></div>
                     <div id="results-comments"></div>
+                </div>
             </div>
             <div id="filters" style="display: none;">
                 <input type="date" id="date" name="date">
@@ -20,7 +22,9 @@
             <button type="button" onclick="toggleFilters()">Filters <i class="fa-solid fa-filter"></i></button>
             <button type="submit">Search <i class="fa-solid fa-magnifying-glass"></i></button>        
         </form>
-        <div id="users" class="search-page-results">
+        
+        <!-- Show results only if the search input is not empty -->
+        <div id="users" class="search-page-results" style="overflow-y: auto;">
             @if (isset($users) && !$users->isEmpty())
                 @foreach ($users as $user)
                     <h2><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></h2>
@@ -29,7 +33,6 @@
                 <p>No results found for your search</p>
             @endif
         </div>
-
         <div id="spaces" class="search-page-results">
             @if (isset($spaces) && !$spaces->isEmpty())
                 @foreach ($spaces as $space)
@@ -49,7 +52,6 @@
                 <p>No results found for your search</p>
             @endif
         </div>
-
         <div id="groups" class="search-page-results">
             @if (isset($groups) && !$groups->isEmpty())
                 @foreach ($groups as $group)
@@ -59,7 +61,6 @@
                 <p>No results found for your search</p>
             @endif
         </div>
-
     </div>
 </div>
 @include('partials.footer')
