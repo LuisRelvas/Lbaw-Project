@@ -1167,6 +1167,20 @@ updateTotal((document.querySelector('#results-groups').innerHTML.match(/<article
 updateTotal((document.querySelector('#results-comments').innerHTML.match(/<article/g) || []).length, 'commentResults');
 }
 
+function showResultsContainer() {
+  var resultsContainer = document.getElementById('resultsContainer');
+  resultsContainer.style.display = 'block';
+}
+
+function hideResultsContainer() {
+  setTimeout(function() {
+      var resultsContainer = document.getElementById('resultsContainer');
+      if (document.activeElement !== resultsContainer) {
+          resultsContainer.style.display = 'none';
+      }
+  }, 100);
+}
+
 
 function init() {
 const search_bar = document.querySelector("#search");
