@@ -26,6 +26,8 @@
                                 ->reverse();
                             $allSpaces = $allSpaces->unique('id');
                         @endphp
+                        @include('partials.addSpace')
+
                         @foreach ($allSpaces as $space)
                             <li><a href="/space/{{ $space->id }}" class="card">{{ $space->content }}</a></li>
                         @endforeach
@@ -47,8 +49,6 @@
                 <div id="results-comments"></div>
             @endif
             @if (Auth::check())
-                @include('partials.addGroup')
-                @include('partials.addSpace')
                 @if (session('success'))
                     <p class="success">
                         {{ session('success') }}

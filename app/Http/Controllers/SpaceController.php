@@ -13,6 +13,7 @@ use App\Models\LikeSpace;
 use App\Models\Notification;
 use App\Models\SpaceNotification;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\FileController;
 class SpaceController extends Controller 
 {
 
@@ -90,7 +91,7 @@ class SpaceController extends Controller
         $request->validate([
             'image' =>  'mimes:png,jpeg,jpg',
         ]);
-        SpaceController::update($space->id,'space',$request);
+        Filecontroller::update($space->id,'space',$request);
     }
       if($space->group_id == null){
       return redirect('/homepage')->withSuccess('Space created successfully!');}
@@ -98,17 +99,7 @@ class SpaceController extends Controller
         return redirect('/group/'.$space->group_id)->withSuccess('Space created successfully!');}
     }
 
-    public function update(int $id, string $type, Request $request)
-    {
-    if ($request->file('image')) {
-        foreach ( glob(public_path().'/images/'.$type.'/'.$id.'.*',GLOB_BRACE) as $image){
-            if (file_exists($image)) unlink($image);
-        }
-    }
-    $file= $request->file('image');
-    $filename= $id.".jpg";
-    $file->move(public_path('images/'. $type. '/'), $filename);
-    }
+    
 
     public function delete($id)
     {

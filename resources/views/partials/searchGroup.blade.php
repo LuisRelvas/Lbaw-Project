@@ -9,5 +9,5 @@ $user = App\Models\User::find($group->user_id);
         <h3 class="search-group-card-content">{{ $group->name }}</h3>
     </article>
 @empty
-    <h2 class="no_results">No results found</h2>
+    <h2 class="no_results"></h2>
 @endforelse

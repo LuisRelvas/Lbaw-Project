@@ -35,3 +35,32 @@
 input#date {
   color: white !important;
 }
+
+.search-page-container .search-card .searchbar {
+  position: relative;
+  width: 50%; /* You can adjust this value to your preference */
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.search-page-container .search-card .searchbar .results-container {
+  position: absolute;
+  width: calc(100% - 40px); /* Subtract the left and right padding of .search-card */
+  left: 20px; /* Align the left edge with the search bar */
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  padding: 10px;
+  display: block;
+  z-index: 1000;
+}
+
+.search-page-container .search-card .searchbar .results-container #results-users,
+.search-page-container .search-card .searchbar .results-container #results-spaces,
+.search-page-container .search-card .searchbar .results-container #results-groups,
+.search-page-container .search-card .searchbar .results-container #results-comments {
+  background-color: #e0e0e0; /* Slightly darker gray for the individual results */
+  margin-bottom: 10px;
+  padding: 10px;
+}
+

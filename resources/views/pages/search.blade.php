@@ -6,11 +6,13 @@
         <h1><i class="fa-solid fa-magnifying-glass"></i> Explore</h1>
         <form action="{{ url('homepage/search') }}" method="get">           
             <div class="searchbar">
-            <input type="text" id="search" name="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+" oninput="performFTS()">                <div id="results-users"></div>
+            <input type="text" id="search" name="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+" >
+            <div class="results-container">
                     <div id="results-users"></div>
                     <div id="results-spaces"></div>
                     <div id="results-groups"></div>
                     <div id="results-comments"></div>
+            </div>
             </div>
             <div id="filters" style="display: none;">
                 <input type="date" id="date" name="date">

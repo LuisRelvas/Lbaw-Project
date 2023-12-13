@@ -1068,6 +1068,10 @@ async function getAPIResult(type, search) {
   const sanitizedSearch = search.replace(/[^a-zA-Z0-9]/g, '');
 
   const query = `../api/${type}?search=${sanitizedSearch}`;
+  if(sanitizedSearch == '')
+  {
+    return '';
+  }
   const response = await fetch(query);
 
   return response.text();

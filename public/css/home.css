@@ -118,3 +118,53 @@ mark.hub {
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+
+/* ------ Add Space ------ */
+
+.addSpace {
+  background-color: #15202b;
+  border-radius: 15px;
+  padding: 20px;
+  margin: 0 auto;
+  color: #fff;
+}
+
+.addSpace input[type="text"], .addSpace textarea {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  background-color: #253341;
+  border: none;
+  border-radius: 15px;
+  color: #fff;
+}
+
+.addSpace input[type="file"] {
+  color: #8899a6;
+}
+
+.addSpace .error {
+  color: #e0245e;
+}
+
+.addSpace .edit-page-photo-options {
+  margin-top: 20px;
+}
+
+.addSpace button[type="submit"] {
+  background-color: #000; /* Changed color to black */
+  color: white;
+  margin: 8px 0;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px; /* Adjust as needed */
+  font-family: Arial, sans-serif; /* Adjust as needed */
+}
+
+.addSpace button[type="submit"]:hover {
+  opacity: 0.8;
+}
