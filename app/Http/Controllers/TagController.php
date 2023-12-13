@@ -20,6 +20,7 @@ class TagController extends Controller
 {
 
     public static function tag(String $string,Comment $comment){
+        $string = strip_tags($string);
         $words = explode(" ", $string);
         $modifiedWords = [];
 

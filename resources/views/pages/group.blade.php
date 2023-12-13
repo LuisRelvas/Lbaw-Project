@@ -94,6 +94,8 @@
         </div>
 
         <div class="group-sidebar">
+        @if(Auth::check() && Auth::user()->isMember(Auth::user(),$group))
+
             <div id="members" class="members-card">
                 <h2>Members</h2>
                 @foreach ($members as $member)
@@ -113,7 +115,9 @@
                     </div>
                 @endforeach
             </div>
+            @endif
 
+            @if(Auth::check() && Auth::user()->id == $group->user_id || Auth::check() && Auth::user()->isAdmin(Auth::user()))
             <div class="joinrequest-card">
                 <h2>Join Requests</h2>
                 @foreach ($joins as $join)
@@ -121,7 +125,7 @@
                         @php
                             $user = \App\Models\User::findOrFail($join->user_id);
                         @endphp
-                        <p>{{ $user->username }}</p>
+                        <p>{{ $user->username }}</p>    
                         <!-- Add a cross icon next to each join request -->
                         @if (Auth::check() && (Auth::user()->id == $group->user_id || Auth::user()->isAdmin(Auth::user())))
                             <button onclick="declineJoin({{ $join->user_id }}, {{ $join->group_id }})"
@@ -149,6 +153,7 @@
                     </div>
                 @endif
             </div>
+            @endif
         </div>
     </div>
     @include('partials.footer')
