@@ -14,6 +14,7 @@ use App\Models\Notification;
 use App\Models\SpaceNotification;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\FileController;
+use App\Models\LikesOnSpaces;
 class SpaceController extends Controller 
 {
 
@@ -44,11 +45,13 @@ class SpaceController extends Controller
       $this->authorize('list', Space::class);
       $followingIds = Auth::user()->showFollows()->pluck('id');
       $spaces = Space::whereIn('user_id', $followingIds)->get(); 
+      $trends = LikeSpace::orderBy('space_id', 'desc')->take(5)->get();
       $all = $publics->concat($spaces);
       $all = $all->unique('id');
       return view('pages.home', [
           'publics' => $publics,
-          'spaces' => $spaces
+          'spaces' => $spaces,
+          'trends' => $trends
       ]);
   }
 

@@ -4,6 +4,9 @@
     @include('partials.sidebar')
 
     <div id="main-content">
+        @if(isset($follows) && count($follows) == 0)
+            <h2>No follows yet</h2>
+        @endif
         @foreach($follows as $follow)
             @php
                 $user = \App\Models\User::findOrFail($follow->user_id1); 
