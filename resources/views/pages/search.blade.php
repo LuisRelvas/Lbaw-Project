@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="search-page-container">
-        @include('partials.sidebar');
+        @include('partials.sidebar')
         <div class="search-card">
             <h1><i class="fa-solid fa-magnifying-glass"></i> Explore</h1>
             <form action="{{ url('homepage/search') }}" method="get">
