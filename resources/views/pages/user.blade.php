@@ -83,7 +83,7 @@
             @endif
             <div class="card-body">
                 <ul class="card-list">
-                    @if (Auth::check() && (Auth::user()->isFollowing($user) || $user->is_public == 0 || Auth::user()->id == $user->id))
+                    @if ((Auth::check() && (Auth::user()->isFollowing($user) || $user->is_public == 0 || Auth::user()->id == $user->id)) || Auth::check() && Auth::user()->isAdmin(Auth::user()))
                         @foreach ($spaces as $space)
                             <li><a href="/space/{{ $space->id }}" class="card">{{ $space->content }}</a></li>
                         @endforeach
