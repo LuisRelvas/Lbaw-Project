@@ -42,11 +42,11 @@ class RegisterController extends Controller
         ]);
 
         $credentials = $request->only('email', 'password');
-        //Auth::attempt($credentials);
-        if(Auth::user()->isAdmin($user)){
+        if(Auth::check() && Auth::user()->isAdmin($user)){
             return redirect('/admin')
                 ->withSuccess('You have successfully created an account');}
         else{
+                Auth::attempt($credentials);
                 $request->session()->regenerate();
                 return redirect('/homepage')
             ->withSuccess('You have successfully registered & logged in!');
