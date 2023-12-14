@@ -299,4 +299,19 @@ class UserController extends Controller
     
         return view('pages.search', ['users' => $users, 'spaces' => $spaces, 'comments' => $comments, 'groups' => $groups]);
     }
+
+    public function following()
+    {
+        $follows = Follow::where('user_id1', Auth::user()->id)->get();
+        return view('pages.following', [
+            'follows' => $follows
+        ]);
+    }
+    public function followers()
+    {
+        $follows = Follow::where('user_id2', Auth::user()->id)->get();
+        return view('pages.followers', [
+            'follows' => $follows
+        ]);
+    }
 }
