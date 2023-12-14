@@ -2,20 +2,19 @@
 
 .messages-container {
   display: flex;
-  justify-content: space-between;
-  min-height: 100vh;
-  overflow: auto;
+  height: 100vh;
+  .messages-card {
+    background-color: #1c2632;
+    flex: 1;
+    padding: 1em;
+    box-sizing: border-box; 
+    overflow: auto; 
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
-.messages-card {
-  background-color: #1c2632;
-  flex: 1;
-  padding: 1em;
-  box-sizing: border-box; 
-  overflow: auto; 
-  margin-top: 0;
-  margin-bottom: 0;
-}
+
 
 .messages-card h3 {
   font-size: 24px;

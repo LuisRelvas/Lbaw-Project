@@ -25,7 +25,9 @@
 
 /* ------- Results ------- */
 
-#results-users, #results-spaces, #results-groups { 
+.adminsearch #results-users, 
+.adminsearch #results-spaces, 
+.adminsearch #results-groups { 
     font-weight: bold;
     color: white; 
     max-height: 600vh;
@@ -34,16 +36,21 @@
     border-radius: 5px;
 }
 
-#results-users article, #results-spaces article, #results-groups article { /* @ username */
+.adminsearch #results-users article, 
+.adminsearch #results-spaces article, 
+.adminsearch #results-groups article { /* @ username */
     padding-left: 1em;
     border-bottom: 1px solid white;
 }
 
-#results-users h2, #results-spaces h2, #results-groups h2 { 
+.adminsearch #results-users h2, 
+.adminsearch #results-spaces h2, 
+.adminsearch #results-groups h2 { 
     padding: 1em;
 }
 
-#results-users a, #results-spaces a { /* Name */
+.adminsearch #results-users a, 
+.adminsearch #results-spaces a { /* Name */
     font-size: 14px; 
     color: white; 
     text-decoration: underline;

@@ -1,13 +1,17 @@
 .search-page-container {
   display: flex;
-  justify-content: space-between;
-  height: 100vh;
-}
 
-.search-card {
-  background-color: #1c2632;
-  padding: 20px;
-  width: 85%;
+  height: 100vh;
+  .search-card {
+    background-color: #1c2632;
+    padding: 20px;
+    flex: 1;
+    padding: 1em;
+    box-sizing: border-box;
+    overflow: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
 .search-card h1 {
@@ -46,7 +50,9 @@ input#date {
 
 .search-page-container .search-card .searchbar .results-container {
   position: absolute;
-  width: calc(100% - 40px); /* Subtract the left and right padding of .search-card */
+  width: calc(
+    100% - 40px
+  ); /* Subtract the left and right padding of .search-card */
   left: 20px; /* Align the left edge with the search bar */
   background-color: #f0f0f0;
   border-radius: 5px;
@@ -55,13 +61,28 @@ input#date {
   overflow-y: auto;
 }
 
-.search-page-container .search-card .searchbar .results-container #results-users,
-.search-page-container .search-card .searchbar .results-container #results-spaces,
-.search-page-container .search-card .searchbar .results-container #results-groups,
-.search-page-container .search-card .searchbar .results-container #results-comments {
+.search-page-container
+  .search-card
+  .searchbar
+  .results-container
+  #results-users,
+.search-page-container
+  .search-card
+  .searchbar
+  .results-container
+  #results-spaces,
+.search-page-container
+  .search-card
+  .searchbar
+  .results-container
+  #results-groups,
+.search-page-container
+  .search-card
+  .searchbar
+  .results-container
+  #results-comments {
   position: relative;
   background-color: #e0e0e0; /* Slightly darker gray for the individual results */
   margin-bottom: 10px;
   padding: 10px;
 }
-

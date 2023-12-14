@@ -40,6 +40,7 @@
                 <i class="fa-solid fa-futbol white-icon"></i> <i class="fa-solid fa-basketball white-icon"></i> <i class="fa-solid fa-volleyball white-icon"></i>
             </div>
         </div>
+        @include('partials.sideSearchbar')
     </div>
     @include('partials.footer')
 @endsection

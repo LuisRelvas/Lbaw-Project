@@ -7,9 +7,9 @@
             <h3>Messages <i class="fa-solid fa-message"></i></h3>
 
             <div class="searchbar">
-            <input type="text" id="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+">
-            <div id="results-chats"></div>
-        </div>
+                <input type="text" id="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+">
+                <div id="results-chats"></div>
+            </div>
             <table>
                 <thead>
                     <tr>
@@ -26,7 +26,8 @@
                         <tr>
                             <td class="username">{{ $start->username }}</td>
                             <td>
-                                <a href="/messages/{{ $start->id }}">Start Conversation <i class="fa-solid fa-comment"></i></a>
+                                <a href="/messages/{{ $start->id }}">Start Conversation <i
+                                        class="fa-solid fa-comment"></i></a>
                             </td>
                         </tr>
                     @endforeach
@@ -39,7 +40,8 @@
                             <tr>
                                 <td class="username">{{ $real->username }}</td>
                                 <td>
-                                    <a href="/messages/{{ $real->id }}">Continue Conversation <i class="fa-solid fa-comments"></i></a>
+                                    <a href="/messages/{{ $real->id }}">Continue Conversation <i
+                                            class="fa-solid fa-comments"></i></a>
                                 </td>
                             </tr>
                         @endif
@@ -47,7 +49,7 @@
                 </tbody>
             </table>
         </div>
+        @include('partials.sideSearchbar')
     </div>
     @include('partials.footer')
 @endsection
-

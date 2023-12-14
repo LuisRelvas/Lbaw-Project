@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>
-    
+    @include('partials.sideSearchbar')
     </main>
     @include('partials.footer')
 @endsection
