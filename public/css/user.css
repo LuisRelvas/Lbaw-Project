@@ -6,6 +6,7 @@
   grid-template-columns: 1fr auto auto;
   flex: 1;
   margin-left: 0;
+  flex-direction: column;
 }
 
 .user {
@@ -40,6 +41,7 @@
 
 .button-container {
   display: flex;
+  flex-direction: column;
 }
 
 .profile-container {
@@ -85,11 +87,22 @@
 }
 
 .edit-user-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+  }
+
+.edit-user-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     margin: 0 auto;
     padding: 1em;
-    max-width: 20em;
+    max-width: 50%;
     border: 1px solid #000000;
     background-color: #1c2632;
+    
 }
 
 .edit-user-container label {
