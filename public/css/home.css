@@ -1,6 +1,7 @@
 /* ------ Searchbar ------ */
 
 .searchbar {
+  position: relative;
   width: 250px;
   background-color: #49535f;
   right: 0;
@@ -26,6 +27,7 @@
 
 #results-users,
 #results-spaces {
+  position: relative;
   max-height: 200px; /* adjust as needed */
   overflow-y: auto;
   font-weight: bold;

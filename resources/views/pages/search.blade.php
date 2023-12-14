@@ -6,8 +6,7 @@
         <h1><i class="fa-solid fa-magnifying-glass"></i> Explore</h1>
         <form action="{{ url('homepage/search') }}" method="get">           
             <div class="searchbar">
-            <input type="text" id="search" name="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+"  onclick="showResultsContainer()" onblur="hideResultsContainer()" autocomplete="off">         
-                <div class="results-container" id="resultsContainer">
+            <input type="text" id="search" name="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+" onclick="showResultsContainer()" onblur="hideResultsContainer()" autocomplete="off" required>                <div class="results-container" id="resultsContainer">
                     <div id="results-users"></div>
                     <div id="results-spaces"></div>
                     <div id="results-groups"></div>
@@ -25,7 +24,7 @@
         
         <!-- Show results only if the search input is not empty -->
         <div id="users" class="search-page-results" style="overflow-y: auto;">
-            @if (isset($users) && !$users->isEmpty())
+            @if (isset($users) && !empty($users))
                 @foreach ($users as $user)
                     <h2><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></h2>
                 @endforeach
@@ -34,7 +33,7 @@
             @endif
         </div>
         <div id="spaces" class="search-page-results">
-            @if (isset($spaces) && !$spaces->isEmpty())
+            @if (isset($spaces) && !empty($spaces))
                 @foreach ($spaces as $space)
                     <h2><a href="/space/{{ $space->id }}">{{ $space->content }}</a></h2>
                 @endforeach
@@ -44,7 +43,7 @@
         </div>
 
         <div id="comments" class="search-page-results">
-            @if (isset($comments) && !$comments->isEmpty())
+            @if (isset($comments) && !empty($comments))
                 @foreach ($comments as $comment)
                     <h2><a href="/space/{{ $comment->space_id }}">{!! strip_tags($comment->content) !!}</a></h2>
                 @endforeach
@@ -53,7 +52,7 @@
             @endif
         </div>
         <div id="groups" class="search-page-results">
-            @if (isset($groups) && !$groups->isEmpty())
+            @if (isset($groups) && !empty($groups))
                 @foreach ($groups as $group)
                     <h2><a href="/group/{{ $group->id }}">{{ $group->name }}</a></h2>
                 @endforeach

@@ -261,12 +261,19 @@ class UserController extends Controller
         $date = $request->input('date');
         $input = $request->input('search');
         $profileType = $request->input('profileType');
-    
+        
+        
+
+
         $users = User::query();
         $spaces = Space::query();
         $groups = Group::query();
         $comments = Comment::query();
-    
+
+        if($input == null) {
+            return view('pages.search', ['users' => [], 'spaces' => [], 'comments' => [], 'groups' => []]);
+        }
+        
         if($input != null)
         {
             $users->where('username', 'like', '%' . $input . '%');
