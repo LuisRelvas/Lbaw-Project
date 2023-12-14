@@ -32,13 +32,15 @@ class UserController extends Controller
             $wants = FollowsRequest::whereIn('user_id2', [$user->id])->get();
             $countFollows = Follow::where('user_id1', $user->id)->count();
             $countFollowers = Follow::where('user_id2', $user->id)->count();
+            $spaces = Space::where('user_id',$user->id)->get();
             return view('pages.user', [
                 'user' => $user,
                 'isFollowing' => $isFollowing,
                 'isBlocked' => $isBlocked,
                 'wants' => $wants,
                 'countFollows' => $countFollows,
-                'countFollowers' => $countFollowers
+                'countFollowers' => $countFollowers,
+                'spaces' => $spaces
             ]);
         } else {
             if ($user->is_public == 1) {

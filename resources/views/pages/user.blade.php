@@ -82,27 +82,24 @@
                     @endif
                 @endif
             @endif
-            @if (!empty($wants))
-                @foreach ($wants as $want)
-                    @if (Auth::check() && $want->user_id2 == Auth::user()->id)
-                        <p>Follow request from {{ $want->user_id1 }}</p>
-                        <button onclick="declineFollowRequest({{ $want->user_id1 }}, {{ $want->user_id2 }})"
-                            class="button-join-delete">&#10761;
-                            <div><i class="cross"></i></div>
-                        </button>
-                        <button onclick="acceptFollowRequest({{ $want->user_id1 }}, {{ $want->user_id2 }})"
-                            class="button-join-accept"> &#10003;
-                            <div><i class="tick"></i></div>
-                        </button>
+            <div class="card-body">
+                <ul class="card-list">
+                    @if (Auth::check() && (Auth::user()->isFollowing($user) || $user->is_public == 0 || Auth::user()->id == $user->id))
+                        @foreach ($spaces as $space)
+                            <li><a href="/space/{{ $space->id }}" class="card">{{ $space->content }}</a></li>
+                        @endforeach
                     @endif
-                @endforeach
-            @endif
+                    
+                </ul>
+            </div>
+        </div>
             @if (session('success'))
                 <p class="success">
                     {{ session('success') }}
                 </p>
             @endif
         </div>
+
     </main>
     @include('partials.footer')
 @endsection
