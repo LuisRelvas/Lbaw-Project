@@ -59,7 +59,7 @@
             <div class ="trend-content">
             <h2>Trending</h2>
             <div class="trend">
-            @if(Auth::check())
+            @if(Auth::check() && isset($trends) && !empty($users))
                 @foreach ($trends as $trend)
                 @php
                     $real_space = \App\Models\Space::findOrFail($trend->space_id);
