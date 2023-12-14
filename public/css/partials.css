@@ -36,37 +36,59 @@
 
 /* ------ Searchbar ------ */
 
-.searchbar {
-    position: relative;
-    width: 250px;
-    background-color: #49535f;
-    right: 0;
-    color: #fff;
-    padding: 1em;
-    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
-    margin: 0;
-  }
-  
-  .searchbar a {
-    color: #fff;
-    text-decoration: none;
-    padding: 0.5em;
-    display: block;
-  }
-  
-  /* Add this to your CSS file */
-  .label-color {
-    color: whiTE;
+.side-searchbar {
+  position: relative;
+  width: 250px;
+  background-color: #49535f;
+  right: 0;
+  color: #fff;
+  padding: 1em;
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  overflow: auto;
+}
+
+.side-searchbar a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+}
+
+/* Add this to your CSS file */
+.label-color {
+  color: white;
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.side-searchbar #results-users,
+.side-searchbar #results-spaces {
+  position: relative;
+  max-height: 450px; /* adjust as needed */
+  overflow-y: auto;
+}
+
+.side-searchbar .user-username.search-page-card-user,
+.side-searchbar .space-content.search-page-card-space,
+.side-searchbar .group-content.search-page-card-group,
+.side-searchbar .comment-content.search-page-card-comment {
+  margin-bottom: 0;
+}
+
+.side-searchbar .search-user-card-username,
+.side-searchbar .search-space-card-content,
+.side-searchbar .search-group-card-content,
+.side-searchbar .search-comment-card-content {
+  margin-top: 0;
+  color: wheat;
+}
+
+.side-searchbar .trend-content p {
     font-weight: bold;
-    font-size: 1em;
-  }
-  
-  #results-users,
-  #results-spaces {
-    position: relative;
-    max-height: 200px; /* adjust as needed */
-    overflow-y: auto;
-    font-weight: bold;
-    color: #007bff;
-  }
-  
+    font-size: large;
+}
+
+.side-searchbar .trend-content .trend {
+    overflow: auto;
+    max-height: 450px;
+}

@@ -1,4 +1,4 @@
-<div class="searchbar">
+<div class="side-searchbar">
     <input type="text" id="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+">
     <div id="results-users"></div>
     @if (Auth::check())
@@ -15,9 +15,9 @@
     @endif
 
     <div class ="trend-content">
-        <h2>Trending</h2>
+        <p>Trending <i class="fa-solid fa-arrow-trend-up"></i></p>
         <div class="trend">
-            @if (Auth::check())
+            @if (Auth::check() && isset($trends) && !empty($users))
                 @foreach ($trends as $trend)
                     @php
                         $real_space = \App\Models\Space::findOrFail($trend->space_id);

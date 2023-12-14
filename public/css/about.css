@@ -1,46 +1,50 @@
 /* ------ About ------ */
 
 .aboutus-container {
-    display: flex;
-    justify-content: space-between;
-    min-height: 100vh;
-    overflow: auto;
-}
-
-.about-card {
+  display: flex;
+  height: 100vh;
+  .about-card {
     background-color: #1c2632;
-    padding: 20px;    
+    overflow: auto;
+    flex: 1;
+    padding: 1em;
+    box-sizing: border-box; /* Prevent adding borders to the width */
+    overflow: auto; /* Add a scrollbar when content overflows */
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 }
 
-.about-card h2, .about-card h3 {
-    font-size: 24px; /* adjust as needed */
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: white;
+.about-card h2,
+.about-card h3 {
+  font-size: 24px; /* adjust as needed */
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: white;
 }
 
 .about-card p {
-    font-size: 16px; /* adjust as needed */
-    margin-bottom: 10px;
-    color: white;
+  font-size: 16px; /* adjust as needed */
+  margin-bottom: 10px;
+  color: white;
 }
 
 .about-card ul {
-    padding-left: 20px;
-    color: white;
+  padding-left: 20px;
+  color: white;
 }
 
 .about-card ul li {
-    margin-bottom: 10px;
-    color: white;
+  margin-bottom: 10px;
+  color: white;
 }
 
 .icon-center {
-    text-align: center;
-    padding-top: 5em;
+  text-align: center;
+  padding-top: 5em;
 }
 
 .white-icon {
-    color: white;
-    font-size: 8em;
+  color: white;
+  font-size: 8em;
 }
