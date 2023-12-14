@@ -33,3 +33,40 @@
   color: white;
   font-weight: bold;
 }
+
+/* ------ Searchbar ------ */
+
+.searchbar {
+    position: relative;
+    width: 250px;
+    background-color: #49535f;
+    right: 0;
+    color: #fff;
+    padding: 1em;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    margin: 0;
+  }
+  
+  .searchbar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5em;
+    display: block;
+  }
+  
+  /* Add this to your CSS file */
+  .label-color {
+    color: whiTE;
+    font-weight: bold;
+    font-size: 1em;
+  }
+  
+  #results-users,
+  #results-spaces {
+    position: relative;
+    max-height: 200px; /* adjust as needed */
+    overflow-y: auto;
+    font-weight: bold;
+    color: #007bff;
+  }
+  
