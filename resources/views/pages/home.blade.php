@@ -36,7 +36,7 @@
                             <li><a href="/space/{{ $space->id }}" class="card">{{ $space->content }}</a></li>
                         @endforeach
                     @endif
-                    
+
                 </ul>
             </div>
         </div>
