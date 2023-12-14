@@ -19,15 +19,6 @@
                         <p>
                             <div class="email">{{ $user->email }}</div>
                         </p>
-                        @if (Auth::check())
-                        @if (Auth::User()->isAdmin(Auth::User()))
-                        <button id="editUser{{ $user->id }}" onclick="editUser({{ $user->id }})" class="button-user-comment">
-                            &#9998;
-                            <div id="text-config"><i id="text-icon" class="pencil"></i></div>
-                        </button>
-                        <button id="cancelEditUser{{ $user->id }}" style="visibility: hidden;" onclick="cancelEditUser({{ $user->id }})">Cancel</button>
-                        @endif
-                        @endif
                         @if (Auth::check() && Auth::user()->id == $user->id)
                             <p>Following: <a href="/profile/{{$user->id}}/following"
                                     >{{ $countFollows }}</a></p>
@@ -40,7 +31,11 @@
             </div>
             @if (Auth::check())
                 @if ($user->id == Auth::User()->id || Auth::User()->isAdmin(Auth::User()))
-                
+                <button id="editUser{{ $user->id }}" onclick="editUser({{ $user->id }})" class="button-user-comment">
+                            &#9998;
+                            <div id="text-config"><i id="text-icon" class="pencil"></i></div>
+                        </button>
+                        <button id="cancelEditUser{{ $user->id }}" style="visibility: hidden;" onclick="cancelEditUser({{ $user->id }})">Cancel</button>
                     <div class="button-container"><a class="button" href="/profile/{{ $user->id }}/editUser">Edit
                             Profile <i class="fa-solid fa-user-pen"></i></a>
                         <a class="button" href="/profile/{{ $user->id }}/editUser/password">Change Password <i
