@@ -6,6 +6,10 @@
         <div class="messages-card">
             <h3>Messages <i class="fa-solid fa-message"></i></h3>
 
+            <div class="searchbar">
+            <input type="text" id="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+">
+            <div id="results-chats"></div>
+        </div>
             <table>
                 <thead>
                     <tr>
@@ -46,3 +50,4 @@
     </div>
     @include('partials.footer')
 @endsection
+

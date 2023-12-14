@@ -1157,14 +1157,36 @@ function handleButtonClick(buttonType) {
 
 
 async function search(input) {
-document.querySelector('#results-users').innerHTML = await getAPIResult('profile', input);
-document.querySelector('#results-spaces').innerHTML = await getAPIResult('space', input);
-document.querySelector('#results-groups').innerHTML = await getAPIResult('group', input);
-document.querySelector('#results-comments').innerHTML = await getAPIResult('comment', input);
-updateTotal((document.querySelector('#results-users').innerHTML.match(/<article/g) || []).length, 'userResults');
-updateTotal((document.querySelector('#results-spaces').innerHTML.match(/<article/g) || []).length, 'spaceResults');
-updateTotal((document.querySelector('#results-groups').innerHTML.match(/<article/g) || []).length, 'groupResults');
-updateTotal((document.querySelector('#results-comments').innerHTML.match(/<article/g) || []).length, 'commentResults');
+  const resultsChats = document.querySelector('#results-chats');
+  const resultsUsers = document.querySelector('#results-users');
+  const resultsSpaces = document.querySelector('#results-spaces');
+  const resultsGroups = document.querySelector('#results-groups');
+  const resultsComments = document.querySelector('#results-comments');
+
+  if (resultsChats) {
+    resultsChats.innerHTML = await getAPIResult('messages', input);
+    updateTotal((resultsChats.innerHTML.match(/<article/g) || []).length, 'messagesResults');
+  }
+
+  if (resultsUsers) {
+    resultsUsers.innerHTML = await getAPIResult('profile', input);
+    updateTotal((resultsUsers.innerHTML.match(/<article/g) || []).length, 'userResults');
+  }
+
+  if (resultsSpaces) {
+    resultsSpaces.innerHTML = await getAPIResult('space', input);
+    updateTotal((resultsSpaces.innerHTML.match(/<article/g) || []).length, 'spaceResults');
+  }
+
+  if (resultsGroups) {
+    resultsGroups.innerHTML = await getAPIResult('group', input);
+    updateTotal((resultsGroups.innerHTML.match(/<article/g) || []).length, 'groupResults');
+  }
+
+  if (resultsComments) {
+    resultsComments.innerHTML = await getAPIResult('comment', input);
+    updateTotal((resultsComments.innerHTML.match(/<article/g) || []).length, 'commentResults');
+  }
 }
 
 function showResultsContainer() {

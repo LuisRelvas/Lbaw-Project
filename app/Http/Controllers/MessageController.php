@@ -51,4 +51,16 @@ class MessageController extends Controller
         broadcast(new Messages($message))->toOthers();
         return redirect()->back();
     }
+    public function search(Request $request) 
+    {
+        $input = $request->get('search') ? $request->get('search') . ':*' : "*";
+        $users = User::select('users.id', 'users.name', 'users.username')
+            ->whereRaw("users.tsvectors @@ to_tsquery(?)", [$input])
+            ->get();
+        
+        $searchType = 'messages';
+ 
+
+        return view('partials.searchMessage', compact('users', 'searchType'))->render();
+    }
 }
