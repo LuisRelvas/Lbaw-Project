@@ -28,24 +28,7 @@
             </span>
         @endif
 
-        <label for="password"><i class="fa-solid fa-lock"></i> Password</label>
-        @if (Auth::user()->isAdmin(Auth::user()))
-            <input id="password" type="password" name="password">
-        @else
-            <input id="password" type="password" name="password" required>
-        @endif
-        @if ($errors->has('password'))
-            <span class="error">
-                {{ $errors->first('password') }}
-            </span>
-        @endif
-
-        <label for="password-confirm"><i class="fa-solid fa-square-check"></i> Confirm Password</label>
-        @if (Auth::user()->isAdmin(Auth::user()))
-            <input id="password-confirm" type="password" name="password_confirmation">
-        @else
-            <input id="password-confirm" type="password" name="password_confirmation" required>
-        @endif
+        
 
         <label for="is_public"><i class="fa-solid fa-key"></i> Private Profile</label>
         <input id="is_public" type="hidden" name="is_public" value="0">

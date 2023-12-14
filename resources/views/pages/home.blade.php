@@ -59,12 +59,14 @@
             <div class ="trend-content">
             <h2>Trending</h2>
             <div class="trend">
+            @if(Auth::check())
                 @foreach ($trends as $trend)
                 @php
                     $real_space = \App\Models\Space::findOrFail($trend->space_id);
                 @endphp
                     <a href="/space/{{ $trend->space_id }}" class="trend-card">{{ $real_space->content }}</a>
                 @endforeach
+            @endif
             </div>
         </div>
         </div>

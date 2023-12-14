@@ -136,7 +136,8 @@ Route::controller(UserController::class)->group(function () {
     Route::post('/profile/followsrequest', 'follow_request');
     Route::post('/profile/followsrequest/{id}','accept_follow_request');
     Route::delete('/profile/followsrequest','decline_follow_request');
-
+    Route::post('/profile/editUser/password', 'editUserPassword')->name('editUserPassword');
+    Route::get('/profile/{id}/editUser/password', 'editPassword');
 });
 
 

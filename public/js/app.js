@@ -208,6 +208,121 @@ main.textContent = main.dataset.originalContent;
 resetEditState(id);
 }
 
+
+
+function resetEditUserState(id) {
+  let user = document.querySelector("#user" + id);
+  let name = user.querySelector(".name");
+  let email = user.querySelector(".email");
+
+  // Hide the cancel button
+  document.querySelector('#cancelEditUser' + id).style.visibility = 'hidden';
+
+  // Change the button back to edit
+  let edit_button = document.querySelector("#editUser" + id);
+  let edit_button_icon = edit_button.querySelector("#text-icon");
+  edit_button_icon.classList.remove("fa-floppy-o");
+  edit_button_icon.classList.add("fa-pencil");
+
+  // Restore the original onclick function
+  let button = document.querySelector('#editUser' + id);
+  button.onclick = function () {
+      editUser(id);
+  };
+}
+
+function editUser(id) {
+  let user = document.querySelector("#user" + id);
+  console.log(user)
+  if (!user) {
+      console.error("User element not found");
+      return;
+  }
+
+  let name = document.querySelector(".name");
+  let email = document.querySelector(".email");
+  console.log("The value of the name is",name);
+  console.log("The value of the email is",email);
+
+
+  if (!name || !email) {
+      console.error("Name or Email element not found within the user element");
+      return;
+  }
+
+  // Save the original content for cancel action
+  let originalName = name.textContent.trim();
+  let originalEmail = email.textContent.trim();
+  console.log("The value of the originalName is",originalName);
+  console.log("The value of the originalEmail is",originalEmail);
+  name.dataset.originalContent = originalName;
+  email.dataset.originalContent = originalEmail;
+
+  // transform the content into a text box
+  let nameInput = document.createElement('input');
+  nameInput.type = 'text';
+  nameInput.className = 'username';
+  nameInput.value = originalName;
+  name.innerHTML = ''; // Clear the name content
+  name.appendChild(nameInput);
+
+  let emailInput = document.createElement('input');
+  emailInput.type = 'email';
+  emailInput.className = 'useremail';
+  emailInput.value = originalEmail;
+  email.innerHTML = ''; // Clear the email content
+  email.appendChild(emailInput);
+
+  // make the cancel button visible
+  document.querySelector('#cancelEditUser' + id).style.visibility = 'visible';
+
+  // change button edit to confirm
+  let edit_button = document.querySelector("#editUser" + id);
+  let edit_button_icon = edit_button.querySelector("#text-icon");
+  edit_button_icon.classList.remove("fa-pencil");
+  edit_button_icon.classList.add("fa-floppy-o");
+
+  // change the onclick of the button
+  let button = document.querySelector('#editUser' + id);
+  button.onclick = function () {
+      // Get the updated name and email
+      let updatedName = nameInput.value;
+      let updatedEmail = emailInput.value;
+
+      // Send an AJAX request to update the name and email on the server
+      let url = '/profile/edit' // Replace with the actual server endpoint
+      let data = {
+          id: id,
+          name: updatedName,
+          email: updatedEmail
+      };
+      console.log('The value of data from user is', data);
+      sendAjaxRequest('POST', url, data, function (response) {
+          console.log('Updated Name:', updatedName);
+          console.log('Updated Email:', updatedEmail);
+          // Update the name and email on the page
+          name.innerHTML = updatedName;
+          email.innerHTML = updatedEmail;
+          // Update the originalContent data attribute
+          name.dataset.originalContent = updatedName;
+          email.dataset.originalContent = updatedEmail;
+          // Reset the edit state
+          resetEditUserState(id);
+      });
+  };
+}
+
+function cancelEditUser(id) {
+  let user = document.querySelector("#user" + id);
+  let name = user.querySelector(".name");
+  let email = user.querySelector(".email");
+  // Restore the original content
+  name.textContent = name.dataset.originalContent;
+  email.textContent = email.dataset.originalContent;
+  // Reset the edit state
+  resetEditUserState(id);
+}
+
 function showNotifications(id) {
   var notificationsContainer = document.getElementById('notificationsContainer');
   

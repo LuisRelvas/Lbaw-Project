@@ -11,12 +11,19 @@
                 <img src="{{ asset($user->media()) }}" class="profile-img" width="10%"
                     style="border-radius: 50%; padding: 1em" alt="profile media">
                 <div class="profile-info">
-                    <div class="user">
+                    <div class="user" id="user{{$user->id}}">
                         <p><a href="/profile/{{ $user->id }}">{{ $user->name }}</a></p>
                         <div class="username">
-                            <p>{{ $user->username }}</p>
+                            <div class="name">{{ $user->username }}</div>
                         </div>
-
+                        <p>
+                            <div class="email">{{ $user->email }}</div>
+                        </p>
+                        <button id="editUser{{ $user->id }}" onclick="editUser({{ $user->id }})" class="button-user-comment">
+                            &#9998;
+                            <div id="text-config"><i id="text-icon" class="pencil"></i></div>
+                        </button>
+                        <button id="cancelEditUser{{ $user->id }}" style="visibility: hidden;" onclick="cancelEditUser({{ $user->id }})">Cancel</button>
                         @if (Auth::check() && Auth::user()->id == $user->id)
                             <p>Following: <a href="/profile/{{$user->id}}/following"
                                     >{{ $countFollows }}</a></p>
@@ -29,8 +36,11 @@
             </div>
             @if (Auth::check())
                 @if ($user->id == Auth::User()->id || Auth::User()->isAdmin(Auth::User()))
+                
                     <div class="button-container"><a class="button" href="/profile/{{ $user->id }}/editUser">Edit
                             Profile <i class="fa-solid fa-user-pen"></i></a>
+                        <a class="button" href="/profile/{{ $user->id }}/editUser/password">Change Password <i
+                                class="fa-solid fa-key"></i></a>
                         <button id="deleteProfile{{ $user->id }}" onclick="deleteProfile({{ $user->id }})"
                             class="button-user">
                             <i class="fa-solid fa-trash"></i>

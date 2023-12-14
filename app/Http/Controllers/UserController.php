@@ -135,11 +135,42 @@ class UserController extends Controller
                 ]);
                 FileController::update($user->id, 'profile', $request);
             }
-            $user->password = $request->password;
             $user->save();
             return redirect('/profile/' . $user->id)->withSuccess('User edited successfully!');
         }
     }
+
+    public function editPassword()
+    {
+        return view('pages.editUserPassword');
+    }
+
+    public function editUserPassword(Request $request)
+    {
+        $user = Auth::user();
+        
+        if(Hash::check($request->oldPassword,$user->password))
+        {
+            if($request->password == $request->password_confirmation) 
+            {
+                $user->password = Hash::make($request->password);
+                $user->save();
+                return redirect('/profile/' . $user->id)->withSuccess('Password edited successfully!');
+            }
+            else 
+            {
+                return redirect("/profile/$user->id/editUser/password")->withErrors([
+                    'password' => 'Passwords do not match.'
+                ]);
+            }
+        }
+        else 
+        {
+            return redirect("/profile/$user->id/editUser/password")->withErrors([
+                'password' => 'Wrong password.'
+            ]);
+        }
+        }
 
     public function update(int $id, string $type, Request $request)
     {
