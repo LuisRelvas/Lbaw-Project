@@ -39,9 +39,14 @@
   display: inline-block;
 }
 
+.userinfo .button-container{
+  display:flex;
+  flex-direction: column;
+}
+
 .button-container {
   display: flex;
-  flex-direction: column;
+  
 }
 
 .profile-container {
