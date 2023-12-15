@@ -36,8 +36,8 @@ class Messages implements ShouldBroadcast
 
     public function broadcastOn()
     {
-    return [    new PrivateChannel('user.' .$this->message->received_id),
-                new PrivateChannel('user.' .$this->message->emits_id)];
+    return [    new PrivateChannel('user.' .$this->message->received_id.'-'.$this->message->emits_id),
+                new PrivateChannel('user.' .$this->message->emits_id .'-'.$this->message->received_id)];
     }
 
 }

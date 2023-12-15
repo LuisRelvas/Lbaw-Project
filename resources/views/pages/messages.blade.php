@@ -21,12 +21,13 @@
                     <th>NEW</th>
                     @foreach ($followings as $following)
                         @php
-                            $start = App\Models\User::findOrFail($following->user_id2);
+                            $received_user = App\Model\User::findOrFail($following->user_id1);
+                            $emits_user = App\Models\User::findOrFail($following->user_id2);
                         @endphp
                         <tr>
                             <td class="username">{{ $start->username }}</td>
                             <td>
-                                <a href="/messages/{{ $start->id }}">Start Conversation <i
+                                <a href="/messages/{{ $emits_user->id }}-{{ $received_user->id}}">Start Conversation <i
                                         class="fa-solid fa-comment"></i></a>
                             </td>
                         </tr>
@@ -35,12 +36,19 @@
                     @foreach ($users as $user)
                         @php
                             $real = App\Models\User::findOrFail($user->emits_id);
+                            $firstMessage = App\Models\Message::where(function($query) use ($user) {
+                                $query->where('emits_id', $user->emits_id)
+                                    ->where('received_id', Auth::user()->id);
+                            })->orWhere(function($query) use ($user) {
+                                $query->where('emits_id', Auth::user()->id)
+                                    ->where('received_id', $user->emits_id);
+                            })->orderBy('id')->first();
                         @endphp
                         @if ($real)
                             <tr>
                                 <td class="username">{{ $real->username }}</td>
                                 <td>
-                                    <a href="/messages/{{ $real->id }}">Continue Conversation <i
+                                    <a href="/messages/{{ $firstMessage->emits_id }}-{{$firstMessage->received_id}}">Continue Conversation <i
                                             class="fa-solid fa-comments"></i></a>
                                 </td>
                             </tr>

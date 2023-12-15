@@ -24,6 +24,7 @@
                     @endphp
                 </div>
                 <div id="user-identifier" data-user-id="{{ $other->id }}"></div>
+                <div id="user-identifier-rec" data-user-id-rec="{{ Auth::user()->id }}"></div>
 
                 <form method="POST" action="{{ url('/messages/send') }}" enctype="multipart/form-data"
                     class="message-form">

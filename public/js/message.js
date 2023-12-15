@@ -47,8 +47,12 @@ document.querySelectorAll('.message-form').forEach(form => {
 });
 
 let userId = document.getElementById('user-identifier').dataset.userId;
+console.log(userId);
 
-Echo.private(`user.${userId}`).listen('.App\\Events\\Messages', (e) => {
+let userIdRec = document.getElementById('user-identifier-rec').dataset.userIdRec;
+console.log(userIdRec);
+
+Echo.private(`user.${userId}-${userIdRec}`).listen('.App\\Events\\Messages', (e) => {
   let messageElement = document.createElement('div');
 
   messageElement.classList.add('message');

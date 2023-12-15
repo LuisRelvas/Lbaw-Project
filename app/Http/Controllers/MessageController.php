@@ -27,13 +27,14 @@ class MessageController extends Controller
         return view('pages.messages', ['users' => $users,'followings' => $followings]);
     }
 
-    public function show($id)
+    public function show($received_id,$emits_id)
     {
         $user = Auth::user();
         $this->authorize('show', Message::class);
-        $all_1 = Message::select('*')->where('received_id', Auth::user()->id)->where('emits_id', $id);
-        $all_2 = Message::select('*')->where('received_id', $id)->where('emits_id',Auth::user()->id);
+        $all_1 = Message::select('*')->where('received_id', $received_id)->where('emits_id', $emits_id);
+        $all_2 = Message::select('*')->where('received_id', $emits_id)->where('emits_id',$received_id);
         $all = $all_1->union($all_2)->get();
+        
         return view('pages.message', [
             'all' => $all
     ]);
@@ -41,12 +42,11 @@ class MessageController extends Controller
 
     public function send(Request $request) 
     {
-        $this->authorize('send', Message::class);
         $message = new Message();
         $message->emits_id = Auth::user()->id;
         $message->received_id = $request->received_id;
         $message->content = $request->input('content'); 
-        $message->date = now(); // Use the now() helper to get the current timestamp
+        $message->date = now();
         $message->save();
         broadcast(new Messages($message))->toOthers();
         return redirect()->back();

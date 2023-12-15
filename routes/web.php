@@ -95,7 +95,7 @@ Route::controller(CommentController::class) ->group(function() {
 Route::controller(MessageController::class)->group(function(){
     Route::get('/messages','list');
     Route::post('/messages/send','send');
-    Route::get('/messages/{id}','show');
+    Route::get('/messages/{emits_id}-{received_id}','show');
     Route::post('/messages/receive','receive'); 
     Route::get('/api/messages','search')->name('messages.search');
 });
