@@ -2,19 +2,21 @@
 
 @section('title', 'user')
 @section('content')
+
+
 <main class="flex-container">
     @include('partials.sidebar')
 
     <div class="userinfo" data-id="{{ $user->id }}">
-
+    
         <div class="profile-container">
             <img src="{{ asset($user->media()) }}" class="profile-img" width="10%"
                 style="border-radius: 50%; padding: 1em" alt="profile media">
             <div class="profile-info">
                 <div class="user" id="user{{$user->id}}">
-                    <p><a href="/profile/{{ $user->id }}">{{ $user->name }}</a></p>
+                    <p><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></p>
                     <div class="username">
-                        <div class="name">{{ $user->username }}</div>
+                        <div class="name">{{ $user->name }}</div>
                     </div>
                     <p>
                     <div class="email">{{ $user->email }}</div>
@@ -35,8 +37,7 @@
         </button>
         <button id="cancelEditUser{{ $user->id }}" style="visibility: hidden;"
             onclick="cancelEditUser({{ $user->id }})">Cancel</button>
-        <div class="button-container"><a class="button" href="/profile/{{ $user->id }}/editUser">Edit
-                Profile <i class="fa-solid fa-user-pen"></i></a>
+            @include ('partials.editUser')
             <a class="button" href="/profile/{{ $user->id }}/editUser/password">Change Password <i
                     class="fa-solid fa-key"></i></a>
             <button id="deleteProfile{{ $user->id }}" onclick="deleteProfile({{ $user->id }})" class="button-user">
@@ -46,7 +47,6 @@
                 href="{{ Auth::check() && Auth::user()->isAdmin(Auth::user()) ? url('/admin') : url('/homepage') }}">
                 <i class="fa-solid fa-arrow-left"></i> <i class="fa-solid fa-house"></i>
             </a>
-        </div>
         @if (Auth::User()->isAdmin(Auth::User()))
         @if (!$isBlocked)
         <form method="POST" action="/profile/block/{{ $user->id }}">
@@ -97,6 +97,12 @@
     @endif
     </div>
     @include('partials.sideSearchbar')
+
 </main>
 @include('partials.footer')
 @endsection
+
+
+
+
+

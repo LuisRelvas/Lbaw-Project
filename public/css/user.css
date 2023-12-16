@@ -31,6 +31,8 @@
     content: "@";
 }
 
+
+
 .dot {
   height: 50px;
   width: 50px;
@@ -87,29 +89,3 @@
 
 /* ------ Edit User ------ */
 
-.edit-page-photo-options h4 {
-    color: white;
-}
-
-.edit-user-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100vh;
-  }
-
-.edit-user-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 0 auto;
-    padding: 1em;
-    max-width: 50%;
-    border: 1px solid #000000;
-    background-color: #1c2632;
-    
-}
-
-.edit-user-container label {
-    color: white;
-}
