@@ -34,7 +34,7 @@ class MessageController extends Controller
         $emits = User::find($emits_id);
         $all_1 = Message::select('*')->where('received_id', $received_id)->where('emits_id', $emits_id);
         $all_2 = Message::select('*')->where('received_id', $emits_id)->where('emits_id',$received_id);
-        $all = $all_1->union($all_2)->get();
+        $all = $all_1->union($all_2)->orderBy('id','asc')->get();
         $this->authorize('show', [Message::class,$received,$emits]);
         
         
