@@ -134,7 +134,8 @@ class UserController extends Controller
                 $request->validate([
                     'image' =>  'mimes:png,jpeg,jpg',
                 ]);
-                FileController::update($user->id, 'profile', $request);
+                $enc = encrypt($user->id);
+                FileController::update($enc, 'profile', $request);
             }
             $user->save();
             return redirect('/profile/' . $user->id)->withSuccess('User edited successfully!');

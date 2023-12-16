@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+//add crypt
+use Illuminate\Support\Facades\Crypt;
 
 class Space extends Model
 {
@@ -61,10 +63,20 @@ class Space extends Model
 
     public function media() 
     {
-        $files = glob("images/space/".$this->id.".jpg", GLOB_BRACE);
-        if($files){
-        return "/".$files[0];}
+        $files = glob("images/space/*", GLOB_BRACE);
+        foreach($files as $file) 
+        {
+            $filename = basename($file, ".jpg");
+            $check = Crypt::decrypt($filename);
+            if($check == $this->id)
+            {
+                
+                return "/".$file;
+            }
+        }
+
     }
+
 }
 
 

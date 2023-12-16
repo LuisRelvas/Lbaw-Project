@@ -9,9 +9,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 // Added to define Eloquent relationships.
 use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 class User extends Authenticatable
 {
@@ -156,7 +158,19 @@ class User extends Authenticatable
     }
 
     public function media() { 
-        $files = glob("images/profile/".$this->id.".jpg", GLOB_BRACE);
+        $files = glob("images/profile/*", GLOB_BRACE);
+        foreach($files as $file) 
+        {
+            $filename = basename($file, ".jpg");
+            if($filename != "default"){
+            $check = Crypt::decrypt($filename);
+            if($check == $this->id)
+            {
+                
+                return "/".$file;
+            }
+        }
+        }
         $default = "/images/profile/default.jpg";
         if(sizeof($files) < 1) return $default;
         return "/".$files[0];

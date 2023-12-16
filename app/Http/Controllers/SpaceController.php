@@ -15,6 +15,8 @@ use App\Models\SpaceNotification;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\FileController;
 use App\Models\LikesOnSpaces;
+//add Crypt
+use Illuminate\Support\Facades\Crypt;
 class SpaceController extends Controller 
 {
 
@@ -93,7 +95,8 @@ class SpaceController extends Controller
         $request->validate([
             'image' =>  'mimes:png,jpeg,jpg',
         ]);
-        Filecontroller::update($space->id,'space',$request);
+        $enc = Crypt::encrypt($space->id);
+        Filecontroller::update($enc,'space',$request);
     }
       if($space->group_id == null){
       return redirect('/homepage')->withSuccess('Space created successfully!');}
