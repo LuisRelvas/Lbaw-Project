@@ -62,7 +62,7 @@
                         <input id="content" type="text" name="content" placeholder="Write message..."
                             style="color: white;" required autofocus>
                         <input id="received_id" type="hidden" name="received_id" value="{{ request()->route('received_id') }}">
-                        <input id="emits_id" type="hidden" name="emits_id" value="{{ Auth::user()->id }}">
+                            <input id="emits_id" type="hidden" name="emits_id" value="{{ request()->route('emits_id')}}">
                         <div id="message-identifier" data-message-id="{{ request()->route('emits_id') }}"></div>
                         <div id="user-identifier" data-user-id="{{ request()->route('received_id') }}"></div>
 

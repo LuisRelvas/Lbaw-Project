@@ -47,7 +47,14 @@ class MessageController extends Controller
     {
         $message = new Message();
         $message->emits_id = Auth::user()->id;
-        $message->received_id = $request->received_id;
+        if($request->received_id == Auth::user()->id)
+        {
+            $message->received_id = $request->emits_id;
+        }
+        else
+        {
+            $message->received_id = $request->received_id;
+        }
         $message->content = $request->input('content'); 
         $message->date = now();
         $message->save();
