@@ -15,10 +15,12 @@ class MessagePolicy
     {
         return Auth::check();
     }
-    public function show() 
+    public function show(User $user,User $received,User $emits)
     {
-        return Auth::check(); 
+
+        return Auth::check() && ($user->id == $received->id || $user->id == $emits->id);
     }
+
 
     public function send() 
     {

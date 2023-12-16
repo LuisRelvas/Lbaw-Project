@@ -30,10 +30,13 @@ class MessageController extends Controller
     public function show($received_id,$emits_id)
     {
         $user = Auth::user();
-        $this->authorize('show', Message::class);
+        $received = User::find($received_id);
+        $emits = User::find($emits_id);
         $all_1 = Message::select('*')->where('received_id', $received_id)->where('emits_id', $emits_id);
         $all_2 = Message::select('*')->where('received_id', $emits_id)->where('emits_id',$received_id);
         $all = $all_1->union($all_2)->get();
+        $this->authorize('show', [Message::class,$received,$emits]);
+        
         
         return view('pages.message', [
             'all' => $all
