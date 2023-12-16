@@ -14,13 +14,6 @@
                 <button form="removePhoto" class="edit-page-button">Remove Photo</button>
             </section>
             <input type="hidden" name="user_id" value="{{ request()->route('id') }}">
-            <label for="name"><i class="fa-solid fa-user-pen"></i> Name</label>
-            <input id="name" type="text" name="name" value="{{ old('name') }}">
-            @if ($errors->has('name'))
-            <span class="error">
-                {{ $errors->first('name') }}
-            </span>
-            @endif
             <label for="email"><i class="fa-solid fa-square-envelope"></i> E-Mail Address</label>
             <input id="email" type="email" name="email" value="{{ old('email') }}">
             @if ($errors->has('email'))
