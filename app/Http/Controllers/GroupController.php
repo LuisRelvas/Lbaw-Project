@@ -64,7 +64,7 @@ class GroupController extends Controller
     public function edit(Request $request)
     {
         $group = Group::find($request->id);
-        $this->authorize('edit', $group);
+        $this->authorize('edit', [Group::class,$group]);
         $group->name = $request->input('name');
         $group->description = $request->input('description');
         $group->save();
@@ -73,7 +73,7 @@ class GroupController extends Controller
     public function delete(int $id)
     {
         $group = Group::find($id);
-        $this->authorize('delete', $group);
+        $this->authorize('delete', [Group::class,$group]);
         $group->delete();
 
         // Check if the user is an admin

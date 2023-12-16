@@ -15,7 +15,8 @@ class SpacePolicy
     public function show(?User $user, Space $space)
 {
     // Allow viewing the space if the space is public or if the user is the owner, an admin, or following the owner
-    return $space->is_public == false || ($user && ($user->isAdmin(Auth::user()) || $user->id == $space->user_id || $user->isFollowing($space->user_id)));
+    $getUser = User::findOrfail($space->user_id);
+    return $space->is_public == false || ($user && ($user->isAdmin(Auth::user()) || $user->id == $space->user_id || $user->isFollowing($getUser)));
 }
 
     public function list(User $user)

@@ -62,7 +62,7 @@
         @endif
         @endif
         @else
-        @if (Auth::check() && Auth::user()->id != $user->id && $user->deleted == false)
+        @if (Auth::check() && Auth::user()->id != $user->id && $user->id != 1)
         <button id="profileState{{ $user->id }}" class="profile-interaction-button"
             onclick="changeProfileState({{ $user->id }},{{ Auth::user()->id }},{{ $user->is_public }})">
             @if (Auth::user()->isFollowing($user))

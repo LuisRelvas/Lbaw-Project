@@ -22,10 +22,9 @@ class SpaceController extends Controller
 {
     $space = Space::findOrFail($id);
     $user = User::findOrFail($space->user_id);
-
     if ($space->is_public || Auth::check()) {
         // Only authorize if the space is not public or the user is authenticated
-        $this->authorize('show', [$user, $space]);
+        $this->authorize('show', [Space::class, $space]);
     }
 
     return view('pages.space',[
@@ -59,7 +58,7 @@ class SpaceController extends Controller
     public function edit(Request $request)
     {
         $space = Space::find($request->id);
-        $this->authorize('edit', [Auth::user(),$space]);
+        $this->authorize('edit', [Space::class,$space]);
         $space->content = $request->input('content');
         $space->is_public = $request->input('is_public', false);
         $space->save();
@@ -108,7 +107,7 @@ class SpaceController extends Controller
     {
 
         $space = Space::find($id);
-        $this->authorize('delete', [Auth::user(),$space]);
+        $this->authorize('delete', [Space::class,$space]);
 
         if (!$space) {
             return response()->json(['error' => 'Space not found'], 404);

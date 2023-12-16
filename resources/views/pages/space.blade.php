@@ -14,7 +14,7 @@
             </script>
             <div id="space{{ $space->id }}" data-space-id="{{ $space->id }}" class="space-card">
                 <img src="{{ asset($user->media()) }}" class="profile-img" width=10% style="border-radius: 50%; padding: 1em" alt="profile media">
-                @if($user->deleted == false)
+                @if($user->id != 1)
                 <div class="spaceauthor"><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></div>
                 @else
                 <div class="spaceauthordeleted">Anonymous</div>
@@ -86,7 +86,7 @@
                                 @php 
                                     $real = \App\Models\User::findOrFail($comment->author_id); 
                                 @endphp
-                                @if($real->deleted == false)
+                                @if($real->id != 1)
                                 <p><a href="/profile/{{ $comment->author_id }}">{{ $comment->username }}</a></p>
                                 @else
                                 <p>Anonymous</p>

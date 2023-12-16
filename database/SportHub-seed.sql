@@ -143,9 +143,7 @@ CREATE TABLE users (
     name TEXT,
     email TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
-    is_public BOOLEAN DEFAULT false NOT NULL,
-    deleted BOOLEAN DEFAULT false NOT NULL
-);
+    is_public BOOLEAN DEFAULT false NOT NULL);
 -- Create the 'group' table
 CREATE TABLE groups (
     id SERIAL PRIMARY KEY,
@@ -772,14 +770,15 @@ EXECUTE PROCEDURE verify_comment_availability();
 CREATE FUNCTION update_username_on_delete()
 RETURNS TRIGGER AS $$
 BEGIN
-    UPDATE comment SET username = 'Anonymous' WHERE author_id = OLD.id;
-    UPDATE users SET deleted = TRUE where id = OLD.id;
+    UPDATE comment SET author_id = 1 WHERE author_id = OLD.id;
+    UPDATE space set user_id = 1 WHERE user_id = OLD.id;
+    UPDATE groups set user_id = 1 WHERE user_id = OLD.id;
     DELETE from follows where user_id1 = OLD.id or user_id2 = OLD.id;
     DELETE FROM member where user_id = OLD.id;
     DELETE FROM follows_request where user_id1 = OLD.id or user_id2 = OLD.id;
 
     -- Prevent the actual delete operation
-    RETURN NULL;
+    RETURN OLD;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -1128,7 +1127,7 @@ EXECUTE PROCEDURE joined_group_notification();
 
 
 
-
+INSERT INTO users(username,name,email,password,is_public) VALUES ('Anonymous','Anonymous','anonymous@gmail.com','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',true);
 INSERT INTO users (username, name, email, password, is_public) VALUES ('luisvrelvas','luis','luisrelvas@netcabo.pt','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',false);
 INSERT INTO users (username,name,email,password,is_public) VALUES('eduardomachado','eduardo','eduardo@gmail.com','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',false);
 INSERT INTO users (username,name,email,password,is_public) VALUES('joaoguedes','joao','joao@gmail.com','$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG',false);

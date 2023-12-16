@@ -11,9 +11,10 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
-    public function show(User $user,User $user2)
+    public function show(?User $user,User $user2)
     {
-        return (Auth::user() || $user->is_public == false);
+        echo("<script>console.log('PHP: ".$user2->id."');</script>");
+        return ((Auth::check() || $user2->is_public == false) && $user2->id != 1);
     }
 
     public function editUser(User $user) 

@@ -32,11 +32,13 @@ class GroupPolicy
 
     public function edit(User $user, Group $group)
     {
+        echo("<script>console.log('PHP:');</script>");
         return (Auth::check() && Auth::user()->isAdmin(Auth::user())) || (Auth::check() && Auth::user()->id == $group->user_id);
     }
 
     public function delete(User $user, Group $group)
     {
+        echo("<script>console.log('PHP:');</script>");
         return (Auth::check() && Auth::user()->isAdmin(Auth::user())) || (Auth::check() && Auth::user()->id == $group->user_id);
     }
 

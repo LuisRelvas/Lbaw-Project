@@ -26,6 +26,7 @@ class UserController extends Controller
     public function show(int $id)
     {   
         $user = User::findOrFail($id);
+        $this->authorize('show', [User::class,$user]);
         if (Auth::check()) {
             $isBlocked = Block::where('user_id', $id)->exists();
             $isFollowing = Auth::user()->isFollowing($user);
