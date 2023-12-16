@@ -19,19 +19,7 @@
                 </thead>
                 <tbody>
                     <th>NEW</th>
-                    @foreach ($followings as $following)
-                        @php
-                            $received_user = App\Model\User::findOrFail($following->user_id1);
-                            $emits_user = App\Models\User::findOrFail($following->user_id2);
-                        @endphp
-                        <tr>
-                            <td class="username">{{ $start->username }}</td>
-                            <td>
-                                <a href="/messages/{{ $emits_user->id }}-{{ $received_user->id}}">Start Conversation <i
-                                        class="fa-solid fa-comment"></i></a>
-                            </td>
-                        </tr>
-                    @endforeach
+
                     <th>CONTINUE</th>
                     @foreach ($users as $user)
                         @php
