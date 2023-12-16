@@ -11,6 +11,7 @@
                         <div class="message" data-message-id="{{ $message->emits_id }}">
                             @php
                                 $show = App\Models\User::find($message->emits_id);
+                                $minIdElement = collect($all)->min('id');
                             @endphp
                             <div class="profile">{{ $show->username }}</div>
                             <div class="body">{{ $message->content }}</div>
@@ -21,10 +22,11 @@
                         $user = Auth::user();
                         $other_r = App\Models\User::find(optional($message)->emits_id);
                         $other = App\Models\User::find(optional($message)->received_id);
+                        $firstMessage = App\Models\Message::where('id',$minIdElement)->get();
                     @endphp
                 </div>
-                <div id="user-identifier" data-user-id="{{ $other->id }}"></div>
-                <div id="user-identifier-rec" data-user-id-rec="{{ Auth::user()->id }}"></div>
+                <div id="user-identifier" data-user-id="{{ $firstMessage[0]->emits_id }}"></div>
+                <div id="user-identifier-rec" data-user-id-rec="{{ $firstMessage[0]->received_id }}"></div>
 
                 <form method="POST" action="{{ url('/messages/send') }}" enctype="multipart/form-data"
                     class="message-form">
@@ -50,16 +52,19 @@
                     </div>
                 </form>
             @else
+
+                <div id="user-identifier" data-user-id="{{ request()->route('emits_id')}}"></div>
+                <div id="user-identifier-rec" data-user-id-rec="{{ request()->route('received_id') }}"></div>
                 <form method="POST" action="{{ url('/messages/send') }}" enctype="multipart/form-data"
                     class="message-form">
                     {{ csrf_field() }}
                     <div class="message-input-container">
                         <input id="content" type="text" name="content" placeholder="Write message..."
                             style="color: white;" required autofocus>
-                        <input id="received_id" type="hidden" name="received_id" value="{{ request()->route('id') }}">
+                        <input id="received_id" type="hidden" name="received_id" value="{{ request()->route('received_id') }}">
                         <input id="emits_id" type="hidden" name="emits_id" value="{{ Auth::user()->id }}">
-                        <div id="message-identifier" data-message-id="{{ Auth::user()->id }}"></div>
-                        <div id="user-identifier" data-user-id="{{ request()->route('id') }}"></div>
+                        <div id="message-identifier" data-message-id="{{ request()->route('emits_id') }}"></div>
+                        <div id="user-identifier" data-user-id="{{ request()->route('received_id') }}"></div>
 
                         <button type="submit">
                             Send <i class="fa-solid fa-paper-plane"></i>

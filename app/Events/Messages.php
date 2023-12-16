@@ -36,8 +36,13 @@ class Messages implements ShouldBroadcast
 
     public function broadcastOn()
     {
-    return [    new PrivateChannel('user.' .$this->message->received_id.'-'.$this->message->emits_id),
-                new PrivateChannel('user.' .$this->message->emits_id .'-'.$this->message->received_id)];
-    }
+        $firstMessage = Message::where(function($query) {
+            $query->where('emits_id', $this->message->emits_id)
+                ->where('received_id', $this->message->received_id);
+        })->orWhere(function($query) {
+            $query->where('emits_id', $this->message->received_id)
+                ->where('received_id', $this->message->emits_id);
+        })->orderBy('id')->first();
+    return [    new PrivateChannel('user.' .$firstMessage->emits_id.'-'.$firstMessage->received_id)];    }
 
 }
