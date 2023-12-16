@@ -1,0 +1,12 @@
+.message-container {
+    width: 100%;
+}
+
+.my-message {
+    width: 50%;
+    margin-left: 50%;
+}
+
+.other-message {
+    width: 50%;
+}

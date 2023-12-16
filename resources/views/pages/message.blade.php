@@ -8,7 +8,7 @@
                 <div id="message-identifier" data-message-id="{{ $all->first()->emits_id }}"></div>
                 <div class="message-content">
                     @foreach ($all as $message)
-                        <div class="message" data-message-id="{{ $message->emits_id }}">
+                    <div class="message {{ $message->emits_id == Auth::user()->id ? 'my-message' : 'other-message' }}" data-message-id="{{ $message->emits_id }}">
                             @php
                                 $show = App\Models\User::find($message->emits_id);
                                 $minIdElement = collect($all)->min('id');
@@ -27,7 +27,6 @@
                 </div>
                 <div id="user-identifier" data-user-id="{{ $firstMessage[0]->emits_id }}"></div>
                 <div id="user-identifier-rec" data-user-id-rec="{{ $firstMessage[0]->received_id }}"></div>
-
                 <form method="POST" action="{{ url('/messages/send') }}" enctype="multipart/form-data"
                     class="message-form">
                     {{ csrf_field() }}
@@ -62,7 +61,7 @@
                         <input id="content" type="text" name="content" placeholder="Write message..."
                             style="color: white;" required autofocus>
                         <input id="received_id" type="hidden" name="received_id" value="{{ request()->route('received_id') }}">
-                        <input id="emits_id" type="hidden" name="emits_id" value="{{ Auth::user()->id }}">
+                            <input id="emits_id" type="hidden" name="emits_id" value="{{ request()->route('emits_id')}}">
                         <div id="message-identifier" data-message-id="{{ request()->route('emits_id') }}"></div>
                         <div id="user-identifier" data-user-id="{{ request()->route('received_id') }}"></div>
 

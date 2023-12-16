@@ -30,10 +30,13 @@ class MessageController extends Controller
     public function show($received_id,$emits_id)
     {
         $user = Auth::user();
-        $this->authorize('show', Message::class);
+        $received = User::find($received_id);
+        $emits = User::find($emits_id);
         $all_1 = Message::select('*')->where('received_id', $received_id)->where('emits_id', $emits_id);
         $all_2 = Message::select('*')->where('received_id', $emits_id)->where('emits_id',$received_id);
-        $all = $all_1->union($all_2)->get();
+        $all = $all_1->union($all_2)->orderBy('id','asc')->get();
+        $this->authorize('show', [Message::class,$received,$emits]);
+        
         
         return view('pages.message', [
             'all' => $all
@@ -44,7 +47,14 @@ class MessageController extends Controller
     {
         $message = new Message();
         $message->emits_id = Auth::user()->id;
-        $message->received_id = $request->received_id;
+        if($request->received_id == Auth::user()->id)
+        {
+            $message->received_id = $request->emits_id;
+        }
+        else
+        {
+            $message->received_id = $request->received_id;
+        }
         $message->content = $request->input('content'); 
         $message->date = now();
         $message->save();
