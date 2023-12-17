@@ -92,7 +92,7 @@
         </div>
 
         <div class="group-sidebar">
-        @if(Auth::check() && Auth::user()->isMember(Auth::user(),$group))
+        @if((Auth::check() && Auth::user()->isMember(Auth::user(),$group)) ||Auth::check() && Auth::user()->isAdmin(Auth::user()))
 
             <div id="members" class="members-card">
                 <h2>Members</h2>

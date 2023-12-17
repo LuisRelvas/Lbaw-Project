@@ -113,6 +113,16 @@ class UserController extends Controller
             if ($request->password != null) {
                 $user->password = Hash::make($request->password);
             }
+            if ($request->file('image') != null) {
+                if (!in_array(pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png'])) {
+                    return redirect('user/edit')->with('error', 'File not supported');
+                }
+                $request->validate([
+                    'image' =>  'mimes:png,jpeg,jpg',
+                ]);
+                $enc = encrypt($user->id);
+                FileController::update($enc, 'profile', $request);
+            }
             $user->save();
             return redirect('/profile/' . $user->id)->withSuccess('User edited successfully!');
         } else {
@@ -181,6 +191,7 @@ class UserController extends Controller
 
     public function update(int $id, string $type, Request $request)
     {
+        die();
         if ($request->file('image')) {
             foreach (glob(public_path() . '/images/' . $type . '/' . $id . '.*', GLOB_BRACE) as $image) {
                 if (file_exists($image)) unlink($image);
@@ -192,9 +203,10 @@ class UserController extends Controller
     }
 
 
-    public function updatePhoto(Request $request, $id)
+    public function updatePhoto(Request $request, int $id)
     {
         $user = User::find($id);
+        echo("<script>console.log('IMAGE:');</script>");
         if ($request->hasFile('profile_picture')) {
             $filename = $user->id . '.jpg';
             $request->profile_picture->move(public_path('images/profile'), $filename);

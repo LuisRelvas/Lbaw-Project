@@ -13,7 +13,7 @@
                 <input type="file" name="image" id="image">
                 <button form="removePhoto" class="edit-page-button">Remove Photo</button>
             </section>
-            <input type="hidden" name="user_id" value="{{ request()->route('id') }}">
+            <input type="hidden" name="id" value="{{ request()->route('id') }}">
             <label for="email"><i class="fa-solid fa-square-envelope"></i> E-Mail Address</label>
             <input id="email" type="email" name="email" value="{{ old('email') }}">
             @if ($errors->has('email'))

@@ -56,9 +56,11 @@ class GroupController extends Controller
              ->get();      
         $all = $groups->concat($publics)->concat($members);
         $all = $all->unique('id');
+        $others = Group::all();
         return view('pages.listGroups',[
         'all' => $all,
-    ]);
+        'others' => $others
+        ]);
     }
 
     public function edit(Request $request)
