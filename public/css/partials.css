@@ -54,7 +54,6 @@
   display: block;
 }
 
-/* Add this to your CSS file */
 .label-color {
   color: white;
   font-weight: bold;
@@ -63,8 +62,10 @@
 
 .side-searchbar #results-users,
 .side-searchbar #results-spaces {
-  position: relative;
-  max-height: 450px; /* adjust as needed */
+  position: absolute;
+  width: 100%;
+  background-color: #49535f;
+  max-height: 1000px; /* adjust as needed */
   overflow-y: auto;
 }
 
@@ -73,6 +74,7 @@
 .side-searchbar .group-content.search-page-card-group,
 .side-searchbar .comment-content.search-page-card-comment {
   margin-bottom: 0;
+  z-index: 1000;
 }
 
 .side-searchbar .search-user-card-username,

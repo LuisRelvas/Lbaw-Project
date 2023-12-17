@@ -124,6 +124,7 @@
                 @endif
             </div>
         </div>
-    </main>
+        @include('partials.sideSearchbar')
+    </div>
     @include('partials.footer')
 @endsection

@@ -95,7 +95,6 @@
         {{ session('success') }}
     </p>
     @endif
-    </div>
     @include('partials.sideSearchbar')
 
 </div>

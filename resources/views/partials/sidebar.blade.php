@@ -1,9 +1,13 @@
 @if (Auth::check())
+    <div class="hamburger">
+        <i class="fa fa-bars"></i>
+    </div>
     <div class="sidebar">
         <!-- Sidebar content -->
         @if (Auth::user()->isAdmin(Auth::user()))
             <a href="{{ url('/admin') }}" class="{{ Request::is('admin') ? 'active' : '' }}"><i class="fa-solid fa-user-tie"></i> Admin</a>
         @endif
+
         <a href="{{ url('/homepage') }}" class="{{ Request::is('homepage') ? 'active' : '' }}"><i class="fa-solid fa-house"></i> Home</a>
         <a href="{{ url('/homepage/search') }}" class="{{ Request::is('homepage/search') ? 'active' : '' }}"><i class="fa-solid fa-magnifying-glass"></i> Explore</a>
         <a href="{{ url('/profile/' . Auth::user()->id) }}"class="{{ Request::is('profile/*') ? 'active' : '' }}"><i class="fa-solid fa-user"></i> Profile</a>
@@ -25,3 +29,12 @@
         <a href="{{ url('/login') }}"><i class="fa-solid fa-cog"></i> Settings</a>
     </div>
 @endif
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            document.querySelector('.sidebar').style.display = 'block';
+        });
+    });
+</script>

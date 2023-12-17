@@ -138,3 +138,21 @@ mark.hub {
 .addSpace button[type="submit"]:hover {
   opacity: 0.8;
 }
+
+
+.hamburger {
+  display: none;
+  color: #000; /* Change this to the color that is visible against your background */
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+      display: none;
+  }
+
+  .hamburger {
+      display: block;
+  }
+}
+
+
