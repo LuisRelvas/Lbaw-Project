@@ -147,7 +147,7 @@ function editSpace(id) {
       return;
   }
 
-  let main = space.querySelector("main");
+  let main = space.querySelector(".spacecontent");
 
   if (!main) {
       console.error("Main element not found within the space element");
@@ -261,7 +261,7 @@ function editUser(id) {
   // transform the content into a text box
   let nameInput = document.createElement('input');
   nameInput.type = 'text';
-  nameInput.className = 'username';
+  nameInput.className = 'name';
   nameInput.value = originalName;
   name.innerHTML = ''; // Clear the name content
   name.appendChild(nameInput);
@@ -290,7 +290,7 @@ function editUser(id) {
       let updatedEmail = emailInput.value;
 
       // Send an AJAX request to update the name and email on the server
-      let url = '/profile/edit' // Replace with the actual server endpoint
+      let url = '/profile/edit'
       let data = {
           id: id,
           name: updatedName,
@@ -298,6 +298,7 @@ function editUser(id) {
       };
       console.log('The value of data from user is', data);
       sendAjaxRequest('POST', url, data, function (response) {
+        console.log(this.status);
           console.log('Updated Name:', updatedName);
           console.log('Updated Email:', updatedEmail);
           // Update the name and email on the page

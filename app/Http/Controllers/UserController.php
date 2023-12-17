@@ -95,7 +95,12 @@ class UserController extends Controller
     {
         $this->authorize('edit', User::class);
         if (Auth::user()->isAdmin(Auth::user())) {
-            $user = User::find($request->input('user_id'));
+
+            $user = User::find($request->input('id'));
+            if (!$user) {
+                return response()->json(['error' => 'User not found'], 404);
+            }
+
             if ($request->name != null) {
                 $user->name = $request->name;
             }

@@ -5,7 +5,7 @@
         $user = \App\Models\User::findOrFail($space->user_id);
     
     @endphp
-    <main class="flex-container">
+    <div class="flex-container">
         @include('partials.sidebar')
         <div class="content">
         <script>
@@ -19,10 +19,7 @@
                 @else
                 <div class="spaceauthordeleted">Anonymous</div>
                 @endif
-
-                <main>
-                    <div class="spacecontent">{{ $space->content }}</div>
-                </main>
+                <div class="spacecontent">{{ $space->content }}</div>
                 <div class="space-img">
                 @if($space->media())
                 <img src="{{ asset($space->media()) }}" class="space-img" width=20% style=padding: 1em alt="profile media">

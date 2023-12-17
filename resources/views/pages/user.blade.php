@@ -4,7 +4,7 @@
 @section('content')
 
 
-<main class="flex-container">
+<div class="flex-container">
     @include('partials.sidebar')
 
     <div class="userinfo" data-id="{{ $user->id }}">
@@ -15,7 +15,7 @@
             <div class="profile-info">
                 <div class="user" id="user{{$user->id}}">
                     <p><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></p>
-                    <div class="username">
+                    <div class="name">
                         <div class="name">{{ $user->name }}</div>
                     </div>
                     <p>
@@ -98,7 +98,7 @@
     </div>
     @include('partials.sideSearchbar')
 
-</main>
+</div>
 @include('partials.footer')
 @endsection
 

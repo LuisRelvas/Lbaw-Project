@@ -17,9 +17,13 @@ class RegisterController extends Controller
     /**
      * Display a login form.
      */
-    public function showRegistrationForm(): View
+    public function showRegistrationForm()
     {
-        return view('auth.register');
+        if(!Auth::check() || Auth::user()->isAdmin(Auth::user())){
+        return view('auth.register');}
+        else {
+            return redirect('/homepage')->withErrors('You are already logged in!');
+        }
     }
 
     /**

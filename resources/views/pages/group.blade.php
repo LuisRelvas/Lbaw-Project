@@ -69,9 +69,7 @@
                             <div class="space-card">
                                 <div class="spaceauthor"><a href="/space/{{ $space->id }}">{{ $username->username }}</a>
                                 </div>
-                                <main>
                                     <div class="spacecontent">{{ $space->content }}</div>
-                                </main>
                             </div>
                         @endforeach
                     @endif

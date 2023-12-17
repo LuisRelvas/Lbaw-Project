@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <main class="flex-container">
+    <div class="flex-container">
         @include('partials.sidebar')
 
         <div class="content">
@@ -42,6 +42,6 @@
         </div>
         @include('partials.sideSearchbar')
 
-    </main>
+</div>
     @include('partials.footer')
 @endsection

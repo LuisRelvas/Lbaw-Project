@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <main class="flex-container">
+    <div class="flex-container">
         @include('partials.sidebar')
         <div class="grouplist-container">
             <div class="grouplist-card">
@@ -19,6 +19,6 @@
             </div>
         </div>
     @include('partials.sideSearchbar')
-    </main>
+    </div>
     @include('partials.footer')
 @endsection

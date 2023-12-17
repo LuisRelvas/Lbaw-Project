@@ -21,9 +21,6 @@
                     </span>
                 @endif
 
-                <label>
-                    <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> Remember Me
-                </label>
 
                 <button type="submit">
                     Login <i class="fa-solid fa-right-to-bracket"></i>
