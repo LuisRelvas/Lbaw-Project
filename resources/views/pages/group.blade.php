@@ -38,14 +38,20 @@
 
             <section id="buttons" class="buttons">
                 @if (Auth::check() && Auth::user()->id != $group->owner_id)
-                    <button id="groupState{{ $group->id }}" class="group-interaction-button"
-                        onclick="changeGroupState({{ $group->id }},{{ Auth::user()->id }},{{ $group->is_public }})">
-                        @if ($group->hasMember(Auth::user()))
-                            <i id="text-icon" aria-hidden="true"></i> Leave Group
-                            <button id="fav{{$group->id}}" onclick="isFavorite({{Auth::user()->id}}, {{$group->id}})" class="{{Auth::user()->isFavorite(Auth::user(),$group) ? 'group-interaction-button fa fa-star' : 'group-interaction-button fa fa-star-o'}}"></button>                        @else
-                            <i id="text-icon" aria-hidden="true"></i> Join Group
+                <button id="groupState{{ $group->id }}" class="group-interaction-button"
+                    onclick="changeGroupState({{ $group->id }},{{ Auth::user()->id }},{{ $group->is_public }})"
+                    data-status="{{ $group->hasMember(Auth::user()) ? 'member' : 'non-member' }}">
+                    @if ($group->hasMember(Auth::user()))
+                        <i id="text-icon" aria-hidden="true"></i> Leave Group
+                        <button id="fav{{$group->id}}" onclick="isFavorite({{Auth::user()->id}}, {{$group->id}})" class="{{Auth::user()->isFavorite(Auth::user(),$group) ? 'group-interaction-button fa fa-star' : 'group-interaction-button fa fa-star-o'}}"></button>
+                    @else
+                        @if(Auth::user()->hasSentJoinRequest($group->id))
+                        <i id="text-icon" aria-hidden="true"></i> Pending
+                        @else
+                        <i id="text-icon" aria-hidden="true"></i> Join Group
                         @endif
-                    </button>
+                    @endif
+                </button>
                 @endif
             </section>
 

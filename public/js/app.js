@@ -1065,6 +1065,9 @@ function changeGroupState(id,user_id,publicGroup)
   console.log('The boolean of the public group is',publicGroup);
   const state_in_html = document.querySelector('#groupState' + id).innerHTML.replace(/\s/g, '');
   const state = state_in_html.replace( /(<([^>]+)>)/ig,'');
+  const button = document.querySelector('#groupState' + id);
+  const status = button.dataset.status;
+
   switch(state) {
     case 'JoinGroup':
       if(publicGroup == null) {
@@ -1077,6 +1080,8 @@ function changeGroupState(id,user_id,publicGroup)
         // Send the AJAX request
         sendAjaxRequest('POST', url, data, function(response) {
           if(this.status == 200){
+            button.textContent = 'Pending';
+
           console.log('Response:', response);}
 
         });
@@ -1087,6 +1092,8 @@ function changeGroupState(id,user_id,publicGroup)
         console.log('The value of the user_id is',user_id);
         sendAjaxRequest('POST', '/group/joinrequest', {id: id, user_id: user_id}, function(response) {
           if(this.status) {
+            button.textContent = 'Pending';
+
             console.log("the value of the status is",this.status);}
           console.log('Response:', response);
         });
@@ -1100,6 +1107,8 @@ function changeGroupState(id,user_id,publicGroup)
       };
       sendAjaxRequest('DELETE', url, data, function(response){
         if(this.status == 200) {
+          button.textContent = 'Join Group';
+
         console.log("The value of the status is",this.status);
         console.log('Response:', response);
         

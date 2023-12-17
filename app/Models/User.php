@@ -157,6 +157,11 @@ class User extends Authenticatable
         return FollowsRequest::where('user_id1', Auth::user()->id)->where('user_id2', $user->id)->exists();
     }
 
+    public function hasSentJoinRequest($group) 
+    {
+        return GroupJoinRequest::where('user_id', Auth::user()->id)->where('group_id', $group)->exists();
+    }
+
     public function media() { 
         $files = glob("images/profile/*", GLOB_BRACE);
         foreach($files as $file) 
