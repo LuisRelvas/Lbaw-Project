@@ -2,7 +2,7 @@
 
 @section('content')
     <script type="text/javascript" src={{ url('js/groups.js') }} defer></script>
-    <div class="group-container">
+    <div class="flex-container">
         @include('partials.sidebar')
 
         @include ('partials.groupCard')

@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="messages-container">
+    <main class="flex-container">
         @include('partials.sidebar')
         @include('partials.messagesCard')
         @include('partials.sideSearchbar')
-    </div>
+    </main>
     @include('partials.footer')
 @endsection

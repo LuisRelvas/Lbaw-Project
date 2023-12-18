@@ -1,8 +1,4 @@
-.search-page-container {
-  display: flex;
-
-  height: 100vh;
-  .search-card {
+.flex-container .search-card {
     background-color: #1c2632;
     padding: 20px;
     flex: 1;
@@ -12,7 +8,7 @@
     margin-top: 0;
     margin-bottom: 0;
   }
-}
+
 
 .search-card h1 {
   color: white;
@@ -40,7 +36,7 @@ input#date {
   color: white !important;
 }
 
-.search-page-container .search-card .searchbar {
+.flex-container .search-card .searchbar {
   position: relative;
   width: 50%; /* You can adjust this value to your preference */
   margin-top: 20px;

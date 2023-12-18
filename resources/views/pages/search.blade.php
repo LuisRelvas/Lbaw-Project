@@ -1,8 +1,8 @@
 @extends('layouts.app')
 @section('content')
-    <div class="search-page-container">
+    <main class="flex-container">
         @include('partials.sidebar')
         @include('partials.searchCard')
-    </div>
+    </main>
     @include('partials.footer')
 @endsection

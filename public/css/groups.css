@@ -52,12 +52,6 @@
 
 /* ------ Group ------ */
 
-.group-container {
-  display: flex;
-  justify-content: space-between;
-  min-height: 100vh;
-  overflow: auto;
-}
 
 .group-card {
   background-color: #1c2632;

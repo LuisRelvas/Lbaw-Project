@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="aboutus-container">
+    <main class="flex-container">
         @include('partials.sidebar')
         <div class="about-card">
             <h2>Welcome to SportHUB!</h2>
@@ -41,6 +41,6 @@
             </div>
         </div>
         @include('partials.sideSearchbar')
-    </div>
+    </main>
     @include('partials.footer')
 @endsection
