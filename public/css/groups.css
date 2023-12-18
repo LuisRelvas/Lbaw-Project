@@ -123,7 +123,7 @@
 }
 
 
-.space-card {
+.group-card .group-chat .space-card {
     background-color: #49535f; /* Change this to your desired color */
     color: white;
 }

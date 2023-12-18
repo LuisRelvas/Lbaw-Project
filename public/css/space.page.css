@@ -1,6 +1,5 @@
 /* ------ Space ------ */
 
-
 .space-card {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -12,29 +11,39 @@
   grid-template-columns: 1fr auto auto;
 }
 
-.spaceauthor {
+.space-card #likeSpace {
+    text-align: right;
+}
+
+.space-card #likeSpace button {
+    background-color: inherit;
+    border-color: #1c2632;
+}
+
+.space-card .spaceauthor {
   font-size: bold;
   font-weight: bold;
   margin-bottom: 10px;
-}
-
-.spacecontent {
-  font-size: 25px;
-  color: white;
-  margin-bottom: 10px;
-}
-
-.spaceauthor a::before {
-  content: "@";
 }
 
 .spaceauthor a {
   color: white;
 }
 
-.spaceauthor :hover {
+.space-card .spaceauthor a::before {
+  content: "@";
+}
+
+.space-card .spaceauthor :hover {
   text-decoration: underline;
 }
+
+.space-card .spacecontent {
+  font-size: 25px;
+  color: white;
+  margin-bottom: 10px;
+}
+
 
 /* ------ Comment ------ */
 
@@ -49,9 +58,9 @@
   grid-template-columns: 1fr auto auto;
 }
 
-.comment {
+.comment-card .comment {
     margin-bottom: 15px;
-    border: 1px solid #ddd; 
+    background-color: #49535f;
     padding: 10px;
     border-radius: 8px;
 }
@@ -61,31 +70,31 @@
     font-weight: bold;
 }
 
-.comment-user a {
+.comment-card .comment-user a {
   color: white;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-.comment-user a::before {
+.comment-card .comment-user a::before {
     content: "@";
   }
 
-.comment p {
+.comment-card .comment p {
   margin: 0;
 }
 
-.comment .content {
+.comment-card .comment .content {
   font-size: 16px;
   color: white;
+  padding: 0%;
 }
 
-
-.button-comment:hover {
+.comment-card .comment .button-comment:hover {
   background-color: #555;
 }
 
-form textarea {
+.comment-card textarea {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
@@ -94,25 +103,7 @@ form textarea {
     background-color: white; 
 }
 
-.content {
-    color: black;
+.comment-card .content {
     margin-top: 10px;
     margin-bottom: 10px;
-}
-
-#likeButton {
-    display: inline-block;
-}
-
-#likeButton {
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    color: #1da1f2;
-}
-
-#likeButton .like-count {
-    margin-left: 5px;
 }
