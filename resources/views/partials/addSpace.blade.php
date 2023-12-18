@@ -9,16 +9,15 @@
         </span>
     @endif
     <section class="edit-page-photo-options">
-    <label for="image">
-    Choose a picture: <i class="fa-solid fa-image"></i> 
-    </label>
+        <label for="image">
+            Choose a picture: <i class="fa-solid fa-image"></i>
+        </label>
         <input type="file" name="image" id="image" hidden>
     </section>
     <label>
-        Private Space ? <input type="checkbox" name="public" checked>
+        Private Space? <input type="checkbox" name="public" checked>
     </label>
     <button type="submit">
-        Post
+        Post <i class="fa-solid fa-paper-plane"></i>
     </button>
 </form>
-
