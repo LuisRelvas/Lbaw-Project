@@ -1,9 +1,7 @@
 /* ------ Messages ------ */
 
-.messages-container {
-  display: flex;
-  height: 100vh;
-  .messages-card {
+
+.flex-container  .messages-card {
     background-color: #1c2632;
     flex: 1;
     padding: 1em;
@@ -12,7 +10,6 @@
     margin-top: 0;
     margin-bottom: 0;
   }
-}
 
 
 

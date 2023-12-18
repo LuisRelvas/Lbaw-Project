@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<script type="text/javascript" src={{ url('js/space.js') }} defer></script>
+    <script type="text/javascript" src={{ url('js/space.js') }} defer>
+    </script>
 
     <div class="flex-container">
         @include('partials.sidebar')
@@ -32,22 +33,26 @@
                         @foreach ($allSpaces as $space)
                             <li>
                                 <div class ="card">
-                                <ul>
-                                    @php 
-                                        $user = App\Models\User::find($space->user_id);
-                                    @endphp
-                                <li><img src="{{ asset($user->media()) }}" class="profile-img" width="10%"
-                                    style="border-radius: 50%; padding: 1em" alt="profile media">
-                                <a href="/profile/{{ $space->user_id}}">{{ $user->username }}</a></li>
-                                <div id = "space-home-content">
-                                <li><a href="/space/{{ $space->id }}" >{{ $space->content }}</a></li>
-                                </div>
-                                <li>@if($space->media())
-                                <img src="{{ asset($space->media()) }}" class="space-img" width=20% style=padding: 1em alt="space media">
-                                @endif</li>
-                                @include('partials.likeSpace')
+                                    <ul>
+                                        @php
+                                            $user = App\Models\User::find($space->user_id);
+                                        @endphp
+                                        <li><img src="{{ asset($user->media()) }}" class="profile-img" width="10%"
+                                                style="border-radius: 50%; padding: 1em" alt="profile media">
+                                            <a href="/profile/{{ $space->user_id }}">{{ $user->username }}</a>
+                                        </li>
+                                        <div id = "space-home-content">
+                                            <li><a href="/space/{{ $space->id }}">{{ $space->content }}</a></li>
+                                        </div>
+                                        <li>
+                                            @if ($space->media())
+                                                <img src="{{ asset($space->media()) }}" class="space-img" width=20%
+                                                    style=padding: 1em alt="space media">
+                                            @endif
+                                        </li>
+                                        @include('partials.likeSpace')
 
-                                </ul>
+                                    </ul>
                                 </div>
                             </li>
                         @endforeach
@@ -61,7 +66,7 @@
             </div>
 
         </div>
-        @include('partials.sideSearchbar')    
+        @include('partials.sideSearchbar')
     </div>
 
     @include('partials.footer')

@@ -1,9 +1,7 @@
 /* ------ About ------ */
 
-.aboutus-container {
-  display: flex;
-  height: 100vh;
-  .about-card {
+
+ .flex-container .about-card {
     background-color: #1c2632;
     overflow: auto;
     flex: 1;
@@ -13,7 +11,7 @@
     margin-top: 0;
     margin-bottom: 0;
   }
-}
+
 
 .about-card h2,
 .about-card h3 {

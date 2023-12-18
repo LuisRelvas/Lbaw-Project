@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <script type="text/javascript" src={{ url('js/message.js') }} defer></script>
-    <div class="message-container">
+    <div class="flex-container">
         @include('partials.sidebar')
        @include('partials.messageCard')
         @include('partials.sideSearchbar')
