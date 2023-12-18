@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<script type="text/javascript" src={{ url('js/space.js') }} defer></script>
 
     <div class="flex-container">
         @include('partials.sidebar')
@@ -29,7 +30,24 @@
                         @include('partials.addSpace')
 
                         @foreach ($allSpaces as $space)
-                            <li><a href="/space/{{ $space->id }}" class="card">{{ $space->content }}</a></li>
+                            <li>
+                                <div class ="card">
+                                <ul>
+                                    @php 
+                                        $user = App\Models\User::find($space->user_id);
+                                    @endphp
+                                <li><img src="{{ asset($user->media()) }}" class="profile-img" width="10%"
+                                    style="border-radius: 50%; padding: 1em" alt="profile media"></li>
+                                <li><a href="/profile/{{ $space->user_id}}">{{ $user->username }}</a></li>
+                                <li><a href="/space/{{ $space->id }}" >{{ $space->content }}</a></li>
+                                <li>@if($space->media())
+                                <img src="{{ asset($space->media()) }}" class="space-img" width=20% style=padding: 1em alt="profile media">
+                                @endif</li>
+                                @include('partials.likeSpace')
+
+                                </ul>
+                                </div>
+                            </li>
                         @endforeach
                     @else
                         @foreach ($publics as $space)

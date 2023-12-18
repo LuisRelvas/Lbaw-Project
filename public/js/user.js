@@ -175,6 +175,7 @@ function resetEditUserState(id) {
     resetEditUserState(id);
   }
 
+  
   function deleteProfile(id) {
     if (!confirm('Are you sure you want to delete your account?')) {
         return;
@@ -193,6 +194,9 @@ function resetEditUserState(id) {
       }
     });
   }
+
+  
+
 
   function acceptFollowRequest(user_id1,user_id2)
 {

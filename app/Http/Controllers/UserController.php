@@ -259,6 +259,7 @@ class UserController extends Controller
         }
     }
 
+
     public function searchPage()
     {
         return view('pages.search');

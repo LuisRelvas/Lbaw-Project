@@ -9,11 +9,13 @@
         </span>
     @endif
     <section class="edit-page-photo-options">
-        <label for="image">Choose a profile picture:</label>
-        <input type="file" name="image" id="image">
+    <label for="image">
+    Choose a picture: <i class="fa-solid fa-image"></i> 
+    </label>
+        <input type="file" name="image" id="image" hidden>
     </section>
     <label>
-        Public Space ? <input type="checkbox" name="public" checked>
+        Private Space ? <input type="checkbox" name="public" checked>
     </label>
     <button type="submit">
         Post
