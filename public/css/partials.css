@@ -94,3 +94,8 @@
     overflow: auto;
     max-height: 450px;
 }
+
+.side-searchbar .trend-content .trend a:hover {
+    color: white;
+    text-decoration: underline;
+}

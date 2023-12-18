@@ -6,10 +6,6 @@
   font-size: 1.5em;
 }
 
-.card-body ul li a:hover {
-  font-weight: bold;
-}
-
 .card {
   border-radius: 8px;
   padding: 10px;
@@ -21,14 +17,18 @@
   background-color: #1c2632;
 }
 
-.card li 
-{
-  display : flex;
+.card li {
+  display: flex;
   align-items: center;
 }
 
 .card a {
   text-decoration: none;
+  color: white;
+}
+
+.card a:hover {
+  text-decoration: underline;
   color: white;
 }
 
@@ -40,16 +40,26 @@
 }
 
 .card #space-home-content {
-  margin-top: 10px; 
+  margin-top: 10px;
 }
 
 .card #space-home-content a {
-  font-size: 20px; 
+  font-size: 20px;
 }
 
-.card-list .card #likeSpace button
-{
-  background-color: inherit;
+.card #space-home-content a:hover {
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+.card-list .card #likeSpace {
+    text-align: right;
+}
+
+.card-list .card #likeSpace button {
+    background-color: inherit;
+    border-color: #1c2632;
 }
 
 .card .space-img {
@@ -58,10 +68,6 @@
   border-radius: 8px;
   margin-top: 10px;
   margin-bottom: 20px;
-}
-
-.card:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
@@ -85,13 +91,13 @@
 }
 
 li::marker {
-    content: "";
+  content: "";
 }
 
 /* ------ Logo ------ */
 
 .logo {
-  height: 1.5em; /* adjust as needed */
+  height: 1.5em; 
   vertical-align: middle;
   filter: invert(1) sepia(1) saturate(5) hue-rotate(90deg);
 }
@@ -113,21 +119,20 @@ mark.hub {
 /* ------ Scrollbar ------ */
 
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+  background: #f1f1f1;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #888;
+  background: #888;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+  background: #555;
 }
-
 
 /* ------ Add Space ------ */
 
@@ -140,7 +145,8 @@ mark.hub {
   margin-bottom: 10px;
 }
 
-.addSpace input[type="text"], .addSpace textarea {
+.addSpace input[type="text"],
+.addSpace textarea {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -179,7 +185,6 @@ mark.hub {
   opacity: 0.8;
 }
 
-
 .hamburger {
   display: none;
   color: #000; /* Change this to the color that is visible against your background */
@@ -187,12 +192,10 @@ mark.hub {
 
 @media screen and (max-width: 768px) {
   .sidebar {
-      display: none;
+    display: none;
   }
 
   .hamburger {
-      display: block;
+    display: block;
   }
 }
-
-
