@@ -18,7 +18,7 @@
                 @php
                     $user = \App\Models\User::findOrFail($follow->user_id2); 
                 @endphp
-                <div class="profile-card">
+                <div id="profile-card{{ $user->id }}" class="profile-card">
                     <img src="{{ asset($user->media()) }}" class="profile-img" width="10%"
                         style="border-radius: 50%; padding: 1em" alt="profile media">
                     <h2><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></h2>

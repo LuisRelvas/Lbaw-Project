@@ -19,7 +19,9 @@
                     $user = \App\Models\User::findOrFail($follow->user_id1); 
                 @endphp
 
-                <div class="profile-card">
+                <div id="profile-card{{ $user->id }}" class="profile-card">
+                        <img src="{{ asset($user->media()) }}" class="profile-img" width="10%"
+                        style="border-radius: 50%; padding: 1em" alt="profile media">
                     <h2><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></h2>
                     <button id="remove{{ $user->id }}" onclick="removeFollower({{ $user->id }},{{Auth::user()->id}})" class="button-user">
                         <i class="fa-solid fa-user-minus"></i> Unfollow
@@ -30,25 +32,4 @@
     @include('partials.sideSearchbar')
     </div>
 @include('partials.footer')
-
-    <script>
-        function filterUsers() {
-            var input, filter, cards, card, h2, i, txtValue;
-            input = document.getElementById("searchc");
-            filter = input.value.toUpperCase();
-            cards = document.getElementsByClassName("profile-card");
-
-            for (i = 0; i < cards.length; i++) {
-                card = cards[i];
-                h2 = card.getElementsByTagName("h2")[0];
-                txtValue = h2.textContent || h2.innerText;
-
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    card.style.display = "";
-                } else {
-                    card.style.display = "none";
-                }
-            }
-        }
-    </script>
 @endsection

@@ -214,14 +214,28 @@ function stopFollowing(following)
   console.log("The value of the following is", following);
   sendAjaxRequest('DELETE', `/profile/unfollow/${following}`, null, function(response) {
     console.log('Response:', response);
+    var profileCard = document.getElementById('profile-card' + following);
+      console.log("the value of the card is", profileCard);
+
+      if (profileCard) {
+          profileCard.remove();
+      }
   });
 }
 
 
-function removeFollower(follower,me)
-{
-  sendAjaxRequest('DELETE', `/profile/unfollow/${me}`, {id : follower}, function(response) {
-  console.log("The value of the following is", follower);});
+function removeFollower(follower, me) {
+  sendAjaxRequest('DELETE', `/profile/unfollow/${me}`, { id: follower }, function (response) {
+      console.log("The value of the following is", follower);
+
+      // Find and remove the corresponding profile-card div
+      var profileCard = document.getElementById('profile-card' + follower);
+      console.log("the value of the card is", profileCard);
+
+      if (profileCard) {
+          profileCard.remove();
+      }
+  });
 }
 
 
