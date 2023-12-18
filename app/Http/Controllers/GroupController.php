@@ -57,6 +57,8 @@ class GroupController extends Controller
         $all = $groups->concat($publics)->concat($members);
         $all = $all->unique('id');
         $others = Group::all();
+        $allIds = $all->pluck('id');
+        $others = Group::whereNotIn('id', $allIds)->get(); 
         return view('pages.listGroups',[
         'all' => $all,
         'others' => $others
