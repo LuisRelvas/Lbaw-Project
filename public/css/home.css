@@ -21,6 +21,45 @@
   background-color: #1c2632;
 }
 
+.card li 
+{
+  display : flex;
+  align-items: center;
+}
+
+.card a {
+  text-decoration: none;
+  color: white;
+}
+
+.card .profile-img {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.card #space-home-content {
+  margin-top: 10px; 
+}
+
+.card #space-home-content a {
+  font-size: 20px; 
+}
+
+.card-list .card #likeSpace button
+{
+  background-color: inherit;
+}
+
+.card .space-img {
+  width: 50%;
+  height: 400px; /* Set a fixed height for the image, adjust as needed */
+  border-radius: 8px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
 .card:hover {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -98,6 +137,7 @@ mark.hub {
   padding: 20px;
   margin: 0 auto;
   color: #fff;
+  margin-bottom: 10px;
 }
 
 .addSpace input[type="text"], .addSpace textarea {

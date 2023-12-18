@@ -209,6 +209,20 @@ window.Echo = new Echo({
 });
 
 
+function stopFollowing(following)
+{
+  console.log("The value of the following is", following);
+  sendAjaxRequest('DELETE', `/profile/unfollow/${following}`, null, function(response) {
+    console.log('Response:', response);
+  });
+}
+
+
+function removeFollower(follower,me)
+{
+  sendAjaxRequest('DELETE', `/profile/unfollow/${me}`, {id : follower}, function(response) {
+  console.log("The value of the following is", follower);});
+}
 
 
 
@@ -352,7 +366,7 @@ async function getAPIResult(type, search) {
   // Use a regular expression to allow only letters and numbers
   const sanitizedSearch = search.replace(/[^a-zA-Z0-9]/g, '');
 
-  const query = `../api/${type}?search=${sanitizedSearch}`;
+  const query = `/api/${type}?search=${sanitizedSearch}`;
   if(sanitizedSearch == '')
   {
     return '';

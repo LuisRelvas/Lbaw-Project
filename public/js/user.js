@@ -1,19 +1,26 @@
 
+function filterUsers() {
+  var input, filter, cards, card, h2, i, txtValue;
+  input = document.getElementById("searchc");
+  filter = input.value.toUpperCase();
+  cards = document.getElementsByClassName("profile-card");
 
-function stopFollowing(following)
-{
-  console.log("The value of the following is", following);
-  sendAjaxRequest('DELETE', `/profile/unfollow/${following}`, null, function(response) {
-    console.log('Response:', response);
-  });
+  for (i = 0; i < cards.length; i++) {
+      card = cards[i];
+      h2 = card.getElementsByTagName("h2")[0];
+      txtValue = h2.textContent || h2.innerText;
+
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          card.style.display = "";
+      } else {
+          card.style.display = "none";
+      }
+  }
 }
 
 
-function removeFollower(follower,me)
-{
-  sendAjaxRequest('DELETE', `/profile/unfollow/${me}`, {id : follower}, function(response) {
-  console.log("The value of the following is", follower);});
-}
+
+
 
 
 function resetEditUserState(id) {

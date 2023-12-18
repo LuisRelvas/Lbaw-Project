@@ -34,6 +34,13 @@
     <script type="text/javascript"></script>
     <script type="text/javascript" src={{ url('js/app.js') }} defer></script>
     <script type="text/javascript" src={{ url('js/config.js') }} defer></script>
+    <script type="text/javascript" src={{ url('js/space.js') }} defer></script>
+    <script type="text/javascript" src={{ url('js/user.js') }} defer></script>
+    <script type="text/javascript" src={{ url('js/admin.js') }} defer></script>
+    <script type="text/javascript" src={{ url('js/message.js') }} defer></script>
+    <script type="text/javascript" src={{ url('js/comment.js') }} defer></script>
+    <script type="text/javascript" src={{ url('js/notification.js') }} defer></script>
+
 
 </head>
 

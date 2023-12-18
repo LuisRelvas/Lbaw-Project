@@ -87,5 +87,38 @@
     margin-right: 10px;
 }
 
+
+.user-followers {
+  width: 75%;
+  background-color: #1c2632;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 8px;
+  color: white;
+  text-align: center;
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds the height */
+}
+
+.user-following {
+  width: 75%;
+  background-color: #1c2632;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 8px;
+  color: white;
+  text-align: center;
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds the height */
+}
+
+.profile-card h2 {
+  margin-bottom: 10px;
+}
+
+.profile-card a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
 /* ------ Edit User ------ */
 

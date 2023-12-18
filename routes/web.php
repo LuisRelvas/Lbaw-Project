@@ -125,7 +125,6 @@ Route::controller(GroupController::class)->group(function () {
 Route::controller(UserController::class)->group(function () {
     Route::get('/profile/{id}','show');
     Route::get('/api/profile','search');
-    Route::post('/profile/edit', 'edit')->name('edit');
     Route::get('/profile/{id}/editUser','editUser');
     Route::get('/profile/{id}/following','following');
     Route::get('/profile/{id}/followers','followers');
