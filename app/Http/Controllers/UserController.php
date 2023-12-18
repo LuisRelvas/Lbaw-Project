@@ -153,10 +153,38 @@ class UserController extends Controller
                 $enc = encrypt($user->id);
                 FileController::update($enc, 'profile', $request);
             }
-            $user->save();
-            return redirect('/profile/' . $user->id)->withSuccess('User edited successfully!');
+            if($request->oldPassword != null) 
+            {
+                if(Hash::check($request->oldPassword,$user->password))
+            {
+            if($request->password == $request->password_confirmation) 
+            {  
+                $request->validate([
+                    'password' => 'required|min:8|confirmed',
+                    'password_confirmation' => 'required|min:8'
+                ]);
+                $user->password = Hash::make($request->password);
+                $user->save();
+                return redirect('/profile/' . $user->id)->withSuccess('Password edited successfully!');
+            }
+            else 
+            {
+                return redirect("/profile/$user->id")->withErrors([
+                    'password' => 'Passwords do not match.'
+                ]);
+            }
+            }
+            else 
+            {
+                return redirect("/profile/$user->id")->withErrors([
+                    'password' => 'Wrong password.'
+                ]);
+            }
+            }
+                $user->save();
+                return redirect('/profile/' . $user->id)->withSuccess('User edited successfully!');
+            }
         }
-    }
 
     public function editPassword()
     {

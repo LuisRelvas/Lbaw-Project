@@ -13,23 +13,37 @@
                 <input type="file" name="image" id="image">
                 <button form="removePhoto" class="edit-page-button">Remove Photo</button>
             </section>
+            <label for="password"><i class="fa-solid fa-lock"></i> Current Password</label>
+        @if (Auth::user()->isAdmin(Auth::user()))
+            <input id="oldPassword" type="password" name="oldPassword">
+        @else
+            <input id="oldPassword" type="password" name="oldPassword" >
+        @endif
+        @if ($errors->has('password'))
+            <span class="error">
+                {{ $errors->first('password') }}
+            </span>
+        @endif
+    <label for="password"><i class="fa-solid fa-lock"></i> Password</label>
+        @if (Auth::user()->isAdmin(Auth::user()))
+            <input id="password" type="password" name="password">
+        @else
+            <input id="password" type="password" name="password" >
+        @endif
+        @if ($errors->has('password'))
+            <span class="error">
+                {{ $errors->first('password') }}
+            </span>
+        @endif
+
+    <label for="password-confirm"><i class="fa-solid fa-square-check"></i> Confirm Password</label>
+        @if (Auth::user()->isAdmin(Auth::user()))
+            <input id="password-confirm" type="password" name="password_confirmation">
+        @else
+            <input id="password-confirm" type="password" name="password_confirmation">
+        @endif
             <input type="hidden" name="id" value="{{ request()->route('id') }}">
-            <label for="email"><i class="fa-solid fa-square-envelope"></i> E-Mail Address</label>
-            <input id="email" type="email" name="email" value="{{ old('email') }}">
-            @if ($errors->has('email'))
-            <span class="error">
-                {{ $errors->first('email') }}
-            </span>
-            @endif
-            <label for="is_public"><i class="fa-solid fa-key"></i> Private Profile</label>
-            <input id="is_public" type="hidden" name="is_public" value="0">
-            <input id="is_public" type="checkbox" name="is_public" value="1" {{ old('is_public') !==null ? 'checked'
-                : '' }}>
-            @if ($errors->has('is_public'))
-            <span class="error">
-                {{ $errors->first('is_public') }}
-            </span>
-            @endif
+
             <div>
                 <button type="submit">
                     Edit <i class="fa-solid fa-pen-to-square"></i>
