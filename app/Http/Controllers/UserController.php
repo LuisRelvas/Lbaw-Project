@@ -97,6 +97,7 @@ class UserController extends Controller
         if (Auth::user()->isAdmin(Auth::user())) {
 
             $user = User::find($request->input('id'));
+
             if (!$user) {
                 return response()->json(['error' => 'User not found'], 404);
             }

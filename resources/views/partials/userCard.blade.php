@@ -22,7 +22,7 @@
         </div>
         @if (Auth::check())
         @if ($user->id == Auth::User()->id || Auth::User()->isAdmin(Auth::User()))
-        <button id="editUser{{ $user->id }}" onclick="editUser({{ $user->id }})" class="button-user-comment">
+        <button id="editUser{{ $user->id }}" onclick="editUser({{ $user->id }},{{$user->is_public}})" class="button-user-comment">
             &#9998;
             <div id="text-config"><i id="text-icon" class="pencil"></i></div>
         </button>

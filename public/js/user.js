@@ -37,13 +37,38 @@ function resetEditUserState(id) {
     };
   }
   
-  function editUser(id) {
+  function editUser(id,publicProfile) {
+    console.log(publicProfile);
     let user = document.querySelector("#user" + id);
     console.log(user)
     if (!user) {
         console.error("User element not found");
         return;
     }
+
+    let selectElement = document.createElement('select');
+    selectElement.id = 'publicProfileSelect';
+
+    let publicOption = document.createElement('option');
+    publicOption.value = 'Public';
+    publicOption.text = 'Public';
+    if (publicProfile === 'Public') {
+        publicOption.selected = true;
+    }
+
+    let privateOption = document.createElement('option');
+    privateOption.value = 'Private';
+    privateOption.text = 'Private';
+    if (publicProfile === 'Private') {
+        privateOption.selected = true;
+    }
+
+    selectElement.appendChild(publicOption);
+    selectElement.appendChild(privateOption);
+    selectElement.style.display = 'none'; 
+    user.appendChild(selectElement);
+    selectElement.style.display = 'block';
+
   
     let name = document.querySelector(".name");
     let email = document.querySelector(".email");
@@ -90,21 +115,32 @@ function resetEditUserState(id) {
   
     // change the onclick of the button
     let button = document.querySelector('#editUser' + id);
+    console.log("The value of the select element is",selectElement.value);
+
     button.onclick = function () {
         // Get the updated name and email
         let updatedName = nameInput.value;
         let updatedEmail = emailInput.value;
+        if(selectElement.value == 'Private') // Changed condition here
+        {
+          var privacy = true;
+        }
+        else
+        {
+          var privacy = false;
+        }
   
         // Send an AJAX request to update the name and email on the server
         let url = '/profile/edit'
         let data = {
             id: id,
             name: updatedName,
-            email: updatedEmail
+            email: updatedEmail,
+            is_public : privacy
         };
-        console.log('The value of data from user is', data);
         sendAjaxRequest('POST', url, data, function (response) {
           console.log(this.status);
+          console.log("the value of the respoinse is",privacy);
             console.log('Updated Name:', updatedName);
             console.log('Updated Email:', updatedEmail);
             // Update the name and email on the page
@@ -113,8 +149,11 @@ function resetEditUserState(id) {
             // Update the originalContent data attribute
             name.dataset.originalContent = updatedName;
             email.dataset.originalContent = updatedEmail;
+            selectElement.style.display = 'none';
+
             // Reset the edit state
             resetEditUserState(id);
+
         });
     };
   }
@@ -123,9 +162,15 @@ function resetEditUserState(id) {
     let user = document.querySelector("#user" + id);
     let name = user.querySelector(".name");
     let email = user.querySelector(".email");
+    let selectElement = user.querySelector("#publicProfileSelect"); 
+    
+
     // Restore the original content
     name.textContent = name.dataset.originalContent;
     email.textContent = email.dataset.originalContent;
+    selectElement.remove();
+
+
     // Reset the edit state
     resetEditUserState(id);
   }
