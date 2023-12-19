@@ -37,7 +37,8 @@
 
 /* ------ Searchbar ------ */
 
-.side-searchbar,.side-searchpage {
+.side-searchbar,
+.side-searchpage {
   height: 100%;
   width: 250px;
   background-color: #49535f;
@@ -55,8 +56,7 @@
   display: block;
 }
 
-.side-searchpage a 
-{
+.side-searchpage a {
   color: #fff;
   text-decoration: none;
   display: block;
@@ -70,8 +70,8 @@
 
 .side-searchbar #results-users,
 .side-searchbar #results-spaces {
+  width: 200px;
   position: absolute;
-  width: 100%;
   background-color: #49535f;
   max-height: 1000px; /* adjust as needed */
   overflow-y: auto;
@@ -81,6 +81,7 @@
 .side-searchbar .space-content.search-page-card-space,
 .side-searchbar .group-content.search-page-card-group,
 .side-searchbar .comment-content.search-page-card-comment {
+  margin-top: 15px !important;
   margin-bottom: 0;
   z-index: 1000;
 }
@@ -95,27 +96,25 @@
 
 .side-searchbar .trend-content p,
 .side-searchpage .trend-content p {
-    font-weight: bold;
-    font-size: large;
+  font-weight: bold;
+  font-size: large;
 }
 
 .side-searchbar .trend-content .trend {
-    overflow: auto;
-    max-height: 450px;
+  overflow: auto;
+  max-height: 450px;
 }
 
 .side-searchbar .trend a:hover,
 .side-searchpage .trend a:hover {
-    color: white;
-    text-decoration: underline;
+  color: white;
+  text-decoration: underline;
 }
 
 @media screen and (max-width: 768px) {
-  .sidebar 
-  {
-    display:flex;
-    flex-direction:column;
+  .sidebar {
+    display: flex;
+    flex-direction: column;
     width: 13%;
-
   }
 }
