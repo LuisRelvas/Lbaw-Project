@@ -14,7 +14,7 @@
   color: white;
 }
 
-.search-page-results {
+.search-card .search-page-results {
   background-color: #49535f;
   max-height: 500px;
   overflow-y: auto;
@@ -23,13 +23,17 @@
   border-radius: 5px;
 }
 
-.search-page-results a {
+.search-card .search-page-results a {
   color: white;
 }
 
-.search-page-results a:hover {
+.search-card .search-page-results a:hover {
   color: white;
   text-decoration: underline;
+}
+
+.search-card #filters .radio-label {
+    color: white;
 }
 
 input#date {
@@ -83,5 +87,19 @@ input#date {
 }
 
 
+.results-container .user-username.search-page-card-user,
+.results-container .space-content.search-page-card-space,
+.results-container .group-content.search-page-card-group,
+.results-container .comment-content.search-page-card-comment {
+  margin-bottom: 0;
+  z-index: 1000;
+}
 
+.results-container .search-user-card-username,
+.results-container .search-space-card-content,
+.results-container .search-group-card-content,
+.results-container .search-comment-card-content {
+  margin-top: 0;
+  color: gray;
+}
 
