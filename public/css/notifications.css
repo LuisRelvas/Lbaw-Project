@@ -27,3 +27,10 @@
     }
 }
 
+#notificationsContainer button {
+    margin-bottom: 0 !important;
+}
+
+#notificationsContainer .content #notification {
+    margin-bottom: 0 !important;
+}

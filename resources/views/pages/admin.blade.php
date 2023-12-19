@@ -13,7 +13,8 @@
             <div class="main-menu admin-options">
                 <ul>
 
-                    <li><button id="usersButton" onclick="UsersDropDown()"><i class="fa-solid fa-user"></i> Users</button></li>
+                    <li><button id="usersButton" onclick="UsersDropDown()"><i class="fa-solid fa-user"></i> 
+                            Users</button></li>
                     <li><button id="spacesButton" onclick="SpacesDropDown()"><i class="fa-solid fa-comment"></i>
                             Spaces</button></li>
                     <li><button id="groupsButton" onclick="GroupsDropDown()"><i class="fa-solid fa-users"></i>
@@ -24,8 +25,8 @@
                 <input type="text" id="userSearch" placeholder="User Search...">
                 <div id="results-users"></div>
                 <div id="createUser" class="admincreate">
-                <button onclick="location.href='{{ url('/register') }}'" class="btn btn-primary">Create User</button>
-            </div>
+                    <button onclick="location.href='{{ url('/register') }}'" class="btn btn-primary">Create User</button>
+                </div>
             </div>
             <div id="adminSpacesSearch" class="search-container" style="display: none;">
                 <input type="text" id="spacesSearch" placeholder="Spaces Search...">
