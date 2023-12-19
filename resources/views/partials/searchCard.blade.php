@@ -1,6 +1,7 @@
 <div class="search-card">
             <h1><i class="fa-solid fa-magnifying-glass"></i> Explore</h1>
             <form action="{{ url('homepage/search') }}" method="get">
+                @csrf
                 <div class="searchbar">
                     <input type="text" id="search" name="search" placeholder="Search..." style="color: white;"
                         pattern="[a-zA-Z0-9\s]+" onclick="showResultsContainer()" onblur="hideResultsContainer()"
