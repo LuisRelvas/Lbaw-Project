@@ -39,7 +39,6 @@
 
 .side-searchbar,.side-searchpage {
   height: 100%;
-  position: relative;
   width: 250px;
   background-color: #49535f;
   right: 0;
@@ -104,7 +103,7 @@
     max-height: 450px;
 }
 
-.side-searchbar .trend-content .trend a:hover {
+.side-searchbar .trend a:hover {
     color: white;
     text-decoration: underline;
 }
