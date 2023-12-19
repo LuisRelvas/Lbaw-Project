@@ -55,6 +55,9 @@ function showNotifications(id) {
       
         var acceptButton = document.createElement('button');
         acceptButton.textContent = 'Accept';
+        acceptButton.style.backgroundColor = 'transparent';
+        acceptButton.style.borderColor = '#1c2632';
+        acceptButton.style.marginBottom = '2em';
         acceptButton.addEventListener('click', function() {
           acceptInvite(groupId, notification[4]);
           updateNotification(notification[4]);
@@ -62,6 +65,9 @@ function showNotifications(id) {
       
         var declineButton = document.createElement('button');
         declineButton.textContent = 'Decline';
+        declineButton.style.backgroundColor = 'transparent';
+        declineButton.style.borderColor = '#1c2632';
+        declineButton.style.marginBottom = '2em';
         declineButton.addEventListener('click', function() {
           updateNotification(notification[4]);
           declineInvite(groupId,notification[4]);
@@ -83,6 +89,9 @@ function showNotifications(id) {
       
         var acceptButton = document.createElement('button');
         acceptButton.textContent = 'Accept';
+        acceptButton.style.backgroundColor = 'transparent';
+        acceptButton.style.borderColor = '#1c2632';
+        acceptButton.style.marginBottom = '2em';
         acceptButton.addEventListener('click', function() {
           acceptFollowRequest(userid,id);
           updateNotification(notification[4]);
@@ -91,6 +100,9 @@ function showNotifications(id) {
       
         var declineButton = document.createElement('button');
         declineButton.textContent = 'Decline';
+        declineButton.style.backgroundColor = 'transparent';
+        declineButton.style.borderColor = '#1c2632';
+        declineButton.style.marginBottom = '2em';
         declineButton.addEventListener('click', function() {
           declineFollowRequest(userid,id);
           updateNotification(notification[4]);
@@ -111,6 +123,9 @@ function showNotifications(id) {
       
         var button = document.createElement('button');
         button.textContent = '✓';
+        button.style.backgroundColor = 'transparent';
+        button.style.borderColor = '#1c2632';
+        button.style.marginBottom = '2em';
         button.addEventListener('click', function() {
           updateNotification(notification[4]); // Pass the ID to updateNotification
         });
@@ -123,6 +138,9 @@ function showNotifications(id) {
         a.textContent = `${userName} ${notificationType} ${who}`;
         var button = document.createElement('button');
         button.textContent = '✓';
+        button.style.backgroundColor = 'transparent';
+        button.style.borderColor = '#1c2632';
+        button.style.marginBottom = '2em';
         button.addEventListener('click', function() {
           updateNotification(notification[4]); // Pass the ID to updateNotification
         });
