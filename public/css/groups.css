@@ -86,6 +86,10 @@
   color: white;
 }
 
+textarea.groupdescription {
+    color: white !important;
+}
+
 .groupauthor a {
   color: #1da1f2;
   text-decoration: none;
@@ -128,29 +132,18 @@
     color: white;
 }
 
+.button-container-group {
+    display: flex;
+    margin-top: 50px;
+    justify-content: space-between;
+}
+
+.button-container-group button {
+    border-color: #1c2632;
+    background-color: inherit;
+}
+
 /* ------- Group Sidebar ------ */
-
-.invitegroup-container {
-    margin-left: auto; /* Add this line */
-    width: 250px; /* adjust as needed */
-    height: 250px; /* adjust as needed */
-    background-color: #49535f;
-    color: white;
-    border-radius: 6px;
-    padding: 20px;
-    margin-top: 10px;
-}
-
-.joinrequest-card {
-    margin-left: auto; /* Add this line */
-    width: 250px; /* adjust as needed */
-    height: 250px; /* adjust as needed */
-    background-color: #49535f;
-    color: white;
-    border-radius: 6px;
-    padding: 20px;
-    margin-top: 10px;
-}
 
 .members-card {
     margin-left: auto; /* Add this line */
@@ -160,14 +153,51 @@
     color: white;
     border-radius: 6px;
     padding: 20px;
-    margin-top: 10px;
+    overflow-x: auto;
+}
+
+.members-card .member-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.members-card .member-container .button-member-delete {
+    background-color: inherit;
+    border-color: #49535f;
+    margin-bottom: 2rem;
+}
+.joinrequest-card {
+    margin-left: auto; /* Add this line */
+    width: 250px; /* adjust as needed */
+    height: 250px; /* adjust as needed */
+    background-color: #49535f;
+    color: white;
+    padding: 20px;
+    border-top: white 1px solid;
+    overflow: auto;
+}
+
+.invitegroup-container {
+    margin-left: auto; /* Add this line */
+    width: 250px; /* adjust as needed */
+    height: 250px; /* adjust as needed */
+    background-color: #49535f;
+    color: white;
+    padding: 20px;
+    border-top: white 1px solid;
 }
 
 .group-sidebar {
-    display: flex;
-    flex-direction: column;
-    width: 250px; /* adjust as needed */
-    margin-left: auto;
+    height: 100%;
+  position: relative;
+  background-color: #49535f;
+  right: 0;
+  color: #fff;
+  padding: 1em;
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  overflow: auto;
 }
 
 
