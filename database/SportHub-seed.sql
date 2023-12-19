@@ -777,6 +777,7 @@ BEGIN
     DELETE FROM notification where received_user = OLD.id;
     DELETE FROM user_notification where user_id = OLD.id;
     DELETE from follows where user_id1 = OLD.id or user_id2 = OLD.id;
+    DELETE FROM message where emits_id = OLD.id or received_id = OLD.id;
     DELETE FROM member where user_id = OLD.id;
     DELETE FROM follows_request where user_id1 = OLD.id or user_id2 = OLD.id;
 

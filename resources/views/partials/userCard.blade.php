@@ -41,18 +41,18 @@
     @if (Auth::check())
     @if ($user->id == Auth::User()->id || Auth::User()->isAdmin(Auth::User()))
     <div class="button-container-user">
-        <button id="editUser{{ $user->id }}" onclick="editUser({{ $user->id }},{{$user->is_public}})"
-            class="button-user-comment">
-            <i class="fa-solid fa-pen"></i>
+        <button id="editUser{{ $user->id }}" onclick="editUser({{ $user->id }},{{$user->is_public}})" class="button-user-comment">
+            &#9998;
+            <div id="text-config"><i id="text-icon" class="pencil"></i></div>
         </button>
+
         <button id="cancelEditUser{{ $user->id }}" style="visibility: hidden;"
             onclick="cancelEditUser({{ $user->id }})">Cancel</button>
         @include ('partials.editUser')
-        <button id="button" href="/profile/{{ $user->id }}/editUser/password">Change Password <i
-                class="fa-solid fa-key"></i></button>
-        <button id="deleteProfile{{ $user->id }}" onclick="deleteProfile({{ $user->id }})" class="button-user">
-            <i class="fa-solid fa-trash"></i>
-        </button>
+            <button id="deleteProfile{{ $user->id }}" onclick="deleteProfile({{ $user->id }})" class="button-user">
+                <i class="fa-solid fa-trash"></i>
+            </button>
+
         </div>
         @if (Auth::User()->isAdmin(Auth::User()))
         @if (!$isBlocked)

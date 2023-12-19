@@ -246,7 +246,6 @@ class UserController extends Controller
 
     public function delete(Request $request, $id)
     {
-        $this->authorize('delete', User::class);
         $user = User::find($id);
         $isAdmin = Auth::user()->isAdmin(Auth::user());
         $user->delete();
@@ -254,7 +253,7 @@ class UserController extends Controller
         if ($isAdmin) {
             return redirect('/admin')->withSuccess('User deleted successfully!');
         } else {
-            Auth::logout(); // Log out the user
+            Auth::logout();
             return redirect('/')->withSuccess('User deleted successfully!')->with('logout', true);
         }
     }
