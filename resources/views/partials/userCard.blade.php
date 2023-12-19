@@ -35,10 +35,7 @@
     <button id="deleteProfile{{ $user->id }}" onclick="deleteProfile({{ $user->id }})" class="button-user">
         <i class="fa-solid fa-trash"></i>
     </button>
-    <a class="button"
-        href="{{ Auth::check() && Auth::user()->isAdmin(Auth::user()) ? url('/admin') : url('/homepage') }}">
-        <i class="fa-solid fa-arrow-left"></i> <i class="fa-solid fa-house"></i>
-    </a>
+    
     @if (Auth::User()->isAdmin(Auth::User()))
     @if (!$isBlocked)
     <form method="POST" action="/profile/block/{{ $user->id }}">
