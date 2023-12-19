@@ -26,45 +26,49 @@
                 <h2>Users</h2>
                 <div id="users" class="search-page-results" style="overflow-y: auto;">
 
-                    @foreach ($users as $user)
-                        <p><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></p>
-                    @endforeach
-                </div>
-                @endif
-           
-                @if (isset($spaces) && !empty($spaces) && $spaces != '[]' )
-                <h2>Spaces</h2>
-                
-                <div id="spaces" class="search-page-results">
-                    @foreach ($spaces as $space)
-                    @php
-                        $user = App\Models\User::find($space->user_id);
-                    @endphp
-                        <div class='space-card'>
-                        <img src="{{ asset($user->media()) }}" class="profile-img" width=5% style="border-radius: 50%; padding: 1em"
-                        alt="profile media">
-                        <div class="spaceauthor"><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></div>
-                        <p><a href="/space/{{ $space->id }}">{{ $space->content }}</a></p>
-                        </div>
-                    @endforeach
-                </div>
-                @endif
-            
-                @if (isset($comments) && !empty($comments) && $comments != '[]')
-                <h2>Comments</h2>
-                <div id="comments" class="search-page-results">
-                    @foreach ($comments as $comment)
-                        <p><a href="/space/{{ $comment->space_id }}">{!! strip_tags($comment->content) !!}</a></p>
-                    @endforeach
-                </div>
-                @endif
-            
-                @if (isset($groups) && !empty($groups) && $groups != '[]')
-                <h2>Groups</h2>
-                <div id="groups" class="search-page-results">
-                    @foreach ($groups as $group)
-                        <p><a href="/group/{{ $group->id }}">{{ $group->name }}</a></p>
-                    @endforeach
-                </div>
-                @endif
+    @if (isset($users) && !empty($users) && $users != '[]')
+        <h2>Users</h2>
+        <div id="users" class="search-page-results" style="overflow-y: auto;">
+
+            @foreach ($users as $user)
+                <p><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></p>
+            @endforeach
         </div>
+    @endif
+
+    @if (isset($spaces) && !empty($spaces) && $spaces != '[]')
+        <h2>Spaces</h2>
+
+        <div id="spaces" class="search-page-results">
+            @foreach ($spaces as $space)
+                @php
+                    $user = App\Models\User::find($space->user_id);
+                @endphp
+                <div class='space-card'>
+                    <img src="{{ asset($user->media()) }}" class="profile-img" width=5%
+                        style="border-radius: 50%; padding: 1em" alt="profile media">
+                    <div class="spaceauthor"><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></div>
+                    <p><a href="/space/{{ $space->id }}">{{ $space->content }}</a></p>
+                </div>
+            @endforeach
+        </div>
+    @endif
+
+    @if (isset($comments) && !empty($comments) && $comments != '[]')
+        <h2>Comments</h2>
+        <div id="comments" class="search-page-results">
+            @foreach ($comments as $comment)
+                <p><a href="/space/{{ $comment->space_id }}">{!! strip_tags($comment->content) !!}</a></p>
+            @endforeach
+        </div>
+    @endif
+
+    @if (isset($groups) && !empty($groups) && $groups != '[]')
+        <h2>Groups</h2>
+        <div id="groups" class="search-page-results">
+            @foreach ($groups as $group)
+                <p><a href="/group/{{ $group->id }}">{{ $group->name }}</a></p>
+            @endforeach
+        </div>
+    @endif
+</div>
