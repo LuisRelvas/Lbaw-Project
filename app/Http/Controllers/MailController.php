@@ -84,7 +84,6 @@ class MailController extends Controller
         $request->session()->flash('status', $status);
         $request->session()->flash('message', $message);
         $request->session()->flash('details', $missingVariables);
-        return redirect('/homepage');
     }
 
 

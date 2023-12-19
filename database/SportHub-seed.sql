@@ -773,8 +773,7 @@ BEGIN
     UPDATE comment SET author_id = 1 WHERE author_id = OLD.id;
     UPDATE space set user_id = 1 WHERE user_id = OLD.id;
     UPDATE groups set user_id = 1 WHERE user_id = OLD.id;
-    DELETE FROM notification where emits_user = OLD.id;
-    DELETE FROM notification where received_user = OLD.id;
+    DELETE FROM notification where emits_user = OLD.id or received_user = OLD.id;
     DELETE FROM user_notification where user_id = OLD.id;
     DELETE from follows where user_id1 = OLD.id or user_id2 = OLD.id;
     DELETE FROM message where emits_id = OLD.id or received_id = OLD.id;

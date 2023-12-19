@@ -6,7 +6,6 @@
 
     <div class="flex-container">
         @include('partials.sidebar')
-
         @include('partials.userCard')
         @include('partials.sideSearchbar')
 
