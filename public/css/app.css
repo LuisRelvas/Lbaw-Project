@@ -63,9 +63,10 @@ main > header span {
   .content {
     border-radius: 5px;
     flex: 1;
+    height: 100%;
     padding: 1em;
-    box-sizing: border-box; /* Prevent adding borders to the width */
-    overflow: auto; /* Add a scrollbar when content overflows */
+    box-sizing: border-box;
+    overflow: auto;
     margin-top: 0;
     margin-bottom: 0;
   }
@@ -168,6 +169,21 @@ a.button {
   color: red;
   font-weight: bold;
 }
+
+@media screen and (max-width: 768px) { /* Adjust the breakpoint as needed */
+
+
+  main > header {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  main > header a.button,
+  main > header span {
+    margin: 0.5em ;
+  }
+}
+
 
 
 

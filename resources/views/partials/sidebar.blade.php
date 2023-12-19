@@ -33,8 +33,16 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('.hamburger').addEventListener('click', function() {
-            document.querySelector('.sidebar').style.display = 'block';
+        var hamburger = document.querySelector('.hamburger');
+        var sidebar = document.querySelector('.sidebar');
+        hamburger.addEventListener('click', function() {
+            if (sidebar.style.display === 'block') {
+                sidebar.style.display = 'none';
+                hamburger.innerHTML = '<i class="fas fa-bars"></i>'; // Hamburger icon
+            } else {
+                sidebar.style.display = 'block';
+                hamburger.innerHTML = '<i class="fas fa-times"></i>'; // Close icon
+            }
         });
     });
 </script>

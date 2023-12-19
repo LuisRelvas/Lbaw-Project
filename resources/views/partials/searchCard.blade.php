@@ -17,46 +17,53 @@
                     <input type="radio" id="publicRadio" name="profileType" value="anyone">Anyone
                     <input type="radio" id="privateRadio" name="profileType" value="follow">People that You follow
                 </div>
-                <button type="button" onclick="toggleFilters()">Filters <i class="fa-solid fa-filter"></i></button>
+                <button type="button" class="filters" onclick="toggleFilters()">Filters <i class="fa-solid fa-filter"></i></button>
                 <button type="submit">Search <i class="fa-solid fa-magnifying-glass"></i></button>
             </form>
+            
+                @if (isset($users) && !empty($users) && $users != '[]')
+                <h2>Users</h2>
+                <div id="users" class="search-page-results" style="overflow-y: auto;">
 
-            <!-- Show results only if the search input is not empty -->
-            <div id="users" class="search-page-results" style="overflow-y: auto;">
-                @if (isset($users) && !empty($users))
                     @foreach ($users as $user)
-                        <h2><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></h2>
+                        <p><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></p>
                     @endforeach
-                @else
-                    <p>No results found for your search</p>
+                </div>
                 @endif
-            </div>
-            <div id="spaces" class="search-page-results">
-                @if (isset($spaces) && !empty($spaces))
+           
+                @if (isset($spaces) && !empty($spaces) && $spaces != '[]' )
+                <h2>Spaces</h2>
+                
+                <div id="spaces" class="search-page-results">
                     @foreach ($spaces as $space)
-                        <h2><a href="/space/{{ $space->id }}">{{ $space->content }}</a></h2>
+                    @php
+                        $user = App\Models\User::find($space->user_id);
+                    @endphp
+                        <div class='space-card'>
+                        <img src="{{ asset($user->media()) }}" class="profile-img" width=5% style="border-radius: 50%; padding: 1em"
+                        alt="profile media">
+                        <div class="spaceauthor"><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></div>
+                        <p><a href="/space/{{ $space->id }}">{{ $space->content }}</a></p>
+                        </div>
                     @endforeach
-                @else
-                    <p>No results found for your search</p>
+                </div>
                 @endif
-            </div>
-
-            <div id="comments" class="search-page-results">
-                @if (isset($comments) && !empty($comments))
+            
+                @if (isset($comments) && !empty($comments) && $comments != '[]')
+                <h2>Comments</h2>
+                <div id="comments" class="search-page-results">
                     @foreach ($comments as $comment)
-                        <h2><a href="/space/{{ $comment->space_id }}">{!! strip_tags($comment->content) !!}</a></h2>
+                        <p><a href="/space/{{ $comment->space_id }}">{!! strip_tags($comment->content) !!}</a></p>
                     @endforeach
-                @else
-                    <p>No results found for your search</p>
+                </div>
                 @endif
-            </div>
-            <div id="groups" class="search-page-results">
-                @if (isset($groups) && !empty($groups))
+            
+                @if (isset($groups) && !empty($groups) && $groups != '[]')
+                <h2>Groups</h2>
+                <div id="groups" class="search-page-results">
                     @foreach ($groups as $group)
-                        <h2><a href="/group/{{ $group->id }}">{{ $group->name }}</a></h2>
+                        <p><a href="/group/{{ $group->id }}">{{ $group->name }}</a></p>
                     @endforeach
-                @else
-                    <p>No results found for your search</p>
+                </div>
                 @endif
-            </div>
         </div>

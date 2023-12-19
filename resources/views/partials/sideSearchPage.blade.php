@@ -1,24 +1,9 @@
-<div class="side-searchbar">
-    <input type="text" id="search" placeholder="Search..." style="color: white;" pattern="[a-zA-Z0-9\s]+">
-    <div id="results-users"></div>
-    @if (Auth::check())
-        <div id="results-spaces"></div>
-        <div id="results-groups"></div>
-        <div id="results-comments"></div>
-    @endif
-    @if (Auth::check())
-        @if (session('success'))
-            <p class="success">
-                {{ session('success') }}
-            </p>
-        @endif
-    @endif
-
+<div class="side-searchpage">
     <div class ="trend-content">
         @php
             $trends = App\Models\LikeSpace::orderBy('space_id', 'desc')->take(5)->get();
         @endphp
-        <p>Trending <i class="fa-solid fa-arrow-trend-up"></i></p>
+        <p>Trending Spaces<i class="fa-solid fa-arrow-trend-up"></i></p>
         <div class="trend">
             @if (Auth::check() && isset($trends) && !empty($trends))
                 @foreach ($trends as $trend)

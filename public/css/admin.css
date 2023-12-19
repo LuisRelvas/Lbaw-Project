@@ -50,7 +50,9 @@
 }
 
 .adminsearch #results-users a, 
-.adminsearch #results-spaces a { /* Name */
+.adminsearch #results-spaces a,
+.adminsearch #results-groups a
+{ /* Name */
     font-size: 14px; 
     color: white; 
     text-decoration: underline;

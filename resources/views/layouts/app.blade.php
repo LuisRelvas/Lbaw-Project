@@ -54,8 +54,7 @@
                 </a>
             </h1>
             @if (Auth::check())
-                <a class="button" href="{{ url('/logout') }}"> Logout <i
-                        class="fa-solid fa-right-from-bracket"></i></a>
+                
                 <div class="button-container">
                     <a class="button" href="{{ url('/profile/' . Auth::user()->id) }}">
                         <span>{{ Auth::user()->name }}</span>
@@ -64,11 +63,15 @@
                     <a id="notificationsButton" class="button" onclick="showNotifications({{ Auth::user()->id }})">
                         <i class="fa-solid fa-bell"></i>
                     </a>
+                    <a class="button" href="{{ url('/logout') }}"> Logout <i
+                        class="fa-solid fa-right-from-bracket"></i></a>
                 </div>
                 <div id="notificationsContainer"></div>
             @else
+                <div class="button-container">
                 <a class="button" href="{{ url('/login') }}"> Login <i class="fa-solid fa-right-to-bracket"></i></a>
                 <a class="button" href="{{ url('/register') }}"> Register <i class="fa-solid fa-pen-to-square"></i></a>
+                </div>
             @endif
         </header>
         <section id="content">

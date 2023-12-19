@@ -348,9 +348,6 @@ class UserController extends Controller
         $input = $request->input('search');
         $profileType = $request->input('profileType');
         
-        
-
-
         $users = User::query();
         $spaces = Space::query();
         $groups = Group::query();

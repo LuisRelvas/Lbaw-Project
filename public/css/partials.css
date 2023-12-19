@@ -1,6 +1,7 @@
 /* ------ Sidebar ------ */
 
 .sidebar {
+  height: 100%;
   width: 250px;
   background-color: #49535f;
   color: #fff;
@@ -32,11 +33,13 @@
   background-color: #2a3543;
   color: white;
   font-weight: bold;
+  margin-bottom: 0;
 }
 
 /* ------ Searchbar ------ */
 
-.side-searchbar {
+.side-searchbar,.side-searchpage {
+  height: 100%;
   position: relative;
   width: 250px;
   background-color: #49535f;
@@ -49,6 +52,13 @@
 }
 
 .side-searchbar a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+}
+
+.side-searchpage a 
+{
   color: #fff;
   text-decoration: none;
   display: block;
@@ -98,4 +108,17 @@
 .side-searchbar .trend-content .trend a:hover {
     color: white;
     text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar 
+  {
+    position : absolute;
+    z-index : 1;
+  }
+  .hamburger {
+    position: absolute;
+    z-index: 2; /* Higher than the sidebar's z-index */
+    /* Other styles */
+  }
 }
