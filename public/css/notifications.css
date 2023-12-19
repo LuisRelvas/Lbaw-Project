@@ -19,3 +19,11 @@
     margin-right: 10px;
 }
 
+@media (max-width: 768px) {
+    #notificationsContainer {
+        width: 45%;
+        margin-top:50px;
+        right:10px;
+    }
+}
+

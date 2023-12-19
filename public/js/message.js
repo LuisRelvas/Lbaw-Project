@@ -54,6 +54,8 @@ console.log(userIdRec);
 
 Echo.private(`user.${userId}-${userIdRec}`).listen('.App\\Events\\Messages', (e) => {
   let messageElement = document.createElement('div');
+ 
+
 
   messageElement.classList.add('message');
 
@@ -83,7 +85,6 @@ Echo.private(`user.${userId}-${userIdRec}`).listen('.App\\Events\\Messages', (e)
     messageContentElement.classList.add('message-content');
     messageCardElement.prepend(messageContentElement);
   }
-
   messageContentElement.appendChild(messageElement);
 });
 

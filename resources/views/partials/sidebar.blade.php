@@ -2,7 +2,7 @@
     <div class="sidebar">
         <!-- Sidebar content -->
         @if (Auth::user()->isAdmin(Auth::user()))
-            <a href="{{ url('/admin') }}" class="{{ Request::is('admin') ? 'active' : '' }}"><i class="fa-solid fa-user-tie"></i> Admin</a>
+            <a href="{{ url('/admin') }}" class="{{ Request::is('admin') ? 'active' : '' }}"><i class="fa-solid fa-user-tie"></i><span class="link-text"> Admin</span></a>
         @endif
 
         <a href="{{ url('/homepage') }}" class="{{ Request::is('homepage') ? 'active' : '' }}"><i class="fa-solid fa-house"></i> <span class="link-text">Home</span></a>
