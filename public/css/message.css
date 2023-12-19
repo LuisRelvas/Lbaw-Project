@@ -68,11 +68,31 @@ td {
   justify-content: space-between;
 }
 
+.profile-messages {
+  display: flex;
+  align-items: center;
+  padding: 1em;
+  background-color: #1c2632;
+  color: white;
+}
+
+.profile-messages h2 {
+  margin-left: 1em;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.profile-messages .profile-img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+}
+
 .message-content {
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 20px;
-  max-height: 85vh;
+  max-height: 75vh;
   border-radius: 5px;
   background-color: #1c2632; /* Optional background color */
   overflow-y: auto;
@@ -92,6 +112,28 @@ td {
 {
     color: wheat;
 
+}
+
+.message-content .my-message {
+  background-color: #0a7d7d; /* Change to your preferred color */
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  max-width: 50%;
+  width: fit-content;
+  margin-left: auto;
+}
+
+/* Style for messages sent by other users */
+.message-content .other-message {
+  background-color: #49535f; /* Change to your preferred color */
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  width: fit-content;
+  max-width: 50%;
 }
 
 

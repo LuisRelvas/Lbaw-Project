@@ -54,10 +54,10 @@ console.log(userIdRec);
 
 Echo.private(`user.${userId}-${userIdRec}`).listen('.App\\Events\\Messages', (e) => {
   let messageElement = document.createElement('div');
- 
+  let currentUserId = document.querySelector('#user-identifier-now').dataset.userId;
+  let messageClass = e.emits_id == currentUserId ? 'my-message' : 'other-message';
+  messageElement.classList.add('message', messageClass);
 
-
-  messageElement.classList.add('message');
 
   let profileElement = document.createElement('div');
   profileElement.classList.add('profile');
@@ -71,19 +71,20 @@ Echo.private(`user.${userId}-${userIdRec}`).listen('.App\\Events\\Messages', (e)
   timestampElement.classList.add('timestamp');
   timestampElement.textContent = 'just now'; 
 
-  messageElement.appendChild(profileElement);
   messageElement.appendChild(bodyElement);
-  messageElement.appendChild(timestampElement);
 
   let messageCardElement = document.querySelector('.message-card');
 
 
   let messageContentElement = document.querySelector('.message-content');
 
+  let headerIdentifierElement = document.querySelector('.header-identifier');
+
+
   if (!messageContentElement) {
     messageContentElement = document.createElement('div');
     messageContentElement.classList.add('message-content');
-    messageCardElement.prepend(messageContentElement);
+    headerIdentifierElement.after(messageContentElement);
   }
   messageContentElement.appendChild(messageElement);
 });
@@ -91,8 +92,9 @@ Echo.private(`user.${userId}-${userIdRec}`).listen('.App\\Events\\Messages', (e)
 
 Echo.private(`user.${userIdRec}-${userId}`).listen('.App\\Events\\Messages', (e) => {
   let messageElement = document.createElement('div');
-
-  messageElement.classList.add('message');
+  let currentUserId = document.querySelector('#user-identifier-now').dataset.userId;
+  let messageClass = e.emits_id == currentUserId ? 'my-message' : 'other-message';
+  messageElement.classList.add('message', messageClass);
 
   let profileElement = document.createElement('div');
   profileElement.classList.add('profile');
@@ -106,19 +108,19 @@ Echo.private(`user.${userIdRec}-${userId}`).listen('.App\\Events\\Messages', (e)
   timestampElement.classList.add('timestamp');
   timestampElement.textContent = 'just now'; 
 
-  messageElement.appendChild(profileElement);
   messageElement.appendChild(bodyElement);
-  messageElement.appendChild(timestampElement);
 
   let messageCardElement = document.querySelector('.message-card');
 
-
   let messageContentElement = document.querySelector('.message-content');
+
+  let headerIdentifierElement = document.querySelector('.header-identifier');
+
 
   if (!messageContentElement) {
     messageContentElement = document.createElement('div');
     messageContentElement.classList.add('message-content');
-    messageCardElement.prepend(messageContentElement);
+    headerIdentifierElement.after(messageContentElement);
   }
 
   messageContentElement.appendChild(messageElement);

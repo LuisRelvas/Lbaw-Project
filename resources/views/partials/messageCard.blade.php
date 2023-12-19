@@ -1,4 +1,25 @@
 <div class="message-card">
+    <div class="header-identifier">
+        @php 
+            $user = Auth::user();
+            $person1 = App\Models\User::find(request()->route('received_id'));
+            $person2 = App\Models\User::find(request()->route('emits_id'));
+            if($person1->id != Auth::user()->id) 
+            {
+                $person = $person1;
+            }
+            else
+            {
+                $person = $person2;
+            }
+        @endphp
+        <div class="profile-messages">
+        <img src="{{ asset($person->media()) }}" class="profile-img" width="10%"
+                style="border-radius: 50%; padding: 1em" alt="profile media">
+        <h2>{{ $person->username }}</h2>
+        </div>
+    </div>
+<div id="user-identifier-now" data-user-id="{{ Auth::user()->id }}"></div>
             @if (!$all->isEmpty())
                 <div id="message-identifier" data-message-id="{{ $all->first()->emits_id }}"></div>
                 <div class="message-content">
@@ -8,9 +29,7 @@
                                 $show = App\Models\User::find($message->emits_id);
                                 $minIdElement = collect($all)->min('id');
                             @endphp
-                            <div class="profile">{{ $show->username }}</div>
                             <div class="body">{{ $message->content }}</div>
-                            <div class="timestamp">{{ $message->date }}</div>
                         </div>
                     @endforeach
                     @php
