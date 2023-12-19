@@ -8,7 +8,7 @@
         @if(Auth::user()->id == $group->user_id)
         @include ('partials.groupSideBar')
         @else
-        @include ('partials.sideSearchPage')
+        @include ('partials.groupSideBar')
         @endif
     </div>
     @include('partials.footer')

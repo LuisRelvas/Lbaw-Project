@@ -1,8 +1,7 @@
 <div class="group-sidebar">
-        @if((Auth::check() && Auth::user()->isMember(Auth::user(),$group)) ||Auth::check() && Auth::user()->isAdmin(Auth::user()))
-
             <div id="members" class="members-card">
                 <h2>Members</h2>
+                @if(Auth::check() && Auth::user()->id == $group->user_id || Auth::check() && Auth::user()->isAdmin(Auth::user()) || $group->hasMember(Auth::user()))
                 @foreach ($members as $member)
                     <div class="member">
                         @php
@@ -19,8 +18,10 @@
                         </div>
                     </div>
                 @endforeach
+                @else 
+                    <p>This group is private.</p>
+                @endif
             </div>
-            @endif
 
             @if(Auth::check() && Auth::user()->id == $group->user_id || Auth::check() && Auth::user()->isAdmin(Auth::user()))
             <div class="joinrequest-card">
