@@ -78,6 +78,24 @@ td {
   overflow-y: auto;
 }
 
+.messages-card #results-chats {
+  color: wheat;
+  padding: 1em;
+  overflow: auto;
+  font-size : 15px;
+  background-color: #49535f;
+  border-radius: 5px;
+  max-height: 300px
+}
+
+.messages-card #results-chats a
+{
+    color: wheat;
+
+}
+
+
+
 .message-content .profile {
     font-weight: bold;
     color: white;

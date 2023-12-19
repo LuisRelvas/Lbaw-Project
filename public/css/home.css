@@ -63,8 +63,8 @@
 }
 
 .card .space-img {
-  width: 50%;
-  height: 400px; /* Set a fixed height for the image, adjust as needed */
+  width: 30%;
+  height: 30%; 
   border-radius: 8px;
   margin-top: 10px;
   margin-bottom: 20px;
@@ -201,10 +201,6 @@ mark.hub {
     height: 50px;
   }
 
-  .card .space-img {
-    width: 100%;
-    height: 200px;
-  }
 
   .card-header {
     font-size: 16px;
@@ -213,7 +209,10 @@ mark.hub {
   .card-body {
     font-size: 14px;
   }
-
+  .sidebar a
+  {
+    align-items: left;
+  }
   .addSpace {
     padding: 10px;
   }
@@ -226,7 +225,7 @@ mark.hub {
   .addSpace button[type="submit"] {
     font-size: 14px;
   }
-  .sidebar {
+  .link-text {
     display: none;
   }
 

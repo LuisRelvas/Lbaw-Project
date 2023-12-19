@@ -1,7 +1,6 @@
 /* ------ Sidebar ------ */
 
 .sidebar {
-  height: 100%;
   width: 250px;
   background-color: #49535f;
   color: #fff;
@@ -113,8 +112,11 @@
 @media screen and (max-width: 768px) {
   .sidebar 
   {
-    position : absolute;
-    z-index : 1;
+    display:flex;
+    flex-direction:column;
+    align-items: left;
+    width: 13%;
+
   }
   .hamburger {
     position: absolute;
