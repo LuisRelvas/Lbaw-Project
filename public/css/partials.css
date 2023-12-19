@@ -125,3 +125,9 @@
     /* Other styles */
   }
 }
+
+/* ------ EditUser forms ------ */
+
+.edit-user-container .edit-user-card{
+  color:white;
+}
