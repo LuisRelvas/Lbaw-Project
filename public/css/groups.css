@@ -110,6 +110,9 @@
   }
   
 
+
+
+
 /* ------ Group ------ */
 
 .group-card {
@@ -150,7 +153,7 @@
   color: #5cb85c;
 }
 
-.group-card .groupcontent .groupname {
+.group-card .groupcontent-card .groupname {
   font-size: 24px; /* adjust as needed */
   font-weight: bold;
 }
@@ -179,7 +182,7 @@
 .group-card .button-container-group {
   display: flex;
   margin-top: 50px;
-  justify-content: left;
+  justify-content: space-between;
 }
 
 .group-card .button-container-group button {
