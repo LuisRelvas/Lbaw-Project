@@ -1,26 +1,30 @@
 <div class="search-card">
-    <h1><i class="fa-solid fa-magnifying-glass"></i> Explore</h1>
-    <form action="{{ url('homepage/search') }}" method="get">
-        <div class="searchbar">
-            <input type="text" id="search" name="search" placeholder="Search..." style="color: white;"
-                pattern="[a-zA-Z0-9\s]+" onclick="showResultsContainer()" onblur="hideResultsContainer()"
-                autocomplete="off" required>
-            <div class="results-container" id="resultsContainer">
-                <div id="results-users"></div>
-                <div id="results-spaces"></div>
-                <div id="results-groups"></div>
-                <div id="results-comments"></div>
-            </div>
-        </div>
-        <div id="filters" style="display: none;">
-            <input type="date" id="date" name="date">
-            <input type="radio" id="publicRadio" name="profileType" value="anyone"><span class="radio-label">Anyone</span>
-            <input type="radio" id="privateRadio" name="profileType" value="follow"><span class="radio-label">Following</span>
-        </div>
-        <button type="button" class="filters" onclick="toggleFilters()">Filters <i
-                class="fa-solid fa-filter"></i></button>
-        <button type="submit">Search <i class="fa-solid fa-magnifying-glass"></i></button>
-    </form>
+            <h1><i class="fa-solid fa-magnifying-glass"></i> Explore</h1>
+            <form action="{{ url('homepage/search') }}" method="get">
+                @csrf
+                <div class="searchbar">
+                    <input type="text" id="search" name="search" placeholder="Search..." style="color: white;"
+                        pattern="[a-zA-Z0-9\s]+" onclick="showResultsContainer()" onblur="hideResultsContainer()"
+                        autocomplete="off" required>
+                    <div class="results-container" id="resultsContainer">
+                        <div id="results-users"></div>
+                        <div id="results-spaces"></div>
+                        <div id="results-groups"></div>
+                        <div id="results-comments"></div>
+                    </div>
+                </div>
+                <div id="filters" style="display: none;">
+                    <input type="date" id="date" name="date">
+                    <input type="radio" id="publicRadio" name="profileType" value="anyone">Anyone
+                    <input type="radio" id="privateRadio" name="profileType" value="follow">People that You follow
+                </div>
+                <button type="button" class="filters" onclick="toggleFilters()">Filters <i class="fa-solid fa-filter"></i></button>
+                <button type="submit">Search <i class="fa-solid fa-magnifying-glass"></i></button>
+            </form>
+            
+                @if (isset($users) && !empty($users) && $users != '[]')
+                <h2>Users</h2>
+                <div id="users" class="search-page-results" style="overflow-y: auto;">
 
     @if (isset($users) && !empty($users) && $users != '[]')
         <h2>Users</h2>

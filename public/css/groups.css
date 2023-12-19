@@ -178,6 +178,12 @@ textarea.groupdescription {
     overflow: auto;
 }
 
+.joinrequest-card .join button 
+{
+    background-color: inherit;
+    border-color: #49535f;
+    margin-bottom: 2rem;
+}
 .invitegroup-container {
     margin-left: auto; /* Add this line */
     width: 250px; /* adjust as needed */
@@ -186,6 +192,13 @@ textarea.groupdescription {
     color: white;
     padding: 20px;
     border-top: white 1px solid;
+}
+
+.invitegroup-container form button 
+{
+    background-color: inherit;
+    border-color: #49535f;
+    margin-bottom: 2rem;
 }
 
 .group-sidebar {
