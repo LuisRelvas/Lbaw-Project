@@ -1,87 +1,37 @@
 /* ------ features ------ */
 
-.flex-container .features-card {
-    background-color: #1c2632;
-    overflow: auto;
-    flex: 1;
-    padding: 1em;
-    box-sizing: border-box; /* Prevent adding borders to the width */
-    overflow: auto; /* Add a scrollbar when content overflows */
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-  
-  .features-card h1,
-  .features-card h2,
-  .features-card h3 {
-    font-size: 24px; /* adjust as needed */
+.features-card {
+  background-color: #1c2632;
+  overflow: auto;
+  flex: 1;
+  padding: 1em;
+  box-sizing: border-box; /* Prevent adding borders to the width */
+  overflow: auto; /* Add a scrollbar when content overflows */
+  margin-top: 0;
+  margin-bottom: 0;
+
+  h2 {
+    color: white;
     font-weight: bold;
-    margin-bottom: 10px;
+  }
+
+  p {
     color: white;
+    font-size: 24px;
   }
-  
-  .features-card p {
-    font-size: 16px; /* adjust as needed */
-    margin-bottom: 10px;
+
+  table {
+    background-color: #49535f;
+    border-radius: 5px;
+    padding-left: 5px;
     color: white;
+
+    td {
+      font-weight: bold;
+    }
+
+    th {
+      font-size: larger;
+    }
   }
-  
-  .features-card ul {
-    padding-left: 20px;
-    color: white;
-  }
-  
-  .features-card ul li {
-    margin-bottom: 10px;
-    color: white;
-  }
-  
-  .features-card .icon-center {
-    text-align: center;
-    padding-top: 5em;
-  }
-  
-  .features-card .icon-center .white-icon {
-    color: white;
-    font-size: 8em;
-  }
-  
-  
-  /* Responsive design */
-  @media screen and (max-width: 768px) {
-      .flex-container .features-card {
-          padding: 0.5em;
-      }
-  
-      .features-card h2,
-      .features-card h3 {
-          font-size: 20px;
-      }
-  
-      .features-card p {
-          font-size: 14px;
-      }
-  
-      .features-card .icon-center .white-icon {
-          font-size: 6em;
-      }
-  }
-  
-  @media screen and (max-width: 480px) {
-      .flex-container .features-card {
-          padding: 0.25em;
-      }
-  
-      .features-card h2,
-      .features-card h3 {
-          font-size: 16px;
-      }
-  
-      .features-card p {
-          font-size: 12px;
-      }
-  
-      .features-card .icon-center .white-icon {
-          font-size: 4em;
-      }
-  }
+}
