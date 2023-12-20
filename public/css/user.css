@@ -269,4 +269,29 @@ select
 }
 
 
+
+@media screen and (max-width : 1124px) {
+  .side-searchbar 
+  {
+    display: none;
+  }
+  .side-searchpage 
+  {
+    display: none;
+  }
+  .group-sidebar 
+  {
+    display: none;
+  
+  }
+}
+
+@media screen and (max-width: 880px)
+{
+  .userinfo .profile-container .user-card-container .user-card .user-header .user-extras:last-child
+  {
+    display: none;
+  }
+}
+
 /* ------ Edit User ------ */
