@@ -16,6 +16,7 @@
 }
 
 .grouplist-card-header {
+  padding : 1em;
   font-size: 20px;
   font-weight: bold;
   border-bottom: 1px solid #e1e4e8;
@@ -25,6 +26,8 @@
 
 .grouplist-card-body {
   padding: 10px 0;
+  max-height: 400px; /* Adjust this value as needed */
+  overflow-y: auto; /* This will add a scrollbar if the content exceeds the max-height */
 }
 
 .grouplist-card-list {
@@ -32,6 +35,7 @@
 }
 
 .grouplist-card-list a {
+  padding:10px;
   color: white;
   text-decoration: none;
   background-color: #49535f;
@@ -50,125 +54,158 @@
   content: ""; /* This will remove the marker */
 }
 
+
 /* ------ Group ------ */
 
-
 .group-card {
+  grid-template-columns: 1fr auto auto;
   background-color: #1c2632;
   padding: 20px;
-  margin-bottom: 0px;
-  width: 65%;
-  overflow: auto;
-  height: 100vh;
+  flex: 1;
+  margin: 10px;
+  flex-direction: column;
+  border-radius: 5px;
 }
 
-.group-header {
-    display: flex;
-    align-items: center;
+.group-card .group-header {
+  display: flex;
+  align-items: center;
 }
 
-.group-header .groupauthor > a {
-    color: white;
-}
-
-.group-header .groupauthor > a::before {
-    content: "@";
+.group-card .group-header .groupauthor > a::before {
+  content: "@";
 }
 
 .group-header .groupauthor > a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
-
-.groupname,
-.groupcontent {
+.group-card .groupcontent-card .groupname,
+.group-card .groupcontent-card .groupcontent {
   margin-bottom: 10px;
   color: white;
 }
 
-.groupauthor a {
-  color: #1da1f2;
+.group-card .group-header .groupauthor a {
+  color: white;
   text-decoration: none;
 }
 
-.members,
-.joins {
-  margin-top: 20px;
-}
-
-.success {
+.group-card .success {
   color: #5cb85c;
 }
 
-
-.groupname {
-    font-size: 24px; /* adjust as needed */
-    font-weight: bold;
+.group-card .groupcontent-card .groupname {
+  font-size: 24px; /* adjust as needed */
+  font-weight: bold;
 }
 
-.groupcontent {
-    font-size: 18px; /* adjust as needed */
+.group-card .groupconten-card .groupcontent {
+  font-size: 18px; /* adjust as needed */
 }
 
-.space-input-container {
-    display: flex;
-    justify-content: space-between;
+.group-card .add-space-group-card .space-input-container {
+  display: flex;
+  justify-content: space-between;
 }
 
-.group-chat {
-    border-top: #49535f 1px solid;
-    border-bottom: #49535f 1px solid;
-    max-height: 450px;
-    overflow: auto;
+.group-card .group-chat {
+  border-top: #49535f 1px solid;
+  border-bottom: #49535f 1px solid;
+  max-height: 450px;
+  overflow: auto;
 }
-
 
 .group-card .group-chat .space-card {
-    background-color: #49535f; /* Change this to your desired color */
-    color: white;
+  background-color: #49535f; /* Change this to your desired color */
+  color: white;
+}
+
+.group-card .button-container-group {
+  display: flex;
+  margin-top: 50px;
+  justify-content: space-between;
+}
+
+.group-card .button-container-group button {
+  border-color: #1c2632;
+  background-color: inherit;
+}
+
+.group-card .groupcontent-card .groupdescription {
+  color: white;
 }
 
 /* ------- Group Sidebar ------ */
 
-.invitegroup-container {
-    margin-left: auto; /* Add this line */
-    width: 250px; /* adjust as needed */
-    height: 250px; /* adjust as needed */
-    background-color: #49535f;
-    color: white;
-    border-radius: 6px;
-    padding: 20px;
-    margin-top: 10px;
+.group-sidebar .members-card {
+  margin-left: auto; /* Add this line */
+  width: 250px; /* adjust as needed */
+  height: 250px; /* adjust as needed */
+  background-color: #49535f;
+  color: white;
+  border-radius: 6px;
+  padding: 20px;
+  overflow-x: auto;
 }
 
-.joinrequest-card {
-    margin-left: auto; /* Add this line */
-    width: 250px; /* adjust as needed */
-    height: 250px; /* adjust as needed */
-    background-color: #49535f;
-    color: white;
-    border-radius: 6px;
-    padding: 20px;
-    margin-top: 10px;
+.group-sidebar .members-card .member .member-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.members-card {
-    margin-left: auto; /* Add this line */
-    width: 250px; /* adjust as needed */
-    height: 250px; /* adjust as needed */
-    background-color: #49535f;
-    color: white;
-    border-radius: 6px;
-    padding: 20px;
-    margin-top: 10px;
+.group-sidebar .members-card .member .member-container .button-member-delete {
+  background-color: inherit;
+  border-color: #49535f;
+  margin-bottom: 2rem;
+}
+
+.group-sidebar .joinrequest-card {
+  margin-left: auto; /* Add this line */
+  width: 250px; /* adjust as needed */
+  height: 250px; /* adjust as needed */
+  background-color: #49535f;
+  color: white;
+  padding: 20px;
+  border-top: white 1px solid;
+  overflow: auto;
+}
+
+.group-sidebar .joinrequest-card .join button {
+  background-color: inherit;
+  border-color: #49535f;
+  margin-bottom: 2rem;
+}
+
+.group-sidebar .invitegroup-container {
+  margin-left: auto; /* Add this line */
+  width: 250px; /* adjust as needed */
+  height: 250px; /* adjust as needed */
+  background-color: #49535f;
+  color: white;
+  padding: 20px;
+  border-top: white 1px solid;
+}
+
+.group-sidebar .invitegroup-container form button {
+  background-color: inherit;
+  border-color: #49535f;
+  margin-bottom: 2rem;
 }
 
 .group-sidebar {
-    display: flex;
-    flex-direction: column;
-    width: 250px; /* adjust as needed */
-    margin-left: auto;
+  height: 100%;
+  position: relative;
+  background-color: #49535f;
+  right: 0;
+  color: #fff;
+  padding: 1em;
+  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  overflow: auto;
 }
+
 
 
 /* The Modal (background) */

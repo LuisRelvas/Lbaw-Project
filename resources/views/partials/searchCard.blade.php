@@ -28,7 +28,6 @@
     @if (isset($users) && !empty($users) && $users != '[]')
         <h2>Users</h2>
         <div id="users" class="search-page-results" style="overflow-y: auto;">
-
             @foreach ($users as $user)
                 <p><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></p>
             @endforeach

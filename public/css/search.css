@@ -37,6 +37,11 @@
   }
 }
 
+.search-card .search-page-results a
+{
+  color: white;
+}
+
 .search-card .search-page-results a:hover {
   color: white;
   text-decoration: underline;

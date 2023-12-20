@@ -14,7 +14,11 @@
                                 <li><a href="/group/{{ $single->id }}" class="card">{{ $single->name }}</a></li>
                             @endif
                         @endforeach
-                        <div class="grouplist-card-header">{{ __('New Groups') }}</div>
+                    </ul>
+                </div>
+                <div class="grouplist-card-header">{{ __('New Groups') }}</div>
+                <div class="grouplist-card-body">
+                    <ul class="grouplist-card-list">
                         @if (isset($others))
                             @foreach ($others as $other)
                                 @if (Auth::check())
