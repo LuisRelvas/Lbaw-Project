@@ -32,45 +32,6 @@
     content: "@";
 }
 
-/* The Modal (background) */
-.edit-user-container .edit-user-card .modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0, 0, 0);
-  background-color: rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  transition: opacity 0.5s;
-}
-
-/* Modal Content/Box */
-.edit-user-container .edit-user-card .modal .modal-content {
-  background-color: #49535f;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-}
-
-/* The Close Button */
-.edit-user-container .edit-user-card .modal .modal-content .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.edit-user-container .edit-user-card .modal .modal-content .close:hover,
-.edit-user-container .edit-user-card .modal .modal-content .close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
 
 
 .dot {

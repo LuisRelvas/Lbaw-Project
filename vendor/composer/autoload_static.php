@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit29760c85dcbfdd2b93630735c6dec1e6
+class ComposerStaticInitb7dd612dca0895bbbd5ecd28fdfc5d83
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -2778,6 +2778,7 @@ class ComposerStaticInit29760c85dcbfdd2b93630735c6dec1e6
         'Illuminate\\View\\Compilers\\Concerns\\CompilesLayouts' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/Compilers/Concerns/CompilesLayouts.php',
         'Illuminate\\View\\Compilers\\Concerns\\CompilesLoops' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/Compilers/Concerns/CompilesLoops.php',
         'Illuminate\\View\\Compilers\\Concerns\\CompilesRawPhp' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/Compilers/Concerns/CompilesRawPhp.php',
+        'Illuminate\\View\\Compilers\\Concerns\\CompilesSessions' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/Compilers/Concerns/CompilesSessions.php',
         'Illuminate\\View\\Compilers\\Concerns\\CompilesStacks' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/Compilers/Concerns/CompilesStacks.php',
         'Illuminate\\View\\Compilers\\Concerns\\CompilesStyles' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/Compilers/Concerns/CompilesStyles.php',
         'Illuminate\\View\\Compilers\\Concerns\\CompilesTranslations' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/View/Compilers/Concerns/CompilesTranslations.php',
@@ -6574,9 +6575,9 @@ class ComposerStaticInit29760c85dcbfdd2b93630735c6dec1e6
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit29760c85dcbfdd2b93630735c6dec1e6::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit29760c85dcbfdd2b93630735c6dec1e6::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit29760c85dcbfdd2b93630735c6dec1e6::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb7dd612dca0895bbbd5ecd28fdfc5d83::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb7dd612dca0895bbbd5ecd28fdfc5d83::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitb7dd612dca0895bbbd5ecd28fdfc5d83::$classMap;
 
         }, null, ClassLoader::class);
     }
