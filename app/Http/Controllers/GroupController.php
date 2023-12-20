@@ -30,7 +30,7 @@ class GroupController extends Controller
         $group->description = $request->input('description');
         $group->is_public = null !== $request->public;
         $group->save();
-        return redirect('/homepage')->withSuccess('Group created successfully!');
+        return redirect('/group')->withSuccess('Group created successfully!');
     } 
 
     public function show(int $id) 

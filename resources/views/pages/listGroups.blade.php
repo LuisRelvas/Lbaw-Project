@@ -6,6 +6,16 @@
         <div class="grouplist-container">
             <div class="grouplist-card">
                 <div class="grouplist-card-header">{{ __('Groups') }}</div>
+                @if (session('success'))
+                <p class="success">
+                    {{ session('success') }}
+                </p>
+                @endif
+                @if ($errors->has('profile'))
+                <span class="error">
+                    {{ $errors->first('profile') }}
+                </span>
+                @endif
                 <div class="grouplist-card-body">
                     <ul class="grouplist-card-list">
                         @include('partials.addGroup')

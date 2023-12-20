@@ -119,7 +119,7 @@ function editGroup(id) {
           // Change the button back to edit
           let edit_button = document.querySelector("#editGroup" + id);
           edit_button.textContent = 'Edit';
-
+          showNotification('Group updated successfully');
           // Restore the original onclick function
           edit_button.onclick = function () {
               editGroup(id);
@@ -261,7 +261,7 @@ function deleteMember(id) {
     return;
   }
 
-  var url = '/api/group/member/' + id;  // Corrected line
+  var url = '/api/group/member/' + id;
   var method = 'DELETE';
   
   let data = {
@@ -271,8 +271,15 @@ function deleteMember(id) {
 
   sendAjaxRequest(method, url, data, function(response) {
     if (this.status == 200) {
+      showNotification('Member deleted successfully');
       console.log("The value of the status is",this.status);
       console.log(response); // Log the server response (optional)
+
+      // Get the member element with the correct id
+      let memberElement = document.querySelector('#member-' + id);
+
+      // Remove the member element from the HTML
+      memberElement.remove();
     }
   });
 }

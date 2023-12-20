@@ -4,8 +4,8 @@
         <img src="{{ asset($user->media()) }}" class="profile-img" width="20%" style="border-radius: 50%; padding: 1em"
             alt="profile media">
 
-        <div class="user-card-container" style="display: flex; justify-content: space-between;">
-            <div class="user-card" style="flex: 1;">
+        <div class="user-card-container">
+            <div class="user-card">
                 <div class="user" id="user{{$user->id}}">
                 <p><a href="/profile/{{ $user->id }}">{!! '@' . $user->username !!}</a></p>
                     <div class="name">{{ $user->name }}</div>
@@ -15,22 +15,20 @@
                 </div>
             </div>
                 @if(Auth::check())    
-                <div class="user-card" style="flex: 1; margin-right: 20px;">
+                <div class="user-card" >
                     <div class="user-header">
-                        <div style="display: flex; justify-content: space-between;">
-                            <div style="display: flex; flex-direction: column; text-align: center; color: white; font-size: larger; margin-right: 20px;">
+                            <div class="user-extras">
                                 <span>Following</span>
                                 <a href="/profile/{{$user->id}}/following" style="color: white;">{{ $countFollows }}</a>
                             </div>
-                            <div style="display: flex; flex-direction: column; text-align: center; color: white; font-size: larger; margin-right: 20px;">
+                            <div class="user-extras">
                                 <span>Followers</span>
                                 <a href="/profile/{{$user->id}}/followers" style="color: white;">{{ $countFollowers }}</a>
                             </div>
-                            <div style="display: flex; flex-direction: column; text-align: center; color: white; font-size: larger;">
-                                <span>Spaces</span>
+                            <div class="user-extras">
+                            <span>Spaces</span>
                                 <span>{{ count($spaces) }}</span>
                             </div>
-                        </div>
                     </div>
                 </div>
                 @endif

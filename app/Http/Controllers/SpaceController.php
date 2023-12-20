@@ -117,7 +117,7 @@ class SpaceController extends Controller
         }
 
         $space->delete();
-
+        
         return response()->json([
             'isAdmin' => Auth::user()->isAdmin(Auth::user()),
         ]);    

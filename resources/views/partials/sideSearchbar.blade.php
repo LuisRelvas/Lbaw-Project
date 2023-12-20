@@ -6,13 +6,6 @@
         <div id="results-groups"></div>
         <div id="results-comments"></div>
     @endif
-    @if (Auth::check())
-        @if (session('success'))
-            <p class="success">
-                {{ session('success') }}
-            </p>
-        @endif
-    @endif
 
     <div class ="trend-content">
         @php

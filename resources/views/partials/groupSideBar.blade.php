@@ -6,13 +6,12 @@
                 (Auth::check() && Auth::user()->isAdmin(Auth::user())) ||
                 $group->hasMember(Auth::user()))
             @foreach ($members as $member)
-                <div class="member">
-                    @php
+            <div class="member" id="member-{{ $member->user_id }}">                    
+                @php
                         $user = \App\Models\User::findOrFail($member->user_id);
                     @endphp
                     <div class="member-container">
                         <p>{{ $user->username }}</p>
-                        <!-- Add a cross icon next to each member -->
                         @if ((Auth::check() && Auth::user()->id == $group->user_id) || (Auth::check() && Auth::user()->isAdmin(Auth::user())))
                             @if ($member->user_id != $group->user_id)
                                 <button onclick="deleteMember({{ $member->user_id }})" class="button-member-delete"><i
@@ -31,7 +30,7 @@
         <div class="joinrequest-card">
             <h2>Join Requests</h2>
             @foreach ($joins as $join)
-                <div class="join">
+            <div class="join" id="join-{{ $join->user_id }}">
                     @php
                         $user = \App\Models\User::findOrFail($join->user_id);
                     @endphp

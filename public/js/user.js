@@ -166,7 +166,7 @@ function resetEditUserState(id) {
             name.dataset.originalContent = updatedName;
             email.dataset.originalContent = updatedEmail;
             selectElement.style.display = 'none';
-
+            showNotification('Profile updated successfully');
             // Reset the edit state
             resetEditUserState(id);
 

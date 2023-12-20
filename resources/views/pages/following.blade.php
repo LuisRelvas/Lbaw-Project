@@ -10,7 +10,7 @@
             </div>
 
             @if (isset($follows) && count($follows) == 0)
-                <h2>No follows yet</h2>
+                <h2>Nothing to see here</h2>
             @endif
 
             @foreach ($follows as $follow)

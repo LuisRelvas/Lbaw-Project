@@ -24,7 +24,7 @@ class LikesSpaces implements ShouldBroadcast
     public function __construct($space_id)
     {
         $this->space_id = $space_id; 
-        $this->message = 'You liked the post' . $space_id;  
+        $this->message = 'You liked the post';  
     }
     public function broadcastOn()
     {

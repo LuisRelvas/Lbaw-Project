@@ -88,7 +88,7 @@ function resetEditStateComment(id) {
   
   
       sendAjaxRequest('PUT', url, data, function (response) {
-        // Reset the edit state
+        showNotification('Comment updated successfully')
         content.innerHTML = updatedContent;
         content.dataset.originalContent = updatedContent;
         console.log('Updated Content:', updatedContent);

@@ -55,7 +55,7 @@ function showNotifications(id) {
       
         var acceptButton = document.createElement('button');
         acceptButton.textContent = 'Accept';
-        acceptButton.style.backgroundColor = 'transparent';
+        acceptButton.style.backgroundColor = 'black';
         acceptButton.style.borderColor = '#1c2632';
         acceptButton.style.marginBottom = '2em';
         acceptButton.addEventListener('click', function() {
@@ -65,7 +65,7 @@ function showNotifications(id) {
       
         var declineButton = document.createElement('button');
         declineButton.textContent = 'Decline';
-        declineButton.style.backgroundColor = 'transparent';
+        declineButton.style.backgroundColor = 'black';
         declineButton.style.borderColor = '#1c2632';
         declineButton.style.marginBottom = '2em';
         declineButton.addEventListener('click', function() {
@@ -89,7 +89,7 @@ function showNotifications(id) {
       
         var acceptButton = document.createElement('button');
         acceptButton.textContent = 'Accept';
-        acceptButton.style.backgroundColor = 'transparent';
+        acceptButton.style.backgroundColor = 'black';
         acceptButton.style.borderColor = '#1c2632';
         acceptButton.style.marginBottom = '2em';
         acceptButton.addEventListener('click', function() {
@@ -100,7 +100,7 @@ function showNotifications(id) {
       
         var declineButton = document.createElement('button');
         declineButton.textContent = 'Decline';
-        declineButton.style.backgroundColor = 'transparent';
+        declineButton.style.backgroundColor = 'black';
         declineButton.style.borderColor = '#1c2632';
         declineButton.style.marginBottom = '2em';
         declineButton.addEventListener('click', function() {
@@ -123,7 +123,7 @@ function showNotifications(id) {
       
         var button = document.createElement('button');
         button.textContent = '✓';
-        button.style.backgroundColor = 'transparent';
+        button.style.backgroundColor = 'black';
         button.style.borderColor = '#1c2632';
         button.style.marginBottom = '2em';
         button.addEventListener('click', function() {
@@ -138,7 +138,7 @@ function showNotifications(id) {
         a.textContent = `${userName} ${notificationType} ${who}`;
         var button = document.createElement('button');
         button.textContent = '✓';
-        button.style.backgroundColor = 'transparent';
+        button.style.backgroundColor = 'black';
         button.style.borderColor = '#1c2632';
         button.style.marginBottom = '2em';
         button.addEventListener('click', function() {
@@ -234,7 +234,7 @@ function stopFollowing(following)
     console.log('Response:', response);
     var profileCard = document.getElementById('profile-card' + following);
       console.log("the value of the card is", profileCard);
-
+      showNotification('You are now not following this user');
       if (profileCard) {
           profileCard.remove();
       }
@@ -249,7 +249,7 @@ function removeFollower(follower, me) {
       // Find and remove the corresponding profile-card div
       var profileCard = document.getElementById('profile-card' + follower);
       console.log("the value of the card is", profileCard);
-
+      showNotification('This user is now not following you');
       if (profileCard) {
           profileCard.remove();
       }
@@ -334,28 +334,62 @@ function showNotificationC(message) {
 }
 
 
-function acceptJoin(id,group_id)
-{
+function acceptJoin(id, group_id) {
+  let url = '/group/joinrequest/' + id;
+  console.log('the value of the url in accept is', url);
+  sendAjaxRequest('POST', url, { id: id, group_id: group_id }, function (response) {
+      if (this.status == 200) {
+          console.log("The value of the status is", this.status);
+          console.log('Response:', response);
+          showNotification('You have accepted the join request');
 
-  let url = '/group/joinrequest/'+ id;
-  console.log('the value of the url in accept is',url);
-sendAjaxRequest('POST', url, {id: id,group_id:group_id}, function(response) {
-  if(this.status == 200) 
-  {
-    console.log("The value of the status is",this.status);
-    console.log('Response:', response);
+          // Get the join request element with the correct id
+          let joinElement = document.querySelector('#join-' + id);
 
-  }
-});
+          // Get the username from the join request element
+          let username = joinElement.querySelector('p').textContent;
+
+          // Create a new member element
+          let memberElement = document.createElement('div');
+          memberElement.className = 'member';
+          memberElement.id = 'member-' + id;
+
+          // Create the member container element
+          let memberContainerElement = document.createElement('div');
+          memberContainerElement.className = 'member-container';
+
+          // Create the username element
+          let usernameElement = document.createElement('p');
+          usernameElement.textContent = username;
+
+          // Append the username element to the member container element
+          memberContainerElement.appendChild(usernameElement);
+
+          // Append the member container element to the member element
+          memberElement.appendChild(memberContainerElement);
+
+          // Append the member element to the members list
+          document.querySelector('.members-card').appendChild(memberElement);
+
+          // Remove the join request element from the HTML
+          joinElement.remove();
+      }
+  });
 }
 
+function declineJoin(id, group_id) {
+  sendAjaxRequest('DELETE', '/group/joinrequest', { id: id, group_id: group_id }, function (response) {
+      if (this.status == 200) {
+          showNotificationC('You have declined the join request');
+          console.log("the value of the status is ", this.status);
+          console.log('Response:', response);
 
-function declineJoin(id,group_id)
-{
-  sendAjaxRequest('DELETE', '/group/joinrequest', {id: id,group_id:group_id}, function(response) {
-    if(this.status == 200) {
-      console.log("the value of the status is ",this.status);
-    console.log('Response:', response);}
+          // Get the join request element with the correct id
+          let joinElement = document.querySelector('#join-' + id);
+
+          // Remove the join request element from the HTML
+          joinElement.remove();
+      }
   });
 }
 

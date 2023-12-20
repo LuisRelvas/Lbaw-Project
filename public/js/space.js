@@ -12,7 +12,7 @@ function setupOwnerChannel(owner) {
     ownerChannel.bind('notification-spaceLike', function (data) {
         console.log('Owner Channel - Space ID:', data.space_id);
         console.log('Owner Channel - Message:', data.message);
-        data.message = 'User ' + ' liked your space.';
+        data.message = 'Someone Liked your space.';
         showNotification(data.message);
     });
 }
@@ -191,6 +191,7 @@ function deleteSpace(id) {
             main.innerHTML = updatedContent;
             // Update the originalContent data attribute
             main.dataset.originalContent = updatedContent;
+            showNotification('Space updated successfully');
             // Reset the edit state
             resetEditState(id);
           });
