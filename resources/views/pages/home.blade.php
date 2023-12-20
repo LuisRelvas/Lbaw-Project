@@ -41,9 +41,9 @@
                                 <a href="/profile/{{ $space->user_id }}">{{ $user->username }}</a>
                             </li>
                             <li>
-                            <div id="space-home-content">
-                                <a href="/space/{{ $space->id }}">{{ $space->content }}</a>
-                            </div>
+                                <div id="space-home-content">
+                                    <a href="/space/{{ $space->id }}">{{ $space->content }}</a>
+                                </div>
                             </li>
                             <li>
                                 @if ($space->media())
@@ -51,9 +51,9 @@
                                     alt="space media">
                                 @endif
                             </li>
-                            </ul>
+                        </ul>
 
-                            @include('partials.likeSpace')
+                        @include('partials.likeSpace')
 
                     </div>
                 </li>
@@ -70,9 +70,9 @@
                                 <a href="/profile/{{ $space->user_id }}">{{ $user->username }}</a>
                             </li>
                             <li>
-                            <div id="space-home-content">
-                                <a href="/space/{{ $space->id }}">{{ $space->content }}</a>
-                            </div>
+                                <div id="space-home-content">
+                                    <a href="/space/{{ $space->id }}">{{ $space->content }}</a>
+                                </div>
                             </li>
                             <li>
                                 @if ($space->media())
