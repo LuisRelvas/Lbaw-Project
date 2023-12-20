@@ -53,29 +53,26 @@ function resetEditUserState(id) {
         return;
     }
 
-    let selectElement = document.createElement('select');
-    selectElement.id = 'publicProfileSelect';
+    let selectElement = user.querySelector('#publicProfileSelect');
+    if (!selectElement) {
+        selectElement = document.createElement('select');
+        selectElement.id = 'publicProfileSelect';
 
-    let publicOption = document.createElement('option');
-    publicOption.value = 'Public';
-    publicOption.text = 'Public';
-    if (publicProfile === 'Public') {
-        publicOption.selected = true;
+        let publicOption = document.createElement('option');
+        publicOption.value = 'Public';
+        publicOption.text = 'Public';
+
+        let privateOption = document.createElement('option');
+        privateOption.value = 'Private';
+        privateOption.text = 'Private';
+
+        selectElement.appendChild(publicOption);
+        selectElement.appendChild(privateOption);
+        user.appendChild(selectElement);
     }
 
-    let privateOption = document.createElement('option');
-    privateOption.value = 'Private';
-    privateOption.text = 'Private';
-    if (publicProfile === 'Private') {
-        privateOption.selected = true;
-    }
-
-    selectElement.appendChild(publicOption);
-    selectElement.appendChild(privateOption);
-    selectElement.style.display = 'none'; 
-    user.appendChild(selectElement);
+    selectElement.value = publicProfile;
     selectElement.style.display = 'block';
-
   
     let name = document.querySelector(".name");
     let email = document.querySelector(".email");
@@ -128,23 +125,35 @@ function resetEditUserState(id) {
         // Get the updated name and email
         let updatedName = nameInput.value;
         let updatedEmail = emailInput.value;
-        if(selectElement.value == 'Private') // Changed condition here
-        {
-          var privacy = true;
-        }
-        else
-        {
-          var privacy = false;
-        }
+        
+        if(selectElement.value == 'Private') {
+          privacy = true;
+      } else if(selectElement.value == 'Public') {
+          privacy = false;
+      } else {
+          // If none of the options are selected, don't change the privacy
+          privacy = null;
+      }
   
         // Send an AJAX request to update the name and email on the server
         let url = '/profile/edit'
-        let data = {
+        if(privacy != null) 
+        {
+          var data = {
             id: id,
             name: updatedName,
             email: updatedEmail,
             is_public : privacy
         };
+        }
+        else 
+        {
+          var data = {
+            id: id,
+            name: updatedName,
+            email: updatedEmail,
+        };
+        }
         sendAjaxRequest('POST', url, data, function (response) {
           console.log(this.status);
           console.log("the value of the respoinse is",privacy);
@@ -170,12 +179,13 @@ function resetEditUserState(id) {
     let name = user.querySelector(".name");
     let email = user.querySelector(".email");
     let selectElement = user.querySelector("#publicProfileSelect"); 
+    console.log("The value of the select element is",selectElement.value);
     
 
     // Restore the original content
     name.textContent = name.dataset.originalContent;
     email.textContent = email.dataset.originalContent;
-    selectElement.remove();
+    selectElement.style.display = 'none';
 
 
     // Reset the edit state

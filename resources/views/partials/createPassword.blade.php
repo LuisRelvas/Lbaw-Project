@@ -28,7 +28,7 @@
 <input id="password-confirm" type="password" name="password_confirmation" required>
 
 <button type="submit">
-    Register <i class="fa-solid fa-pen-to-square"></i>
+    Recover <i class="fa-solid fa-pen-to-square"></i>
 </button>
 </form>
 </div>

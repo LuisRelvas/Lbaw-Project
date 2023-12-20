@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="recover-container">
+    <div class="recover-card">
 <form class="content" method="POST" action="/send">
     @csrf
     <label for="name">Your name</label>
@@ -31,4 +33,7 @@
         </ul>
     </div>
 @endif
+</div>
+</div>
+@include('partials.footer')
 @endsection

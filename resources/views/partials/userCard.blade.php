@@ -7,10 +7,8 @@
         <div class="user-card-container" style="display: flex; justify-content: space-between;">
             <div class="user-card" style="flex: 1;">
                 <div class="user" id="user{{$user->id}}">
-                    <div class="name">
-                        <div class="name">{{ $user->name }}</div>
-                    </div>
-                    <p><a href="/profile/{{ $user->id }}">{{ $user->username }}</a></p>
+                <p><a href="/profile/{{ $user->id }}">{!! '@' . $user->username !!}</a></p>
+                    <div class="name">{{ $user->name }}</div>
                     <p>
                         <div class="email">{{ $user->email }}</div>
                     </p>
