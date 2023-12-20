@@ -19,6 +19,7 @@
         </p>
         @endif
         <div class="card-body">
+            @include('partials.addSpace')
             <ul class="card-list">
                 @if (Auth::check())
                 @php
@@ -28,7 +29,6 @@
                 ->reverse();
                 $allSpaces = $allSpaces->unique('id');
                 @endphp
-                @include('partials.addSpace')
 
                 @foreach ($allSpaces as $space)
                 <li>
@@ -41,18 +41,21 @@
                                     style="border-radius: 50%; padding: 1em" alt="profile media">
                                 <a href="/profile/{{ $space->user_id }}">{{ $user->username }}</a>
                             </li>
+                            <li>
                             <div id="space-home-content">
-                                <li><a href="/space/{{ $space->id }}">{{ $space->content }}</a></li>
+                                <a href="/space/{{ $space->id }}">{{ $space->content }}</a>
                             </div>
+                            </li>
                             <li>
                                 @if ($space->media())
                                 <img src="{{ asset($space->media()) }}" class="space-img" width=20% style=padding: 1em
                                     alt="space media">
                                 @endif
                             </li>
+                            </ul>
+
                             @include('partials.likeSpace')
 
-                        </ul>
                     </div>
                 </li>
                 @endforeach
@@ -68,9 +71,11 @@
                                     style="border-radius: 50%; padding: 1em" alt="profile media">
                                 <a href="/profile/{{ $space->user_id }}">{{ $user->username }}</a>
                             </li>
+                            <li>
                             <div id="space-home-content">
-                                <li><a href="/space/{{ $space->id }}">{{ $space->content }}</a></li>
+                                <a href="/space/{{ $space->id }}">{{ $space->content }}</a>
                             </div>
+                            </li>
                             <li>
                                 @if ($space->media())
                                 <img src="{{ asset($space->media()) }}" class="space-img" width=20% style=padding: 1em

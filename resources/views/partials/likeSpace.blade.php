@@ -10,7 +10,7 @@
     @if ((Auth::check() && $space->user_id == Auth::user()->id) || (Auth::check() && Auth::user()->isAdmin(Auth::user())))
         <button id="deleteSpace{{ $space->id }}" onclick="deleteSpace({{ $space->id }})"
             class="button-space-comment">&#10761;
-            <div><i class="cross"></i></div>
+            <span><i class="cross"></i></span>
         </button>
     @endif
 </div>

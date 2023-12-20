@@ -1,7 +1,7 @@
 <div class="userinfo" data-id="{{ $user->id }}">
 
     <div class="profile-container">
-        <img src="{{ asset($user->media()) }}" class="profile-img" width="20%" style="border-radius: 50%; padding: 1em"
+        <img src="{{ asset($user->media()) }}" class="profile-img"
             alt="profile media">
 
         <div class="user-card-container">
@@ -9,9 +9,8 @@
                 <div class="user" id="user{{$user->id}}">
                 <p><a href="/profile/{{ $user->id }}">{!! '@' . $user->username !!}</a></p>
                     <div class="name">{{ $user->name }}</div>
-                    <p>
                         <div class="email">{{ $user->email }}</div>
-                    </p>
+
                 </div>
             </div>
                 @if(Auth::check())    
@@ -37,7 +36,7 @@
             <div class="button-container-user">
                 <button id="editUser{{ $user->id }}" onclick="editUser({{ $user->id }},{{$user->is_public}})" class="button-user-comment">
                     &#9998;
-                    <div id="text-config"><i id="text-icon" class="pencil"></i></div>
+                    <span id="text-config"><i id="text-icon" class="pencil"></i></span>
                 </button>
 
                 <button id="cancelEditUser{{ $user->id }}" style="visibility: hidden;"
@@ -85,21 +84,23 @@
                         @php
                         $user = App\Models\User::find($space->user_id);
                         @endphp
-                        <li><img src="{{ asset($user->media()) }}" class="profile-img" width="10%"
-                                style="border-radius: 50%; padding: 1em" alt="profile media">
+                        <li><img src="{{ asset($user->media()) }}" class="profile-img" alt="profile media">
                             <a href="/profile/{{ $space->user_id }}">{{ $user->username }}</a>
                         </li>
-                        <div id="space-home-content">
-                            <li><a href="/space/{{ $space->id }}">{{ $space->content }}</a></li>
-                        </div>
+                        <li>
+                        <span id="space-home-content">
+                            <a href="/space/{{ $space->id }}">{{ $space->content }}</a>
+                        </span>
+                        </li>
                         <li>
                             @if ($space->media())
-                            <img src="{{ asset($space->media()) }}" class="space-img" width=20% style=padding: 1em
+                            <img src="{{ asset($space->media()) }}" class="space-img"
                                 alt="space media">
                             @endif
                         </li>
+                        <li>
                         @include('partials.likeSpace')
-
+                        </li>
                     </ul>
                 </div>
             </li>

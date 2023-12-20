@@ -1,9 +1,9 @@
 --
 -- Use a specific schema and set it as default - SportHub.
 --
-DROP SCHEMA IF EXISTS sporthub CASCADE;
-CREATE SCHEMA IF NOT EXISTS sporthub;
-SET search_path TO sporthub;
+DROP SCHEMA IF EXISTS lbaw2372 CASCADE;
+CREATE SCHEMA IF NOT EXISTS lbaw2372;
+SET search_path TO lbaw2372;
 
 -----------------------------------------
 --

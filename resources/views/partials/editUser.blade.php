@@ -6,13 +6,12 @@
         <span class="close">&times;</span>
         <form method="POST" action="{{ url('profile/edit') }}" enctype="multipart/form-data">
             {{ csrf_field() }}
-            <section class="edit-page-photo-options">
-                <h4 for="image"><i class="fa-solid fa-image"></i> Choose a profile picture:</h4>
-                <img id="edit-profile-photo" class="edit-page-image" src="{{ Auth::user()->media() }}" width=20%
+            <div class="edit-page-photo-options">
+                <div class="image"><i class="fa-solid fa-image"></i> Choose a profile picture:</div>
+                <img id="edit-profile-photo" class="edit-page-image" src="{{ Auth::user()->media() }}"
                     alt="Profile image">
                 <input type="file" name="image" id="image">
-                <button form="removePhoto" class="edit-page-button">Remove Photo</button>
-            </section>
+            </div>
             <label for="password"><i class="fa-solid fa-lock"></i> Current Password</label>
         @if (Auth::user()->isAdmin(Auth::user()))
             <input id="oldPassword" type="password" name="oldPassword">

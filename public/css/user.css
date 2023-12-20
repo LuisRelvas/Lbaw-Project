@@ -215,6 +215,25 @@ select
   margin-right: 20px;
 }
 
+.userinfo .profile-container img 
+{
+  width: 20%;
+  border-radius: 50%;
+  padding: 1em;
+}
+
+.userinfo .card-body .card .profile-img 
+{  
+  border-radius: 50%; 
+  padding: 1em;
+}
+
+.userinfo .card-body .card .profile-space 
+{
+  padding: 1em;
+  width: 20%;
+}
+
 
 /* ------ Edit User ------ */
 
