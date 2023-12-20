@@ -37,11 +37,6 @@
   }
 }
 
-.search-card .search-page-results a
-{
-  color: white;
-}
-
 .search-card .search-page-results a:hover {
   color: white;
   text-decoration: underline;
@@ -113,4 +108,56 @@
 .search-card .searchbar .results-container .search-comment-card-content {
   margin-top: 0;
   color: gray;
+}
+
+
+/* Existing CSS code */
+
+/* ... */
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    .search-card {
+        padding: 10px;
+    }
+
+    .search-card .search-page-results {
+        max-height: 300px;
+        padding: 10px;
+        margin-top: 10px;
+    }
+
+    .search-card .searchbar {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .search-card .searchbar .results-container {
+        width: calc(100% - 20px);
+        left: 10px;
+        max-height: 300px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .search-card {
+        padding: 5px;
+    }
+
+    .search-card .search-page-results {
+        max-height: 200px;
+        padding: 5px;
+        margin-top: 5px;
+    }
+
+    .search-card .searchbar {
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    .search-card .searchbar .results-container {
+        width: calc(100% - 10px);
+        left: 5px;
+        max-height: 200px;
+    }
 }

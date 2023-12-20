@@ -74,6 +74,7 @@
   box-sizing: border-box; /* Prevent adding borders to the width */
   margin-top: 0;
   margin-bottom: 0;
+  overflow-y: auto;
 }
 
 .message-card .message-input-container {
@@ -105,7 +106,7 @@
   margin-top: 20px;
   margin-bottom: 20px;
   padding: 20px;
-  max-height: 75vh;
+  max-height: 70vh;
   border-radius: 5px;
   background-color: #1c2632; /* Optional background color */
   overflow-y: auto;
