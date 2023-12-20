@@ -50,6 +50,127 @@
   content: ""; /* This will remove the marker */
 }
 
+/* ------ Group ------ */
+
+
+.group-card {
+  background-color: #1c2632;
+  padding: 20px;
+  margin-bottom: 0px;
+  width: 65%;
+  overflow: auto;
+  height: 100vh;
+}
+
+.group-header {
+    display: flex;
+    align-items: center;
+}
+
+.group-header .groupauthor > a {
+    color: white;
+}
+
+.group-header .groupauthor > a::before {
+    content: "@";
+}
+
+.group-header .groupauthor > a:hover {
+    text-decoration: underline;
+}
+
+
+.groupname,
+.groupcontent {
+  margin-bottom: 10px;
+  color: white;
+}
+
+.groupauthor a {
+  color: #1da1f2;
+  text-decoration: none;
+}
+
+.members,
+.joins {
+  margin-top: 20px;
+}
+
+.success {
+  color: #5cb85c;
+}
+
+
+.groupname {
+    font-size: 24px; /* adjust as needed */
+    font-weight: bold;
+}
+
+.groupcontent {
+    font-size: 18px; /* adjust as needed */
+}
+
+.space-input-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.group-chat {
+    border-top: #49535f 1px solid;
+    border-bottom: #49535f 1px solid;
+    max-height: 450px;
+    overflow: auto;
+}
+
+
+.group-card .group-chat .space-card {
+    background-color: #49535f; /* Change this to your desired color */
+    color: white;
+}
+
+/* ------- Group Sidebar ------ */
+
+.invitegroup-container {
+    margin-left: auto; /* Add this line */
+    width: 250px; /* adjust as needed */
+    height: 250px; /* adjust as needed */
+    background-color: #49535f;
+    color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.joinrequest-card {
+    margin-left: auto; /* Add this line */
+    width: 250px; /* adjust as needed */
+    height: 250px; /* adjust as needed */
+    background-color: #49535f;
+    color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.members-card {
+    margin-left: auto; /* Add this line */
+    width: 250px; /* adjust as needed */
+    height: 250px; /* adjust as needed */
+    background-color: #49535f;
+    color: white;
+    border-radius: 6px;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.group-sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 250px; /* adjust as needed */
+    margin-left: auto;
+}
+
+
 /* The Modal (background) */
 .modal {
   display: none; 
@@ -89,159 +210,3 @@
   text-decoration: none;
   cursor: pointer;
 }
-  
-
-
-
-
-/* ------ Group ------ */
-
-.group-card {
-  grid-template-columns: 1fr auto auto;
-  background-color: #1c2632;
-  padding: 20px;
-  flex: 1;
-  margin: 10px;
-  flex-direction: column;
-  border-radius: 5px;
-}
-
-.group-card .group-header {
-  display: flex;
-  align-items: center;
-}
-
-.group-card .group-header .groupauthor > a::before {
-  content: "@";
-}
-
-.group-header .groupauthor > a:hover {
-  text-decoration: underline;
-}
-
-.group-card .groupcontent-card .groupname,
-.group-card .groupcontent-card .groupcontent {
-  margin-bottom: 10px;
-  color: white;
-}
-
-.group-card .group-header .groupauthor a {
-  color: white;
-  text-decoration: none;
-}
-
-.group-card .success {
-  color: #5cb85c;
-}
-
-.group-card .groupcontent-card .groupname {
-  font-size: 24px; /* adjust as needed */
-  font-weight: bold;
-}
-
-.group-card .groupconten-card .groupcontent {
-  font-size: 18px; /* adjust as needed */
-}
-
-.group-card .add-space-group-card .space-input-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.group-card .group-chat {
-  border-top: #49535f 1px solid;
-  border-bottom: #49535f 1px solid;
-  max-height: 450px;
-  overflow: auto;
-}
-
-.group-card .group-chat .space-card {
-  background-color: #49535f; /* Change this to your desired color */
-  color: white;
-}
-
-.group-card .button-container-group {
-  display: flex;
-  margin-top: 50px;
-  justify-content: space-between;
-}
-
-.group-card .button-container-group button {
-  border-color: #1c2632;
-  background-color: inherit;
-}
-
-.group-card .groupcontent-card .groupdescription {
-  color: white;
-}
-
-/* ------- Group Sidebar ------ */
-
-.group-sidebar .members-card {
-  margin-left: auto; /* Add this line */
-  width: 250px; /* adjust as needed */
-  height: 250px; /* adjust as needed */
-  background-color: #49535f;
-  color: white;
-  border-radius: 6px;
-  padding: 20px;
-  overflow-x: auto;
-}
-
-.group-sidebar .members-card .member .member-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.group-sidebar .members-card .member .member-container .button-member-delete {
-  background-color: inherit;
-  border-color: #49535f;
-  margin-bottom: 2rem;
-}
-
-.group-sidebar .joinrequest-card {
-  margin-left: auto; /* Add this line */
-  width: 250px; /* adjust as needed */
-  height: 250px; /* adjust as needed */
-  background-color: #49535f;
-  color: white;
-  padding: 20px;
-  border-top: white 1px solid;
-  overflow: auto;
-}
-
-.group-sidebar .joinrequest-card .join button {
-  background-color: inherit;
-  border-color: #49535f;
-  margin-bottom: 2rem;
-}
-
-.group-sidebar .invitegroup-container {
-  margin-left: auto; /* Add this line */
-  width: 250px; /* adjust as needed */
-  height: 250px; /* adjust as needed */
-  background-color: #49535f;
-  color: white;
-  padding: 20px;
-  border-top: white 1px solid;
-}
-
-.group-sidebar .invitegroup-container form button {
-  background-color: inherit;
-  border-color: #49535f;
-  margin-bottom: 2rem;
-}
-
-.group-sidebar {
-  height: 100%;
-  position: relative;
-  background-color: #49535f;
-  right: 0;
-  color: #fff;
-  padding: 1em;
-  box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
-  margin: 0;
-  overflow: auto;
-}
-
