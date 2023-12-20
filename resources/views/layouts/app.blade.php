@@ -61,7 +61,7 @@
                         <i class="fa-solid fa-user"></i>
                     </a>
                     <a id="notificationsButton" class="button" onclick="showNotifications({{ Auth::user()->id }})">
-                        <i class="fa-solid fa-bell"></i>
+                        Notifications <i class="fa-solid fa-bell"></i> 
                     </a>
                     <a class="button" href="{{ url('/logout') }}"> Logout <i
                         class="fa-solid fa-right-from-bracket"></i></a>
