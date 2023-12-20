@@ -181,6 +181,7 @@ a.button {
   main > header a.button,
   main > header span {
     margin: 0.5em ;
+    
   }
 }
 

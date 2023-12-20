@@ -1,17 +1,15 @@
 /* ------ About ------ */
 
-
- .flex-container .about-card {
-    background-color: #1c2632;
-    overflow: auto;
-    flex: 1;
-    padding: 1em;
-    box-sizing: border-box; /* Prevent adding borders to the width */
-    overflow: auto; /* Add a scrollbar when content overflows */
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
+.flex-container .about-card {
+  background-color: #1c2632;
+  overflow: auto;
+  flex: 1;
+  padding: 1em;
+  box-sizing: border-box; /* Prevent adding borders to the width */
+  overflow: auto; /* Add a scrollbar when content overflows */
+  margin-top: 0;
+  margin-bottom: 0;
+}
 
 .about-card h2,
 .about-card h3 {
@@ -37,12 +35,12 @@
   color: white;
 }
 
-.icon-center {
+.about-card .icon-center {
   text-align: center;
   padding-top: 5em;
 }
 
-.white-icon {
+.about-card .icon-center .white-icon {
   color: white;
   font-size: 8em;
 }
