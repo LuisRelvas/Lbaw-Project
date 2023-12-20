@@ -11,6 +11,19 @@
   grid-template-columns: 1fr auto auto;
 }
 
+.space-card .profile-img 
+{
+  width: 10%;
+  border-radius: 50%; 
+  padding: 1em;
+}
+
+
+.space-card .space-img 
+{
+  width:20%; 
+  padding: 1em ;
+}
 .space-card #likeSpace {
     text-align: right;
 }

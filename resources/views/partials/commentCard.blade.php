@@ -49,17 +49,16 @@
                                     (Auth::check() && Auth::user()->isAdmin(Auth::user())))
                                 <button id="editComment{{ $comment->id }}" onclick="editComment({{ $comment->id }})"
                                     class="button-comment">&#9998;
-
-                                    <div id="text-config"><i id="text-icon" class="pencil"></i></div>
+                                    <span id="text-config"><i id="text-icon" class="pencil"></i></span>
                                 </button>
                                 <button id="deleteComment{{ $comment->id }}" onclick="deleteComment({{ $comment->id }})"
                                     class="button-comment">&#10761;
-                                    <div><i class="cross"></i></div>
+                                    <span><i class="cross"></i></span>
                                 </button>
                                 <button id="cancelEditComment{{ $comment->id }}"
                                     onclick="cancelEditComment({{ $comment->id }})" style="visibility:hidden;"
                                     class="button-comment">&#10761;
-                                    <div><i class="cross"></i></div>
+                                    <span><i class="cross"></i></span>
                                 </button>
                 @endif
 
