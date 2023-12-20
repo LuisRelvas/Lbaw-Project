@@ -129,6 +129,7 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/profile/{id}/following','following');
     Route::get('/profile/{id}/followers','followers');
     Route::delete('api/profile/{id}', 'delete');
+    Route::post('/profile/edit', 'edit')->name('edit');
     Route::post('/profile/follow/{id}', 'follow');
     Route::delete('/profile/unfollow/{id}', 'unfollow');
     Route::put('/profile/{id}/updatePhoto', 'updatePhoto');
