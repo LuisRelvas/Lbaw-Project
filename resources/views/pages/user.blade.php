@@ -6,13 +6,7 @@
 
     <div class="flex-container">
         @include('partials.sidebar')
-
         @include('partials.userCard')
-        @if (session('success'))
-            <p class="success">
-                {{ session('success') }}
-            </p>
-        @endif
         @include('partials.sideSearchbar')
 
     </div>

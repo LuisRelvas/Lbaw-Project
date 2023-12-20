@@ -34,6 +34,7 @@
   color: white;
   font-weight: bold;
   margin-bottom: 0;
+
 }
 
 /* ------ Searchbar ------ */
@@ -118,4 +119,10 @@
     flex-direction: column;
     width: 13%;
   }
+}
+
+/* ------ EditUser forms ------ */
+
+.edit-user-container .edit-user-card{
+  color:white;
 }
