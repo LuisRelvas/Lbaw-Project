@@ -3,6 +3,7 @@
 .sidebar {
   width: 250px;
   background-color: #49535f;
+  overflow-y: auto;
   color: #fff;
   padding: 1em;
   box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
