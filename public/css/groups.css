@@ -5,9 +5,10 @@
   max-width: 600px;
   margin: 0 auto;
   font-family: Arial, sans-serif;
+  overflow-y: auto; /* Make it scrollable if the content exceeds the maximum height */
 }
 
-.grouplist-card {
+.grouplist-container .grouplist-card {
   background-color: #1c2632;
   border-radius: 6px;
   padding: 20px;
@@ -15,8 +16,8 @@
   list-style-type: none;
 }
 
-.grouplist-card-header {
-  padding : 1em;
+.grouplist-container .grouplist-card .grouplist-card-header {
+  padding: 1em;
   font-size: 20px;
   font-weight: bold;
   border-bottom: 1px solid #e1e4e8;
@@ -24,36 +25,185 @@
   color: white;
 }
 
-.grouplist-card-body {
+.grouplist-container .grouplist-card .grouplist-card-body {
   padding: 10px 0;
   max-height: 400px; /* Adjust this value as needed */
   overflow-y: auto; /* This will add a scrollbar if the content exceeds the max-height */
 }
 
-.grouplist-card-list {
+.grouplist-container .grouplist-card .grouplist-card-body .grouplist-card-list {
   padding: 0;
-}
 
-.grouplist-card-list a {
-  padding:10px;
-  color: white;
-  text-decoration: none;
-  background-color: #49535f;
-}
-
-.groupname-card {
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 10px;
-  display: block;
-  transition: box-shadow 0.3s ease-in-out;
-  background-color: #49535f;
+  a {
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    background-color: #49535f;
+  }
 }
 
 .grouplist-card-list li::marker {
   content: ""; /* This will remove the marker */
 }
 
+/* The Modal (background) */
+.grouplist-container
+  .grouplist-card
+  .grouplist-card-body
+  .grouplist-card-list
+  .modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+/* Modal Content/Box */
+.grouplist-container
+  .grouplist-card
+  .grouplist-card-body
+  .grouplist-card-list
+  .modal
+  .modal-content {
+  background-color: #49535f;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  color: white !important;
+}
+
+/* The Close Button */
+.grouplist-container
+  .grouplist-card
+  .grouplist-card-body
+  .grouplist-card-list
+  .modal
+  .modal-content
+  .close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.grouplist-container
+  .grouplist-card
+  .grouplist-card-body
+  .grouplist-card-list
+  .modal
+  .modal-content
+  .close:hover,
+.grouplist-container
+  .grouplist-card
+  .grouplist-card-body
+  .grouplist-card-list
+  .modal
+  .modal-content
+  .close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Existing CSS code */
+
+/* ... */
+
+/* Responsive design */
+@media screen and (max-width: 768px) {
+  .grouplist-container {
+    max-width: 100%;
+  }
+
+  .grouplist-container .grouplist-card {
+    padding: 10px;
+  }
+
+  .grouplist-container .grouplist-card .grouplist-card-header {
+    font-size: 16px;
+  }
+
+  .grouplist-container .grouplist-card .grouplist-card-body {
+    max-height: 300px;
+  }
+
+  .grouplist-container
+    .grouplist-card
+    .grouplist-card-body
+    .grouplist-card-list
+    a {
+    padding: 5px;
+  }
+
+  .grouplist-container
+    .grouplist-card
+    .grouplist-card-body
+    .grouplist-card-list
+    .modal
+    .modal-content {
+    width: 50%;
+  }
+
+  .grouplist-container
+    .grouplist-card
+    .grouplist-card-body
+    .grouplist-card-list
+    .modal
+    .modal-content
+    .close {
+    font-size: 24px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .grouplist-container .grouplist-card {
+    padding: 5px;
+  }
+
+  .grouplist-container .grouplist-card .grouplist-card-header {
+    font-size: 14px;
+  }
+
+  .grouplist-container .grouplist-card .grouplist-card-body {
+    max-height: 200px;
+  }
+
+  .grouplist-container
+    .grouplist-card
+    .grouplist-card-body
+    .grouplist-card-list
+    a {
+    padding: 2px;
+  }
+
+  .grouplist-container
+    .grouplist-card
+    .grouplist-card-body
+    .grouplist-card-list
+    .modal
+    .modal-content {
+    width: 50%;
+  }
+
+  .grouplist-container
+    .grouplist-card
+    .grouplist-card-body
+    .grouplist-card-list
+    .modal
+    .modal-content
+    .close {
+    font-size: 20px;
+  }
+}
 
 /* ------ Group ------ */
 
@@ -64,7 +214,7 @@
   flex: 1;
   margin: 10px;
   flex-direction: column;
-  border-radius: 5px;
+  border-radius: 5px;overflow-y: auto; /* Make it scrollable if the content exceeds the maximum height */
 }
 
 .group-card .group-header {
@@ -76,7 +226,7 @@
   content: "@";
 }
 
-.group-header .groupauthor > a:hover {
+.group-card .group-header .groupauthor > a:hover {
   text-decoration: underline;
 }
 
@@ -206,44 +356,39 @@
   overflow: auto;
 }
 
+/* Existing CSS code */
 
+/* ... */
 
-/* The Modal (background) */
-.modal {
-  display: none; 
-  position: fixed; 
-  z-index: 1; 
-  left: 0;
-  top: 0;
-  width: 100%; 
-  height: 100%; 
-  overflow: auto; 
-  background-color: rgb(0,0,0); 
-  background-color: rgba(0,0,0,0.4);
-  opacity: 0; 
-  transition: opacity 0.5s; 
+/* Responsive design */
+@media screen and (max-width: 768px) {
+    .group-card {
+        padding: 10px;
+        margin: 5px;
+    }
+
+    .group-card .groupcontent-card .groupname {
+        font-size: 20px;
+    }
+
+    .group-card .groupcontent-card .groupcontent {
+        font-size: 16px;
+    }
+
+    .group-card .group-chat {
+        max-height: 300px;
+    }
+
+    .group-sidebar .members-card,
+    .group-sidebar .joinrequest-card,
+    .group-sidebar .invitegroup-container {
+        width: 200px;
+        height: 200px;
+    }
 }
 
-/* Modal Content/Box */
-.modal-content {
-  background-color: #49535f;
-  margin: 15% auto; 
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; 
-}
-
-/* The Close Button */
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
+@media screen and (max-width: 768px) {
+    .group-sidebar {
+      display: none;
+    }
+  }
