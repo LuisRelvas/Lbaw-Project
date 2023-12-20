@@ -17,6 +17,18 @@
   background-color: #1c2632;
 }
 
+.content .card-body .card .profile-img 
+{
+  border-radius: 50%; 
+  padding: 1em;
+}
+
+.content .card-body .card .space-img 
+{
+  width:20%; 
+  padding: 1em;
+}
+
 .card li {
   display: flex;
   align-items: center;

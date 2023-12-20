@@ -40,7 +40,8 @@
                 </div>
             </div>
         </div>
-        @include('partials.sideSearchbar')
     </div>
-    @include('partials.footer')
+    @include('partials.sideSearchbar')
+</div>
+@include('partials.footer')
 @endsection
