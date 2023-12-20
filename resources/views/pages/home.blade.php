@@ -37,8 +37,7 @@
                             @php
                             $user = App\Models\User::find($space->user_id);
                             @endphp
-                            <li><img src="{{ asset($user->media()) }}" class="profile-img" width="10%"
-                                    style="border-radius: 50%; padding: 1em" alt="profile media">
+                            <li><img src="{{ asset($user->media()) }}" class="profile-img"  alt="profile media">
                                 <a href="/profile/{{ $space->user_id }}">{{ $user->username }}</a>
                             </li>
                             <li>
@@ -48,7 +47,7 @@
                             </li>
                             <li>
                                 @if ($space->media())
-                                <img src="{{ asset($space->media()) }}" class="space-img" width=20% style=padding: 1em
+                                <img src="{{ asset($space->media()) }}" class="space-img"
                                     alt="space media">
                                 @endif
                             </li>
@@ -67,8 +66,7 @@
                             @php
                             $user = App\Models\User::find($space->user_id);
                             @endphp
-                            <li><img src="{{ asset($user->media()) }}" class="profile-img" width="10%"
-                                    style="border-radius: 50%; padding: 1em" alt="profile media">
+                            <li><img src="{{ asset($user->media()) }}" class="profile-img" alt="profile media">
                                 <a href="/profile/{{ $space->user_id }}">{{ $user->username }}</a>
                             </li>
                             <li>
@@ -78,7 +76,7 @@
                             </li>
                             <li>
                                 @if ($space->media())
-                                <img src="{{ asset($space->media()) }}" class="space-img" width=20% style=padding: 1em
+                                <img src="{{ asset($space->media()) }}" class="space-img"
                                     alt="space media">
                                 @endif
                             </li>
