@@ -49,6 +49,10 @@ Route::get('/about', function () {
     return view('pages.about');
 });
 
+Route::get('/features', function () {
+    return view('pages.features');
+}); 
+
 // Authentication
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');

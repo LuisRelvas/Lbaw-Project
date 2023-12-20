@@ -11,6 +11,7 @@
         <a href="{{ url('/messages') }}" class="{{ Request::is('messages') ? 'active' : '' }}"><i class="fa-solid fa-envelope"></i> <span class="link-text">Messages</span></a>
         <a href="{{ url('/group') }}" class="{{ Request::is('group') ? 'active' : '' }}"><i class="fa-solid fa-users"></i> <span class="link-text">Groups</span></a>
         <a href="{{ url('/about') }}" class="{{ Request::is('about') ? 'active' : '' }}"><i class="fa-solid fa-circle-info"></i> <span class="link-text">About Us</span></a>
+        <a href="{{ url('/features') }}" class="{{ Request::is('features') ? 'active' : '' }}"><i class="fa-solid fa-star"></i> <span class="link-text">Features</span></a>
         <a href="#" class="{{ Request::is('settings') ? 'active' : '' }}"><i class="fa-solid fa-gear"></i> <span class="link-text">Settings</span></a>
     </div>
 @else
@@ -24,5 +25,7 @@
         <a href="{{ url('/about') }}" class="{{ Request::is('about') ? 'active' : '' }}"><i class="fa-solid fa-info-circle"></i> About Us</a>
         <a href="{{ url('/login') }}"><i class="fa-solid fa-bell"></i> Notifications</a>
         <a href="{{ url('/login') }}"><i class="fa-solid fa-cog"></i> Settings</a>
+        <a href="{{ url('/features') }}" class="{{ Request::is('features') ? 'active' : '' }}"><i class="fa-solid fa-star"></i> <span class="link-text">Features</span></a>
+
     </div>
 @endif
