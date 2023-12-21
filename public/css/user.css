@@ -126,7 +126,7 @@ select
   border-radius: 8px;
   color: white;
   text-align: center;
-  overflow-y: auto; /* Enable vertical scrolling if content exceeds the height */
+  overflow-y: auto; 
 }
 
 .user-following {
@@ -137,7 +137,7 @@ select
   border-radius: 8px;
   color: white;
   text-align: center;
-  overflow-y: auto; /* Enable vertical scrolling if content exceeds the height */
+  overflow-y: auto; 
 }
 
 .profile-card h2 {

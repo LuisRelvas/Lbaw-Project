@@ -125,7 +125,7 @@ mark.hub {
   font-weight: bold;
   background-color: white;
   border-radius: 5px;
-  padding: 2px 5px; /* Adjust padding as needed */
+  padding: 2px 5px; 
 }
 
 /* ------ Scrollbar ------ */
@@ -182,15 +182,15 @@ mark.hub {
 }
 
 .addSpace button[type="submit"] {
-  background-color: #000; /* Changed color to black */
+  background-color: #000; 
   color: white;
   margin: 8px 0;
   border: none;
   border-radius: 15px;
   cursor: pointer;
   width: 100%;
-  font-size: 16px; /* Adjust as needed */
-  font-family: Arial, sans-serif; /* Adjust as needed */
+  font-size: 16px; 
+  font-family: Arial, sans-serif; 
 }
 
 .addSpace button[type="submit"]:hover {
@@ -199,7 +199,7 @@ mark.hub {
 
 .hamburger {
   display: none;
-  color: #000; /* Change this to the color that is visible against your background */
+  color: #000; 
 }
 
 @media screen and (max-width: 768px) {

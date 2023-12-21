@@ -59,7 +59,7 @@
 
 .search-card .searchbar {
   position: relative;
-  width: 50%; /* You can adjust this value to your preference */
+  width: 50%; 
   margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
@@ -69,14 +69,14 @@
   position: absolute;
   width: calc(
     100% - 40px
-  ); /* Subtract the left and right padding of .search-card */
-  left: 20px; /* Align the left edge with the search bar */
+  ); 
+  left: 20px; 
   background-color: #f0f0f0;
   border-radius: 5px;
   padding: 10px;
   display: none;
-  max-height: 500px; /* Set a maximum height */
-  overflow-y: auto; /* Make it scrollable if the content exceeds the maximum height */
+  max-height: 500px; 
+  overflow-y: auto;
 
   a {
     color: black;

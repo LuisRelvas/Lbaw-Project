@@ -59,7 +59,7 @@ main > header span {
 
 .flex-container {
   display: flex;
-  height: 100vh; /* Full height of the viewport */
+  height: 100vh; 
   .content {
     border-radius: 5px;
     flex: 1;
@@ -71,12 +71,11 @@ main > header span {
     margin-bottom: 0;
   }
 
-  /* Additional styling for the main content */
   .content input,
   .content #results-users,
   .content .card-header,
   .content .card-body {
-    margin-left: 0; /* Ensure content is to the right of the sidebar */
+    margin-left: 0; 
     padding: 1em;
   }
 
@@ -141,10 +140,7 @@ main > header span {
     border-bottom: 1px solid rgba(96, 108, 118, 0.4);
   }
 }
-/**
-   * Override milligram colors
-   * Some styles might be missing
-   **/
+
 button {
   background-color: black;
   border-color: black;
@@ -170,8 +166,7 @@ a.button {
   font-weight: bold;
 }
 
-@media screen and (max-width: 768px) { /* Adjust the breakpoint as needed */
-
+@media screen and (max-width: 768px) { 
 
   main > header {
     grid-template-columns: 1fr;

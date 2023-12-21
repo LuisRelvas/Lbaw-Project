@@ -71,7 +71,7 @@
   background-color: #131a21;
   flex: 1;
   padding: 1em;
-  box-sizing: border-box; /* Prevent adding borders to the width */
+  box-sizing: border-box; 
   margin-top: 0;
   margin-bottom: 0;
   overflow-y: auto;
@@ -108,12 +108,12 @@
   padding: 20px;
   max-height: 70vh;
   border-radius: 5px;
-  background-color: #1c2632; /* Optional background color */
+  background-color: #1c2632; 
   overflow-y: auto;
 }
 
 .message-card .message-content .my-message {
-  background-color: #0a7d7d; /* Change to your preferred color */
+  background-color: #0a7d7d; 
   color: white;
   border-radius: 5px;
   padding: 10px;
@@ -125,7 +125,7 @@
 
 /* Style for messages sent by other users */
 .message-card .message-content .other-message {
-  background-color: #49535f; /* Change to your preferred color */
+  background-color: #49535f; 
   color: white;
   border-radius: 5px;
   padding: 10px;
@@ -141,6 +141,6 @@
 
 .message-card .message-content .message {
   color: white;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.5); /* 50% opacity */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5); 
   padding: 5px;
 }

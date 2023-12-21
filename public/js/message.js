@@ -127,9 +127,3 @@ Echo.private(`user.${userIdRec}-${userId}`).listen('.App\\Events\\Messages', (e)
 });
 
 
-
-
-function handleMessageSent(e) {
-  let messages = document.getElementById('messages');
-  messages.innerHTML += `<li>${e.message.content}</li>`;
-}

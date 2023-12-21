@@ -5,7 +5,7 @@
   max-width: 600px;
   margin: 0 auto;
   font-family: Arial, sans-serif;
-  overflow-y: auto; /* Make it scrollable if the content exceeds the maximum height */
+  overflow-y: auto; 
 }
 
 .grouplist-container .grouplist-card {
@@ -27,8 +27,8 @@
 
 .grouplist-container .grouplist-card .grouplist-card-body {
   padding: 10px 0;
-  max-height: 400px; /* Adjust this value as needed */
-  overflow-y: auto; /* This will add a scrollbar if the content exceeds the max-height */
+  max-height: 400px; 
+  overflow-y: auto; 
 }
 
 .grouplist-container .grouplist-card .grouplist-card-body .grouplist-card-list {
@@ -43,7 +43,7 @@
 }
 
 .grouplist-card-list li::marker {
-  content: ""; /* This will remove the marker */
+  content: ""; 
 }
 
 .modal {
@@ -61,7 +61,6 @@
   transition: opacity 0.5s; 
 }
 
-/* Modal Content/Box */
 .modal-content {
   background-color: #49535f;
   margin: 15% auto; 
@@ -70,7 +69,6 @@
   width: 80%; 
 }
 
-/* The Close Button */
 .close {
   color: #aaa;
   float: right;
@@ -182,7 +180,7 @@
   flex: 1;
   margin: 10px;
   flex-direction: column;
-  border-radius: 5px;overflow-y: auto; /* Make it scrollable if the content exceeds the maximum height */
+  border-radius: 5px;overflow-y: auto; 
 }
 
 .group-card .group-header {
@@ -214,12 +212,12 @@
 }
 
 .group-card .groupcontent-card .groupname {
-  font-size: 24px; /* adjust as needed */
+  font-size: 24px; 
   font-weight: bold;
 }
 
 .group-card .groupconten-card .groupcontent {
-  font-size: 18px; /* adjust as needed */
+  font-size: 18px; 
 }
 
 .group-card .add-space-group-card .space-input-container {
@@ -235,7 +233,7 @@
 }
 
 .group-card .group-chat .space-card {
-  background-color: #49535f; /* Change this to your desired color */
+  background-color: #49535f; 
   color: white;
 }
 
@@ -257,9 +255,9 @@
 /* ------- Group Sidebar ------ */
 
 .group-sidebar .members-card {
-  margin-left: auto; /* Add this line */
-  width: 250px; /* adjust as needed */
-  height: 250px; /* adjust as needed */
+  margin-left: auto; 
+  width: 250px; 
+  height: 250px; 
   background-color: #49535f;
   color: white;
   border-radius: 6px;
@@ -280,9 +278,9 @@
 }
 
 .group-sidebar .joinrequest-card {
-  margin-left: auto; /* Add this line */
-  width: 250px; /* adjust as needed */
-  height: 250px; /* adjust as needed */
+  margin-left: auto; 
+  width: 250px; 
+  height: 250px; 
   background-color: #49535f;
   color: white;
   padding: 20px;
@@ -297,9 +295,9 @@
 }
 
 .group-sidebar .invitegroup-container {
-  margin-left: auto; /* Add this line */
-  width: 250px; /* adjust as needed */
-  height: 250px; /* adjust as needed */
+  margin-left: auto; 
+  width: 250px; 
+  height: 250px; 
   background-color: #49535f;
   color: white;
   padding: 20px;

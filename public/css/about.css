@@ -5,22 +5,22 @@
   overflow: auto;
   flex: 1;
   padding: 1em;
-  box-sizing: border-box; /* Prevent adding borders to the width */
-  overflow: auto; /* Add a scrollbar when content overflows */
+  box-sizing: border-box; 
+  overflow: auto;
   margin-top: 0;
   margin-bottom: 0;
 }
 
 .about-card h2,
 .about-card h3 {
-  font-size: 24px; /* adjust as needed */
+  font-size: 24px; 
   font-weight: bold;
   margin-bottom: 10px;
   color: white;
 }
 
 .about-card p {
-  font-size: 16px; /* adjust as needed */
+  font-size: 16px; 
   margin-bottom: 10px;
   color: white;
 }

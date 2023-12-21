@@ -6,13 +6,13 @@
 #notificationsContainer {
     position: absolute;
     right: 0;
-    top: 90px; /* adjust as needed */
-    width: 400px; /* adjust as needed */
+    top: 90px; 
+    width: 400px; 
     background-color: #1c2632;
     border-radius: 4px;
     overflow: auto;
-    max-height: 600px; /* adjust as needed */
-    z-index: 1000; /* add this line */
+    max-height: 600px; 
+    z-index: 1000; 
 }
 
 #notificationsContainer a {

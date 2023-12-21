@@ -5,8 +5,8 @@
   overflow: auto;
   flex: 1;
   padding: 1em;
-  box-sizing: border-box; /* Prevent adding borders to the width */
-  overflow: auto; /* Add a scrollbar when content overflows */
+  box-sizing: border-box; 
+  overflow: auto; 
   margin-top: 0;
   margin-bottom: 0;
 

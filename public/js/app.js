@@ -287,28 +287,6 @@ function acceptInvite(id, notification_id)
 }
 
 
-function delNot(id) 
-{
-    var url = `api/notification/${id}`;
-    var method = 'DELETE';
-    var data = null; // No data to send for a DELETE request
-    
-    sendAjaxRequest(method, url, data, function(event) {
-      if (event.target.status === 200) {
-        var response = JSON.parse(event.target.responseText);
-        console.log(response); // Log the server response (optional)
-        
-        // Redirect to the appropriate URL based on whether the user is an admin
-        if (response.isAdmin) {
-          window.location.href = '/admin';
-        } else {
-          window.location.href = '/homepage';
-        }
-      } else {
-        console.error('Error:', event.target.status, event.target.statusText);
-      }
-    });
-}
 function declineInvite(id,notification_id)
 {
   let url = '/group/declineinvite';
