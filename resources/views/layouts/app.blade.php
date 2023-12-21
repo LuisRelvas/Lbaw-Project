@@ -13,10 +13,10 @@
 
     <!-- Styles -->
     <script src="https://kit.fontawesome.com/b10add5646.js" crossorigin="anonymous"></script>
-    <link href="{{ url('css/home.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/home.css') }}" rel="stylesheet">
 
-    <link href="{{ url('css/milligram.min.css') }}" rel="stylesheet">
-    <link href="{{ url('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/milligram.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ url('css/user.css') }}" rel="stylesheet">
     <link href="{{ url('css/space.page.css') }}" rel="stylesheet">
     <link href="{{ url('css/register-login.css') }}" rel="stylesheet">
