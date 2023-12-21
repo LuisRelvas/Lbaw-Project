@@ -36,6 +36,14 @@
             someone looking to explore the sports landscape, SportHUB is the place for you.</p>
 
         <p>Let's build a community where the love for sports unites us all!</p>
+
+        <h3>Contacts</h3>
+        <p>For any questions or concerns, please contact us at : <p>
+            <ul>
+                <li>up202105337@fe.up.pt</li>
+                <li>up202108711@fe.up.pt</li>
+                <li>up202108661@fe.up.pt</li>
+            </ul>
         <div class="icon-center">
             <i class="fa-solid fa-futbol white-icon"></i> <i class="fa-solid fa-basketball white-icon"></i> <i
                 class="fa-solid fa-volleyball white-icon"></i>

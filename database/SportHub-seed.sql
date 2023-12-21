@@ -1159,7 +1159,16 @@ INSERT INTO users(username, name, email, password, is_public) VALUES('susanaoliv
 INSERT INTO users(username, name, email, password, is_public) VALUES('fernandoalves', 'fernando', 'fernando.alves@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', false);
 INSERT INTO users(username, name, email, password, is_public) VALUES('danielasantos', 'daniela', 'daniela.santos@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
 INSERT INTO users(username, name, email, password, is_public) VALUES('antoniocarvalho', 'antonio', 'antonio.carvalho@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
-
+INSERT INTO users(username, name, email, password, is_public) VALUES('margaridasilva', 'margarida', 'margarida.silva@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', false);
+INSERT INTO users(username, name, email, password, is_public) VALUES('josepereira', 'jose', 'josepereira@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
+INSERT INTO users(username, name, email, password, is_public) VALUES('inesmartins', 'ines', 'inesmartins@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', false);
+INSERT INTO users(username, name, email, password, is_public) VALUES('joseoliveira', 'jose', 'joseoliveira@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
+INSERT INTO users(username, name, email, password, is_public) VALUES('mariasilva', 'maria', 'mariasilva@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', false);
+INSERT INTO users(username, name, email, password, is_public) VALUES('josemartins', 'jose', 'josemartins@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
+INSERT INTO users(username, name, email, password, is_public) VALUES('inespereira', 'ines', 'inespereira@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', false);
+INSERT INTO users(username, name, email, password, is_public) VALUES('josealves', 'jose', 'josealves@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
+INSERT INTO users(username, name, email, password, is_public) VALUES('inesrodrigues', 'ines', 'inesrodrigues@gmai.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', false);
+INSERT INTO users(username, name, email, password, is_public) VALUES('josecarvalho', 'jose', 'josecarvalho@gmail.com', '$2y$10$KRrZJveUEfwMazAkESHrcO350h3FlaFF4LiN1dTyGJgpkQKBfaVlG', true);
 
 INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Look at Ronaldo goal',current_date,false,5,null);
 INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Look at Pessi',current_date,false,5,null);
@@ -1182,6 +1191,8 @@ INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Who will win 
 INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Did you see Sergio Conceição Flash-Interview ? This guy is amazing ! PORTOOOOOO',current_date,false,11,null);
 INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Did you see the Benfica losing at Reboleira?',current_date,false,12,null);
 INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('What a goal from Gyokeres in Luz',current_date,false,12,null);
+INSERT INTO space(content,date,is_public,user_id,group_id) VALUES('Did you see the Sporting winning against Porto ?',current_date,false,12,null);
+
 
 
 INSERT INTO comment(space_id,author_id,username,content,date) VALUES(5,6,'mariajoao','Yes he is. Damn that power',current_date);
